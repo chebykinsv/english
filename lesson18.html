@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок 18: Вопросы в Present Simple</title>
+    <style>
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 14px;
+            background-color: #f0f4f8;
+            color: #333;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin: 0 0 16px;
+            font-size: 1.35em;
+            word-wrap: break-word;
+        }
+        h2 {
+            color: #2b6cb0;
+            border-bottom: 2px solid #3182ce;
+            padding-bottom: 6px;
+            margin-top: 28px;
+            font-size: 1.1em;
+            line-height: 1.35;
+            word-wrap: break-word;
+        }
+        ul { list-style-type: none; padding-left: 0; margin: 0; }
+        li {
+            background: #fff;
+            margin-bottom: 10px;
+            padding: 12px 14px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            border-left-width: 5px;
+            border-left-style: solid;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        .block-do { border-left-color: #27ae60; }
+        .block-does { border-left-color: #f39c12; }
+        .block-who { border-left-color: #c0392b; }
+
+        .en {
+            font-weight: bold;
+            font-size: 1.02em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            line-height: 1.45;
+        }
+        .btn-toggle {
+            background-color: #e2e8f0;
+            color: #4a5568;
+            border: none;
+            padding: 9px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            align-self: flex-start;
+            transition: background-color 0.2s;
+            min-height: 38px;
+        }
+        .btn-toggle:active { background-color: #cbd5e0; }
+        .ru {
+            display: none;
+            color: #2b6cb0;
+            font-size: 0.98em;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed #e2e8f0;
+            font-weight: 500;
+        }
+        .ru.show { display: block; }
+
+        @media (max-width: 360px) {
+            body { padding: 10px; }
+            h1 { font-size: 1.2em; }
+            h2 { font-size: 1em; }
+            .en { font-size: 0.98em; }
+            li { padding: 10px 12px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Урок 18: Вопросы в Present Simple</h1>
+
+    <h2>🟢 Блок 1. Вопросы с DO (I / you / we / they)</h2>
+    <ul>
+        <li class="block-do">
+            <span class="en">What do you want to say?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Что ты хочешь сказать?</span>
+        </li>
+        <li class="block-do">
+            <span class="en">What do you know?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Что ты знаешь?</span>
+        </li>
+        <li class="block-do">
+            <span class="en">What do you want to do?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Что ты хочешь сделать?</span>
+        </li>
+        <li class="block-do">
+            <span class="en">What do you need to do?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Что тебе нужно сделать?</span>
+        </li>
+        <li class="block-do">
+            <span class="en">What do you think about it?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Что ты думаешь об этом?</span>
+        </li>
+        <li class="block-do">
+            <span class="en">What do you like here?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Что тебе здесь нравится?</span>
+        </li>
+        <li class="block-do">
+            <span class="en">What kind of computer games do you play?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— В какие компьютерные игры ты играешь?</span>
+        </li>
+        <li class="block-do">
+            <span class="en">What English books do you read?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Какие английские книги ты читаешь?</span>
+        </li>
+        <li class="block-do">
+            <span class="en">What time do you go to bed?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Во сколько ты ложишься спать?</span>
+        </li>
+        <li class="block-do">
+            <span class="en">What time do you usually get up?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Во сколько ты обычно встаешь?</span>
+        </li>
+        <li class="block-do">
+            <span class="en">Where do you live?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Где ты живёшь?</span>
+        </li>
+        <li class="block-do">
+            <span class="en">Where do you work?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Где ты работаешь?</span>
+        </li>
+        <li class="block-do">
+            <span class="en">Where do you go?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Куда ты ходишь?</span>
+        </li>
+        <li class="block-do">
+            <span class="en">Where do they spend time together?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Где они проводят время вместе?</span>
+        </li>
+        <li class="block-do">
+            <span class="en">When do you go to work?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Когда ты ходишь на работу?</span>
+        </li>
+        <li class="block-do">
+            <span class="en">When do you have free time?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Когда у тебя есть свободное время?</span>
+        </li>
+        <li class="block-do">
+            <span class="en">When do you feel happy?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Когда ты чувствуешь себя счастливым?</span>
+        </li>
+        <li class="block-do">
+            <span class="en">Why do you think so?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Почему ты так думаешь?</span>
+        </li>
+        <li class="block-do">
+            <span class="en">Why do you agree with him?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Почему ты согласен с ним?</span>
+        </li>
+        <li class="block-do">
+            <span class="en">Why do they depend on you?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Почему они зависят от тебя?</span>
+        </li>
+        <li class="block-do">
+            <span class="en">Why do you want to know English very well?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Почему ты хочешь знать английский очень хорошо?</span>
+        </li>
+        <li class="block-do">
+            <span class="en">Why do you like this channel?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Почему тебе нравится этот канал?</span>
+        </li>
+        <li class="block-do">
+            <span class="en">How do you find this idea?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Как ты находишь эту идею?</span>
+        </li>
+        <li class="block-do">
+            <span class="en">How do you get to work?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Как ты добираешься до работы?</span>
+        </li>
+        <li class="block-do">
+            <span class="en">How do you spend your free time?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Как ты проводишь свободное время?</span>
+        </li>
+        <li class="block-do">
+            <span class="en">How often do you use the Internet?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Как часто ты пользуешься интернетом?</span>
+        </li>
+        <li class="block-do">
+            <span class="en">How often do you think about it?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Как часто ты думаешь об этом?</span>
+        </li>
+        <li class="block-do">
+            <span class="en">How often do you watch TV?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Как часто ты смотришь телевизор?</span>
+        </li>
+        <li class="block-do">
+            <span class="en">How often do you go to the gym?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Как часто ты ходишь в спортзал?</span>
+        </li>
+        <li class="block-do">
+            <span class="en">How many English words do you know?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Сколько английских слов ты знаешь?</span>
+        </li>
+        <li class="block-do">
+            <span class="en">How many mistakes do you usually make?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Сколько ошибок ты обычно делаешь?</span>
+        </li>
+        <li class="block-do">
+            <span class="en">How many friends do you have?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Сколько у тебя друзей?</span>
+        </li>
+        <li class="block-do">
+            <span class="en">How much money do you have?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Сколько у тебя денег?</span>
+        </li>
+        <li class="block-do">
+            <span class="en">How much free time do you have?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Сколько у тебя свободного времени?</span>
+        </li>
+        <li class="block-do">
+            <span class="en">How long do you work?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Как долго ты работаешь?</span>
+        </li>
+        <li class="block-do">
+            <span class="en">How far do you live?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Как далеко ты живёшь?</span>
+        </li>
+        <li class="block-do">
+            <span class="en">Whose phone do you use?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Чьим телефоном ты пользуешься?</span>
+        </li>
+        <li class="block-do">
+            <span class="en">Which book do you prefer?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Какую книгу ты предпочитаешь?</span>
+        </li>
+        <li class="block-do">
+            <span class="en">How do you get there?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Как ты добираешься туда?</span>
+        </li>
+        <li class="block-do">
+            <span class="en">How do you get home?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Как ты добираешься домой?</span>
+        </li>
+        <li class="block-do">
+            <span class="en">How do you get to this place?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Как ты добираешься до этого места?</span>
+        </li>
+        <li class="block-do">
+            <span class="en">How do you usually spend your free time?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Как ты обычно проводишь свободное время?</span>
+        </li>
+    </ul>
+
+    <h2>🟡 Блок 2. Вопросы с DOES (he / she / it)</h2>
+    <ul>
+        <li class="block-does">
+            <span class="en">What does she say?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Что она говорит?</span>
+        </li>
+        <li class="block-does">
+            <span class="en">What does she tell him?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Что она говорит ему?</span>
+        </li>
+        <li class="block-does">
+            <span class="en">What does he want to add?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Что он хочет добавить?</span>
+        </li>
+        <li class="block-does">
+            <span class="en">What does she try to do?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Что она пытается сделать?</span>
+        </li>
+        <li class="block-does">
+            <span class="en">What does he need to change?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Что ему нужно изменить?</span>
+        </li>
+        <li class="block-does">
+            <span class="en">Why does he complain so often?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Почему он так часто жалуется?</span>
+        </li>
+        <li class="block-does">
+            <span class="en">Why does she refuse to pay?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Почему она отказывается платить?</span>
+        </li>
+        <li class="block-does">
+            <span class="en">Why does it happen again and again?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Почему это происходит снова и снова?</span>
+        </li>
+        <li class="block-does">
+            <span class="en">Who does she love?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Кого она любит?</span>
+        </li>
+        <li class="block-does">
+            <span class="en">Who does he support?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Кого он поддерживает?</span>
+        </li>
+        <li class="block-does">
+            <span class="en">Who does it motivate?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Кого это мотивирует?</span>
+        </li>
+        <li class="block-does">
+            <span class="en">Where does she work?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Где она работает?</span>
+        </li>
+        <li class="block-does">
+            <span class="en">How does she do it?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Как она это делает?</span>
+        </li>
+        <li class="block-does">
+            <span class="en">What English books does he have?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Какие английские книги у него есть?</span>
+        </li>
+        <li class="block-does">
+            <span class="en">What channels does he watch?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Какие каналы он смотрит?</span>
+        </li>
+        <li class="block-does">
+            <span class="en">What kind of movies does she watch?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Какие фильмы она смотрит?</span>
+        </li>
+        <li class="block-does">
+            <span class="en">What books does she prefer to read?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Какие книги она предпочитает читать?</span>
+        </li>
+        <li class="block-does">
+            <span class="en">Which channel does he usually watch?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Какой канал он обычно смотрит?</span>
+        </li>
+        <li class="block-does">
+            <span class="en">Which drink does she prefer: tea or coffee?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Какой напиток она предпочитает: чай или кофе?</span>
+        </li>
+        <li class="block-does">
+            <span class="en">What drinks does she prefer?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Какие напитки она предпочитает?</span>
+        </li>
+        <li class="block-does">
+            <span class="en">What time does he come to work?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Во сколько он приходит на работу?</span>
+        </li>
+        <li class="block-does">
+            <span class="en">What time does she leave home?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Во сколько она уходит из дома?</span>
+        </li>
+        <li class="block-does">
+            <span class="en">How much money does she pay?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Сколько денег она платит?</span>
+        </li>
+        <li class="block-does">
+            <span class="en">How many dollars does he have?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Сколько долларов у него есть?</span>
+        </li>
+        <li class="block-does">
+            <span class="en">How often does she go to the cinema?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Как часто она ходит в кино?</span>
+        </li>
+        <li class="block-does">
+            <span class="en">How often does he go to the zoo?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Как часто он ходит в зоопарк?</span>
+        </li>
+        <li class="block-does">
+            <span class="en">How regularly does he do these exercises?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Как регулярно он делает эти упражнения?</span>
+        </li>
+        <li class="block-does">
+            <span class="en">How long does it take you to get to work?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Сколько времени у тебя занимает добраться до работы?</span>
+        </li>
+        <li class="block-does">
+            <span class="en">How long does it take him/her to get to this place?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Сколько времени у него/неё занимает добраться до этого места?</span>
+        </li>
+    </ul>
+
+    <h2>🔴 Блок 3. «Ловушки»: Who/What — подлежащее (без do/does)</h2>
+    <ul>
+        <li class="block-who">
+            <span class="en">Who knows it?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Кто это знает?</span>
+        </li>
+        <li class="block-who">
+            <span class="en">Who supports you?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Кто тебя поддерживает?</span>
+        </li>
+        <li class="block-who">
+            <span class="en">Who motivates you?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Кто тебя мотивирует?</span>
+        </li>
+        <li class="block-who">
+            <span class="en">Who loves her?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Кто её любит?</span>
+        </li>
+        <li class="block-who">
+            <span class="en">Who controls it?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Кто это контролирует?</span>
+        </li>
+        <li class="block-who">
+            <span class="en">Who checks all this information?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Кто проверяет всю эту информацию?</span>
+        </li>
+        <li class="block-who">
+            <span class="en">Who usually checks it?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Кто обычно проверяет это?</span>
+        </li>
+        <li class="block-who">
+            <span class="en">Who corrects your mistakes?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Кто исправляет твои ошибки?</span>
+        </li>
+        <li class="block-who">
+            <span class="en">What helps you?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Что тебе помогает?</span>
+        </li>
+        <li class="block-who">
+            <span class="en">What really helps you?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Что тебе реально помогает?</span>
+        </li>
+        <li class="block-who">
+            <span class="en">What seems strange?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Что кажется странным?</span>
+        </li>
+        <li class="block-who">
+            <span class="en">What seems important?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Что кажется важным?</span>
+        </li>
+        <li class="block-who">
+            <span class="en">What seems unimportant?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Что кажется неважным?</span>
+        </li>
+        <li class="block-who">
+            <span class="en">What seems useless?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Что кажется бесполезным?</span>
+        </li>
+        <li class="block-who">
+            <span class="en">What looks strange?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Что выглядит странным?</span>
+        </li>
+        <li class="block-who">
+            <span class="en">What interests you?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Что тебя интересует?</span>
+        </li>
+        <li class="block-who">
+            <span class="en">What worries you?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Что тебя беспокоит?</span>
+        </li>
+    </ul>
+</div>
+
+<script>
+    function toggleTranslation(button) {
+        var translation = button.nextElementSibling;
+
+        if (translation.classList.contains('show')) {
+            translation.classList.remove('show');
+            button.textContent = 'Показать перевод';
+            button.style.backgroundColor = '#e2e8f0';
+        } else {
+            translation.classList.add('show');
+            button.textContent = 'Скрыть перевод';
+            button.style.backgroundColor = '#cbd5e0';
+        }
+    }
+</script>
+
+</body>
+</html>
