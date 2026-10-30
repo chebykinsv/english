@@ -284,4 +284,45 @@
 </script>
 
 </body>
+<!-- ===== КНОПКА "НА ГЛАВНУЮ" (ВСТАВИТЬ ПЕРЕД </body>) ===== -->
+<style>
+    .back-nav-wrapper {
+        text-align: center;
+        margin: 30px auto 20px;
+        max-width: 900px;
+        padding: 0 14px;
+    }
+    .back-nav-btn {
+        display: inline-block;
+        background-color: #3182ce;
+        color: #ffffff;
+        text-decoration: none;
+        padding: 12px 28px;
+        border-radius: 8px;
+        font-size: 1em;
+        font-weight: 600;
+        transition: background-color 0.2s, transform 0.1s;
+        box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        border: none;
+        cursor: pointer;
+        font-family: inherit;
+        -webkit-tap-highlight-color: transparent;
+    }
+    .back-nav-btn:active {
+        background-color: #2b6cb0;
+        transform: scale(0.98);
+    }
+    @media (max-width: 360px) {
+        .back-nav-btn {
+            padding: 10px 22px;
+            font-size: 0.95em;
+        }
+    }
+</style>
+
+<div class="back-nav-wrapper">
+    <!-- Ссылка ведёт на index.html -->
+    <a href="index.html" class="back-nav-btn">← На главную</a>
+</div>
+<!-- ===== КОНЕЦ КНОПКИ "НА ГЛАВНУЮ" ===== -->
 </html>
