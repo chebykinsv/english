@@ -67,7 +67,7 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
             display: flex;
             flex-direction: column;
-            border-left: 5px solid #38a169;
+            border-left: 5px solid #38a169; /* Зеленая по умолчанию */
             word-wrap: break-word;
             overflow-wrap: break-word;
         }
@@ -79,12 +79,13 @@
             line-height: 1.45;
         }
 
-        /* Новый стиль для красного выделения вопросов */
+        /* Стиль для проблемных вопросов */
         .red-border {
             border-left-color: #e53e3e !important;
+            background-color: #fff5f5; /* Легкий красноватый фон */
         }
-        .red-text {
-            color: #e53e3e !important;
+        .red-border .en {
+            color: #c53030 !important; /* Красный текст */
         }
 
         .btn-toggle {
@@ -141,6 +142,51 @@
     </div>
 
     <ul>
+        <!-- ========================================== -->
+        <!-- БЛОК 1: ПРОБЛЕМНЫЕ ФРАЗЫ (ВЫДЕЛЕНЫ КРАСНЫМ) -->
+        <!-- ========================================== -->
+        
+        <li class="red-border">
+            <span class="en">How many English words does your friend want to know?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Сколько английских слов хочет знать твой друг?</span>
+            <small style="color: #e53e3e; margin-top:5px; display:block;">(Здесь вы путали порядок слов и частицу "to")</small>
+        </li>
+        <li class="red-border">
+            <span class="en">How much free time does your business partner have?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Сколько свободного времени у твоего бизнес-партнера?</span>
+            <small style="color: #e53e3e; margin-top:5px; display:block;">(Здесь вы забывали have и форму free time)</small>
+        </li>
+        <li class="red-border">
+            <span class="en">Why does your friend want to look for a new job?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Почему твой друг хочет искать новую работу?</span>
+            <small style="color: #e53e3e; margin-top:5px; display:block;">(Здесь вы забывали предлог for и артикль a)</small>
+        </li>
+        <li class="red-border">
+            <span class="en">How long does it take his son to get to work?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Сколько времени у его сына занимает добраться до работы?</span>
+            <small style="color: #e53e3e; margin-top:5px; display:block;">(Здесь вы забывали частицу to перед get)</small>
+        </li>
+        <li class="red-border">
+            <span class="en">When do these things happen?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Когда происходят эти вещи? (мн.ч.)</span>
+            <small style="color: #e53e3e; margin-top:5px; display:block;">(Здесь вы писали thing в единственном числе)</small>
+        </li>
+        <li class="red-border">
+            <span class="en">How regularly does your boss check it?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Как регулярно твой босс проверяет это?</span>
+            <small style="color: #e53e3e; margin-top:5px; display:block;">(Здесь вы пропускали does)</small>
+        </li>
+
+        <!-- ========================================== -->
+        <!-- БЛОК 2: ОБЫЧНЫЕ ФРАЗЫ (ЗЕЛЕНЫЕ) -->
+        <!-- ========================================== -->
+
         <li>
             <span class="en">Where does your father work?</span>
             <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
@@ -187,11 +233,6 @@
             <span class="ru">— Когда происходит эта вещь? (ед.ч.)</span>
         </li>
         <li>
-            <span class="en">When do these things happen?</span>
-            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Когда происходят эти вещи? (мн.ч.)</span>
-        </li>
-        <li>
             <span class="en">What do your friends usually order?</span>
             <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
             <span class="ru">— Что твои друзья обычно заказывают?</span>
@@ -217,49 +258,41 @@
             <span class="ru">— Какие примеры дает его учитель?</span>
         </li>
         <li>
-            <span class="en">How much free time does your business partner have?</span>
-            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Сколько свободного времени у твоего бизнес-партнера?</span>
-        </li>
-        <li>
-            <span class="en">How many English words does your friend want to know?</span>
-            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Сколько английских слов хочет знать твой друг?</span>
-        </li>
-        <li>
-            <span class="en">How regularly does your boss check it?</span>
-            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Как регулярно твой босс проверяет это?</span>
-        </li>
-        <li>
-            <span class="en">How long does it take his son to get to work?</span>
-            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Сколько времени у его сына занимает добраться до работы?</span>
-        </li>
-        <li>
             <span class="en">How long does it take his daughter to get to school?</span>
             <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
             <span class="ru">— Сколько времени у его дочери занимает добраться до школы?</span>
         </li>
-
-        <li class="red-border">
-            <span class="en">Why does your friend want to look for a new job?</span>
+        <li>
+            <span class="en">How often do you listen to the radio?</span>
             <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Почему твой друг хочет искать новую работу?</span>
+            <span class="ru">— Как часто ты слушаешь радио?</span>
         </li>
-
-        <!-- НОВЫЕ ВОПРОСЫ 28-30 -->
-        <li class="red-border">
+        <li>
+            <span class="en">What does she usually say?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Что она обычно говорит?</span>
+        </li>
+        <li>
+            <span class="en">What time does she leave home?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Во сколько она уходит из дома?</span>
+        </li>
+        <li>
+            <span class="en">What kind of computer games do they play?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— В какие компьютерные игры они играют?</span>
+        </li>
+        <li>
             <span class="en">Why does this idea seem so interesting?</span>
             <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
             <span class="ru">— Почему эта идея кажется такой интересной?</span>
         </li>
-        <li class="red-border">
+        <li>
             <span class="en">How regularly does your teacher say it?</span>
             <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
             <span class="ru">— Как регулярно твой учитель говорит это?</span>
         </li>
-        <li class="red-border">
+        <li>
             <span class="en">How regularly do your teachers tell you these things?</span>
             <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
             <span class="ru">— Как регулярно твои учителя говорят тебе эти вещи?</span>
@@ -284,7 +317,7 @@
 </script>
 
 </body>
-<!-- ===== КНОПКА "НА ГЛАВНУЮ" (ВСТАВИТЬ ПЕРЕД </body>) ===== -->
+<!-- ===== КНОПКА "НА ГЛАВНУЮ" ===== -->
 <style>
     .back-nav-wrapper {
         text-align: center;
@@ -321,7 +354,6 @@
 </style>
 
 <div class="back-nav-wrapper">
-    <!-- Ссылка ведёт на index.html -->
     <a href="index.html" class="back-nav-btn">← На главную</a>
 </div>
 <!-- ===== КОНЕЦ КНОПКИ "НА ГЛАВНУЮ" ===== -->
