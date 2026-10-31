@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Правило: Окончания -s / -es в Present Simple</title>
+    <style>
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 14px;
+            background-color: #f0f4f8;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin: 0 0 16px;
+            font-size: 1.35em;
+        }
+        .rule-box {
+            background-color: #fff;
+            border-left: 6px solid #3182ce;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 25px;
+        }
+        .rule-box h2 {
+            margin-top: 0;
+            color: #2b6cb0;
+            font-size: 1.2em;
+            border-bottom: 2px solid #ebf8ff;
+            padding-bottom: 8px;
+        }
+        .rule-box p {
+            margin-bottom: 15px;
+            font-size: 1em;
+        }
+        .rule-card {
+            background: #f7fafc;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #4299e1;
+        }
+        .rule-card h3 {
+            margin-top: 0;
+            color: #2b6cb0;
+            font-size: 1em;
+        }
+        .example {
+            background: #fff;
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            font-family: monospace;
+            font-size: 1em;
+            border: 1px solid #e2e8f0;
+        }
+        .highlight {
+            background-color: #fefcbf;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        .warning {
+            background-color: #fff5f5;
+            border-left: 4px solid #e53e3e;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 20px;
+        }
+        .warning h3 {
+            color: #c53030;
+            margin-top: 0;
+        }
+        .btn-check {
+            background-color: #3182ce;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95em;
+            margin-top: 10px;
+            transition: background-color 0.2s;
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin: 15px auto 0;
+        }
+        .btn-check:active {
+            background-color: #2b6cb0;
+        }
+        .hidden-answer {
+            display: none;
+            background: #f0fff4;
+            border: 1px dashed #48bb78;
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 10px;
+            text-align: center;
+            font-weight: bold;
+            color: #2f855a;
+        }
+
+        /* Стиль для кнопки "На главную" */
+        .back-nav-wrapper {
+            text-align: center;
+            margin: 30px auto 20px;
+            max-width: 900px;
+            padding: 0 14px;
+        }
+        .back-nav-btn {
+            display: inline-block;
+            background-color: #3182ce;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            transition: background-color 0.2s, transform 0.1s;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .back-nav-btn:active {
+            background-color: #2b6cb0;
+            transform: scale(0.98);
+        }
+        @media (max-width: 360px) {
+            .back-nav-btn {
+                padding: 10px 22px;
+                font-size: 0.95em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Правило: Окончания -s / -es в Present Simple</h1>
+
+    <div class="rule-box">
+        <h2>📌 Для he / she / it (утверждения)</h2>
+        <p>Все глаголы делятся на <b>4 группы</b>:</p>
+
+        <!-- Группа 1 -->
+        <div class="rule-card" style="border-left-color: #27ae60;">
+            <h3>1. Обычный глагол → добавляем <code>-s</code></h3>
+            <div class="example">work → <span class="highlight">works</span></div>
+            <div class="example">live → <span class="highlight">lives</span></div>
+            <div class="example">read → <span class="highlight">reads</span></div>
+            <div class="example">like → <span class="highlight">likes</span></div>
+        </div>
+
+        <!-- Группа 2 -->
+        <div class="rule-card" style="border-left-color: #f39c12;">
+            <h3>2. Глагол на <code>-s, -ss, -sh, -ch, -x, -o</code> → добавляем <code>-es</code></h3>
+            <div class="example">watch → <span class="highlight">watches</span></div>
+            <div class="example">go → <span class="highlight">goes</span></div>
+            <div class="example">do → <span class="highlight">does</span></div>
+            <div class="example">finish → <span class="highlight">finishes</span></div>
+        </div>
+
+        <!-- Группа 3 -->
+        <div class="rule-card" style="border-left-color: #c0392b;">
+            <h3>3. Глагол на <code>согласная + y</code> → меняем <code>y</code> на <code>i</code> + <code>-es</code></h3>
+            <div class="example">study → <span class="highlight">studies</span></div>
+            <div class="example">cry → <span class="highlight">cries</span></div>
+            <div class="example">try → <span class="highlight">tries</span></div>
+            <div class="example">fly → <span class="highlight">flies</span></div>
+        </div>
+
+        <!-- Группа 4 -->
+        <div class="rule-card" style="border-left-color: #2980b9;">
+            <h3>4. Глагол на <code>гласная + y</code> → просто добавляем <code>-s</code></h3>
+            <div class="example">play → <span class="highlight">plays</span></div>
+            <div class="example">buy → <span class="highlight">buys</span></div>
+            <div class="example">stay → <span class="highlight">stays</span></div>
+        </div>
+    </div>
+
+    <!-- Важное предупреждение -->
+    <div class="warning">
+        <h3>⚠️ Важно для вопросов!</h3>
+        <p>В вопросах с <b>does</b> это правило <b>не работает</b>, потому что окончание «забирает» себе <i>does</i>. Смысловой глагол остаётся в начальной форме.</p>
+        <div class="example">✅ He <span class="highlight">studies</span> English. (утверждение)</div>
+        <div class="example">✅ <span class="highlight">Does</span> he <span class="highlight">study</span> English? (вопрос)</div>
+        <div class="example">✅ He <span class="highlight">goes</span> to work. (утверждение)</div>
+        <div class="example">✅ <span class="highlight">Does</span> he <span class="highlight">go</span> to work? (вопрос)</div>
+    </div>
+
+    <!-- Мини-тренажер -->
+    <div class="rule-box" style="border-left-color: #8e44ad; margin-top: 30px;">
+        <h2>🎯 Мини-тренажер</h2>
+        <p>Выберите правильную форму для <b>she</b>:</p>
+        <div class="example">1. She (work) ___ in an office.</div>
+        <div class="example">2. She (watch) ___ TV every day.</div>
+        <div class="example">3. She (study) ___ English.</div>
+        <div class="example">4. She (play) ___ the piano.</div>
+        <div class="example">5. She (go) ___ to the gym.</div>
+
+        <button class="btn-check" onclick="showAnswers()">Показать ответы</button>
+        <div id="answers" class="hidden-answer">
+            1. works<br>
+            2. watches<br>
+            3. studies<br>
+            4. plays<br>
+            5. goes
+        </div>
+    </div>
+
+</div>
+
+<!-- ===== КНОПКА "НА ГЛАВНУЮ" ===== -->
+<div class="back-nav-wrapper">
+    <a href="index.html" class="back-nav-btn">← На главную</a>
+</div>
+
+<script>
+    function showAnswers() {
+        var answers = document.getElementById('answers');
+        var btn = document.querySelector('.btn-check');
+        
+        if (answers.style.display === 'block') {
+            answers.style.display = 'none';
+            btn.textContent = 'Показать ответы';
+        } else {
+            answers.style.display = 'block';
+            btn.textContent = 'Скрыть ответы';
+        }
+    }
+</script>
+
+</body>
+</html>
