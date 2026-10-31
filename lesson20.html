@@ -79,14 +79,19 @@
             line-height: 1.45;
         }
 
-        /* Стиль для проблемных вопросов */
+        /* Стиль для проблемных вопросов (красный) */
         .red-border {
             border-left-color: #e53e3e !important;
-            background-color: #fff5f5; /* Легкий красноватый фон */
+            background-color: #fff5f5;
         }
-        .red-border .en {
-            color: #c53030 !important; /* Красный текст */
+        .red-border .en { color: #c53030 !important; }
+
+        /* Стиль для новых вопросов из скриншота (синий) */
+        .new-border {
+            border-left-color: #3182ce !important;
+            background-color: #ebf8ff;
         }
+        .new-border .en { color: #2b6cb0 !important; }
 
         .btn-toggle {
             background-color: #e2e8f0;
@@ -143,50 +148,76 @@
 
     <ul>
         <!-- ========================================== -->
-        <!-- БЛОК 1: ПРОБЛЕМНЫЕ ФРАЗЫ (ВЫДЕЛЕНЫ КРАСНЫМ) -->
+        <!-- БЛОК 1: ПРОБЛЕМНЫЕ ФРАЗЫ (КРАСНЫЙ) -->
         <!-- ========================================== -->
-        
         <li class="red-border">
             <span class="en">How many English words does your friend want to know?</span>
             <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
             <span class="ru">— Сколько английских слов хочет знать твой друг?</span>
-            <small style="color: #e53e3e; margin-top:5px; display:block;">(Здесь вы путали порядок слов и частицу "to")</small>
         </li>
         <li class="red-border">
             <span class="en">How much free time does your business partner have?</span>
             <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
             <span class="ru">— Сколько свободного времени у твоего бизнес-партнера?</span>
-            <small style="color: #e53e3e; margin-top:5px; display:block;">(Здесь вы забывали have и форму free time)</small>
         </li>
         <li class="red-border">
             <span class="en">Why does your friend want to look for a new job?</span>
             <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
             <span class="ru">— Почему твой друг хочет искать новую работу?</span>
-            <small style="color: #e53e3e; margin-top:5px; display:block;">(Здесь вы забывали предлог for и артикль a)</small>
         </li>
         <li class="red-border">
             <span class="en">How long does it take his son to get to work?</span>
             <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
             <span class="ru">— Сколько времени у его сына занимает добраться до работы?</span>
-            <small style="color: #e53e3e; margin-top:5px; display:block;">(Здесь вы забывали частицу to перед get)</small>
         </li>
         <li class="red-border">
             <span class="en">When do these things happen?</span>
             <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
             <span class="ru">— Когда происходят эти вещи? (мн.ч.)</span>
-            <small style="color: #e53e3e; margin-top:5px; display:block;">(Здесь вы писали thing в единственном числе)</small>
         </li>
         <li class="red-border">
             <span class="en">How regularly does your boss check it?</span>
             <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
             <span class="ru">— Как регулярно твой босс проверяет это?</span>
-            <small style="color: #e53e3e; margin-top:5px; display:block;">(Здесь вы пропускали does)</small>
         </li>
 
         <!-- ========================================== -->
-        <!-- БЛОК 2: ОБЫЧНЫЕ ФРАЗЫ (ЗЕЛЕНЫЕ) -->
+        <!-- БЛОК 2: НОВЫЕ ФРАЗЫ СО СКРИНШОТА (СИНИЙ) -->
         <!-- ========================================== -->
+        <li class="new-border">
+            <span class="en">How does he solve these problems?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Как он решает эти проблемы?</span>
+        </li>
+        <li class="new-border">
+            <span class="en">Why do you need to do it?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Почему тебе нужно сделать это?</span>
+        </li>
+        <li class="new-border">
+            <span class="en">How much money do you have with you?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Сколько у тебя с собой денег?</span>
+        </li>
+        <li class="new-border">
+            <span class="en">Who knows?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Кто знает? (ловушка: без does, глагол с -s)</span>
+        </li>
+        <li class="new-border">
+            <span class="en">Why does he always complain about it?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Почему он всегда жалуется на это?</span>
+        </li>
+        <li class="new-border">
+            <span class="en">What channels does he usually watch?</span>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Какие каналы он обычно смотрит?</span>
+        </li>
 
+        <!-- ========================================== -->
+        <!-- БЛОК 3: ОБЫЧНЫЕ ФРАЗЫ (ЗЕЛЕНЫЙ) -->
+        <!-- ========================================== -->
         <li>
             <span class="en">Where does your father work?</span>
             <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
