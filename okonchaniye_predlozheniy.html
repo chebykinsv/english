@@ -81,6 +81,21 @@
             color: #c53030;
             margin-top: 0;
         }
+        
+        /* Стиль для нового блока про модальные глаголы */
+        .modal-box {
+            background-color: #faf5ff;
+            border-left: 4px solid #805ad5;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .modal-box h3 {
+            color: #6b46c1;
+            margin-top: 0;
+        }
+
         .btn-check {
             background-color: #3182ce;
             color: #fff;
@@ -191,7 +206,7 @@
         </div>
     </div>
 
-    <!-- Важное предупреждение -->
+    <!-- Важное предупреждение для вопросов -->
     <div class="warning">
         <h3>⚠️ Важно для вопросов!</h3>
         <p>В вопросах с <b>does</b> это правило <b>не работает</b>, потому что окончание «забирает» себе <i>does</i>. Смысловой глагол остаётся в начальной форме.</p>
@@ -201,23 +216,38 @@
         <div class="example">✅ <span class="highlight">Does</span> he <span class="highlight">go</span> to work? (вопрос)</div>
     </div>
 
+    <!-- НОВЫЙ БЛОК: Модальные глаголы и 'd like -->
+    <div class="modal-box">
+        <h3>🚫 Исключение: Модальные глаголы и <code>'d like</code></h3>
+        <p>После модальных глаголов (<b>can, must, should, would</b>) и конструкции <b>'d like</b> (сокращение от <i>would like</i>) окончание <b>-s</b> <u>никогда</u> не ставится, даже если подлежащее <i>he / she / it</i>.</p>
+        
+        <div class="example">✅ He <span class="highlight">can</span> go. (не <i>cans</i>)</div>
+        <div class="example">✅ She <span class="highlight">must</span> work. (не <i>musts</i>)</div>
+        <div class="example">✅ He <span class="highlight">'d like</span> to go. (не <i>'d likes</i>)</div>
+        <div class="example">✅ She <span class="highlight">would like</span> a coffee. (не <i>would likes</i>)</div>
+        
+        <p style="margin-top: 15px; font-size: 0.9em; color: #6b46c1;">
+            <b>Почему?</b> Потому что <i>'d</i> — это <i>would</i>, а после любого модального глагола смысловой глагол всегда идет в начальной форме (без <b>-s</b>).
+        </p>
+    </div>
+
     <!-- Мини-тренажер -->
     <div class="rule-box" style="border-left-color: #8e44ad; margin-top: 30px;">
         <h2>🎯 Мини-тренажер</h2>
-        <p>Выберите правильную форму для <b>she</b>:</p>
+        <p>Выберите правильную форму:</p>
         <div class="example">1. She (work) ___ in an office.</div>
-        <div class="example">2. She (watch) ___ TV every day.</div>
+        <div class="example">2. He (watch) ___ TV every day.</div>
         <div class="example">3. She (study) ___ English.</div>
-        <div class="example">4. She (play) ___ the piano.</div>
-        <div class="example">5. She (go) ___ to the gym.</div>
+        <div class="example">4. He (can / cans) ___ swim.</div>
+        <div class="example">5. She ('d like / 'd likes) ___ to go home.</div>
 
         <button class="btn-check" onclick="showAnswers()">Показать ответы</button>
         <div id="answers" class="hidden-answer">
             1. works<br>
             2. watches<br>
             3. studies<br>
-            4. plays<br>
-            5. goes
+            4. can (без -s!)<br>
+            5. 'd like (без -s!)
         </div>
     </div>
 
