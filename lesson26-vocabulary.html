@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тренажер: Лексика</title>
+    <style>
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 14px;
+            background-color: #f0f4f8;
+            color: #333;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin: 0 0 16px;
+            font-size: 1.35em;
+            word-wrap: break-word;
+        }
+
+        .rule-box {
+            background-color: #fff;
+            border-left: 6px solid #ed8936; /* Оранжевый для лексики */
+            padding: 16px 14px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 22px;
+        }
+        .rule-box h2 {
+            margin-top: 0;
+            color: #c05621;
+            font-size: 1.05em;
+            line-height: 1.35;
+        }
+        .rule-box p { margin-bottom: 10px; font-size: 0.95em; }
+
+        ul { list-style-type: none; padding-left: 0; margin: 0; }
+        li {
+            background: #fff;
+            margin-bottom: 10px;
+            padding: 12px 14px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            border-left: 5px solid #ed8936; /* Оранжевая полоска */
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        .en {
+            font-weight: bold;
+            font-size: 1.02em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            line-height: 1.45;
+        }
+        .vocab-note {
+            font-size: 0.85em;
+            color: #dd6b20;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+
+        .btn-toggle {
+            background-color: #e2e8f0;
+            color: #4a5568;
+            border: none;
+            padding: 9px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            align-self: flex-start;
+            transition: background-color 0.2s;
+            min-height: 38px;
+        }
+        .btn-toggle:active { background-color: #cbd5e0; }
+
+        .ru {
+            display: none;
+            color: #2b6cb0;
+            font-size: 0.98em;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed #e2e8f0;
+            font-weight: 500;
+        }
+        .ru.show { display: block; }
+
+        @media (max-width: 360px) {
+            body { padding: 10px; }
+            h1 { font-size: 1.2em; }
+            .en { font-size: 0.98em; }
+            li { padding: 10px 12px; }
+        }
+        
+        /* Стиль для кнопки "На главную" */
+        .back-nav-wrapper { text-align: center; margin: 30px auto 20px; padding: 0 14px; }
+        .back-nav-btn {
+            display: inline-block;
+            background-color: #3182ce;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            -webkit-tap-highlight-color: transparent;
+        }
+        @media (max-width: 360px) { .back-nav-btn { padding: 10px 22px; font-size: 0.95em; } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Тренажер: Лексика</h1>
+
+    <div class="rule-box">
+        <h2>📌 Как работать с этим блоком</h2>
+        <p>Здесь собраны новые слова и фразы. Прочитайте английскую фразу, переведите её вслух, а затем нажмите кнопку, чтобы проверить себя. Обращайте внимание на подсказки (курсивом).</p>
+    </div>
+
+    <ul>
+        <li>
+            <span class="en">Let's make a decision.</span>
+            <div class="vocab-note">(make a decision — принять решение)</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Давай примем решение.</span>
+        </li>
+        <li>
+            <span class="en">Please, share your point of view.</span>
+            <div class="vocab-note">(share your point of view — поделиться своей точкой зрения)</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Пожалуйста, поделись своей точкой зрения.</span>
+        </li>
+        <li>
+            <span class="en">Tell me all the truth.</span>
+            <div class="vocab-note">(all the truth — всю правду)</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Скажи мне всю правду.</span>
+        </li>
+        <li>
+            <span class="en">I need much more time.</span>
+            <div class="vocab-note">(much more — намного больше)</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Мне нужно намного больше времени.</span>
+        </li>
+        <li>
+            <span class="en">You always promise, but you never do it.</span>
+            <div class="vocab-note">(promise — обещать)</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Ты всегда обещаешь, но никогда этого не делаешь.</span>
+        </li>
+        <li>
+            <span class="en">Let's discuss it.</span>
+            <div class="vocab-note">(discuss — обсуждать, без предлога about)</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Давай обсудим это.</span>
+        </li>
+        <li>
+            <span class="en">Let's talk about it.</span>
+            <div class="vocab-note">(talk about — поговорить о чем-то)</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Давай поговорим об этом.</span>
+        </li>
+        <li>
+            <span class="en">I want to look for a new job.</span>
+            <div class="vocab-note">(look for — искать)</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Я хочу искать новую работу.</span>
+        </li>
+        <li>
+            <span class="en">She wants to find a good job.</span>
+            <div class="vocab-note">(find — найти)</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Она хочет найти хорошую работу.</span>
+        </li>
+        <li>
+            <span class="en">Why does he always complain about it?</span>
+            <div class="vocab-note">(complain about — жаловаться на)</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Почему он всегда жалуется на это?</span>
+        </li>
+    </ul>
+</div>
+
+<div class="back-nav-wrapper">
+    <a href="index.html" class="back-nav-btn">← На главную</a>
+</div>
+
+<script>
+    function toggleTranslation(button) {
+        var translation = button.nextElementSibling;
+
+        if (translation.classList.contains('show')) {
+            translation.classList.remove('show');
+            button.textContent = 'Показать перевод';
+            button.style.backgroundColor = '#e2e8f0';
+        } else {
+            translation.classList.add('show');
+            button.textContent = 'Скрыть перевод';
+            button.style.backgroundColor = '#cbd5e0';
+        }
+    }
+</script>
+
+</body>
+</html>

@@ -22,7 +22,7 @@
             padding: 24px;
             border-radius: 12px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            max-width: 750px; /* Увеличили ширину для двух колонок */
+            max-width: 750px;
             width: 100%;
         }
         h1 {
@@ -32,10 +32,9 @@
             font-size: 1.6em;
         }
         
-        /* Сетка для колонок */
         .columns-wrapper {
             display: grid;
-            grid-template-columns: 1fr 1fr; /* Две равные колонки */
+            grid-template-columns: 1fr 1fr;
             gap: 24px;
         }
 
@@ -85,10 +84,9 @@
             .menu-link:hover { background-color: #718096; transform: translateX(5px); }
         }
 
-        /* Адаптивность для телефонов: колонки становятся друг под другом */
         @media (max-width: 650px) {
             .columns-wrapper {
-                grid-template-columns: 1fr; /* Одна колонка */
+                grid-template-columns: 1fr;
                 gap: 20px;
             }
             h1 { font-size: 1.3em; margin-bottom: 20px; }
@@ -133,14 +131,21 @@
             <ul class="menu-list">
                 <li>
                     <a href="lesson18.html" class="menu-link" style="border-left-color: #27ae60;">
-                        📘 Урок 18: Вопросы (do/does)
+                        📘 Урок 18: Специальные вопросы
                         <span>Тренажер с кнопкой "Показать перевод"</span>
                     </a>
                 </li>
                 <li>
                     <a href="lesson20.html" class="menu-link" style="border-left-color: #f39c12;">
-                        📙 Урок 20: Существительные
+                        📙 Урок 20: Специальные вопросы
                         <span>Фразы с your father, his son, your friends</span>
+                    </a>
+                </li>
+                <!-- НОВЫЙ УРОК 26 -->
+                <li>
+                    <a href="vocabulary.html" class="menu-link" style="border-left-color: #ed8936;">
+                        📖 Урок 26: Лексика
+                        <span>Слова и фразы для общения</span>
                     </a>
                 </li>
             </ul>
