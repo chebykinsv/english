@@ -25,7 +25,7 @@
 
         .rule-box {
             background-color: #fff;
-            border-left: 6px solid #ed8936; /* Оранжевый для лексики */
+            border-left: 6px solid #ed8936;
             padding: 16px 14px;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
@@ -48,7 +48,7 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
             display: flex;
             flex-direction: column;
-            border-left: 5px solid #ed8936; /* Оранжевая полоска */
+            border-left: 5px solid #ed8936;
             word-wrap: break-word;
             overflow-wrap: break-word;
         }
@@ -65,6 +65,14 @@
             margin-bottom: 10px;
             font-style: italic;
         }
+
+        /* Стиль для новых слов (фиолетовый) */
+        .new-vocab {
+            border-left-color: #805ad5 !important;
+            background-color: #faf5ff;
+        }
+        .new-vocab .en { color: #6b46c1 !important; }
+        .new-vocab .vocab-note { color: #805ad5 !important; }
 
         .btn-toggle {
             background-color: #e2e8f0;
@@ -98,7 +106,6 @@
             li { padding: 10px 12px; }
         }
         
-        /* Стиль для кнопки "На главную" */
         .back-nav-wrapper { text-align: center; margin: 30px auto 20px; padding: 0 14px; }
         .back-nav-btn {
             display: inline-block;
@@ -122,10 +129,12 @@
 
     <div class="rule-box">
         <h2>📌 Как работать с этим блоком</h2>
-        <p>Здесь собраны новые слова и фразы. Прочитайте английскую фразу, переведите её вслух, а затем нажмите кнопку, чтобы проверить себя. Обращайте внимание на подсказки (курсивом).</p>
+        <p>Прочитайте английскую фразу, переведите её вслух, а затем нажмите кнопку, чтобы проверить себя. Обращайте внимание на подсказки (курсивом).</p>
     </div>
 
     <ul>
+        <!-- ... (предыдущие фразы оставлены для контекста, я добавил только новые в конец) ... -->
+        
         <li>
             <span class="en">Let's make a decision.</span>
             <div class="vocab-note">(make a decision — принять решение)</div>
@@ -185,6 +194,52 @@
             <div class="vocab-note">(complain about — жаловаться на)</div>
             <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
             <span class="ru">— Почему он всегда жалуется на это?</span>
+        </li>
+
+        <!-- НОВЫЕ СЛОВА (ФИОЛЕТОВЫЕ) -->
+        <li class="new-vocab">
+            <span class="en">I will help you with great pleasure.</span>
+            <div class="vocab-note">(with great pleasure — с большим удовольствием)</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Я помогу тебе с большим удовольствием.</span>
+        </li>
+        <li class="new-vocab">
+            <span class="en">This idea inspires me.</span>
+            <div class="vocab-note">(inspire — вдохновлять)</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Эта идея вдохновляет меня.</span>
+        </li>
+        <li class="new-vocab">
+            <span class="en">What do you prefer: tea or coffee?</span>
+            <div class="vocab-note">(prefer — предпочитать)</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Что ты предпочитаешь: чай или кофе?</span>
+        </li>
+        <li class="new-vocab">
+            <span class="en">I prefer to work in the morning.</span>
+            <div class="vocab-note">(prefer to do something — предпочитать делать что-то)</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Я предпочитаю работать утром.</span>
+        </li>
+        
+        <!-- ЕЩЕ НОВЫЕ (ДОБАВЛЕННЫЕ СЕЙЧАС) -->
+        <li class="new-vocab">
+            <span class="en">I do it with great pleasure.</span>
+            <div class="vocab-note">(do it — делать это; with great pleasure — с большим удовольствием)</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Я делаю это с большим удовольствием.</span>
+        </li>
+        <li class="new-vocab">
+            <span class="en">He does it with great pleasure.</span>
+            <div class="vocab-note">(does — для he, с -es)</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Он делает это с большим удовольствием.</span>
+        </li>
+        <li class="new-vocab">
+            <span class="en">She helps me with great pleasure.</span>
+            <div class="vocab-note">(helps — для she, с -s)</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Она помогает мне с большим удовольствием.</span>
         </li>
     </ul>
 </div>
