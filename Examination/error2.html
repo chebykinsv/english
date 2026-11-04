@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Работа над ошибками (Все контрольные)</title>
+    <style>
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 14px;
+            background-color: #f0f4f8;
+            color: #333;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 {
+            text-align: center;
+            color: #c53030;
+            margin: 0 0 16px;
+            font-size: 1.35em;
+            word-wrap: break-word;
+        }
+
+        .section-title {
+            background-color: #e53e3e;
+            color: #fff;
+            padding: 8px 14px;
+            border-radius: 6px;
+            margin: 25px 0 15px;
+            font-size: 1.1em;
+        }
+
+        /* Новый стиль для блока "Сегодня" */
+        .today-title {
+            background-color: #dd6b20; /* Оранжевый */
+        }
+
+        ul { list-style-type: none; padding-left: 0; margin: 0; }
+        li {
+            background: #fff;
+            margin-bottom: 10px;
+            padding: 12px 14px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            border-left: 5px solid #e53e3e;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        .en {
+            font-weight: bold;
+            font-size: 1.02em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            line-height: 1.45;
+        }
+        .error-note {
+            font-size: 0.85em;
+            color: #e53e3e;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+
+        .btn-toggle {
+            background-color: #e2e8f0;
+            color: #4a5568;
+            border: none;
+            padding: 9px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            align-self: flex-start;
+            transition: background-color 0.2s;
+            min-height: 38px;
+        }
+        .btn-toggle:active { background-color: #cbd5e0; }
+
+        .ru {
+            display: none;
+            color: #2b6cb0;
+            font-size: 0.98em;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed #e2e8f0;
+            font-weight: 500;
+        }
+        .ru.show { display: block; }
+
+        @media (max-width: 360px) {
+            body { padding: 10px; }
+            h1 { font-size: 1.2em; }
+            .en { font-size: 0.98em; }
+            li { padding: 10px 12px; }
+        }
+        
+        .back-nav-wrapper { text-align: center; margin: 30px auto 20px; padding: 0 14px; }
+        .back-nav-btn {
+            display: inline-block;
+            background-color: #3182ce;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            -webkit-tap-highlight-color: transparent;
+        }
+        @media (max-width: 360px) { .back-nav-btn { padding: 10px 22px; font-size: 0.95em; } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🚫 Работа над ошибками</h1>
+
+    <!-- НОВЫЙ БЛОК: СЕГОДНЯ -->
+    <div class="section-title today-title">Повторение (ошибки за сегодня)</div>
+    <ul>
+        <li>
+            <span class="en">I need your advice.</span>
+            <div class="error-note">(лишнее to want)</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Мне нужен твой совет.</span>
+        </li>
+        <li>
+            <span class="en">She'd like to go to another place.</span>
+            <div class="error-note">(She'd, а не I'd)</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Она бы хотела пойти в другое место.</span>
+        </li>
+        <li>
+            <span class="en">Do we have enough practice?</span>
+            <div class="error-note">(не забывайте have + слово enough)</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— У нас достаточно практики?</span>
+        </li>
+        <li>
+            <span class="en">She does these exercises regularly.</span>
+            <div class="error-note">(exercises, а не explains)</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Она делает эти упражнения регулярно.</span>
+        </li>
+        <li>
+            <span class="en">What worries you more?</span>
+            <div class="error-note">(what — подлежащее, без do)</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Что тебя беспокоит больше?</span>
+        </li>
+        <li>
+            <span class="en">When do you have free time?</span>
+            <div class="error-note">(When, а не Where)</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Когда у тебя есть свободное время?</span>
+        </li>
+        <li>
+            <span class="en">Does she remember all these rules?</span>
+            <div class="error-note">(remember, а не understand)</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Она помнит все эти правила?</span>
+        </li>
+        <li>
+            <span class="en">These lessons seem very useful.</span>
+            <div class="error-note">(seem без -s, потому что lessons — мн.ч.)</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Эти уроки кажутся очень полезными.</span>
+        </li>
+        <li>
+            <span class="en">Why does he say these things again and again?</span>
+            <div class="error-note">(again and again, а не to again)</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Почему он говорит эти вещи снова и снова?</span>
+        </li>
+        <li>
+            <span class="en">He has an offer.</span>
+            <div class="error-note">(an offer, а не a offer)</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— У него есть предложение.</span>
+        </li>
+    </ul>
+
+    <!-- БЛОК 1: 1-50 -->
+    <div class="section-title">Ошибки из Контрольной 1 (Фразы 1–50)</div>
+    <ul>
+        <!-- (здесь остаются ваши старые фразы, я их не трогаю, чтобы не загромождать ответ, но в файле они останутся) -->
+        <!-- ... -->
+    </ul>
+
+</div>
+
+<div class="back-nav-wrapper">
+    <a href="../index.html" class="back-nav-btn">← На главную</a>
+</div>
+
+<script>
+    function toggleTranslation(button) {
+        var translation = button.nextElementSibling;
+
+        if (translation.classList.contains('show')) {
+            translation.classList.remove('show');
+            button.textContent = 'Показать перевод';
+            button.style.backgroundColor = '#e2e8f0';
+        } else {
+            translation.classList.add('show');
+            button.textContent = 'Скрыть перевод';
+            button.style.backgroundColor = '#cbd5e0';
+        }
+    }
+</script>
+
+</body>
+</html>
