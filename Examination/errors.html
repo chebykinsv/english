@@ -32,6 +32,11 @@
             font-size: 1.1em;
         }
 
+        /* Стиль для сегодняшних ошибок */
+        .today-title {
+            background-color: #dd6b20;
+        }
+
         ul { list-style-type: none; padding-left: 0; margin: 0; }
         li {
             background: #fff;
@@ -112,176 +117,69 @@
 <div class="container">
     <h1>🚫 Работа над ошибками</h1>
 
+    <!-- НОВЫЙ БЛОК: ОШИБКИ 150-200 -->
+    <div class="section-title today-title">Ошибки из Контрольной 150–200</div>
+    <ul>
+        <li>
+            <span class="en">How much money do you have with you?</span>
+            <div class="error-note">(не забывайте do you have)</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Сколько у тебя с собой денег?</span>
+        </li>
+        <li>
+            <span class="en">Do they support this decision?</span>
+            <div class="error-note">(они — they, и это вопрос с Do)</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Они поддерживают это решение?</span>
+        </li>
+        <li>
+            <span class="en">She misses you.</span>
+            <div class="error-note">(misses — скучает, а не messes)</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Она скучает по тебе.</span>
+        </li>
+        <li>
+            <span class="en">He also knows it.</span>
+            <div class="error-note">(забыли -s у глагола know)</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Он также знает это.</span>
+        </li>
+        <li>
+            <span class="en">How does your sister feel?</span>
+            <div class="error-note">(порядок слов: feel в конце)</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Как себя чувствует твоя сестра?</span>
+        </li>
+        <li>
+            <span class="en">She doesn't want to think about it.</span>
+            <div class="error-note">(doesn't + want без -s)</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Она не хочет думать об этом.</span>
+        </li>
+        <li>
+            <span class="en">Why does it attract you?</span>
+            <div class="error-note">(порядок слов: does + it + attract)</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Почему это привлекает тебя?</span>
+        </li>
+    </ul>
+
     <!-- БЛОК 1: 1-50 -->
     <div class="section-title">Ошибки из Контрольной 1 (Фразы 1–50)</div>
     <ul>
-        <li>
-            <span class="en">I need your advice.</span>
-            <div class="error-note">(your — твой, а не you)</div>
-            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Мне нужен твой совет.</span>
-        </li>
-        <li>
-            <span class="en">I need to see her.</span>
-            <div class="error-note">(see — увидеть, a не seem; и не забывайте to)</div>
-            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Мне нужно увидеть её.</span>
-        </li>
-        <li>
-            <span class="en">She'd like to go to another place.</span>
-            <div class="error-note">(She'd — она бы, а не I'd)</div>
-            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Она бы хотела пойти в другое место.</span>
-        </li>
-        <li>
-            <span class="en">How does he get home?</span>
-            <div class="error-note">(get — добираться, а не come)</div>
-            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Как он добирается домой?</span>
-        </li>
-        <li>
-            <span class="en">Do we have enough practice?</span>
-            <div class="error-note">(не забывайте глагол have)</div>
-            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— У нас достаточно практики?</span>
-        </li>
-        <li>
-            <span class="en">She wants to see you right now.</span>
-            <div class="error-note">(wants — с -s, потому что she)</div>
-            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Она хочет увидеть тебя прямо сейчас.</span>
-        </li>
-        <li>
-            <span class="en">It depends on them.</span>
-            <div class="error-note">(It — это, depends — с -s, them — их)</div>
-            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Это зависит от них.</span>
-        </li>
-        <li>
-            <span class="en">She does these exercises regularly.</span>
-            <div class="error-note">(do exercises, а не make; exercises — мн.ч.)</div>
-            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Она делает эти упражнения регулярно.</span>
-        </li>
-        <li>
-            <span class="en">My sister studies there.</span>
-            <div class="error-note">(study → studies, правило -y → -ies)</div>
-            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Моя сестра учится там.</span>
-        </li>
-        <li>
-            <span class="en">What worries you more?</span>
-            <div class="error-note">(what — подлежащее, do не нужен, worries — с -s)</div>
-            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Что тебя беспокоит больше?</span>
-        </li>
+        <!-- (здесь остаются ваши старые фразы) -->
+        <li><span class="en">I need your advice.</span><div class="error-note">(your — твой, а не you)</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Мне нужен твой совет.</span></li>
+        <li><span class="en">I need to see her.</span><div class="error-note">(see — увидеть, a не seem; и не забывайте to)</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Мне нужно увидеть её.</span></li>
+        <li><span class="en">She'd like to go to another place.</span><div class="error-note">(She'd — она бы, а не I'd)</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Она бы хотела пойти в другое место.</span></li>
+        <li><span class="en">How does he get home?</span><div class="error-note">(get — добираться, а не come)</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Как он добирается домой?</span></li>
+        <li><span class="en">Do we have enough practice?</span><div class="error-note">(не забывайте глагол have)</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— У нас достаточно практики?</span></li>
+        <li><span class="en">She wants to see you right now.</span><div class="error-note">(wants — с -s, потому что she)</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Она хочет увидеть тебя прямо сейчас.</span></li>
+        <li><span class="en">It depends on them.</span><div class="error-note">(It — это, depends — с -s, them — их)</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это зависит от них.</span></li>
+        <li><span class="en">She does these exercises regularly.</span><div class="error-note">(do exercises, а не make; exercises — мн.ч.)</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Она делает эти упражнения регулярно.</span></li>
+        <li><span class="en">My sister studies there.</span><div class="error-note">(study → studies, правило -y → -ies)</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Моя сестра учится там.</span></li>
+        <li><span class="en">What worries you more?</span><div class="error-note">(what — подлежащее, do не нужен, worries — с -s)</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Что тебя беспокоит больше?</span></li>
     </ul>
 
-    <!-- БЛОК 2: 51-100 -->
-    <div class="section-title">Ошибки из Контрольной 2 (Фразы 51–100)</div>
-    <ul>
-        <li>
-            <span class="en">How long does it take him to get to that place?</span>
-            <div class="error-note">(him — ему, а не his; и не забывайте to перед get)</div>
-            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Сколько времени у него занимает добраться до того места?</span>
-        </li>
-        <li>
-            <span class="en">Why do your parents disagree with you?</span>
-            <div class="error-note">(your — твои, а не you)</div>
-            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Почему твои родители не согласны с тобой?</span>
-        </li>
-        <li>
-            <span class="en">I need to speak English without any mistakes at all.</span>
-            <div class="error-note">(need to speak — частица to)</div>
-            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Мне нужно говорить по-английски вообще без ошибок.</span>
-        </li>
-        <li>
-            <span class="en">She tries to understand it.</span>
-            <div class="error-note">(try to understand — частица to)</div>
-            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Она пытается понять это.</span>
-        </li>
-        <li>
-            <span class="en">It doesn't inspire me.</span>
-            <div class="error-note">(doesn't + inspire без -s)</div>
-            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Это не вдохновляет меня.</span>
-        </li>
-        <li>
-            <span class="en">When do you have free time?</span>
-            <div class="error-note">(When — когда, free time — без -s)</div>
-            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Когда у тебя есть свободное время?</span>
-        </li>
-    </ul>
-
-    <!-- БЛОК 3: 101-150 (ОБНОВЛЕННЫЙ) -->
-    <div class="section-title">Ошибки из Контрольной 3 (Фразы 101–150)</div>
-    <ul>
-        <li>
-            <span class="en">Do we have enough knowledge?</span>
-            <div class="error-note">(не забывайте глагол have)</div>
-            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— У нас достаточно знаний?</span>
-        </li>
-        <li>
-            <span class="en">How do you spend your free time?</span>
-            <div class="error-note">(spend — проводить время, а не prefer)</div>
-            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Как ты проводишь свободное время?</span>
-        </li>
-        <li>
-            <span class="en">Does she remember all these rules?</span>
-            <div class="error-note">(Does + глагол без -s; и не нужно it)</div>
-            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Она помнит все эти правила?</span>
-        </li>
-        <li>
-            <span class="en">Does she teach English?</span>
-            <div class="error-note">(Does + teach без -es)</div>
-            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Она преподает английский?</span>
-        </li>
-        <li>
-            <span class="en">These lessons seem very useful.</span>
-            <div class="error-note">(These — эти, seem — без -s для мн.ч.)</div>
-            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Эти уроки кажутся очень полезными.</span>
-        </li>
-        <li>
-            <span class="en">Why does he say these things again and again?</span>
-            <div class="error-note">(things — с -s после these)</div>
-            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Почему он говорит эти вещи снова и снова?</span>
-        </li>
-        <li>
-            <span class="en">Does he often think about it?</span>
-            <div class="error-note">(Это вопрос: Does + he + think без -s)</div>
-            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Он часто думает об этом?</span>
-        </li>
-        <li>
-            <span class="en">He has an offer.</span>
-            <div class="error-note">(нужен артикль an перед offer)</div>
-            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— У него есть предложение.</span>
-        </li>
-        <li>
-            <span class="en">Why does he always complain about it?</span>
-            <div class="error-note">(complain about, а не on)</div>
-            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Почему он всегда жалуется на это?</span>
-        </li>
-        <li>
-            <span class="en">He wants to read those books.</span>
-            <div class="error-note">(those — множественное число, а не that)</div>
-            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Он хочет читать те книги.</span>
-        </li>
-    </ul>
 </div>
 
 <div class="back-nav-wrapper">
