@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Работа над ошибками (Только важное)</title>
+    <title>Работа над ошибками (Все блоки)</title>
     <style>
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body {
@@ -33,6 +33,13 @@
             text-align: center;
         }
 
+        .block-title {
+            background-color: #e53e3e; /* Красный для старых */
+        }
+        .block-title-new {
+            background-color: #3182ce; /* Синий для новых (201-250) */
+        }
+
         ul { list-style-type: none; padding-left: 0; margin: 0; }
         li {
             background: #fff;
@@ -58,6 +65,9 @@
             color: #e53e3e;
             margin-bottom: 10px;
             font-style: italic;
+        }
+        .new-block li {
+            border-left-color: #3182ce;
         }
 
         .btn-toggle {
@@ -112,8 +122,9 @@
 
 <div class="container">
     <h1>🚫 Работа над ошибками</h1>
-    
-    <div class="section-title">Только реальные ошибки (без опечаток)</div>
+
+    <!-- БЛОК 1: СТАРЫЕ ОШИБКИ (ДО 200) -->
+    <div class="section-title block-title">Блок 1: Ошибки из первых контрольных (до 200)</div>
     <ul>
         <li>
             <span class="en">I need to speak English without any mistakes at all.</span>
@@ -165,6 +176,84 @@
         </li>
     </ul>
 
+    <!-- БЛОК 2: НОВЫЕ ОШИБКИ (201-250) -->
+    <div class="section-title block-title-new">Блок 2: Ошибки из контрольной 201–250</div>
+    <div class="new-block">
+        <ul>
+            <li>
+                <span class="en">Does it seem interesting?</span>
+                <div class="error-note">(вы прочитали «интересным» как «странным» — strange)</div>
+                <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+                <span class="ru">— Это кажется интересным?</span>
+            </li>
+            <li>
+                <span class="en">How many dollars does he have with him?</span>
+                <div class="error-note">(забыли глагол have)</div>
+                <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+                <span class="ru">— Сколько долларов у него с собой?</span>
+            </li>
+            <li>
+                <span class="en">Why do your friends disagree with you?</span>
+                <div class="error-note">(friends — множественное число, нужен do, а не does)</div>
+                <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+                <span class="ru">— Почему твои друзья не согласны с тобой?</span>
+            </li>
+            <li>
+                <span class="en">Does your mother tell him all the truth?</span>
+                <div class="error-note">(забыли артикль the перед truth)</div>
+                <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+                <span class="ru">— Твоя мама говорит ему всю правду?</span>
+            </li>
+            <li>
+                <span class="en">Their ideas seem very interesting.</span>
+                <div class="error-note">(Their — их; ideas — множественное число; seem без -s)</div>
+                <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+                <span class="ru">— Их идеи кажутся очень интересными.</span>
+            </li>
+            <li>
+                <span class="en">What does he need to change?</span>
+                <div class="error-note">(does для he; частица to после need)</div>
+                <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+                <span class="ru">— Что ему нужно изменить?</span>
+            </li>
+            <li>
+                <span class="en">Does his girlfriend understand it?</span>
+                <div class="error-note">(это вопрос: Does + his girlfriend + understand)</div>
+                <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+                <span class="ru">— Его девушка понимает это?</span>
+            </li>
+            <li>
+                <span class="en">You know it.</span>
+                <div class="error-note">(для you глагол без -s: know, а не knows)</div>
+                <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+                <span class="ru">— Ты знаешь это.</span>
+            </li>
+            <li>
+                <span class="en">Does she ignore it sometimes?</span>
+                <div class="error-note">(порядок слов: ignore + it + sometimes)</div>
+                <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+                <span class="ru">— Она иногда игнорирует это?</span>
+            </li>
+            <li>
+                <span class="en">Her brother often says it.</span>
+                <div class="error-note">(brother — единственное число, поэтому says с -s)</div>
+                <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+                <span class="ru">— Её брат часто говорит это.</span>
+            </li>
+            <li>
+                <span class="en">Do they see their mistakes?</span>
+                <div class="error-note">(это вопрос: Do + they + see)</div>
+                <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+                <span class="ru">— Они видят свои ошибки?</span>
+            </li>
+            <li>
+                <span class="en">Does your friend agree with you?</span>
+                <div class="error-note">(friend — единственное число, потому что does)</div>
+                <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+                <span class="ru">— Твой друг согласен с тобой?</span>
+            </li>
+        </ul>
+    </div>
 </div>
 
 <div class="back-nav-wrapper">
