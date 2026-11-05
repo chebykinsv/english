@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Работа над ошибками (Все контрольные)</title>
+    <title>Работа над ошибками (Только важное)</title>
     <style>
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body {
@@ -24,17 +24,13 @@
         }
 
         .section-title {
-            background-color: #e53e3e;
+            background-color: #dd6b20;
             color: #fff;
             padding: 8px 14px;
             border-radius: 6px;
             margin: 25px 0 15px;
             font-size: 1.1em;
-        }
-
-        /* Стиль для сегодняшних ошибок */
-        .today-title {
-            background-color: #dd6b20;
+            text-align: center;
         }
 
         ul { list-style-type: none; padding-left: 0; margin: 0; }
@@ -116,27 +112,32 @@
 
 <div class="container">
     <h1>🚫 Работа над ошибками</h1>
-
-    <!-- НОВЫЙ БЛОК: ОШИБКИ 150-200 -->
-    <div class="section-title today-title">Ошибки из Контрольной 150–200</div>
+    
+    <div class="section-title">Только реальные ошибки (без опечаток)</div>
     <ul>
         <li>
-            <span class="en">How much money do you have with you?</span>
-            <div class="error-note">(не забывайте do you have)</div>
+            <span class="en">I need to speak English without any mistakes at all.</span>
+            <div class="error-note">(предлог: without, а не with; не забывайте at all)</div>
             <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Сколько у тебя с собой денег?</span>
+            <span class="ru">— Мне нужно говорить по-английски вообще без ошибок.</span>
         </li>
         <li>
-            <span class="en">Do they support this decision?</span>
-            <div class="error-note">(они — they, и это вопрос с Do)</div>
+            <span class="en">What worries you more?</span>
+            <div class="error-note">(порядок слов: you more, а не more you)</div>
             <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Они поддерживают это решение?</span>
+            <span class="ru">— Что тебя беспокоит больше?</span>
         </li>
         <li>
-            <span class="en">She misses you.</span>
-            <div class="error-note">(misses — скучает, а не messes)</div>
+            <span class="en">How does he get home?</span>
+            <div class="error-note">(лишняя to перед get; home без to)</div>
             <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Она скучает по тебе.</span>
+            <span class="ru">— Как он добирается домой?</span>
+        </li>
+        <li>
+            <span class="en">She does these exercises regularly.</span>
+            <div class="error-note">(порядок слов: regularly в конце)</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Она делает эти упражнения регулярно.</span>
         </li>
         <li>
             <span class="en">He also knows it.</span>
@@ -151,33 +152,17 @@
             <span class="ru">— Как себя чувствует твоя сестра?</span>
         </li>
         <li>
-            <span class="en">She doesn't want to think about it.</span>
-            <div class="error-note">(doesn't + want без -s)</div>
-            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Она не хочет думать об этом.</span>
-        </li>
-        <li>
             <span class="en">Why does it attract you?</span>
             <div class="error-note">(порядок слов: does + it + attract)</div>
             <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
             <span class="ru">— Почему это привлекает тебя?</span>
         </li>
-    </ul>
-
-    <!-- БЛОК 1: 1-50 -->
-    <div class="section-title">Ошибки из Контрольной 1 (Фразы 1–50)</div>
-    <ul>
-        <!-- (здесь остаются ваши старые фразы) -->
-        <li><span class="en">I need your advice.</span><div class="error-note">(your — твой, а не you)</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Мне нужен твой совет.</span></li>
-        <li><span class="en">I need to see her.</span><div class="error-note">(see — увидеть, a не seem; и не забывайте to)</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Мне нужно увидеть её.</span></li>
-        <li><span class="en">She'd like to go to another place.</span><div class="error-note">(She'd — она бы, а не I'd)</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Она бы хотела пойти в другое место.</span></li>
-        <li><span class="en">How does he get home?</span><div class="error-note">(get — добираться, а не come)</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Как он добирается домой?</span></li>
-        <li><span class="en">Do we have enough practice?</span><div class="error-note">(не забывайте глагол have)</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— У нас достаточно практики?</span></li>
-        <li><span class="en">She wants to see you right now.</span><div class="error-note">(wants — с -s, потому что she)</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Она хочет увидеть тебя прямо сейчас.</span></li>
-        <li><span class="en">It depends on them.</span><div class="error-note">(It — это, depends — с -s, them — их)</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это зависит от них.</span></li>
-        <li><span class="en">She does these exercises regularly.</span><div class="error-note">(do exercises, а не make; exercises — мн.ч.)</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Она делает эти упражнения регулярно.</span></li>
-        <li><span class="en">My sister studies there.</span><div class="error-note">(study → studies, правило -y → -ies)</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Моя сестра учится там.</span></li>
-        <li><span class="en">What worries you more?</span><div class="error-note">(what — подлежащее, do не нужен, worries — с -s)</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Что тебя беспокоит больше?</span></li>
+        <li>
+            <span class="en">She doesn't want to think about it.</span>
+            <div class="error-note">(doesn't + want без -s)</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Она не хочет думать об этом.</span>
+        </li>
     </ul>
 
 </div>
