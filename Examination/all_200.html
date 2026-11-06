@@ -3,318 +3,268 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Контрольная 101-200 (Present Simple)</title>
+    <title>Контрольная 1-100 (Present Simple)</title>
     <style>
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 14px;
-            background-color: #f0f4f8;
-            color: #333;
-        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; margin: 0; padding: 14px; background-color: #f0f4f8; color: #333; }
         .container { max-width: 900px; margin: 0 auto; }
-        h1 {
-            text-align: center;
-            color: #2c3e50;
-            margin: 0 0 16px;
-            font-size: 1.35em;
-            word-wrap: break-word;
-        }
-
-        .search-box {
-            width: 100%;
-            padding: 12px 16px;
-            margin-bottom: 20px;
-            border: 2px solid #3182ce;
-            border-radius: 8px;
-            font-size: 1em;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            outline: none;
-            transition: border-color 0.2s;
-        }
-        .search-box:focus {
-            border-color: #2b6cb0;
-            box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.2);
-        }
-
-        .rule-box {
-            background-color: #fff;
-            border-left: 6px solid #3182ce;
-            padding: 16px 14px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            margin-bottom: 22px;
-        }
-        .rule-box h2 {
-            margin-top: 0;
-            color: #2b6cb0;
-            font-size: 1.05em;
-            line-height: 1.35;
-        }
+        h1 { text-align: center; color: #2c3e50; margin: 0 0 16px; font-size: 1.35em; word-wrap: break-word; }
+        .mode-switcher { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; }
+        .mode-btn { background-color: #cbd5e0; color: #4a5568; border: none; padding: 10px 30px; border-radius: 6px; cursor: pointer; font-size: 1em; font-weight: bold; transition: background-color 0.2s, color 0.2s; min-width: 100px; }
+        .mode-btn.active { background-color: #3182ce; color: #fff; }
+        .search-box { width: 100%; padding: 12px 16px; margin-bottom: 20px; border: 2px solid #3182ce; border-radius: 8px; font-size: 1em; box-shadow: 0 2px 5px rgba(0,0,0,0.05); outline: none; transition: border-color 0.2s; }
+        .search-box:focus { border-color: #2b6cb0; box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.2); }
+        .rule-box { background-color: #fff; border-left: 6px solid #3182ce; padding: 16px 14px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 22px; }
+        .rule-box h2 { margin-top: 0; color: #2b6cb0; font-size: 1.05em; line-height: 1.35; }
         .rule-box p { margin-bottom: 10px; font-size: 0.95em; }
-
-        .section-title {
-            background-color: #3182ce;
-            color: #fff;
-            padding: 8px 14px;
-            border-radius: 6px;
-            margin: 25px 0 15px;
-            font-size: 1.1em;
-            text-align: center;
-        }
-
+        .section-title { background-color: #3182ce; color: #fff; padding: 8px 14px; border-radius: 6px; margin: 25px 0 15px; font-size: 1.1em; text-align: center; }
         ul { list-style-type: none; padding-left: 0; margin: 0; }
-        li {
-            background: #fff;
-            margin-bottom: 10px;
-            padding: 12px 14px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            display: flex;
-            flex-direction: column;
-            border-left: 5px solid #38a169;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-        }
-        .en {
-            font-weight: bold;
-            font-size: 1.02em;
-            color: #2c3e50;
-            margin-bottom: 10px;
-            line-height: 1.45;
-        }
-
-        .red-border {
-            border-left-color: #e53e3e !important;
-            background-color: #fff5f5;
-        }
-        .red-border .en { color: #c53030 !important; }
-
-        .btn-toggle {
-            background-color: #e2e8f0;
-            color: #4a5568;
-            border: none;
-            padding: 9px 14px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.9em;
-            align-self: flex-start;
-            transition: background-color 0.2s;
-            min-height: 38px;
-        }
+        li { background: #fff; margin-bottom: 10px; padding: 12px 14px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); display: flex; flex-direction: column; border-left: 5px solid #38a169; word-wrap: break-word; overflow-wrap: break-word; align-items: flex-start; }
+        .en { font-weight: bold; font-size: 1.02em; color: #2c3e50; margin-bottom: 10px; line-height: 1.45; text-align: left; }
+        .ru-prompt { font-size: 1.1em; font-weight: bold; color: #2c3e50; text-align: left; margin-bottom: 15px; line-height: 1.45; }
+        .btn-toggle { background-color: #e2e8f0; color: #4a5568; border: none; padding: 9px 14px; border-radius: 6px; cursor: pointer; font-size: 0.9em; transition: background-color 0.2s; min-height: 38px; align-self: flex-start; }
         .btn-toggle:active { background-color: #cbd5e0; }
-
-        .ru {
-            display: none;
-            color: #2b6cb0;
-            font-size: 0.98em;
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 1px dashed #e2e8f0;
-            font-weight: 500;
-        }
+        .ru { display: none; color: #2b6cb0; font-size: 0.98em; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #e2e8f0; font-weight: 500; text-align: left; }
         .ru.show { display: block; }
-
+        .hidden-mode { display: none !important; }
+        .en-answer { display: none; color: #2b6cb0; font-size: 1.05em; font-weight: bold; text-align: left; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #e2e8f0; }
+        .en-answer.show { display: block; }
         .hidden-item { display: none !important; }
-
-        @media (max-width: 360px) {
-            body { padding: 10px; }
-            h1 { font-size: 1.2em; }
-            .en { font-size: 0.98em; }
-            li { padding: 10px 12px; }
-            .search-box { padding: 10px 12px; font-size: 0.9em; }
-        }
-        
+        @media (max-width: 360px) { body { padding: 10px; } h1 { font-size: 1.2em; } .en { font-size: 0.98em; } .ru-prompt { font-size: 1.05em; } li { padding: 10px 12px; } .search-box { padding: 10px 12px; font-size: 0.9em; } .mode-switcher { flex-direction: row; gap: 10px; } .mode-btn { padding: 8px 15px; font-size: 0.9em; min-width: 80px; } }
         .back-nav-wrapper { text-align: center; margin: 30px auto 20px; padding: 0 14px; }
-        .back-nav-btn {
-            display: inline-block;
-            background-color: #3182ce;
-            color: #ffffff;
-            text-decoration: none;
-            padding: 12px 28px;
-            border-radius: 8px;
-            font-size: 1em;
-            font-weight: 600;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
-            -webkit-tap-highlight-color: transparent;
-        }
-        @media (max-width: 360px) { .back-nav-btn { padding: 10px 22px; font-size: 0.95em; } }
+        .back-nav-btn { display: inline-block; background-color: #3182ce; color: #ffffff; text-decoration: none; padding: 12px 28px; border-radius: 8px; font-size: 1em; font-weight: 600; box-shadow: 0 3px 6px rgba(0,0,0,0.1); -webkit-tap-highlight-color: transparent; }
     </style>
 </head>
 <body>
-
 <div class="container">
-    <h1>Контрольная 101-200</h1>
-
+    <h1>Контрольная 1-100</h1>
+    <div class="mode-switcher">
+        <button id="btn-eng-rus" class="mode-btn active" onclick="setMode('eng-rus')">ENG</button>
+        <button id="btn-rus-eng" class="mode-btn" onclick="setMode('rus-eng')">RUS</button>
+    </div>
     <input type="text" id="searchInput" class="search-box" placeholder="🔍 Поиск по фразе или переводу..." onkeyup="filterList()">
-
     <div class="rule-box">
         <h2>📌 Инструкция</h2>
-        <p>Прочитайте английскую фразу, переведите её вслух, а затем нажмите кнопку, чтобы проверить себя. <b>Красным</b> выделены фразы, где вы ошибались.</p>
+        <p id="instruction-text">Прочитайте английскую фразу, переведите её вслух, а затем нажмите кнопку, чтобы проверить себя.</p>
     </div>
 
-    <!-- БЛОК 101-110 -->
-    <div class="section-title" id="title1">Фразы 101–110</div>
+    <div class="section-title" id="title1">Фразы 1–50</div>
     <ul id="list1">
-        <li><span class="en">I do it with great pleasure</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я делаю это с большим удовольствием.</span></li>
-        <li><span class="en">It attracts me</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это привлекает меня.</span></li>
-        <li><span class="en">Why does she refuse to pay?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Почему она отказывается платить?</span></li>
-        <li><span class="en">This lesson seems interesting</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Этот урок кажется интересным.</span></li>
-        <li><span class="en">How do you get home?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Как ты добираешься домой?</span></li>
-        <li><span class="en">He wants more practice</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он хочет больше практики.</span></li>
-        <li><span class="en">Does that test seem very easy?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Тот тест кажется очень легким?</span></li>
-        <li><span class="en">Do we have enough knowledge?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— У нас достаточно знаний?</span></li>
-        <li><span class="en">How do you spend your free time?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Как ты проводишь свободное время?</span></li>
-        <li><span class="en">Does she remember all these rules?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Она помнит все эти правила?</span></li>
+        <li class="eng-mode red-border"><span class="en">I need your advice.</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Мне нужен твой совет.</span></li>
+        <li class="eng-mode red-border"><span class="en">I need to see her.</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Мне нужно увидеть её.</span></li>
+        <li class="eng-mode red-border"><span class="en">She'd like to go to another place.</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Она бы хотела пойти в другое место.</span></li>
+        <li class="eng-mode red-border"><span class="en">How does he get home?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Как он добирается домой?</span></li>
+        <li class="eng-mode red-border"><span class="en">Do we have enough practice?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— У нас достаточно практики?</span></li>
+        <li class="eng-mode red-border"><span class="en">She wants to see you right now.</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Она хочет увидеть тебя прямо сейчас.</span></li>
+        <li class="eng-mode red-border"><span class="en">It depends on them.</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это зависит от них.</span></li>
+        <li class="eng-mode red-border"><span class="en">She does these exercises regularly.</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Она делает эти упражнения регулярно.</span></li>
+        <li class="eng-mode red-border"><span class="en">My sister studies there.</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Моя сестра учится там.</span></li>
+        <li class="eng-mode red-border"><span class="en">What worries you more?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Что тебя беспокоит больше?</span></li>
+        <li class="eng-mode"><span class="en">How often does he test their knowledge?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Как часто он проверяет их знания?</span></li>
+        <li class="eng-mode"><span class="en">What time do you usually get up?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Во сколько ты обычно встаешь?</span></li>
+        <li class="eng-mode"><span class="en">What do your friends usually order?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Что твои друзья обычно заказывают?</span></li>
+        <li class="eng-mode"><span class="en">What English books does he have?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Какие английские книги у него есть?</span></li>
+        <li class="eng-mode"><span class="en">She explains all these things very well</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Она объясняет все эти вещи очень хорошо.</span></li>
+        <li class="eng-mode"><span class="en">What helps you?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Что тебе помогает?</span></li>
+        <li class="eng-mode"><span class="en">I want to know English better</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я хочу знать английский лучше.</span></li>
+        <li class="eng-mode"><span class="en">I really like it</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Мне это очень нравится.</span></li>
+        <li class="eng-mode"><span class="en">Do you want to study better?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Ты хочешь учиться лучше?</span></li>
+        <li class="eng-mode"><span class="en">He lives there</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он живет там.</span></li>
+        <li class="eng-mode"><span class="en">This test seems very easy</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Этот тест кажется очень легким.</span></li>
+        <li class="eng-mode"><span class="en">She feels happy</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Она чувствует себя счастливой.</span></li>
+        <li class="eng-mode"><span class="en">Do you often call him?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Ты часто звонишь ему?</span></li>
+        <li class="eng-mode"><span class="en">What do you think about it?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Что ты думаешь об этом?</span></li>
+        <li class="eng-mode"><span class="en">He doesn't know it</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он не знает этого.</span></li>
+        <li class="eng-mode"><span class="en">What seems useless?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Что кажется бесполезным?</span></li>
+        <li class="eng-mode"><span class="en">I really like these lessons</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Мне очень нравятся эти уроки.</span></li>
+        <li class="eng-mode"><span class="en">He lives in this country</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он живет в этой стране.</span></li>
+        <li class="eng-mode"><span class="en">I want to be happy</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я хочу быть счастливым.</span></li>
+        <li class="eng-mode"><span class="en">She has a car</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— У неё есть машина.</span></li>
+        <li class="eng-mode"><span class="en">Does he want to live abroad?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он хочет жить за границей?</span></li>
+        <li class="eng-mode"><span class="en">He works very hard</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он работает очень усердно.</span></li>
+        <li class="eng-mode"><span class="en">He wants more</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он хочет больше.</span></li>
+        <li class="eng-mode"><span class="en">I understand you very well</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я понимаю тебя очень хорошо.</span></li>
+        <li class="eng-mode"><span class="en">She loves you</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Она любит тебя.</span></li>
+        <li class="eng-mode"><span class="en">These lessons really help</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Эти уроки действительно помогают.</span></li>
+        <li class="eng-mode"><span class="en">She always does it on time</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Она всегда делает это вовремя.</span></li>
+        <li class="eng-mode"><span class="en">I want to go abroad</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я хочу поехать за границу.</span></li>
+        <li class="eng-mode"><span class="en">I need money</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Мне нужны деньги.</span></li>
+        <li class="eng-mode"><span class="en">How often does she go to the cinema?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Как часто она ходит в кино?</span></li>
+        <li class="eng-mode"><span class="en">What does she want to add?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Что она хочет добавить?</span></li>
+        <li class="eng-mode"><span class="en">She works very hard</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Она работает очень усердно.</span></li>
+        <li class="eng-mode"><span class="en">I like your lessons</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Мне нравятся твои уроки.</span></li>
+        <li class="eng-mode"><span class="en">Who loves her?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Кто её любит?</span></li>
+        <li class="eng-mode"><span class="en">I remember it</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я помню это.</span></li>
+        <li class="eng-mode"><span class="en">I want a new computer</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я хочу новый компьютер.</span></li>
+        <li class="eng-mode"><span class="en">What helps her?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Что ей помогает?</span></li>
+        <li class="eng-mode"><span class="en">She lives in this place</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Она живет в этом месте.</span></li>
+        <li class="eng-mode"><span class="en">I'd like a cup of coffee</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я бы хотел чашку кофе.</span></li>
+        <li class="eng-mode"><span class="en">It doesn't seem strange</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это не кажется странным.</span></li>
+
+        <!-- RUS режим для 1-50 -->
+        <li class="rus-mode hidden-mode red-border"><div class="ru-prompt">Мне нужен твой совет.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I need your advice.</div></li>
+        <li class="rus-mode hidden-mode red-border"><div class="ru-prompt">Мне нужно увидеть её.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I need to see her.</div></li>
+        <li class="rus-mode hidden-mode red-border"><div class="ru-prompt">Она бы хотела пойти в другое место.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">She'd like to go to another place.</div></li>
+        <li class="rus-mode hidden-mode red-border"><div class="ru-prompt">Как он добирается домой?</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">How does he get home?</div></li>
+        <li class="rus-mode hidden-mode red-border"><div class="ru-prompt">У нас достаточно практики?</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">Do we have enough practice?</div></li>
+        <li class="rus-mode hidden-mode red-border"><div class="ru-prompt">Она хочет увидеть тебя прямо сейчас.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">She wants to see you right now.</div></li>
+        <li class="rus-mode hidden-mode red-border"><div class="ru-prompt">Это зависит от них.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It depends on them.</div></li>
+        <li class="rus-mode hidden-mode red-border"><div class="ru-prompt">Она делает эти упражнения регулярно.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">She does these exercises regularly.</div></li>
+        <li class="rus-mode hidden-mode red-border"><div class="ru-prompt">Моя сестра учится там.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">My sister studies there.</div></li>
+        <li class="rus-mode hidden-mode red-border"><div class="ru-prompt">Что тебя беспокоит больше?</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">What worries you more?</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Как часто он проверяет их знания?</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">How often does he test their knowledge?</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Во сколько ты обычно встаешь?</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">What time do you usually get up?</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Что твои друзья обычно заказывают?</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">What do your friends usually order?</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Какие английские книги у него есть?</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">What English books does he have?</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Она объясняет все эти вещи очень хорошо.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">She explains all these things very well</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Что тебе помогает?</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">What helps you?</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Я хочу знать английский лучше.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I want to know English better</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Мне это очень нравится.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I really like it</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Ты хочешь учиться лучше?</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">Do you want to study better?</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Он живет там.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">He lives there</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Этот тест кажется очень легким.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">This test seems very easy</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Она чувствует себя счастливой.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">She feels happy</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Ты часто звонишь ему?</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">Do you often call him?</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Что ты думаешь об этом?</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">What do you think about it?</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Он не знает этого.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">He doesn't know it</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Что кажется бесполезным?</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">What seems useless?</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Мне очень нравятся эти уроки.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I really like these lessons</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Он живет в этой стране.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">He lives in this country</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Я хочу быть счастливым.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I want to be happy</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">У неё есть машина.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">She has a car</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Он хочет жить за границей?</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">Does he want to live abroad?</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Он работает очень усердно.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">He works very hard</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Он хочет больше.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">He wants more</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Я понимаю тебя очень хорошо.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I understand you very well</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Она любит тебя.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">She loves you</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Эти уроки действительно помогают.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">These lessons really help</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Она всегда делает это вовремя.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">She always does it on time</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Я хочу поехать за границу.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I want to go abroad</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Мне нужны деньги.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I need money</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Как часто она ходит в кино?</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">How often does she go to the cinema?</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Что она хочет добавить?</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">What does she want to add?</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Она работает очень усердно.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">She works very hard</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Мне нравятся твои уроки.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I like your lessons</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Кто её любит?</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">Who loves her?</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Я помню это.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I remember it</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Я хочу новый компьютер.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I want a new computer</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Что ей помогает?</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">What helps her?</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Она живет в этом месте.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">She lives in this place</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Я бы хотел чашку кофе.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I'd like a cup of coffee</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это не кажется странным.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It doesn't seem strange</div></li>
     </ul>
 
-    <!-- БЛОК 111-120 -->
-    <div class="section-title" id="title2">Фразы 111–120</div>
+    <div class="section-title" id="title2">Фразы 51–100</div>
     <ul id="list2">
-        <li><span class="en">Why does it happen again and again?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Почему это происходит снова и снова?</span></li>
-        <li><span class="en">Do they do business?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Они ведут бизнес?</span></li>
-        <li><span class="en">Does she teach English?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Она преподает английский?</span></li>
-        <li><span class="en">She reads in English</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Она читает на английском.</span></li>
-        <li><span class="en">She speaks English very well</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Она говорит по-английски очень хорошо.</span></li>
-        <li><span class="en">Do they support us?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Они поддерживают нас?</span></li>
-        <li><span class="en">These lessons seem very useful</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Эти уроки кажутся очень полезными.</span></li>
-        <li><span class="en">He often plays computer games</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он часто играет в компьютерные игры.</span></li>
-        <li><span class="en">I practice English every day</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я практикую английский каждый день.</span></li>
-        <li><span class="en">My parents know it</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Мои родители знают это.</span></li>
-    </ul>
+        <li class="eng-mode red-border"><span class="en">How long does it take him to get to that place?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Сколько времени у него занимает добраться до того места?</span></li>
+        <li class="eng-mode red-border"><span class="en">Why do your parents disagree with you?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Почему твои родители не согласны с тобой?</span></li>
+        <li class="eng-mode red-border"><span class="en">I need to speak English without any mistakes at all.</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Мне нужно говорить по-английски вообще без ошибок.</span></li>
+        <li class="eng-mode red-border"><span class="en">She tries to understand it.</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Она пытается понять это.</span></li>
+        <li class="eng-mode red-border"><span class="en">It doesn't inspire me.</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это не вдохновляет меня.</span></li>
+        <li class="eng-mode red-border"><span class="en">When do you have free time?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Когда у тебя есть свободное время?</span></li>
+        <li class="eng-mode"><span class="en">How does it help you?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Как это помогает тебе?</span></li>
+        <li class="eng-mode"><span class="en">My parents want to do it</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Мои родители хотят сделать это.</span></li>
+        <li class="eng-mode"><span class="en">All people do it</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Все люди делают это.</span></li>
+        <li class="eng-mode"><span class="en">He doesn't try to find a good job</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он не пытается найти хорошую работу.</span></li>
+        <li class="eng-mode"><span class="en">You don't try to learn English</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Ты не пытаешься учить английский.</span></li>
+        <li class="eng-mode"><span class="en">What kind of examples does his teacher give?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Какие примеры дает его учитель?</span></li>
+        <li class="eng-mode"><span class="en">Does this person seem very good?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Этот человек кажется очень хорошим?</span></li>
+        <li class="eng-mode"><span class="en">It doesn't seem useful</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это не кажется полезным.</span></li>
+        <li class="eng-mode"><span class="en">I think so</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я так думаю.</span></li>
+        <li class="eng-mode"><span class="en">I understand everything</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я понимаю всё.</span></li>
+        <li class="eng-mode"><span class="en">It helps me</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это помогает мне.</span></li>
+        <li class="eng-mode"><span class="en">I like it</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Мне это нравится.</span></li>
+        <li class="eng-mode"><span class="en">Which drink does she prefer: tea or coffee?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Какой напиток она предпочитает: чай или кофе?</span></li>
+        <li class="eng-mode"><span class="en">Do you support me?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Ты поддерживаешь меня?</span></li>
+        <li class="eng-mode"><span class="en">She feels so happy</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Она чувствует себя такой счастливой.</span></li>
+        <li class="eng-mode"><span class="en">He goes to work</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он ходит на работу.</span></li>
+        <li class="eng-mode"><span class="en">It depends on us</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это зависит от нас.</span></li>
+        <li class="eng-mode"><span class="en">I like this idea</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Мне нравится эта идея.</span></li>
+        <li class="eng-mode"><span class="en">I don't want to study there</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я не хочу учиться там.</span></li>
+        <li class="eng-mode"><span class="en">She watches different movies</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Она смотрит разные фильмы.</span></li>
+        <li class="eng-mode"><span class="en">Do you often listen to music?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Ты часто слушаешь музыку?</span></li>
+        <li class="eng-mode"><span class="en">I like this method</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Мне нравится этот метод.</span></li>
+        <li class="eng-mode"><span class="en">I want it</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я хочу это.</span></li>
+        <li class="eng-mode"><span class="en">How often do you think about it?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Как часто ты думаешь об этом?</span></li>
+        <li class="eng-mode"><span class="en">Where do they spend time together?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Где они проводят время вместе?</span></li>
+        <li class="eng-mode"><span class="en">I'd like to drink a cup of coffee</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я бы хотел выпить чашку кофе.</span></li>
+        <li class="eng-mode"><span class="en">When does he feel happy?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Когда он чувствует себя счастливым?</span></li>
+        <li class="eng-mode"><span class="en">I don't want to live in that city</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я не хочу жить в том городе.</span></li>
+        <li class="eng-mode"><span class="en">Who wants to live abroad?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Кто хочет жить за границей?</span></li>
+        <li class="eng-mode"><span class="en">Doesn't she want to discuss it?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Она не хочет обсуждать это?</span></li>
+        <li class="eng-mode"><span class="en">Your lessons really help</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Твои уроки действительно помогают.</span></li>
+        <li class="eng-mode"><span class="en">He misses you</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он скучает по тебе.</span></li>
+        <li class="eng-mode"><span class="en">Does he hate this thing?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он ненавидит эту вещь?</span></li>
+        <li class="eng-mode"><span class="en">How often do you go there?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Как часто ты ходишь туда?</span></li>
+        <li class="eng-mode"><span class="en">She tries to understand it</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Она пытается понять это.</span></li>
+        <li class="eng-mode"><span class="en">It doesn't inspire me</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это не вдохновляет меня.</span></li>
 
-    <!-- БЛОК 121-130 -->
-    <div class="section-title" id="title3">Фразы 121–130</div>
-    <ul id="list3">
-        <li><span class="en">Who corrects your mistakes?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Кто исправляет твои ошибки?</span></li>
-        <li><span class="en">Does her boyfriend want to go abroad?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Её парень хочет поехать за границу?</span></li>
-        <li><span class="en">Why does he say these things again and again?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Почему он говорит эти вещи снова и снова?</span></li>
-        <li><span class="en">He has a cat</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— У него есть кот.</span></li>
-        <li><span class="en">Who sees these mistakes?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Кто видит эти ошибки?</span></li>
-        <li><span class="en">These things attract them</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Эти вещи привлекают их.</span></li>
-        <li><span class="en">I see you really like English</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я вижу, тебе действительно нравится английский.</span></li>
-        <li><span class="en">I want more practice</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я хочу больше практики.</span></li>
-        <li><span class="en">Does he often think about it?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он часто думает об этом?</span></li>
-        <li><span class="en">I need to practice English more</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Мне нужно больше практиковать английский.</span></li>
-        <li><span class="en">Why do you think so?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Почему ты так думаешь?</span></li>
-    </ul>
-
-    <!-- БЛОК 131-140 -->
-    <div class="section-title" id="title4">Фразы 131–140</div>
-    <ul id="list4">
-        <li><span class="en">We speak English</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Мы говорим по-английски.</span></li>
-        <li><span class="en">Do you go to work?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Ты ходишь на работу?</span></li>
-        <li><span class="en">Do you work on your mistakes?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Ты работаешь над своими ошибками?</span></li>
-        <li><span class="en">Do these things seem unimportant?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Эти вещи кажутся неважными?</span></li>
-        <li><span class="en">What does your boss usually answer?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Что твой босс обычно отвечает?</span></li>
-        <li><span class="en">I need to study harder</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Мне нужно учиться усерднее.</span></li>
-        <li><span class="en">Where do you work?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Где ты работаешь?</span></li>
-        <li><span class="en">How regularly do you practice English?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Как регулярно ты практикуешь английский?</span></li>
-        <li><span class="en">He also works here</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он также работает здесь.</span></li>
-        <li><span class="en">Does this student show brilliant results?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Этот студент показывает блестящие результаты?</span></li>
-    </ul>
-
-    <!-- БЛОК 141-150 -->
-    <div class="section-title" id="title5">Фразы 141–150</div>
-    <ul id="list5">
-        <li><span class="en">He understands you very well</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он понимает тебя очень хорошо.</span></li>
-        <li><span class="en">What seems strange?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Что кажется странным?</span></li>
-        <li><span class="en">I live in Russia</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я живу в России.</span></li>
-        <li><span class="en">My friend doesn't think so</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Мой друг так не думает.</span></li>
-        <li><span class="en">He has an offer</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— У него есть предложение.</span></li>
-        <li><span class="en">Why does he always complain about it?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Почему он всегда жалуется на это?</span></li>
-        <li><span class="en">He knows more</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он знает больше.</span></li>
-        <li><span class="en">I see everything</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я вижу всё.</span></li>
-        <li><span class="en">He doesn't want to read these books. He wants to read those books</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он не хочет читать эти книги. Он хочет читать те книги.</span></li>
-        <li><span class="en">Does he often watch TV?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он часто смотрит телевизор?</span></li>
-    </ul>
-
-    <!-- БЛОК 151-160 -->
-    <div class="section-title" id="title6">Фразы 151–160</div>
-    <ul id="list6">
-        <li><span class="en">He thinks so</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он так думает.</span></li>
-        <li><span class="en">I like this thing</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Мне нравится эта вещь.</span></li>
-        <li><span class="en">He teaches English</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он преподает английский.</span></li>
-        <li><span class="en">It doesn't help me</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это не помогает мне.</span></li>
-        <li><span class="en">I don't want to play computer games</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я не хочу играть в компьютерные игры.</span></li>
-        <li><span class="en">Do you remember everything?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Ты помнишь всё?</span></li>
-        <li><span class="en">Do you need my advice?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Тебе нужен мой совет?</span></li>
-        <li><span class="en">My boss reads all the documents</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Мой босс читает все документы.</span></li>
-        <li><span class="en">She does it very well</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Она делает это очень хорошо.</span></li>
-        <li><span class="en">How much money do you have with you?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Сколько у тебя с собой денег?</span></li>
-    </ul>
-
-    <!-- БЛОК 161-170 -->
-    <div class="section-title" id="title7">Фразы 161–170</div>
-    <ul id="list7">
-        <li><span class="en">He sees that mistake</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он видит ту ошибку.</span></li>
-        <li><span class="en">Does this lesson seem useful?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Этот урок кажется полезным?</span></li>
-        <li><span class="en">Who supports you?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Кто тебя поддерживает?</span></li>
-        <li><span class="en">It seems interesting</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это кажется интересным.</span></li>
-        <li><span class="en">I don't agree with you / I disagree with you</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я не согласен с тобой.</span></li>
-        <li><span class="en">She misses you</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Она скучает по тебе.</span></li>
-        <li><span class="en">Do they support this decision?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Они поддерживают это решение?</span></li>
-        <li><span class="en">She really remembers it</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Она действительно помнит это.</span></li>
-        <li><span class="en">I want to thank you</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я хочу поблагодарить тебя.</span></li>
-        <li><span class="en">I want to know it</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я хочу знать это.</span></li>
-    </ul>
-
-    <!-- БЛОК 171-180 -->
-    <div class="section-title" id="title8">Фразы 171–180</div>
-    <ul id="list8">
-        <li><span class="en">We live in this country</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Мы живем в этой стране.</span></li>
-        <li><span class="en">I really need English</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Мне действительно нужен английский.</span></li>
-        <li><span class="en">How does he support you?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Как он поддерживает тебя?</span></li>
-        <li><span class="en">I need to correct this mistake</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Мне нужно исправить эту ошибку.</span></li>
-        <li><span class="en">He also knows it</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он также знает это.</span></li>
-        <li><span class="en">How regularly does your boss check it?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Как регулярно твой босс проверяет это?</span></li>
-        <li><span class="en">How does your sister feel?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Как себя чувствует твоя сестра?</span></li>
-        <li><span class="en">How regularly does he do these exercises?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Как регулярно он делает эти упражнения?</span></li>
-        <li><span class="en">I want to go to another place</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я хочу пойти в другое место.</span></li>
-        <li><span class="en">Who do you know?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Кого ты знаешь?</span></li>
-    </ul>
-
-    <!-- БЛОК 181-190 -->
-    <div class="section-title" id="title9">Фразы 181–190</div>
-    <ul id="list9">
-        <li><span class="en">This thing seems unimportant</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Эта вещь кажется неважной.</span></li>
-        <li><span class="en">How long does it take her to get to this place?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Сколько времени у неё занимает добраться до этого места?</span></li>
-        <li><span class="en">What does he remember?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Что он помнит?</span></li>
-        <li><span class="en">Why do you agree with him?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Почему ты согласен с ним?</span></li>
-        <li><span class="en">It really happens</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это действительно происходит.</span></li>
-        <li><span class="en">I'd like a cup of tea</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я бы хотел чашку чая.</span></li>
-        <li><span class="en">I need this thing</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Мне нужна эта вещь.</span></li>
-        <li><span class="en">He often goes to the cinema</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он часто ходит в кино.</span></li>
-        <li><span class="en">I want to train my memory</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я хочу тренировать свою память.</span></li>
-        <li><span class="en">They don't do business</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Они не ведут бизнес.</span></li>
-    </ul>
-
-    <!-- БЛОК 191-200 -->
-    <div class="section-title" id="title10">Фразы 191–200</div>
-    <ul id="list10">
-        <li><span class="en">I don't want to talk/speak about it</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я не хочу говорить об этом.</span></li>
-        <li><span class="en">She doesn't want to think about it</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Она не хочет думать об этом.</span></li>
-        <li><span class="en">She wants to do it right now</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Она хочет сделать это прямо сейчас.</span></li>
-        <li><span class="en">My friend needs your help</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Моему другу нужна твоя помощь.</span></li>
-        <li><span class="en">Does he ignore her words?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он игнорирует её слова?</span></li>
-        <li><span class="en">Does your father need it?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Твоему отцу это нужно?</span></li>
-        <li><span class="en">Why does it attract you?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Почему это привлекает тебя?</span></li>
-        <li><span class="en">I know they like it</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я знаю, им это нравится.</span></li>
-        <li><span class="en">He does it every day</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он делает это каждый день.</span></li>
-        <li><span class="en">How regularly do you learn English?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Как регулярно ты учишь английский?</span></li>
+        <!-- RUS режим для 51-100 -->
+        <li class="rus-mode hidden-mode red-border"><div class="ru-prompt">Сколько времени у него занимает добраться до того места?</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">How long does it take him to get to that place?</div></li>
+        <li class="rus-mode hidden-mode red-border"><div class="ru-prompt">Почему твои родители не согласны с тобой?</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">Why do your parents disagree with you?</div></li>
+        <li class="rus-mode hidden-mode red-border"><div class="ru-prompt">Мне нужно говорить по-английски вообще без ошибок.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I need to speak English without any mistakes at all.</div></li>
+        <li class="rus-mode hidden-mode red-border"><div class="ru-prompt">Она пытается понять это.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">She tries to understand it.</div></li>
+        <li class="rus-mode hidden-mode red-border"><div class="ru-prompt">Это не вдохновляет меня.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It doesn't inspire me.</div></li>
+        <li class="rus-mode hidden-mode red-border"><div class="ru-prompt">Когда у тебя есть свободное время?</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">When do you have free time?</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Как это помогает тебе?</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">How does it help you?</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Мои родители хотят сделать это.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">My parents want to do it</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Все люди делают это.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">All people do it</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Он не пытается найти хорошую работу.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">He doesn't try to find a good job</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Ты не пытаешься учить английский.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">You don't try to learn English</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Какие примеры дает его учитель?</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">What kind of examples does his teacher give?</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Этот человек кажется очень хорошим?</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">Does this person seem very good?</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это не кажется полезным.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It doesn't seem useful</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Я так думаю.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I think so</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Я понимаю всё.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I understand everything</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это помогает мне.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It helps me</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Мне это нравится.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I like it</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Какой напиток она предпочитает: чай или кофе?</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">Which drink does she prefer: tea or coffee?</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Ты поддерживаешь меня?</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">Do you support me?</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Она чувствует себя такой счастливой.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">She feels so happy</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Он ходит на работу.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">He goes to work</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это зависит от нас.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It depends on us</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Мне нравится эта идея.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I like this idea</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Я не хочу учиться там.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I don't want to study there</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Она смотрит разные фильмы.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">She watches different movies</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Ты часто слушаешь музыку?</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">Do you often listen to music?</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Мне нравится этот метод.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I like this method</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Я хочу это.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I want it</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Как часто ты думаешь об этом?</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">How often do you think about it?</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Где они проводят время вместе?</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">Where do they spend time together?</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Я бы хотел выпить чашку кофе.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I'd like to drink a cup of coffee</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Когда он чувствует себя счастливым?</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">When does he feel happy?</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Я не хочу жить в том городе.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I don't want to live in that city</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Кто хочет жить за границей?</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">Who wants to live abroad?</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Она не хочет обсуждать это?</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">Doesn't she want to discuss it?</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Твои уроки действительно помогают.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">Your lessons really help</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Он скучает по тебе.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">He misses you</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Он ненавидит эту вещь?</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">Does he hate this thing?</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Как часто ты ходишь туда?</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">How often do you go there?</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Она пытается понять это.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">She tries to understand it</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это не вдохновляет меня.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It doesn't inspire me</div></li>
     </ul>
 </div>
-
-<div class="back-nav-wrapper">
-    <a href="../index.html" class="back-nav-btn">← На главную</a>
-</div>
-
+<div class="back-nav-wrapper"><a href="../index.html" class="back-nav-btn">← На главную</a></div>
 <script>
+    function setMode(mode) {
+        document.getElementById('btn-eng-rus').classList.remove('active');
+        document.getElementById('btn-rus-eng').classList.remove('active');
+        document.getElementById('btn-' + mode).classList.add('active');
+        var engModeItems = document.querySelectorAll('.eng-mode');
+        var rusModeItems = document.querySelectorAll('.rus-mode');
+        var instruction = document.getElementById('instruction-text');
+        if (mode === 'eng-rus') {
+            engModeItems.forEach(item => item.classList.remove('hidden-mode'));
+            rusModeItems.forEach(item => item.classList.add('hidden-mode'));
+            instruction.textContent = 'Прочитайте английскую фразу, переведите её вслух, а затем нажмите кнопку, чтобы проверить себя.';
+        } else {
+            engModeItems.forEach(item => item.classList.add('hidden-mode'));
+            rusModeItems.forEach(item => item.classList.remove('hidden-mode'));
+            instruction.textContent = 'Прочитайте русскую фразу, проговорите её вслух на английском, а затем нажмите кнопку, чтобы проверить себя.';
+        }
+    }
     function toggleTranslation(button) {
         var translation = button.nextElementSibling;
-
         if (translation.classList.contains('show')) {
             translation.classList.remove('show');
             button.textContent = 'Показать перевод';
@@ -325,40 +275,30 @@
             button.style.backgroundColor = '#cbd5e0';
         }
     }
-
-    function filterList() {
-        var input = document.getElementById('searchInput').value.toLowerCase();
-        var lists = [
-            document.getElementById('list1'), document.getElementById('list2'), document.getElementById('list3'),
-            document.getElementById('list4'), document.getElementById('list5'), document.getElementById('list6'),
-            document.getElementById('list7'), document.getElementById('list8'), document.getElementById('list9'),
-            document.getElementById('list10')
-        ];
-        var titles = [
-            document.getElementById('title1'), document.getElementById('title2'), document.getElementById('title3'),
-            document.getElementById('title4'), document.getElementById('title5'), document.getElementById('title6'),
-            document.getElementById('title7'), document.getElementById('title8'), document.getElementById('title9'),
-            document.getElementById('title10')
-        ];
-
-        for (var k = 0; k < lists.length; k++) {
-            var listItems = lists[k].getElementsByTagName('li');
-            var visibleCount = 0;
-            for (var i = 0; i < listItems.length; i++) {
-                var text = listItems[i].textContent.toLowerCase();
-                if (text.includes(input)) {
-                    listItems[i].classList.remove('hidden-item');
-                    visibleCount++;
-                } else {
-                    listItems[i].classList.add('hidden-item');
-                }
-            }
-            if (titles[k]) {
-                titles[k].style.display = visibleCount === 0 ? 'none' : 'block';
-            }
+    function toggleAnswer(button) {
+        var answer = button.nextElementSibling;
+        if (answer.classList.contains('show')) {
+            answer.classList.remove('show');
+            button.textContent = 'Показать ответ';
+            button.style.backgroundColor = '#e2e8f0';
+        } else {
+            answer.classList.add('show');
+            button.textContent = 'Скрыть ответ';
+            button.style.backgroundColor = '#cbd5e0';
         }
     }
+    function filterList() {
+        var input = document.getElementById('searchInput').value.toLowerCase();
+        var allItems = document.querySelectorAll('li');
+        allItems.forEach(item => {
+            var text = item.textContent.toLowerCase();
+            if (text.includes(input)) {
+                item.classList.remove('hidden-item');
+            } else {
+                item.classList.add('hidden-item');
+            }
+        });
+    }
 </script>
-
 </body>
 </html>
