@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Работа над ошибками (Все контрольные)</title>
+    <title>Ошибки 251-300 и Результат</title>
     <style>
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body {
@@ -23,18 +23,36 @@
             word-wrap: break-word;
         }
 
+        .result-box {
+            background-color: #fff;
+            border-left: 6px solid #38a169;
+            padding: 16px 14px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 22px;
+        }
+        .result-box h2 {
+            margin-top: 0;
+            color: #2f855a;
+            font-size: 1.1em;
+        }
+        .result-box p {
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+        .dynamic {
+            color: #2b6cb0;
+            font-weight: bold;
+        }
+
         .section-title {
-            background-color: #e53e3e;
+            background-color: #dd6b20;
             color: #fff;
             padding: 8px 14px;
             border-radius: 6px;
             margin: 25px 0 15px;
             font-size: 1.1em;
-        }
-
-        /* Новый стиль для блока "Сегодня" */
-        .today-title {
-            background-color: #dd6b20; /* Оранжевый */
+            text-align: center;
         }
 
         ul { list-style-type: none; padding-left: 0; margin: 0; }
@@ -115,80 +133,61 @@
 <body>
 
 <div class="container">
-    <h1>🚫 Работа над ошибками</h1>
+    <h1>🚫 Работа над ошибками (251–300)</h1>
 
-    <!-- НОВЫЙ БЛОК: СЕГОДНЯ -->
-    <div class="section-title today-title">Повторение (ошибки за сегодня)</div>
+    <div class="result-box">
+        <h2>📊 Результат и динамика</h2>
+        <p><b>Блок 251–300:</b> 45 из 50 (90% правильных с первого раза).</p>
+        <p><b>Для сравнения:</b></p>
+        <ul>
+            <li>1–100: ~80% (больше всего ошибок на do/does и have)</li>
+            <li>101–200: ~88% (уже лучше, но still путаница с to и who)</li>
+            <li>201–250: ~82% (снова невнимательность)</li>
+            <li><b>251–300: 90%</b></li>
+        </ul>
+        <p class="dynamic">📈 Динамика: количество ошибок снижается. Вы стали чаще замечать свои же ошибки и исправлять их на ходу.</p>
+        <p><b>Что осталось:</b> пропуски <i>to</i>, <i>have</i> и <i>does</i> в длинных фразах. Это уже вопрос внимательности, а не знания.</p>
+    </div>
+
+    <div class="section-title">Ошибки из этого блока (251–300)</div>
     <ul>
         <li>
-            <span class="en">I need your advice.</span>
-            <div class="error-note">(лишнее to want)</div>
+            <span class="en">Who does it motivate?</span>
+            <div class="error-note">(who — дополнение, нужен does)</div>
             <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Мне нужен твой совет.</span>
+            <span class="ru">— Кого это мотивирует?</span>
         </li>
         <li>
-            <span class="en">She'd like to go to another place.</span>
-            <div class="error-note">(She'd, а не I'd)</div>
+            <span class="en">What time does your mother come to work?</span>
+            <div class="error-note">(come — приходить, а не go)</div>
             <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Она бы хотела пойти в другое место.</span>
+            <span class="ru">— Во сколько твоя мама приходит на работу?</span>
         </li>
         <li>
-            <span class="en">Do we have enough practice?</span>
-            <div class="error-note">(не забывайте have + слово enough)</div>
+            <span class="en">Why do you want to visit this place?</span>
+            <div class="error-note">(пропустили want to)</div>
             <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— У нас достаточно практики?</span>
+            <span class="ru">— Почему ты хочешь посетить это место?</span>
         </li>
         <li>
-            <span class="en">She does these exercises regularly.</span>
-            <div class="error-note">(exercises, а не explains)</div>
+            <span class="en">My friend likes this hotel.</span>
+            <div class="error-note">(забыли -s для he/she/it)</div>
             <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Она делает эти упражнения регулярно.</span>
+            <span class="ru">— Моему другу нравится этот отель.</span>
         </li>
         <li>
-            <span class="en">What worries you more?</span>
-            <div class="error-note">(what — подлежащее, без do)</div>
+            <span class="en">Does this information seem unimportant?</span>
+            <div class="error-note">(this information, а не it information)</div>
             <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Что тебя беспокоит больше?</span>
+            <span class="ru">— Эта информация кажется неважной?</span>
         </li>
         <li>
-            <span class="en">When do you have free time?</span>
-            <div class="error-note">(When, а не Where)</div>
+            <span class="en">I'd like to know English very well.</span>
+            <div class="error-note">(убрать лишнее want после 'd like)</div>
             <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Когда у тебя есть свободное время?</span>
-        </li>
-        <li>
-            <span class="en">Does she remember all these rules?</span>
-            <div class="error-note">(remember, а не understand)</div>
-            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Она помнит все эти правила?</span>
-        </li>
-        <li>
-            <span class="en">These lessons seem very useful.</span>
-            <div class="error-note">(seem без -s, потому что lessons — мн.ч.)</div>
-            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Эти уроки кажутся очень полезными.</span>
-        </li>
-        <li>
-            <span class="en">Why does he say these things again and again?</span>
-            <div class="error-note">(again and again, а не to again)</div>
-            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Почему он говорит эти вещи снова и снова?</span>
-        </li>
-        <li>
-            <span class="en">He has an offer.</span>
-            <div class="error-note">(an offer, а не a offer)</div>
-            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— У него есть предложение.</span>
+            <span class="ru">— Я бы хотел знать английский очень хорошо.</span>
         </li>
     </ul>
-
-    <!-- БЛОК 1: 1-50 -->
-    <div class="section-title">Ошибки из Контрольной 1 (Фразы 1–50)</div>
-    <ul>
-        <!-- (здесь остаются ваши старые фразы, я их не трогаю, чтобы не загромождать ответ, но в файле они останутся) -->
-        <!-- ... -->
-    </ul>
-
 </div>
 
 <div class="back-nav-wrapper">
