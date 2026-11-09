@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Повторные ошибки (Для повторения)</title>
+    <title>Ошибки, допущенные повторно сегодня</title>
     <style>
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body {
@@ -151,7 +151,7 @@
 <body>
 
 <div class="container">
-    <h1>🚫 Повторные ошибки (Для повторения)</h1>
+    <h1>🚫 Повторные ошибки (за сегодня)</h1>
     
     <div class="mode-switcher">
         <button id="btn-eng-rus" class="mode-btn active" onclick="setMode('eng-rus')">ENG</button>
@@ -159,7 +159,7 @@
     </div>
 
     <ul id="errorList">
-        <!-- ENG режим -->
+        <!-- 1. Things / Thinks -->
         <li class="eng-mode">
             <div class="en-text">Why does he say these things again and again?</div>
             <div class="error-note">(things, а не thinks)</div>
@@ -168,87 +168,25 @@
         </li>
         <li class="eng-mode">
             <div class="en-text">How often do these things happen?</div>
-            <div class="error-note">(do, а не does; things, а не thinks)</div>
+            <div class="error-note">(do, а не does; things, а не thinks; глагол happen)</div>
             <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
             <div class="answer">— Как часто происходят эти вещи?</div>
         </li>
-        <li class="eng-mode">
-            <div class="en-text">How does he usually spend his free time?</div>
-            <div class="error-note">(usually, а не often; his)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
-            <div class="answer">— Как он обычно проводит свободное время?</div>
-        </li>
-        <li class="eng-mode">
-            <div class="en-text">She'd like to become a teacher.</div>
-            <div class="error-note">(teacher, а не teaches)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
-            <div class="answer">— Она бы хотела стать учителем.</div>
-        </li>
+
+        <!-- 2. Agree with them -->
         <li class="eng-mode">
             <div class="en-text">Do you agree with them?</div>
             <div class="error-note">(with them, а не your)</div>
             <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
             <div class="answer">— Ты согласен с ними?</div>
         </li>
-        <li class="eng-mode">
-            <div class="en-text">Do you have enough money with you?</div>
-            <div class="error-note">(enough, а не how much)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
-            <div class="answer">— У тебя достаточно денег с собой?</div>
-        </li>
+
+        <!-- 3. I need you / You need me -->
         <li class="eng-mode">
             <div class="en-text">I really need you.</div>
             <div class="error-note">(I need you, а не you need me)</div>
             <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
             <div class="answer">— Ты мне действительно нужен.</div>
-        </li>
-        <li class="eng-mode">
-            <div class="en-text">I think he needs to change his life.</div>
-            <div class="error-note">(без запятой; to после need)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
-            <div class="answer">— Я думаю, ему нужно изменить свою жизнь.</div>
-        </li>
-        <li class="eng-mode">
-            <div class="en-text">She lives in that place.</div>
-            <div class="error-note">(that, а не there)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
-            <div class="answer">— Она живет в том месте.</div>
-        </li>
-        <li class="eng-mode">
-            <div class="en-text">We want it.</div>
-            <div class="error-note">(want, а не need)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
-            <div class="answer">— Мы хотим это.</div>
-        </li>
-        <li class="eng-mode">
-            <div class="en-text">Does your friend like this idea?</div>
-            <div class="error-note">(friend, а не friends; does)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
-            <div class="answer">— Твоему другу нравится эта идея?</div>
-        </li>
-        <li class="eng-mode">
-            <div class="en-text">He doesn't need this money now.</div>
-            <div class="error-note">(He, need, this money)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
-            <div class="answer">— Ему не нужны эти деньги сейчас.</div>
-        </li>
-        <li class="eng-mode">
-            <div class="en-text">He has an offer.</div>
-            <div class="error-note">(an offer, а не a offer)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
-            <div class="answer">— У него есть предложение.</div>
-        </li>
-        <li class="eng-mode">
-            <div class="en-text">Why does he always complain about it?</div>
-            <div class="error-note">(complain about, а не on)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
-            <div class="answer">— Почему он всегда жалуется на это?</div>
-        </li>
-        <li class="eng-mode">
-            <div class="en-text">He wants to read those books.</div>
-            <div class="error-note">(those, а не that)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
-            <div class="answer">— Он хочет читать те книги.</div>
         </li>
 
         <!-- RUS режим -->
@@ -260,21 +198,9 @@
         </li>
         <li class="rus-mode hidden-mode">
             <div class="ru-text">Как часто происходят эти вещи?</div>
-            <div class="error-note">(do, а не does; things, а не thinks)</div>
+            <div class="error-note">(do, а не does; things, а не thinks; глагол happen)</div>
             <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
             <div class="answer">How often do these things happen?</div>
-        </li>
-        <li class="rus-mode hidden-mode">
-            <div class="ru-text">Как он обычно проводит свободное время?</div>
-            <div class="error-note">(usually, а не often; his)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="answer">How does he usually spend his free time?</div>
-        </li>
-        <li class="rus-mode hidden-mode">
-            <div class="ru-text">Она бы хотела стать учителем.</div>
-            <div class="error-note">(teacher, а не teaches)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="answer">She'd like to become a teacher.</div>
         </li>
         <li class="rus-mode hidden-mode">
             <div class="ru-text">Ты согласен с ними?</div>
@@ -283,64 +209,10 @@
             <div class="answer">Do you agree with them?</div>
         </li>
         <li class="rus-mode hidden-mode">
-            <div class="ru-text">У тебя достаточно денег с собой?</div>
-            <div class="error-note">(enough, а не how much)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="answer">Do you have enough money with you?</div>
-        </li>
-        <li class="rus-mode hidden-mode">
             <div class="ru-text">Ты мне действительно нужен.</div>
             <div class="error-note">(I need you, а не you need me)</div>
             <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
             <div class="answer">I really need you.</div>
-        </li>
-        <li class="rus-mode hidden-mode">
-            <div class="ru-text">Я думаю, ему нужно изменить свою жизнь.</div>
-            <div class="error-note">(без запятой; to после need)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="answer">I think he needs to change his life.</div>
-        </li>
-        <li class="rus-mode hidden-mode">
-            <div class="ru-text">Она живет в том месте.</div>
-            <div class="error-note">(that, а не there)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="answer">She lives in that place.</div>
-        </li>
-        <li class="rus-mode hidden-mode">
-            <div class="ru-text">Мы хотим это.</div>
-            <div class="error-note">(want, а не need)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="answer">We want it.</div>
-        </li>
-        <li class="rus-mode hidden-mode">
-            <div class="ru-text">Твоему другу нравится эта идея?</div>
-            <div class="error-note">(friend, а не friends; does)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="answer">Does your friend like this idea?</div>
-        </li>
-        <li class="rus-mode hidden-mode">
-            <div class="ru-text">Ему не нужны эти деньги сейчас.</div>
-            <div class="error-note">(He, need, this money)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="answer">He doesn't need this money now.</div>
-        </li>
-        <li class="rus-mode hidden-mode">
-            <div class="ru-text">У него есть предложение.</div>
-            <div class="error-note">(an offer, а не a offer)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="answer">He has an offer.</div>
-        </li>
-        <li class="rus-mode hidden-mode">
-            <div class="ru-text">Почему он всегда жалуется на это?</div>
-            <div class="error-note">(complain about, а не on)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="answer">Why does he always complain about it?</div>
-        </li>
-        <li class="rus-mode hidden-mode">
-            <div class="ru-text">Он хочет читать те книги.</div>
-            <div class="error-note">(those, а не that)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="answer">He wants to read those books.</div>
         </li>
     </ul>
 </div>
