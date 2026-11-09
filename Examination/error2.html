@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ошибки 251-300 и Результат</title>
+    <title>Повторные ошибки (Для повторения)</title>
     <style>
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body {
@@ -23,26 +23,27 @@
             word-wrap: break-word;
         }
 
-        .result-box {
-            background-color: #fff;
-            border-left: 6px solid #38a169;
-            padding: 16px 14px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            margin-bottom: 22px;
+        .mode-switcher {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
         }
-        .result-box h2 {
-            margin-top: 0;
-            color: #2f855a;
-            font-size: 1.1em;
-        }
-        .result-box p {
-            margin-bottom: 8px;
-            font-size: 0.95em;
-        }
-        .dynamic {
-            color: #2b6cb0;
+        .mode-btn {
+            background-color: #cbd5e0;
+            color: #4a5568;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
             font-weight: bold;
+            transition: background-color 0.2s, color 0.2s;
+            min-width: 100px;
+        }
+        .mode-btn.active {
+            background-color: #3182ce;
+            color: #fff;
         }
 
         .section-title {
@@ -59,7 +60,7 @@
         li {
             background: #fff;
             margin-bottom: 10px;
-            padding: 12px 14px;
+            padding: 16px;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
             display: flex;
@@ -67,57 +68,75 @@
             border-left: 5px solid #e53e3e;
             word-wrap: break-word;
             overflow-wrap: break-word;
+            align-items: flex-start;
         }
-        .en {
+        
+        .en-text {
             font-weight: bold;
-            font-size: 1.02em;
+            font-size: 1.05em;
             color: #2c3e50;
             margin-bottom: 10px;
-            line-height: 1.45;
+            text-align: left;
         }
+
+        .ru-text {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #2c3e50;
+            text-align: left;
+            margin-bottom: 10px;
+        }
+
         .error-note {
             font-size: 0.85em;
             color: #e53e3e;
             margin-bottom: 10px;
             font-style: italic;
+            text-align: left;
         }
 
         .btn-toggle {
-            background-color: #e2e8f0;
-            color: #4a5568;
+            background-color: #3182ce;
+            color: #fff;
             border: none;
-            padding: 9px 14px;
+            padding: 10px 20px;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 0.9em;
+            font-size: 0.95em;
             align-self: flex-start;
             transition: background-color 0.2s;
-            min-height: 38px;
+            min-height: 40px;
         }
-        .btn-toggle:active { background-color: #cbd5e0; }
+        .btn-toggle:active { background-color: #2b6cb0; }
 
-        .ru {
+        .answer {
             display: none;
             color: #2b6cb0;
-            font-size: 0.98em;
-            margin-top: 10px;
-            padding-top: 10px;
+            font-size: 1.05em;
+            font-weight: bold;
+            text-align: left;
+            margin-top: 15px;
+            padding-top: 15px;
             border-top: 1px dashed #e2e8f0;
-            font-weight: 500;
         }
-        .ru.show { display: block; }
+        .answer.show { display: block; }
+
+        .hidden-mode { display: none !important; }
 
         @media (max-width: 360px) {
             body { padding: 10px; }
             h1 { font-size: 1.2em; }
-            .en { font-size: 0.98em; }
-            li { padding: 10px 12px; }
+            .en-text, .ru-text { font-size: 1em; }
+            li { padding: 12px; }
+            .btn-toggle { padding: 8px 16px; font-size: 0.9em; }
+            .mode-switcher { flex-direction: row; gap: 10px; }
+            .mode-btn { padding: 8px 15px; font-size: 0.9em; min-width: 80px; }
         }
         
         .back-nav-wrapper { text-align: center; margin: 30px auto 20px; padding: 0 14px; }
         .back-nav-btn {
             display: inline-block;
-            background-color: #3182ce;
+            background-color: #718096;
             color: #ffffff;
             text-decoration: none;
             padding: 12px 28px;
@@ -127,65 +146,201 @@
             box-shadow: 0 3px 6px rgba(0,0,0,0.1);
             -webkit-tap-highlight-color: transparent;
         }
-        @media (max-width: 360px) { .back-nav-btn { padding: 10px 22px; font-size: 0.95em; } }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>🚫 Работа над ошибками (251–300)</h1>
-
-    <div class="result-box">
-        <h2>📊 Результат и динамика</h2>
-        <p><b>Блок 251–300:</b> 45 из 50 (90% правильных с первого раза).</p>
-        <p><b>Для сравнения:</b></p>
-        <ul>
-            <li>1–100: ~80% (больше всего ошибок на do/does и have)</li>
-            <li>101–200: ~88% (уже лучше, но still путаница с to и who)</li>
-            <li>201–250: ~82% (снова невнимательность)</li>
-            <li><b>251–300: 90%</b></li>
-        </ul>
-        <p class="dynamic">📈 Динамика: количество ошибок снижается. Вы стали чаще замечать свои же ошибки и исправлять их на ходу.</p>
-        <p><b>Что осталось:</b> пропуски <i>to</i>, <i>have</i> и <i>does</i> в длинных фразах. Это уже вопрос внимательности, а не знания.</p>
+    <h1>🚫 Повторные ошибки (Для повторения)</h1>
+    
+    <div class="mode-switcher">
+        <button id="btn-eng-rus" class="mode-btn active" onclick="setMode('eng-rus')">ENG</button>
+        <button id="btn-rus-eng" class="mode-btn" onclick="setMode('rus-eng')">RUS</button>
     </div>
 
-    <div class="section-title">Ошибки из этого блока (251–300)</div>
-    <ul>
-        <li>
-            <span class="en">Who does it motivate?</span>
-            <div class="error-note">(who — дополнение, нужен does)</div>
-            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Кого это мотивирует?</span>
+    <ul id="errorList">
+        <!-- ENG режим -->
+        <li class="eng-mode">
+            <div class="en-text">Why does he say these things again and again?</div>
+            <div class="error-note">(things, а не thinks)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Почему он говорит эти вещи снова и снова?</div>
         </li>
-        <li>
-            <span class="en">What time does your mother come to work?</span>
-            <div class="error-note">(come — приходить, а не go)</div>
-            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Во сколько твоя мама приходит на работу?</span>
+        <li class="eng-mode">
+            <div class="en-text">How often do these things happen?</div>
+            <div class="error-note">(do, а не does; things, а не thinks)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Как часто происходят эти вещи?</div>
         </li>
-        <li>
-            <span class="en">Why do you want to visit this place?</span>
-            <div class="error-note">(пропустили want to)</div>
-            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Почему ты хочешь посетить это место?</span>
+        <li class="eng-mode">
+            <div class="en-text">How does he usually spend his free time?</div>
+            <div class="error-note">(usually, а не often; his)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Как он обычно проводит свободное время?</div>
         </li>
-        <li>
-            <span class="en">My friend likes this hotel.</span>
-            <div class="error-note">(забыли -s для he/she/it)</div>
-            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Моему другу нравится этот отель.</span>
+        <li class="eng-mode">
+            <div class="en-text">She'd like to become a teacher.</div>
+            <div class="error-note">(teacher, а не teaches)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Она бы хотела стать учителем.</div>
         </li>
-        <li>
-            <span class="en">Does this information seem unimportant?</span>
-            <div class="error-note">(this information, а не it information)</div>
-            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Эта информация кажется неважной?</span>
+        <li class="eng-mode">
+            <div class="en-text">Do you agree with them?</div>
+            <div class="error-note">(with them, а не your)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Ты согласен с ними?</div>
         </li>
-        <li>
-            <span class="en">I'd like to know English very well.</span>
-            <div class="error-note">(убрать лишнее want после 'd like)</div>
-            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
-            <span class="ru">— Я бы хотел знать английский очень хорошо.</span>
+        <li class="eng-mode">
+            <div class="en-text">Do you have enough money with you?</div>
+            <div class="error-note">(enough, а не how much)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— У тебя достаточно денег с собой?</div>
+        </li>
+        <li class="eng-mode">
+            <div class="en-text">I really need you.</div>
+            <div class="error-note">(I need you, а не you need me)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Ты мне действительно нужен.</div>
+        </li>
+        <li class="eng-mode">
+            <div class="en-text">I think he needs to change his life.</div>
+            <div class="error-note">(без запятой; to после need)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Я думаю, ему нужно изменить свою жизнь.</div>
+        </li>
+        <li class="eng-mode">
+            <div class="en-text">She lives in that place.</div>
+            <div class="error-note">(that, а не there)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Она живет в том месте.</div>
+        </li>
+        <li class="eng-mode">
+            <div class="en-text">We want it.</div>
+            <div class="error-note">(want, а не need)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Мы хотим это.</div>
+        </li>
+        <li class="eng-mode">
+            <div class="en-text">Does your friend like this idea?</div>
+            <div class="error-note">(friend, а не friends; does)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Твоему другу нравится эта идея?</div>
+        </li>
+        <li class="eng-mode">
+            <div class="en-text">He doesn't need this money now.</div>
+            <div class="error-note">(He, need, this money)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Ему не нужны эти деньги сейчас.</div>
+        </li>
+        <li class="eng-mode">
+            <div class="en-text">He has an offer.</div>
+            <div class="error-note">(an offer, а не a offer)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— У него есть предложение.</div>
+        </li>
+        <li class="eng-mode">
+            <div class="en-text">Why does he always complain about it?</div>
+            <div class="error-note">(complain about, а не on)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Почему он всегда жалуется на это?</div>
+        </li>
+        <li class="eng-mode">
+            <div class="en-text">He wants to read those books.</div>
+            <div class="error-note">(those, а не that)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Он хочет читать те книги.</div>
+        </li>
+
+        <!-- RUS режим -->
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Почему он говорит эти вещи снова и снова?</div>
+            <div class="error-note">(things, а не thinks)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">Why does he say these things again and again?</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Как часто происходят эти вещи?</div>
+            <div class="error-note">(do, а не does; things, а не thinks)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">How often do these things happen?</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Как он обычно проводит свободное время?</div>
+            <div class="error-note">(usually, а не often; his)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">How does he usually spend his free time?</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Она бы хотела стать учителем.</div>
+            <div class="error-note">(teacher, а не teaches)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">She'd like to become a teacher.</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Ты согласен с ними?</div>
+            <div class="error-note">(with them, а не your)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">Do you agree with them?</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">У тебя достаточно денег с собой?</div>
+            <div class="error-note">(enough, а не how much)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">Do you have enough money with you?</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Ты мне действительно нужен.</div>
+            <div class="error-note">(I need you, а не you need me)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">I really need you.</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Я думаю, ему нужно изменить свою жизнь.</div>
+            <div class="error-note">(без запятой; to после need)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">I think he needs to change his life.</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Она живет в том месте.</div>
+            <div class="error-note">(that, а не there)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">She lives in that place.</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Мы хотим это.</div>
+            <div class="error-note">(want, а не need)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">We want it.</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Твоему другу нравится эта идея?</div>
+            <div class="error-note">(friend, а не friends; does)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">Does your friend like this idea?</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Ему не нужны эти деньги сейчас.</div>
+            <div class="error-note">(He, need, this money)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">He doesn't need this money now.</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">У него есть предложение.</div>
+            <div class="error-note">(an offer, а не a offer)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">He has an offer.</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Почему он всегда жалуется на это?</div>
+            <div class="error-note">(complain about, а не on)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">Why does he always complain about it?</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Он хочет читать те книги.</div>
+            <div class="error-note">(those, а не that)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">He wants to read those books.</div>
         </li>
     </ul>
 </div>
@@ -195,17 +350,34 @@
 </div>
 
 <script>
-    function toggleTranslation(button) {
-        var translation = button.nextElementSibling;
+    function setMode(mode) {
+        document.getElementById('btn-eng-rus').classList.remove('active');
+        document.getElementById('btn-rus-eng').classList.remove('active');
+        document.getElementById('btn-' + mode).classList.add('active');
 
-        if (translation.classList.contains('show')) {
-            translation.classList.remove('show');
-            button.textContent = 'Показать перевод';
-            button.style.backgroundColor = '#e2e8f0';
+        var engModeItems = document.querySelectorAll('.eng-mode');
+        var rusModeItems = document.querySelectorAll('.rus-mode');
+
+        if (mode === 'eng-rus') {
+            engModeItems.forEach(item => item.classList.remove('hidden-mode'));
+            rusModeItems.forEach(item => item.classList.add('hidden-mode'));
         } else {
-            translation.classList.add('show');
+            engModeItems.forEach(item => item.classList.add('hidden-mode'));
+            rusModeItems.forEach(item => item.classList.remove('hidden-mode'));
+        }
+    }
+
+    function toggleAnswer(button) {
+        var answer = button.nextElementSibling;
+
+        if (answer.classList.contains('show')) {
+            answer.classList.remove('show');
+            button.textContent = 'Показать перевод';
+            button.style.backgroundColor = '#3182ce';
+        } else {
+            answer.classList.add('show');
             button.textContent = 'Скрыть перевод';
-            button.style.backgroundColor = '#cbd5e0';
+            button.style.backgroundColor = '#718096';
         }
     }
 </script>
