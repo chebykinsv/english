@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Работа над ошибками (RUS → ENG)</title>
+    <title>Работа над ошибками (ENG / RUS)</title>
     <style>
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body {
@@ -21,6 +21,30 @@
             margin: 0 0 16px;
             font-size: 1.35em;
             word-wrap: break-word;
+        }
+
+        /* Переключатель */
+        .mode-switcher {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .mode-btn {
+            background-color: #cbd5e0;
+            color: #4a5568;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: background-color 0.2s, color 0.2s;
+            min-width: 100px;
+        }
+        .mode-btn.active {
+            background-color: #3182ce;
+            color: #fff;
         }
 
         .section-title {
@@ -48,14 +72,22 @@
             align-items: flex-start;
         }
         
-        /* Русская фраза — крупно и слева */
-        .ru-prompt {
-            font-size: 1.15em;
+        /* ENG режим */
+        .en-text {
+            font-weight: bold;
+            font-size: 1.05em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+
+        /* RUS режим */
+        .ru-text {
+            font-size: 1.1em;
             font-weight: bold;
             color: #2c3e50;
             text-align: left;
             margin-bottom: 10px;
-            line-height: 1.45;
         }
 
         .error-note {
@@ -80,25 +112,29 @@
         }
         .btn-toggle:active { background-color: #2b6cb0; }
 
-        /* Английский ответ — скрыт по умолчанию */
-        .en-answer {
+        /* Скрытый ответ */
+        .answer {
             display: none;
             color: #2b6cb0;
-            font-size: 1.1em;
+            font-size: 1.05em;
             font-weight: bold;
             text-align: left;
             margin-top: 15px;
             padding-top: 15px;
             border-top: 1px dashed #e2e8f0;
         }
-        .en-answer.show { display: block; }
+        .answer.show { display: block; }
+
+        .hidden-mode { display: none !important; }
 
         @media (max-width: 360px) {
             body { padding: 10px; }
             h1 { font-size: 1.2em; }
-            .ru-prompt { font-size: 1.05em; }
+            .en-text, .ru-text { font-size: 1em; }
             li { padding: 12px; }
             .btn-toggle { padding: 8px 16px; font-size: 0.9em; }
+            .mode-switcher { flex-direction: row; gap: 10px; }
+            .mode-btn { padding: 8px 15px; font-size: 0.9em; min-width: 80px; }
         }
         
         .back-nav-wrapper { text-align: center; margin: 30px auto 20px; padding: 0 14px; }
@@ -121,186 +157,367 @@
 <div class="container">
     <h1>🚫 Работа над ошибками</h1>
     
-    <div class="section-title">Ошибки за сегодня (301–400)</div>
-    <ul>
-        <li>
-            <div class="ru-prompt">Как он обычно проводит свободное время?</div>
-            <div class="error-note">(подсказка: usually, а не often)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="en-answer">How does he usually spend his free time?</div>
+    <div class="mode-switcher">
+        <button id="btn-eng-rus" class="mode-btn active" onclick="setMode('eng-rus')">ENG</button>
+        <button id="btn-rus-eng" class="mode-btn" onclick="setMode('rus-eng')">RUS</button>
+    </div>
+
+    <div class="section-title" id="title1">Ошибки за сегодня (301–400)</div>
+    <ul id="list1">
+        <!-- ENG режим -->
+        <li class="eng-mode">
+            <div class="en-text">How does he usually spend his free time?</div>
+            <div class="error-note">(usually, а не often)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Как он обычно проводит свободное время?</div>
         </li>
-        <li>
-            <div class="ru-prompt">Она бы хотела стать учителем.</div>
-            <div class="error-note">(подсказка: teacher, а не teaches)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="en-answer">She'd like to become a teacher.</div>
+        <li class="eng-mode">
+            <div class="en-text">She'd like to become a teacher.</div>
+            <div class="error-note">(teacher, а не teaches)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Она бы хотела стать учителем.</div>
         </li>
-        <li>
-            <div class="ru-prompt">Как часто происходят эти вещи?</div>
-            <div class="error-note">(подсказка: do, а не does; и глагол happen)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="en-answer">How often do these things happen?</div>
+        <li class="eng-mode">
+            <div class="en-text">How often do these things happen?</div>
+            <div class="error-note">(do, а не does; и глагол happen)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Как часто происходят эти вещи?</div>
         </li>
-        <li>
-            <div class="ru-prompt">Сколько ошибок ты обычно делаешь?</div>
-            <div class="error-note">(подсказка: usually, а не often)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="en-answer">How many mistakes do you usually make?</div>
+        <li class="eng-mode">
+            <div class="en-text">How many mistakes do you usually make?</div>
+            <div class="error-note">(usually, а не often)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Сколько ошибок ты обычно делаешь?</div>
         </li>
-        <li>
-            <div class="ru-prompt">Ты согласен с ними?</div>
-            <div class="error-note">(подсказка: them, а не your)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="en-answer">Do you agree with them?</div>
+        <li class="eng-mode">
+            <div class="en-text">Do you agree with them?</div>
+            <div class="error-note">(them, а не your)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Ты согласен с ними?</div>
         </li>
-        <li>
-            <div class="ru-prompt">У тебя достаточно денег с собой?</div>
-            <div class="error-note">(подсказка: enough, а не how much)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="en-answer">Do you have enough money with you?</div>
+        <li class="eng-mode">
+            <div class="en-text">Do you have enough money with you?</div>
+            <div class="error-note">(enough, а не how much)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— У тебя достаточно денег с собой?</div>
         </li>
-        <li>
-            <div class="ru-prompt">Ты мне действительно нужен.</div>
-            <div class="error-note">(подсказка: I need you, а не you need me)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="en-answer">I really need you.</div>
+        <li class="eng-mode">
+            <div class="en-text">I really need you.</div>
+            <div class="error-note">(I need you, а не you need me)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Ты мне действительно нужен.</div>
         </li>
-        <li>
-            <div class="ru-prompt">Я думаю, ему нужно изменить свою жизнь.</div>
-            <div class="error-note">(подсказка: без запятой; частица to после need)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="en-answer">I think he needs to change his life.</div>
+        <li class="eng-mode">
+            <div class="en-text">I think he needs to change his life.</div>
+            <div class="error-note">(без запятой; частица to после need)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Я думаю, ему нужно изменить свою жизнь.</div>
         </li>
-        <li>
-            <div class="ru-prompt">Она живет в том месте.</div>
-            <div class="error-note">(подсказка: that, а не there)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="en-answer">She lives in that place.</div>
+        <li class="eng-mode">
+            <div class="en-text">She lives in that place.</div>
+            <div class="error-note">(that, а не there)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Она живет в том месте.</div>
         </li>
-        <li>
-            <div class="ru-prompt">Мы хотим это.</div>
-            <div class="error-note">(подсказка: want, а не need)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="en-answer">We want it.</div>
+        <li class="eng-mode">
+            <div class="en-text">We want it.</div>
+            <div class="error-note">(want, а не need)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Мы хотим это.</div>
         </li>
-        <li>
-            <div class="ru-prompt">Твоему другу нравится эта идея?</div>
-            <div class="error-note">(подсказка: friend, а не friends; does)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="en-answer">Does your friend like this idea?</div>
+        <li class="eng-mode">
+            <div class="en-text">Does your friend like this idea?</div>
+            <div class="error-note">(friend, а не friends; does)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Твоему другу нравится эта идея?</div>
         </li>
-        <li>
-            <div class="ru-prompt">Ему не нужны эти деньги сейчас.</div>
-            <div class="error-note">(подсказка: He, need, this money)</div>
+        <li class="eng-mode">
+            <div class="en-text">He doesn't need this money now.</div>
+            <div class="error-note">(He, need, this money)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Ему не нужны эти деньги сейчас.</div>
+        </li>
+
+        <!-- RUS режим -->
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Как он обычно проводит свободное время?</div>
+            <div class="error-note">(usually, а не often)</div>
             <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="en-answer">He doesn't need this money now.</div>
+            <div class="answer">How does he usually spend his free time?</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Она бы хотела стать учителем.</div>
+            <div class="error-note">(teacher, а не teaches)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">She'd like to become a teacher.</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Как часто происходят эти вещи?</div>
+            <div class="error-note">(do, а не does; и глагол happen)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">How often do these things happen?</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Сколько ошибок ты обычно делаешь?</div>
+            <div class="error-note">(usually, а не often)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">How many mistakes do you usually make?</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Ты согласен с ними?</div>
+            <div class="error-note">(them, а не your)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">Do you agree with them?</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">У тебя достаточно денег с собой?</div>
+            <div class="error-note">(enough, а не how much)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">Do you have enough money with you?</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Ты мне действительно нужен.</div>
+            <div class="error-note">(I need you, а не you need me)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">I really need you.</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Я думаю, ему нужно изменить свою жизнь.</div>
+            <div class="error-note">(без запятой; частица to после need)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">I think he needs to change his life.</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Она живет в том месте.</div>
+            <div class="error-note">(that, а не there)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">She lives in that place.</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Мы хотим это.</div>
+            <div class="error-note">(want, а не need)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">We want it.</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Твоему другу нравится эта идея?</div>
+            <div class="error-note">(friend, а не friends; does)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">Does your friend like this idea?</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Ему не нужны эти деньги сейчас.</div>
+            <div class="error-note">(He, need, this money)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">He doesn't need this money now.</div>
         </li>
     </ul>
 
-    <div class="section-title">Ошибки из Контрольной 1 (Фразы 1–50)</div>
-    <ul>
-        <li>
-            <div class="ru-prompt">Мне нужен твой совет.</div>
-            <div class="error-note">(подсказка: your, а не you)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="en-answer">I need your advice.</div>
+    <div class="section-title" id="title2">Ошибки из Контрольной 1 (Фразы 1–50)</div>
+    <ul id="list2">
+        <!-- ENG режим -->
+        <li class="eng-mode">
+            <div class="en-text">I need your advice.</div>
+            <div class="error-note">(your, а не you)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Мне нужен твой совет.</div>
         </li>
-        <li>
-            <div class="ru-prompt">Мне нужно увидеть её.</div>
-            <div class="error-note">(подсказка: see, а не seem; частица to)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="en-answer">I need to see her.</div>
+        <li class="eng-mode">
+            <div class="en-text">I need to see her.</div>
+            <div class="error-note">(see, а не seem; частица to)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Мне нужно увидеть её.</div>
         </li>
-        <li>
-            <div class="ru-prompt">Она бы хотела пойти в другое место.</div>
-            <div class="error-note">(подсказка: She'd, а не I'd)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="en-answer">She'd like to go to another place.</div>
+        <li class="eng-mode">
+            <div class="en-text">She'd like to go to another place.</div>
+            <div class="error-note">(She'd, а не I'd)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Она бы хотела пойти в другое место.</div>
         </li>
-        <li>
-            <div class="ru-prompt">Как он добирается домой?</div>
-            <div class="error-note">(подсказка: get, а не come; home без to)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="en-answer">How does he get home?</div>
+        <li class="eng-mode">
+            <div class="en-text">How does he get home?</div>
+            <div class="error-note">(get, а не come; home без to)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Как он добирается домой?</div>
         </li>
-        <li>
-            <div class="ru-prompt">У нас достаточно практики?</div>
-            <div class="error-note">(подсказка: have)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="en-answer">Do we have enough practice?</div>
+        <li class="eng-mode">
+            <div class="en-text">Do we have enough practice?</div>
+            <div class="error-note">(have)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— У нас достаточно практики?</div>
         </li>
-        <li>
-            <div class="ru-prompt">Она хочет увидеть тебя прямо сейчас.</div>
-            <div class="error-note">(подсказка: wants с -s)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="en-answer">She wants to see you right now.</div>
+        <li class="eng-mode">
+            <div class="en-text">She wants to see you right now.</div>
+            <div class="error-note">(wants с -s)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Она хочет увидеть тебя прямо сейчас.</div>
         </li>
-        <li>
-            <div class="ru-prompt">Это зависит от них.</div>
-            <div class="error-note">(подсказка: It, depends, them)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="en-answer">It depends on them.</div>
+        <li class="eng-mode">
+            <div class="en-text">It depends on them.</div>
+            <div class="error-note">(It, depends, them)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Это зависит от них.</div>
         </li>
-        <li>
-            <div class="ru-prompt">Она делает эти упражнения регулярно.</div>
-            <div class="error-note">(подсказка: does, exercises)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="en-answer">She does these exercises regularly.</div>
+        <li class="eng-mode">
+            <div class="en-text">She does these exercises regularly.</div>
+            <div class="error-note">(does, exercises)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Она делает эти упражнения регулярно.</div>
         </li>
-        <li>
-            <div class="ru-prompt">Моя сестра учится там.</div>
-            <div class="error-note">(подсказка: studies, правило -y → -ies)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="en-answer">My sister studies there.</div>
+        <li class="eng-mode">
+            <div class="en-text">My sister studies there.</div>
+            <div class="error-note">(studies, правило -y → -ies)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Моя сестра учится там.</div>
         </li>
-        <li>
-            <div class="ru-prompt">Что тебя беспокоит больше?</div>
-            <div class="error-note">(подсказка: worries, без do)</div>
+        <li class="eng-mode">
+            <div class="en-text">What worries you more?</div>
+            <div class="error-note">(worries, без do)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Что тебя беспокоит больше?</div>
+        </li>
+
+        <!-- RUS режим -->
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Мне нужен твой совет.</div>
+            <div class="error-note">(your, а не you)</div>
             <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="en-answer">What worries you more?</div>
+            <div class="answer">I need your advice.</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Мне нужно увидеть её.</div>
+            <div class="error-note">(see, а не seem; частица to)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">I need to see her.</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Она бы хотела пойти в другое место.</div>
+            <div class="error-note">(She'd, а не I'd)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">She'd like to go to another place.</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Как он добирается домой?</div>
+            <div class="error-note">(get, а не come; home без to)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">How does he get home?</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">У нас достаточно практики?</div>
+            <div class="error-note">(have)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">Do we have enough practice?</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Она хочет увидеть тебя прямо сейчас.</div>
+            <div class="error-note">(wants с -s)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">She wants to see you right now.</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Это зависит от них.</div>
+            <div class="error-note">(It, depends, them)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">It depends on them.</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Она делает эти упражнения регулярно.</div>
+            <div class="error-note">(does, exercises)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">She does these exercises regularly.</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Моя сестра учится там.</div>
+            <div class="error-note">(studies, правило -y → -ies)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">My sister studies there.</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Что тебя беспокоит больше?</div>
+            <div class="error-note">(worries, без do)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">What worries you more?</div>
         </li>
     </ul>
 
-    <div class="section-title">Ошибки из Контрольной 2 (Фразы 51–100)</div>
-    <ul>
-        <li>
-            <div class="ru-prompt">Сколько времени у него занимает добраться до того места?</div>
-            <div class="error-note">(подсказка: him, а не his; to перед get)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="en-answer">How long does it take him to get to that place?</div>
+    <div class="section-title" id="title3">Ошибки из Контрольной 2 (Фразы 51–100)</div>
+    <ul id="list3">
+        <!-- ENG режим -->
+        <li class="eng-mode">
+            <div class="en-text">How long does it take him to get to that place?</div>
+            <div class="error-note">(him, а не his; to перед get)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Сколько времени у него занимает добраться до того места?</div>
         </li>
-        <li>
-            <div class="ru-prompt">Почему твои родители не согласны с тобой?</div>
-            <div class="error-note">(подсказка: your, а не you)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="en-answer">Why do your parents disagree with you?</div>
+        <li class="eng-mode">
+            <div class="en-text">Why do your parents disagree with you?</div>
+            <div class="error-note">(your, а не you)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Почему твои родители не согласны с тобой?</div>
         </li>
-        <li>
-            <div class="ru-prompt">Мне нужно говорить по-английски вообще без ошибок.</div>
-            <div class="error-note">(подсказка: need to speak; without)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="en-answer">I need to speak English without any mistakes at all.</div>
+        <li class="eng-mode">
+            <div class="en-text">I need to speak English without any mistakes at all.</div>
+            <div class="error-note">(need to speak; without)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Мне нужно говорить по-английски вообще без ошибок.</div>
         </li>
-        <li>
-            <div class="ru-prompt">Она пытается понять это.</div>
-            <div class="error-note">(подсказка: tries to understand)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="en-answer">She tries to understand it.</div>
+        <li class="eng-mode">
+            <div class="en-text">She tries to understand it.</div>
+            <div class="error-note">(tries to understand)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Она пытается понять это.</div>
         </li>
-        <li>
-            <div class="ru-prompt">Это не вдохновляет меня.</div>
-            <div class="error-note">(подсказка: doesn't inspire)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="en-answer">It doesn't inspire me.</div>
+        <li class="eng-mode">
+            <div class="en-text">It doesn't inspire me.</div>
+            <div class="error-note">(doesn't inspire)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Это не вдохновляет меня.</div>
         </li>
-        <li>
-            <div class="ru-prompt">Когда у тебя есть свободное время?</div>
-            <div class="error-note">(подсказка: When, free time)</div>
+        <li class="eng-mode">
+            <div class="en-text">When do you have free time?</div>
+            <div class="error-note">(When, free time)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Когда у тебя есть свободное время?</div>
+        </li>
+
+        <!-- RUS режим -->
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Сколько времени у него занимает добраться до того места?</div>
+            <div class="error-note">(him, а не his; to перед get)</div>
             <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="en-answer">When do you have free time?</div>
+            <div class="answer">How long does it take him to get to that place?</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Почему твои родители не согласны с тобой?</div>
+            <div class="error-note">(your, а не you)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">Why do your parents disagree with you?</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Мне нужно говорить по-английски вообще без ошибок.</div>
+            <div class="error-note">(need to speak; without)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">I need to speak English without any mistakes at all.</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Она пытается понять это.</div>
+            <div class="error-note">(tries to understand)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">She tries to understand it.</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Это не вдохновляет меня.</div>
+            <div class="error-note">(doesn't inspire)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">It doesn't inspire me.</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Когда у тебя есть свободное время?</div>
+            <div class="error-note">(When, free time)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">When do you have free time?</div>
         </li>
     </ul>
-
 </div>
 
 <div class="back-nav-wrapper">
@@ -308,16 +525,33 @@
 </div>
 
 <script>
+    function setMode(mode) {
+        document.getElementById('btn-eng-rus').classList.remove('active');
+        document.getElementById('btn-rus-eng').classList.remove('active');
+        document.getElementById('btn-' + mode).classList.add('active');
+
+        var engModeItems = document.querySelectorAll('.eng-mode');
+        var rusModeItems = document.querySelectorAll('.rus-mode');
+
+        if (mode === 'eng-rus') {
+            engModeItems.forEach(item => item.classList.remove('hidden-mode'));
+            rusModeItems.forEach(item => item.classList.add('hidden-mode'));
+        } else {
+            engModeItems.forEach(item => item.classList.add('hidden-mode'));
+            rusModeItems.forEach(item => item.classList.remove('hidden-mode'));
+        }
+    }
+
     function toggleAnswer(button) {
         var answer = button.nextElementSibling;
 
         if (answer.classList.contains('show')) {
             answer.classList.remove('show');
-            button.textContent = 'Показать ответ';
+            button.textContent = 'Показать перевод';
             button.style.backgroundColor = '#3182ce';
         } else {
             answer.classList.add('show');
-            button.textContent = 'Скрыть ответ';
+            button.textContent = 'Скрыть перевод';
             button.style.backgroundColor = '#718096';
         }
     }
