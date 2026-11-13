@@ -85,6 +85,50 @@
             .menu-link:hover { background-color: #718096; transform: translateX(5px); }
         }
 
+        /* Стили для Аккордеона */
+        .accordion-btn {
+            background-color: #4a5568;
+            color: #fff;
+            cursor: pointer;
+            padding: 14px 16px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 0.95em;
+            font-weight: bold;
+            border-radius: 8px;
+            border-left: 5px solid #9f7aea;
+            transition: background-color 0.2s, transform 0.1s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .accordion-btn:hover {
+            background-color: #718096;
+        }
+        .accordion-btn:after {
+            content: '\002B'; /* Плюс */
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        .accordion-btn.active:after {
+            content: "\2212"; /* Минус */
+        }
+        .panel {
+            padding: 0;
+            background-color: transparent;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            margin-bottom: 0;
+        }
+        .panel ul {
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+
         @media (max-width: 850px) {
             .columns-wrapper {
                 grid-template-columns: 1fr 1fr;
@@ -145,6 +189,11 @@
             <h2>🎯 Уроки</h2>
             <ul class="menu-list">
                 <li>
+                    <a href="tobe.html" class="menu-link" style="border-left-color: #3182ce;">
+                        🟢 Глагол To Be
+                    </a>
+                </li>
+                <li>
                     <a href="lesson18.html" class="menu-link" style="border-left-color: #27ae60;">
                         📘 Урок 18: Вопросы
                     </a>
@@ -165,51 +214,57 @@
         <!-- 3 КОЛОНКА: КОНТРОЛЬНЫЕ -->
         <div class="column">
             <h2>📝 Контрольные</h2>
-            <ul class="menu-list">
-                <li>
-                    <a href="Examination/all_100.html" class="menu-link" style="border-left-color: #9f7aea;">
-                        🔢 Фразы 1–100
-                        <span>Тренажер Present Simple</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="Examination/all_200.html" class="menu-link" style="border-left-color: #9f7aea;">
-                        🔢 Фразы 101–200
-                        <span>Тренажер Present Simple</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="Examination/all_300.html" class="menu-link" style="border-left-color: #9f7aea;">
-                        🔢 Фразы 201–300
-                        <span>Тренажер Present Simple</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="Examination/all_400.html" class="menu-link" style="border-left-color: #9f7aea;">
-                        🔢 Фразы 301–400
-                        <span>Тренажер Present Simple</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="Examination/all_500.html" class="menu-link" style="border-left-color: #9f7aea;">
-                        🔢 Фразы 401–500
-                        <span>Тренажер Present Simple</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="Examination/all_600.html" class="menu-link" style="border-left-color: #9f7aea;">
-                        🔢 Фразы 501–600
-                        <span>Тренажер Present Simple</span>
-                    </a>
-                </li>
-                <!-- НОВАЯ ССЫЛКА НА 700 -->
-                <li>
-                    <a href="Examination/all_700.html" class="menu-link" style="border-left-color: #9f7aea;">
-                        🔢 Фразы 601–700
-                        <span>Тренажер Present Simple</span>
-                    </a>
-                </li>
-                
+            
+            <!-- Аккордеон для фраз -->
+            <button class="accordion-btn">🔢 Present Simple (0–700)</button>
+            <div class="panel">
+                <ul class="menu-list">
+                    <li>
+                        <a href="Examination/all_100.html" class="menu-link" style="border-left-color: #9f7aea;">
+                            🔢 Фразы 1–100
+                            <span>Тренажер Present Simple</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="Examination/all_200.html" class="menu-link" style="border-left-color: #9f7aea;">
+                            🔢 Фразы 101–200
+                            <span>Тренажер Present Simple</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="Examination/all_300.html" class="menu-link" style="border-left-color: #9f7aea;">
+                            🔢 Фразы 201–300
+                            <span>Тренажер Present Simple</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="Examination/all_400.html" class="menu-link" style="border-left-color: #9f7aea;">
+                            🔢 Фразы 301–400
+                            <span>Тренажер Present Simple</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="Examination/all_500.html" class="menu-link" style="border-left-color: #9f7aea;">
+                            🔢 Фразы 401–500
+                            <span>Тренажер Present Simple</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="Examination/all_600.html" class="menu-link" style="border-left-color: #9f7aea;">
+                            🔢 Фразы 501–600
+                            <span>Тренажер Present Simple</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="Examination/all_700.html" class="menu-link" style="border-left-color: #9f7aea;">
+                            🔢 Фразы 601–700
+                            <span>Тренажер Present Simple</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            
+            <ul class="menu-list" style="margin-top: 15px;">
                 <!-- БЛОК ОШИБОК -->
                 <li>
                     <a href="Examination/errors.html" class="menu-link" style="border-left-color: #e53e3e;">
@@ -217,7 +272,6 @@
                         <span>Все проблемные фразы</span>
                     </a>
                 </li>
-                <!-- НОВАЯ ССЫЛКА -->
                 <li>
                     <a href="Examination/errors2.html" class="menu-link" style="border-left-color: #c53030;">
                         🔁 Повторные ошибки
@@ -228,6 +282,24 @@
         </div>
     </div>
 </div>
+
+<script>
+    // Логика для аккордеона
+    var acc = document.getElementsByClassName("accordion-btn");
+    var i;
+
+    for (i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.maxHeight) {
+                panel.style.maxHeight = null;
+            } else {
+                panel.style.maxHeight = panel.scrollHeight + "px";
+            }
+        });
+    }
+</script>
 
 </body>
 </html>

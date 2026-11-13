@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Глагол To Be (Present Simple)</title>
+    <style>
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 14px;
+            background-color: #f0f4f8;
+            color: #333;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin: 0 0 16px;
+            font-size: 1.35em;
+            word-wrap: break-word;
+        }
+
+        .rule-box {
+            background-color: #fff;
+            border-left: 6px solid #3182ce;
+            padding: 16px 14px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 22px;
+        }
+        .rule-box h2 {
+            margin-top: 0;
+            color: #2b6cb0;
+            font-size: 1.1em;
+            line-height: 1.35;
+        }
+        .rule-box p { margin-bottom: 10px; font-size: 0.95em; }
+        
+        .table-responsive {
+            overflow-x: auto;
+            margin-bottom: 15px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        th {
+            background-color: #3182ce;
+            color: #fff;
+            font-weight: bold;
+        }
+        tr:last-child td { border-bottom: none; }
+        tr:nth-child(even) { background-color: #f8fafc; }
+        
+        .highlight { color: #e53e3e; font-weight: bold; }
+
+        /* Блок устойчивых выражений */
+        .phrases-box {
+            background-color: #ebf8ff;
+            border: 2px dashed #3182ce;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 22px;
+        }
+        .phrases-box h3 {
+            margin-top: 0;
+            color: #2b6cb0;
+            font-size: 1.05em;
+        }
+        .phrase-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .phrase-tag {
+            background-color: #3182ce;
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.95em;
+            font-weight: bold;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .phrase-tag span.ipa {
+            font-size: 0.85em;
+            font-weight: normal;
+            opacity: 0.9;
+            margin-top: 2px;
+        }
+
+        .mode-switcher {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .mode-btn {
+            background-color: #cbd5e0;
+            color: #4a5568;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: background-color 0.2s, color 0.2s;
+            min-width: 100px;
+        }
+        .mode-btn.active {
+            background-color: #3182ce;
+            color: #fff;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            border: 2px solid #3182ce;
+            border-radius: 8px;
+            font-size: 1em;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .search-box:focus {
+            border-color: #2b6cb0;
+            box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.2);
+        }
+
+        .section-title {
+            background-color: #3182ce;
+            color: #fff;
+            padding: 8px 14px;
+            border-radius: 6px;
+            margin: 25px 0 15px;
+            font-size: 1.1em;
+            text-align: center;
+        }
+
+        ul { list-style-type: none; padding-left: 0; margin: 0; }
+        li {
+            background: #fff;
+            margin-bottom: 10px;
+            padding: 12px 14px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            border-left: 5px solid #38a169;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            align-items: flex-start;
+        }
+        
+        .en {
+            font-weight: bold;
+            font-size: 1.05em;
+            color: #2c3e50;
+            margin-bottom: 5px;
+            line-height: 1.45;
+            text-align: left;
+        }
+        
+        .transcription {
+            font-size: 0.95em;
+            color: #2b6cb0;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .ru-prompt {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #2c3e50;
+            text-align: left;
+            margin-bottom: 15px;
+            line-height: 1.45;
+        }
+
+        .btn-toggle {
+            background-color: #e2e8f0;
+            color: #4a5568;
+            border: none;
+            padding: 9px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background-color 0.2s;
+            min-height: 38px;
+            align-self: flex-start;
+        }
+        .btn-toggle:active { background-color: #cbd5e0; }
+
+        .ru {
+            display: none;
+            color: #2b6cb0;
+            font-size: 0.98em;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed #e2e8f0;
+            font-weight: 500;
+            text-align: left;
+        }
+        .ru.show { display: block; }
+
+        .en-answer {
+            display: none;
+            color: #2b6cb0;
+            font-size: 1.05em;
+            font-weight: bold;
+            text-align: left;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed #e2e8f0;
+        }
+        .en-answer.show { display: block; }
+
+        .hidden-mode { display: none !important; }
+        .hidden-item { display: none !important; }
+
+        @media (max-width: 360px) {
+            body { padding: 10px; }
+            h1 { font-size: 1.2em; }
+            .en { font-size: 0.98em; }
+            .transcription { font-size: 0.9em; }
+            .ru-prompt { font-size: 1.05em; }
+            li { padding: 10px 12px; }
+            .search-box { padding: 10px 12px; font-size: 0.9em; }
+            .mode-switcher { flex-direction: row; gap: 10px; }
+            .mode-btn { padding: 8px 15px; font-size: 0.9em; min-width: 80px; }
+        }
+        
+        .back-nav-wrapper { text-align: center; margin: 30px auto 20px; padding: 0 14px; }
+        .back-nav-btn {
+            display: inline-block;
+            background-color: #3182ce;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Легенда IPA */
+        .legend-box {
+            background-color: #fff;
+            border-top: 4px solid #3182ce;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-top: 40px;
+        }
+        .legend-box h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-top: 0;
+            font-size: 1.2em;
+        }
+        .legend-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .legend-col h3 {
+            font-size: 1em;
+            color: #3182ce;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 5px;
+        }
+        .legend-table {
+            width: 100%;
+            font-size: 0.9em;
+            border-collapse: collapse;
+        }
+        .legend-table td {
+            padding: 6px 4px;
+            border-bottom: 1px dashed #edf2f7;
+        }
+        .legend-table td:first-child {
+            font-weight: bold;
+            color: #e53e3e;
+            width: 40px;
+            font-family: monospace;
+            font-size: 1.1em;
+        }
+        .legend-table td:last-child {
+            color: #4a5568;
+        }
+        @media (max-width: 600px) {
+            .legend-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Глагол To Be (Present Simple)</h1>
+
+    <div class="rule-box">
+        <h2>📌 Правило: Когда нет действия, используем to be</h2>
+        <p>В русском языке мы говорим: «Я дома», «Он в школе», «Это интересно» (без глагола). В английском в таких предложениях <b>обязательно</b> должен быть глагол-связка <b>to be</b> (быть, являться).</p>
+        
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Местоимение</th>
+                        <th>Глагол</th>
+                        <th>Сокращение (IPA)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>I (Я)</td>
+                        <td><span class="highlight">am</span></td>
+                        <td>I'm <br><span style="font-size:0.85em; color:#2b6cb0; font-weight:500;">/aɪm/</span></td>
+                    </tr>
+                    <tr>
+                        <td>He (Он)</td>
+                        <td rowspan="3"><span class="highlight">is</span></td>
+                        <td>He's <br><span style="font-size:0.85em; color:#2b6cb0; font-weight:500;">/hiːz/</span></td>
+                    </tr>
+                    <tr>
+                        <td>She (Она)</td>
+                        <td>She's <br><span style="font-size:0.85em; color:#2b6cb0; font-weight:500;">/ʃiːz/</span></td>
+                    </tr>
+                    <tr>
+                        <td>It (Оно/Это)</td>
+                        <td>It's <br><span style="font-size:0.85em; color:#2b6cb0; font-weight:500;">/ɪts/</span></td>
+                    </tr>
+                    <tr>
+                        <td>We (Мы)</td>
+                        <td rowspan="3"><span class="highlight">are</span></td>
+                        <td>We're <br><span style="font-size:0.85em; color:#2b6cb0; font-weight:500;">/wɪə/</span></td>
+                    </tr>
+                    <tr>
+                        <td>You (Ты/Вы)</td>
+                        <td>You're <br><span style="font-size:0.85em; color:#2b6cb0; font-weight:500;">/jɔː/</span></td>
+                    </tr>
+                    <tr>
+                        <td>They (Они)</td>
+                        <td>They're <br><span style="font-size:0.85em; color:#2b6cb0; font-weight:500;">/ðeə/</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Блок полезных заметок -->
+    <div class="phrases-box">
+        <h3>💡 Полезные заметки:</h3>
+        <p style="margin-bottom: 5px; font-size: 0.95em;"><b>1. Артикль "a" перед профессиями:</b> Если мы говорим, кем является человек (в единственном числе), нужен артикль <b>a</b>: <i>He's <b>a</b> doctor</i>.</p>
+        <p style="margin-bottom: 5px; font-size: 0.95em;"><b>2. Без артикля с местоимениями:</b> Если мы говорим, чей это человек, артикль не нужен: <i>He's <b>my</b> friend</i>.</p>
+        <p style="margin-bottom: 10px; font-size: 0.95em;"><b>3. Устойчивые выражения:</b> Запомни предлоги места: <b>at</b> home / at work / at school (дома, на работе, в школе) и <b>in</b> the park (в парке).</p>
+    </div>
+
+    <div class="mode-switcher">
+        <button id="btn-eng-rus" class="mode-btn active" onclick="setMode('eng-rus')">ENG</button>
+        <button id="btn-rus-eng" class="mode-btn" onclick="setMode('rus-eng')">RUS</button>
+    </div>
+
+    <input type="text" id="searchInput" class="search-box" placeholder="🔍 Поиск по фразе или переводу..." onkeyup="filterList()">
+
+    <!-- БЛОК 1 -->
+    <div class="section-title">I'm / We're (Места и состояния)</div>
+    <ul id="list1">
+        <li class="eng-mode">
+            <span class="en">I'm at home</span>
+            <div class="transcription">/aɪm æt həʊm/</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Я дома.</span>
+        </li>
+        <li class="eng-mode">
+            <span class="en">I'm at work</span>
+            <div class="transcription">/aɪm æt wɜːk/</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Я на работе.</span>
+        </li>
+        <li class="eng-mode">
+            <span class="en">I'm at school</span>
+            <div class="transcription">/aɪm æt skuːl/</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Я в школе.</span>
+        </li>
+        <li class="eng-mode">
+            <span class="en">I'm sure</span>
+            <div class="transcription">/aɪm ʃʊə/</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Я уверен.</span>
+        </li>
+        <li class="eng-mode">
+            <span class="en">I'm certain</span>
+            <div class="transcription">/aɪm ˈsɜːtn/</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Я уверен (точно знаю).</span>
+        </li>
+        <li class="eng-mode">
+            <span class="en">We're in the park</span>
+            <div class="transcription">/wɪə ɪn ðə pɑːk/</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Мы в парке.</span>
+        </li>
+        <li class="eng-mode">
+            <span class="en">We're so happy</span>
+            <div class="transcription">/wɪə səʊ ˈhæpi/</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Мы так счастливы.</span>
+        </li>
+        <li class="eng-mode">
+            <span class="en">We're friends</span>
+            <div class="transcription">/wɪə frendz/</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Мы друзья.</span>
+        </li>
+
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Я дома.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I'm at home</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Я на работе.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I'm at work</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Я в школе.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I'm at school</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Я уверен.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I'm sure</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Я уверен (точно знаю).</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I'm certain</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Мы в парке.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">We're in the park</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Мы так счастливы.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">We're so happy</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Мы друзья.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">We're friends</div></li>
+    </ul>
+
+    <!-- БЛОК 2 -->
+    <div class="section-title">He's / She's / It's (Места)</div>
+    <ul id="list2">
+        <li class="eng-mode">
+            <span class="en">He's at school</span>
+            <div class="transcription">/hiːz æt skuːl/</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Он в школе.</span>
+        </li>
+        <li class="eng-mode">
+            <span class="en">She's here</span>
+            <div class="transcription">/ʃiːz hɪə/</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Она здесь.</span>
+        </li>
+        <li class="eng-mode">
+            <span class="en">It's there</span>
+            <div class="transcription">/ɪts ðeə/</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Это там.</span>
+        </li>
+        
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Он в школе.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">He's at school</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Она здесь.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">She's here</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это там.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's there</div></li>
+    </ul>
+
+    <!-- БЛОК 3 -->
+    <div class="section-title">He's / She's (Профессии и люди)</div>
+    <ul id="list3">
+        <li class="eng-mode">
+            <span class="en">He's a doctor</span>
+            <div class="transcription">/hiːz ə ˈdɒktə/</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Он врач.</span>
+        </li>
+        <li class="eng-mode">
+            <span class="en">He's a manager</span>
+            <div class="transcription">/hiːz ə ˈmænɪdʒə/</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Он менеджер.</span>
+        </li>
+        <li class="eng-mode">
+            <span class="en">He's my friend</span>
+            <div class="transcription">/hiːz maɪ frend/</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Он мой друг.</span>
+        </li>
+        <li class="eng-mode">
+            <span class="en">He's my boyfriend</span>
+            <div class="transcription">/hiːz maɪ ˈbɔɪfrend/</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Он мой парень.</span>
+        </li>
+        <li class="eng-mode">
+            <span class="en">He's a businessman</span>
+            <div class="transcription">/hiːz ə ˈbɪznəsmæn/</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Он бизнесмен.</span>
+        </li>
+        <li class="eng-mode">
+            <span class="en">He's her husband</span>
+            <div class="transcription">/hiːz hɜː ˈhʌzbənd/</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Он её муж.</span>
+        </li>
+        <li class="eng-mode">
+            <span class="en">She's a teacher</span>
+            <div class="transcription">/ʃiːz ə ˈtiːtʃə/</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Она учитель.</span>
+        </li>
+        <li class="eng-mode">
+            <span class="en">She's my girlfriend</span>
+            <div class="transcription">/ʃiːz maɪ ˈɡɜːlfrend/</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Она моя девушка.</span>
+        </li>
+        <li class="eng-mode">
+            <span class="en">She's my teacher</span>
+            <div class="transcription">/ʃiːz maɪ ˈtiːtʃə/</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Она моя учительница.</span>
+        </li>
+        <li class="eng-mode">
+            <span class="en">She's a student</span>
+            <div class="transcription">/ʃiːz ə ˈstjuːdnt/</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Она студентка.</span>
+        </li>
+        <li class="eng-mode">
+            <span class="en">She's his wife</span>
+            <div class="transcription">/ʃiːz hɪz waɪf/</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Она его жена.</span>
+        </li>
+
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Он врач.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">He's a doctor</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Он менеджер.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">He's a manager</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Он мой друг.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">He's my friend</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Он мой парень.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">He's my boyfriend</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Он бизнесмен.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">He's a businessman</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Он её муж.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">He's her husband</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Она учитель.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">She's a teacher</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Она моя девушка.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">She's my girlfriend</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Она моя учительница.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">She's my teacher</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Она студентка.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">She's a student</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Она его жена.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">She's his wife</div></li>
+    </ul>
+
+    <!-- НОВЫЙ БЛОК 4: IT'S (ОЦЕНКА) -->
+    <div class="section-title">It's (Оценка и качества)</div>
+    <ul id="list4">
+        <li class="eng-mode">
+            <span class="en">It's important</span>
+            <div class="transcription">/ɪts ɪmˈpɔːtnt/</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Это важно.</span>
+        </li>
+        <li class="eng-mode">
+            <span class="en">It's very important</span>
+            <div class="transcription">/ɪts ˈveri ɪmˈpɔːtnt/</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Это очень важно.</span>
+        </li>
+        <li class="eng-mode">
+            <span class="en">It's so important</span>
+            <div class="transcription">/ɪts səʊ ɪmˈpɔːtnt/</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Это так важно.</span>
+        </li>
+        <li class="eng-mode">
+            <span class="en">It's difficult</span>
+            <div class="transcription">/ɪts ˈdɪfɪkəlt/</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Это сложно.</span>
+        </li>
+        <li class="eng-mode">
+            <span class="en">It's so difficult</span>
+            <div class="transcription">/ɪts səʊ ˈdɪfɪkəlt/</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Это так сложно.</span>
+        </li>
+        <li class="eng-mode">
+            <span class="en">It's easy</span>
+            <div class="transcription">/ɪts ˈiːzi/</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Это легко.</span>
+        </li>
+        <li class="eng-mode">
+            <span class="en">It's very easy</span>
+            <div class="transcription">/ɪts ˈveri ˈiːzi/</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Это очень легко.</span>
+        </li>
+        <li class="eng-mode">
+            <span class="en">It's good</span>
+            <div class="transcription">/ɪts ɡʊd/</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Это хорошо.</span>
+        </li>
+        <li class="eng-mode">
+            <span class="en">It's bad</span>
+            <div class="transcription">/ɪts bæd/</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Это плохо.</span>
+        </li>
+        <li class="eng-mode">
+            <span class="en">It's so bad</span>
+            <div class="transcription">/ɪts səʊ bæd/</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Это так плохо.</span>
+        </li>
+        <li class="eng-mode">
+            <span class="en">It's so good</span>
+            <div class="transcription">/ɪts səʊ ɡʊd/</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Это так хорошо.</span>
+        </li>
+
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это важно.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's important</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это очень важно.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's very important</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это так важно.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's so important</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это сложно.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's difficult</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это так сложно.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's so difficult</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это легко.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's easy</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это очень легко.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's very easy</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это хорошо.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's good</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это плохо.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's bad</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это так плохо.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's so bad</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это так хорошо.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's so good</div></li>
+    </ul>
+
+    <!-- БЛОК 5 -->
+    <div class="section-title">You're / They're (Качества и люди)</div>
+    <ul id="list5">
+        <li class="eng-mode">
+            <span class="en">You're right</span>
+            <div class="transcription">/jɔː raɪt/</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Ты прав.</span>
+        </li>
+        <li class="eng-mode">
+            <span class="en">You're very kind</span>
+            <div class="transcription">/jɔː ˈveri kaɪnd/</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Ты очень добрый.</span>
+        </li>
+        <li class="eng-mode">
+            <span class="en">You're a good person</span>
+            <div class="transcription">/jɔː ə ɡʊd ˈpɜːsn/</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Ты хороший человек.</span>
+        </li>
+        <li class="eng-mode">
+            <span class="en">They're our friends</span>
+            <div class="transcription">/ðeə ˈaʊə frendz/</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Они наши друзья.</span>
+        </li>
+        <li class="eng-mode">
+            <span class="en">They're rich</span>
+            <div class="transcription">/ðeə rɪtʃ/</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Они богатые.</span>
+        </li>
+        <li class="eng-mode">
+            <span class="en">They're poor</span>
+            <div class="transcription">/ðeə pɔː/</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Они бедные.</span>
+        </li>
+        <li class="eng-mode">
+            <span class="en">They're lazy</span>
+            <div class="transcription">/ðeə ˈleɪzi/</div>
+            <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
+            <span class="ru">— Они ленивые.</span>
+        </li>
+
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Ты прав.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">You're right</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Ты очень добрый.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">You're very kind</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Ты хороший человек.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">You're a good person</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Они наши друзья.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">They're our friends</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Они богатые.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">They're rich</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Они бедные.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">They're poor</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Они ленивые.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">They're lazy</div></li>
+    </ul>
+
+    <!-- ЛЕГЕНДА ТРАНСКРИПЦИИ -->
+    <div class="legend-box">
+        <h2>🔤 Как читать транскрипцию (легенда)</h2>
+        <p style="text-align: center; font-size: 0.9em; color: #718096; margin-top: -5px;">Значок <b>ˈ</b> означает ударение на следующий слог.</p>
+        
+        <div class="legend-grid">
+            <!-- Гласные -->
+            <div class="legend-col">
+                <h3>Гласные звуки</h3>
+                <table class="legend-table">
+                    <tr><td>iː</td><td>долгий «и» (<b>see</b> /siː/, <b>he</b> /hiː/)</td></tr>
+                    <tr><td>ɪ</td><td>краткий «и» (<b>it</b> /ɪt/, <b>rich</b> /rɪtʃ/)</td></tr>
+                    <tr><td>e</td><td>«э» (<b>friend</b> /frend/)</td></tr>
+                    <tr><td>æ</td><td>«э» шире, между «э» и «а» (<b>happy</b> /ˈhæpi/, <b>bad</b> /bæd/)</td></tr>
+                    <tr><td>ɑː</td><td>долгий «а» (<b>park</b> /pɑːk/)</td></tr>
+                    <tr><td>ɒ</td><td>краткий «о» (<b>doctor</b> /ˈdɒktə/)</td></tr>
+                    <tr><td>ɔː</td><td>долгий «о» (<b>poor</b> /pɔː/, <b>important</b> /ɪmˈpɔːtnt/)</td></tr>
+                    <tr><td>ʊə</td><td>«уэ» (<b>sure</b> /ʃʊə/)</td></tr>
+                    <tr><td>ɜː</td><td>«ё» (<b>work</b> /wɜːk/, <b>person</b> /ˈpɜːsn/)</td></tr>
+                    <tr><td>ə</td><td>краткий, нечеткий «э» (артикль <b>a</b> /ə/)</td></tr>
+                    <tr><td>ʌ</td><td>краткий «а» (<b>husband</b> /ˈhʌzbənd/)</td></tr>
+                    <tr><td>əʊ</td><td>«оу» (<b>home</b> /həʊm/)</td></tr>
+                    <tr><td>aɪ</td><td>«ай» (<b>I'm</b> /aɪm/, <b>right</b> /raɪt/)</td></tr>
+                    <tr><td>aʊ</td><td>«ау» (<b>our</b> /ˈaʊə/)</td></tr>
+                    <tr><td>ɪə</td><td>«иэ» (<b>here</b> /hɪə/, <b>we're</b> /wɪə/)</td></tr>
+                    <tr><td>eə</td><td>«эа» (<b>there</b> /ðeə/, <b>they're</b> /ðeə/)</td></tr>
+                </table>
+            </div>
+
+            <!-- Согласные -->
+            <div class="legend-col">
+                <h3>Согласные звуки</h3>
+                <table class="legend-table">
+                    <tr><td>ð</td><td>«з» с кончиком языка между зубами (<b>there</b> /ðeə/)</td></tr>
+                    <tr><td>θ</td><td>«с» с кончиком языка между зубами (в наших фразах пока не встречался)</td></tr>
+                    <tr><td>ʃ</td><td>«ш» (<b>she</b> /ʃiː/, <b>sure</b> /ʃʊə/)</td></tr>
+                    <tr><td>tʃ</td><td>«ч» (<b>rich</b> /rɪtʃ/, <b>teacher</b> /ˈtiːtʃə/)</td></tr>
+                    <tr><td>dʒ</td><td>«дж» (<b>manager</b> /ˈmænɪdʒə/, <b>girlfriend</b> /ˈɡɜːlfrend/)</td></tr>
+                    <tr><td>j</td><td>«й» (<b>you're</b> /jɔː/)</td></tr>
+                    <tr><td>w</td><td>«у» (губы трубочкой) (<b>we're</b> /wɪə/, <b>wife</b> /waɪf/)</td></tr>
+                    <tr><td>ŋ</td><td>носовое «н» (в наших фразах пока не встречался)</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="back-nav-wrapper">
+    <a href="index.html" class="back-nav-btn">← На главную</a>
+</div>
+
+<script>
+    function setMode(mode) {
+        document.getElementById('btn-eng-rus').classList.remove('active');
+        document.getElementById('btn-rus-eng').classList.remove('active');
+        document.getElementById('btn-' + mode).classList.add('active');
+
+        var engModeItems = document.querySelectorAll('.eng-mode');
+        var rusModeItems = document.querySelectorAll('.rus-mode');
+
+        if (mode === 'eng-rus') {
+            engModeItems.forEach(item => item.classList.remove('hidden-mode'));
+            rusModeItems.forEach(item => item.classList.add('hidden-mode'));
+        } else {
+            engModeItems.forEach(item => item.classList.add('hidden-mode'));
+            rusModeItems.forEach(item => item.classList.remove('hidden-mode'));
+        }
+    }
+
+    function toggleTranslation(button) {
+        var translation = button.nextElementSibling;
+        if (translation.classList.contains('show')) {
+            translation.classList.remove('show');
+            button.textContent = 'Показать перевод';
+            button.style.backgroundColor = '#e2e8f0';
+        } else {
+            translation.classList.add('show');
+            button.textContent = 'Скрыть перевод';
+            button.style.backgroundColor = '#cbd5e0';
+        }
+    }
+
+    function toggleAnswer(button) {
+        var answer = button.nextElementSibling;
+        if (answer.classList.contains('show')) {
+            answer.classList.remove('show');
+            button.textContent = 'Показать ответ';
+            button.style.backgroundColor = '#e2e8f0';
+        } else {
+            answer.classList.add('show');
+            button.textContent = 'Скрыть ответ';
+            button.style.backgroundColor = '#cbd5e0';
+        }
+    }
+
+    function filterList() {
+        var input = document.getElementById('searchInput').value.toLowerCase();
+        var allItems = document.querySelectorAll('li');
+        allItems.forEach(item => {
+            var text = item.textContent.toLowerCase();
+            if (text.includes(input)) {
+                item.classList.remove('hidden-item');
+            } else {
+                item.classList.add('hidden-item');
+            }
+        });
+    }
+</script>
+
+</body>
+</html>
