@@ -3,226 +3,215 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Глагол To Be (Present Simple)</title>
+    <title>To Be: Полный гид и тренажер</title>
     <style>
+        :root {
+            --primary: #3182ce;
+            --primary-dark: #2b6cb0;
+            --bg: #f4f7f6;
+            --card-bg: #ffffff;
+            --text: #2d3748;
+            --text-light: #718096;
+            --border: #e2e8f0;
+            --success: #38a169;
+            --danger: #e53e3e;
+        }
+
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             line-height: 1.6;
             margin: 0;
-            padding: 14px;
-            background-color: #f0f4f8;
-            color: #333;
+            padding: 12px;
+            background-color: var(--bg);
+            color: var(--text);
         }
-        .container { max-width: 900px; margin: 0 auto; }
+
+        .container { max-width: 800px; margin: 0 auto; }
+
         h1 {
             text-align: center;
-            color: #2c3e50;
-            margin: 0 0 16px;
-            font-size: 1.35em;
-            word-wrap: break-word;
+            color: var(--text);
+            margin: 10px 0 20px;
+            font-size: 1.5em;
+            font-weight: 800;
         }
 
-        .rule-box {
-            background-color: #fff;
-            border-left: 6px solid #3182ce;
-            padding: 16px 14px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            margin-bottom: 22px;
+        /* Карточки правил */
+        .rules-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 25px;
         }
-        .rule-box h2 {
-            margin-top: 0;
-            color: #2b6cb0;
-            font-size: 1.1em;
-            line-height: 1.35;
+        @media (min-width: 600px) {
+            .rules-grid { grid-template-columns: 1fr 1fr; }
         }
-        .rule-box p { margin-bottom: 10px; font-size: 0.95em; }
-        
-        .table-responsive { overflow-x: auto; margin-bottom: 15px; }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: #fff;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-        th, td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid #e2e8f0;
-        }
-        th { background-color: #3182ce; color: #fff; font-weight: bold; }
-        tr:last-child td { border-bottom: none; }
-        tr:nth-child(even) { background-color: #f8fafc; }
-        
-        .highlight { color: #e53e3e; font-weight: bold; }
 
-        /* Блок заметок */
-        .notes-box {
-            background-color: #ebf8ff;
-            border: 2px dashed #3182ce;
+        .rule-card {
+            background: var(--card-bg);
+            border-radius: 12px;
             padding: 16px;
-            border-radius: 8px;
-            margin-bottom: 22px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            border-left: 4px solid var(--primary);
         }
-        .notes-box h3 { margin-top: 0; color: #2b6cb0; font-size: 1.05em; }
-        .notes-box ul { padding-left: 20px; margin: 0; font-size: 0.95em; color: #4a5568;}
-        .notes-box li { margin-bottom: 8px; }
-
-        .mode-switcher {
+        .rule-card h3 {
+            margin: 0 0 8px;
+            font-size: 1.05em;
+            color: var(--primary-dark);
             display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 20px;
+            align-items: center;
+            gap: 8px;
+        }
+        .rule-card p {
+            margin: 0 0 8px;
+            font-size: 0.95em;
+            color: var(--text-light);
+        }
+        .example-box {
+            background: #edf2f7;
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-size: 0.9em;
+            font-weight: 600;
+            color: var(--text);
+        }
+        .highlight { color: var(--danger); }
+
+        /* Таблица */
+        .table-responsive {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            margin-bottom: 25px;
+        }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th, td { padding: 12px 16px; border-bottom: 1px solid var(--border); }
+        th { background: var(--primary); color: white; font-weight: 600; }
+        tr:last-child td { border-bottom: none; }
+
+        /* Переключатель и поиск */
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            position: sticky;
+            top: 0;
+            background: var(--bg);
+            padding: 10px 0;
+            z-index: 10;
         }
         .mode-btn {
-            background-color: #cbd5e0;
-            color: #4a5568;
-            border: none;
-            padding: 10px 30px;
-            border-radius: 6px;
-            cursor: pointer;
+            flex: 1;
+            background: var(--card-bg);
+            color: var(--text-light);
+            border: 2px solid var(--border);
+            padding: 10px;
+            border-radius: 8px;
             font-size: 1em;
-            font-weight: bold;
-            transition: background-color 0.2s, color 0.2s;
-            min-width: 100px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
         }
-        .mode-btn.active { background-color: #3182ce; color: #fff; }
-
-        .search-box {
+        .mode-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+        .search-input {
             width: 100%;
             padding: 12px 16px;
             margin-bottom: 20px;
-            border: 2px solid #3182ce;
+            border: 2px solid var(--border);
             border-radius: 8px;
             font-size: 1em;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
             outline: none;
+            transition: border-color 0.2s;
         }
-        .search-box:focus { border-color: #2b6cb0; box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.2); }
+        .search-input:focus { border-color: var(--primary); }
 
+        /* Заголовки блоков */
         .section-title {
-            background-color: #3182ce;
-            color: #fff;
-            padding: 8px 14px;
-            border-radius: 6px;
-            margin: 25px 0 15px;
+            background: var(--primary-dark);
+            color: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            margin: 30px 0 15px;
             font-size: 1.1em;
+            font-weight: 700;
             text-align: center;
         }
 
-        ul { list-style-type: none; padding-left: 0; margin: 0; }
+        /* Список фраз */
+        ul { list-style: none; padding: 0; margin: 0; }
         li {
-            background: #fff;
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 14px 16px;
             margin-bottom: 10px;
-            padding: 12px 14px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            border-left: 4px solid var(--success);
             display: flex;
             flex-direction: column;
-            border-left: 5px solid #38a169;
-            word-wrap: break-word;
-            align-items: flex-start;
         }
-        
-        .en {
-            font-weight: bold;
-            font-size: 1.05em;
-            color: #2c3e50;
-            margin-bottom: 5px;
-            line-height: 1.45;
+        .en-text {
+            font-size: 1.1em;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 4px;
         }
-        
-        .transcription {
-            font-size: 0.95em;
-            color: #2b6cb0;
+        .ipa-text {
+            font-size: 0.9em;
+            color: var(--primary);
             margin-bottom: 12px;
             font-weight: 500;
         }
-
-        .ru-prompt {
-            font-size: 1.1em;
-            font-weight: bold;
-            color: #2c3e50;
-            margin-bottom: 15px;
-            line-height: 1.45;
+        .ru-text {
+            display: none;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px dashed var(--border);
+            color: var(--primary-dark);
+            font-weight: 600;
         }
+        .ru-text.show { display: block; }
 
-        .btn-toggle {
-            background-color: #e2e8f0;
-            color: #4a5568;
+        .btn-show {
+            background: #edf2f7;
+            color: var(--text);
             border: none;
-            padding: 9px 14px;
+            padding: 8px 16px;
             border-radius: 6px;
-            cursor: pointer;
             font-size: 0.9em;
-            transition: background-color 0.2s;
-            min-height: 38px;
+            font-weight: 600;
+            cursor: pointer;
             align-self: flex-start;
+            transition: background 0.2s;
         }
-        .btn-toggle:active { background-color: #cbd5e0; }
-
-        .ru {
-            display: none;
-            color: #2b6cb0;
-            font-size: 0.98em;
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 1px dashed #e2e8f0;
-            font-weight: 500;
-        }
-        .ru.show { display: block; }
-
-        .en-answer {
-            display: none;
-            color: #2b6cb0;
-            font-size: 1.05em;
-            font-weight: bold;
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 1px dashed #e2e8f0;
-        }
-        .en-answer.show { display: block; }
+        .btn-show:active { background: var(--border); }
 
         .hidden-mode { display: none !important; }
-        .hidden-item { display: none !important; }
-
-        @media (max-width: 360px) {
-            body { padding: 10px; }
-            h1 { font-size: 1.2em; }
-            .en { font-size: 0.98em; }
-            .transcription { font-size: 0.9em; }
-            .ru-prompt { font-size: 1.05em; }
-            li { padding: 10px 12px; }
-            .search-box { padding: 10px 12px; font-size: 0.9em; }
-            .mode-switcher { flex-direction: row; gap: 10px; }
-            .mode-btn { padding: 8px 15px; font-size: 0.9em; min-width: 80px; }
-        }
         
-        .back-nav-wrapper { text-align: center; margin: 30px auto 20px; padding: 0 14px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;}
-        .back-nav-btn {
-            display: inline-block;
-            background-color: #3182ce;
-            color: #ffffff;
-            text-decoration: none;
-            padding: 12px 28px;
-            border-radius: 8px;
-            font-size: 1em;
-            font-weight: 600;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        /* Нижняя навигация */
+        .nav-buttons {
+            display: flex;
+            gap: 12px;
+            margin: 30px 0;
         }
-        .legend-nav-btn {
-            background-color: #4a5568;
-            color: #fff;
+        .nav-btn {
+            flex: 1;
+            text-align: center;
             text-decoration: none;
-            padding: 12px 28px;
-            border-radius: 8px;
-            font-size: 1em;
-            font-weight: 600;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: 700;
+            color: white;
+            background: var(--primary);
+            box-shadow: 0 4px 6px rgba(49, 130, 206, 0.2);
         }
+        .nav-btn.secondary { background: var(--text-light); box-shadow: 0 4px 6px rgba(113, 128, 150, 0.2); }
     </style>
 </head>
 <body>
@@ -230,358 +219,228 @@
 <div class="container">
     <h1>Глагол To Be (Present Simple)</h1>
 
-    <!-- ОСНОВНОЕ ПРАВИЛО -->
-    <div class="rule-box">
-        <h2>📌 Правило: Когда нет действия, используем to be</h2>
-        <p>В русском языке мы говорим: «Я дома», «Он в школе», «Это интересно» (без глагола). В английском в таких предложениях <b>обязательно</b> должен быть глагол-связка <b>to be</b> (быть, являться).</p>
+    <!-- ПРАВИЛА -->
+    <div class="rules-grid">
+        <div class="rule-card">
+            <h3>📌 Когда нет действия</h3>
+            <p>В русском мы говорим «Я дома» (без глагола). В английском глагол-связка обязателен.</p>
+            <div class="example-box">I <span class="highlight">am</span> at home.</div>
+        </div>
         
-        <div class="table-responsive">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Местоимение</th>
-                        <th>Глагол</th>
-                        <th>Сокращение (IPA)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td>I (Я)</td><td><span class="highlight">am</span></td><td>I'm <br><span style="font-size:0.85em; color:#2b6cb0; font-weight:500;">/aɪm/</span></td></tr>
-                    <tr><td>He (Он)</td><td rowspan="3"><span class="highlight">is</span></td><td>He's <br><span style="font-size:0.85em; color:#2b6cb0; font-weight:500;">/hiːz/</span></td></tr>
-                    <tr><td>She (Она)</td><td>She's <br><span style="font-size:0.85em; color:#2b6cb0; font-weight:500;">/ʃiːz/</span></td></tr>
-                    <tr><td>It (Оно/Это)</td><td>It's <br><span style="font-size:0.85em; color:#2b6cb0; font-weight:500;">/ɪts/</span></td></tr>
-                    <tr><td>We (Мы)</td><td rowspan="3"><span class="highlight">are</span></td><td>We're <br><span style="font-size:0.85em; color:#2b6cb0; font-weight:500;">/wɪə/</span></td></tr>
-                    <tr><td>You (Ты/Вы)</td><td>You're <br><span style="font-size:0.85em; color:#2b6cb0; font-weight:500;">/jɔː/</span></td></tr>
-                    <tr><td>They (Они)</td><td>They're <br><span style="font-size:0.85em; color:#2b6cb0; font-weight:500;">/ðeə/</span></td></tr>
-                </tbody>
-            </table>
+        <div class="rule-card">
+            <h3>💡 Артикли (a/an)</h3>
+            <p>Ставятся перед прилагательным + сущ. в ед.ч. Перед <i>very</i> артикль идет первым.</p>
+            <div class="example-box">
+                It's <span class="highlight">a</span> good result.<br>
+                It's <span class="highlight">a very</span> good result.
+            </div>
+        </div>
+
+        <div class="rule-card">
+            <h3>🚫 Без артикля</h3>
+            <p>Если после прилагательного нет существительного, артикль не нужен.</p>
+            <div class="example-box">
+                It's simple (нельзя "a simple").<br>
+                It's easy.
+            </div>
+        </div>
+
+        <div class="rule-card">
+            <h3>🔥 Усилители</h3>
+            <p><b>so / very</b> — просто усиливают. <b>too</b> — «слишком» (чересчур).</p>
+            <div class="example-box">
+                It's so boring.<br>
+                It's <span class="highlight">too</span> expensive.
+            </div>
         </div>
     </div>
 
-    <!-- ВАЖНЫЕ ЗАМЕТКИ -->
-    <div class="notes-box">
-        <h3>💡 Важные ловушки и правила:</h3>
-        <ul>
-            <li><b>Артикли (a/an):</b> Ставятся перед <u>прилагательным + существительным</u> в ед.ч. (<i>It's <b>a</b> good result</i>). Если слово начинается с гласного звука — <b>an</b> (<i><b>an</b> interesting idea</i>). Перед словом <i>very</i> артикль ставится первым (<i>It's <b>a very</b> good result</i>).</li>
-            <li><b>Без артикля:</b> Если после прилагательного нет существительного, артикль не нужен (<i>It's simple, it's easy</i>). Нельзя говорить <i>It's a simple</i>.</li>
-            <li><b>Наречия и окончания:</b> Не добавляйте <b>-s</b> к прилагательным (нельзя <i>It's simples</i>). Окончание <b>-s</b> бывает только у глаголов (he work<b>s</b>).</li>
-            <li><b>Усилители (so / very / too):</b> <i>very</i> и <i>so</i> просто усиливают (<i>so boring</i>). А <b>too</b> означает «слишком» в негативном смысле (<i>too expensive</i> — слишком дорого, не могу купить).</li>
-            <li><b>Превосходная степень:</b> Самый лучший — это <b>the best</b> (с артиклем <b>the</b>). <i>It's <b>the</b> best channel</i>.</li>
-            <li><b>Безличные выражения:</b> О погоде, времени и расстоянии говорим через <b>It</b>. <i>It's cold. It's rainy.</i> Если добавляем существительное, появляется артикль: <i>It's <b>a</b> cold day</i>.</li>
-        </ul>
+    <!-- ТАБЛИЦА -->
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th>Местоимение</th>
+                    <th>Глагол</th>
+                    <th>Сокращение (IPA)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>I (Я)</td><td>am</td><td>I'm <span style="color:var(--text-light); font-weight:400;">/aɪm/</span></td></tr>
+                <tr><td>He (Он)</td><td rowspan="3">is</td><td>He's <span style="color:var(--text-light); font-weight:400;">/hiːz/</span></td></tr>
+                <tr><td>She (Она)</td><td>She's <span style="color:var(--text-light); font-weight:400;">/ʃiːz/</span></td></tr>
+                <tr><td>It (Оно)</td><td>It's <span style="color:var(--text-light); font-weight:400;">/ɪts/</span></td></tr>
+                <tr><td>We (Мы)</td><td rowspan="3">are</td><td>We're <span style="color:var(--text-light); font-weight:400;">/wɪə/</span></td></tr>
+                <tr><td>You (Ты/Вы)</td><td>You're <span style="color:var(--text-light); font-weight:400;">/jɔː/</span></td></tr>
+                <tr><td>They (Они)</td><td>They're <span style="color:var(--text-light); font-weight:400;">/ðeə/</span></td></tr>
+            </tbody>
+        </table>
     </div>
 
-    <div class="mode-switcher">
-        <button id="btn-eng-rus" class="mode-btn active" onclick="setMode('eng-rus')">ENG</button>
-        <button id="btn-rus-eng" class="mode-btn" onclick="setMode('rus-eng')">RUS</button>
+    <!-- УПРАВЛЕНИЕ -->
+    <div class="controls">
+        <button id="btn-eng" class="mode-btn active" onclick="setMode('eng')">ENG 🇬🇧</button>
+        <button id="btn-rus" class="mode-btn" onclick="setMode('rus')">RUS 🇷🇺</button>
     </div>
 
-    <input type="text" id="searchInput" class="search-box" placeholder="🔍 Поиск по фразе или переводу..." onkeyup="filterList()">
+    <input type="text" id="search" class="search-input" placeholder="🔍 Поиск по фразам..." oninput="filterList()">
 
     <!-- БЛОК 1 -->
-    <div class="section-title">I'm / We're (Места и состояния)</div>
-    <ul id="list1">
-        <li class="eng-mode"><span class="en">I'm at home</span><div class="transcription">/aɪm æt həʊm/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я дома.</span></li>
-        <li class="eng-mode"><span class="en">I'm at work</span><div class="transcription">/aɪm æt wɜːk/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я на работе.</span></li>
-        <li class="eng-mode"><span class="en">I'm at school</span><div class="transcription">/aɪm æt skuːl/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я в школе.</span></li>
-        <li class="eng-mode"><span class="en">I'm sure</span><div class="transcription">/aɪm ʃʊə/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я уверен.</span></li>
-        <li class="eng-mode"><span class="en">I'm certain</span><div class="transcription">/aɪm ˈsɜːtn/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я уверен (точно знаю).</span></li>
-        <li class="eng-mode"><span class="en">We're in the park</span><div class="transcription">/wɪə ɪn ðə pɑːk/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Мы в парке.</span></li>
-        <li class="eng-mode"><span class="en">We're so happy</span><div class="transcription">/wɪə səʊ ˈhæpi/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Мы так счастливы.</span></li>
-        <li class="eng-mode"><span class="en">We're friends</span><div class="transcription">/wɪə frendz/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Мы друзья.</span></li>
+    <div class="section-title">I'm / We're</div>
+    <ul>
+        <li class="eng-mode"><div class="en-text">I'm at home</div><div class="ipa-text">/aɪm æt həʊm/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Я дома.</div></li>
+        <li class="eng-mode"><div class="en-text">I'm at work</div><div class="ipa-text">/aɪm æt wɜːk/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Я на работе.</div></li>
+        <li class="eng-mode"><div class="en-text">I'm at school</div><div class="ipa-text">/aɪm æt skuːl/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Я в школе.</div></li>
+        <li class="eng-mode"><div class="en-text">I'm sure</div><div class="ipa-text">/aɪm ʃʊə/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Я уверен.</div></li>
+        <li class="eng-mode"><div class="en-text">I'm ready</div><div class="ipa-text">/aɪm ˈredi/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Я готов.</div></li>
+        <li class="eng-mode"><div class="en-text">I'm fine</div><div class="ipa-text">/aɪm faɪn/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Я в порядке.</div></li>
+        <li class="eng-mode"><div class="en-text">We're in the park</div><div class="ipa-text">/wɪə ɪn ðə pɑːk/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Мы в парке.</div></li>
+        <li class="eng-mode"><div class="en-text">We're so happy</div><div class="ipa-text">/wɪə səʊ ˈhæpi/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Мы так счастливы.</div></li>
+        <li class="eng-mode"><div class="en-text">We're friends</div><div class="ipa-text">/wɪə frendz/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Мы друзья.</div></li>
 
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Я дома.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I'm at home</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Я на работе.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I'm at work</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Я в школе.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I'm at school</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Я уверен.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I'm sure</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Я уверен (точно знаю).</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I'm certain</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Мы в парке.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">We're in the park</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Мы так счастливы.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">We're so happy</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Мы друзья.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">We're friends</div></li>
+        <li class="rus-mode hidden-mode"><div class="en-text">Я дома.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">I'm at home</div></li>
+        <li class="rus-mode hidden-mode"><div class="en-text">Я на работе.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">I'm at work</div></li>
+        <li class="rus-mode hidden-mode"><div class="en-text">Я в школе.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">I'm at school</div></li>
+        <li class="rus-mode hidden-mode"><div class="en-text">Я уверен.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">I'm sure</div></li>
+        <li class="rus-mode hidden-mode"><div class="en-text">Я готов.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">I'm ready</div></li>
+        <li class="rus-mode hidden-mode"><div class="en-text">Я в порядке.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">I'm fine</div></li>
+        <li class="rus-mode hidden-mode"><div class="en-text">Мы в парке.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">We're in the park</div></li>
+        <li class="rus-mode hidden-mode"><div class="en-text">Мы так счастливы.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">We're so happy</div></li>
+        <li class="rus-mode hidden-mode"><div class="en-text">Мы друзья.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">We're friends</div></li>
     </ul>
 
     <!-- БЛОК 2 -->
-    <div class="section-title">He's / She's / It's (Места)</div>
-    <ul id="list2">
-        <li class="eng-mode"><span class="en">He's at school</span><div class="transcription">/hiːz æt skuːl/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он в школе.</span></li>
-        <li class="eng-mode"><span class="en">She's here</span><div class="transcription">/ʃiːz hɪə/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Она здесь.</span></li>
-        <li class="eng-mode"><span class="en">It's there</span><div class="transcription">/ɪts ðeə/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это там.</span></li>
-        <li class="eng-mode"><span class="en">It's on the right</span><div class="transcription">/ɪts ɒn ðə raɪt/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это справа.</span></li>
-        <li class="eng-mode"><span class="en">It's on the left</span><div class="transcription">/ɪts ɒn ðə left/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это слева.</span></li>
+    <div class="section-title">He's / She's / It's</div>
+    <ul>
+        <li class="eng-mode"><div class="en-text">He's at school</div><div class="ipa-text">/hiːz æt skuːl/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Он в школе.</div></li>
+        <li class="eng-mode"><div class="en-text">She's here</div><div class="ipa-text">/ʃiːz hɪə/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Она здесь.</div></li>
+        <li class="eng-mode"><div class="en-text">It's there</div><div class="ipa-text">/ɪts ðeə/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Это там.</div></li>
+        <li class="eng-mode"><div class="en-text">It's on the right</div><div class="ipa-text">/ɪts ɒn ðə raɪt/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Это справа.</div></li>
+        <li class="eng-mode"><div class="en-text">It's on the left</div><div class="ipa-text">/ɪts ɒn ðə left/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Это слева.</div></li>
 
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Он в школе.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">He's at school</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Она здесь.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">She's here</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это там.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's there</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это справа.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's on the right</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это слева.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's on the left</div></li>
+        <li class="rus-mode hidden-mode"><div class="en-text">Он в школе.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">He's at school</div></li>
+        <li class="rus-mode hidden-mode"><div class="en-text">Она здесь.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">She's here</div></li>
+        <li class="rus-mode hidden-mode"><div class="en-text">Это там.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">It's there</div></li>
+        <li class="rus-mode hidden-mode"><div class="en-text">Это справа.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">It's on the right</div></li>
+        <li class="rus-mode hidden-mode"><div class="en-text">Это слева.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">It's on the left</div></li>
     </ul>
 
     <!-- БЛОК 3 -->
-    <div class="section-title">He's / She's (Профессии и люди)</div>
-    <ul id="list3">
-        <li class="eng-mode"><span class="en">He's a doctor</span><div class="transcription">/hiːz ə ˈdɒktə/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он врач.</span></li>
-        <li class="eng-mode"><span class="en">He's a manager</span><div class="transcription">/hiːz ə ˈmænɪdʒə/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он менеджер.</span></li>
-        <li class="eng-mode"><span class="en">He's my friend</span><div class="transcription">/hiːz maɪ frend/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он мой друг.</span></li>
-        <li class="eng-mode"><span class="en">He's my boyfriend</span><div class="transcription">/hiːz maɪ ˈbɔɪfrend/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он мой парень.</span></li>
-        <li class="eng-mode"><span class="en">He's a businessman</span><div class="transcription">/hiːz ə ˈbɪznəsmæn/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он бизнесмен.</span></li>
-        <li class="eng-mode"><span class="en">He's her husband</span><div class="transcription">/hiːz hɜː ˈhʌzbənd/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он её муж.</span></li>
-        <li class="eng-mode"><span class="en">She's a teacher</span><div class="transcription">/ʃiːz ə ˈtiːtʃə/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Она учитель.</span></li>
-        <li class="eng-mode"><span class="en">She's my girlfriend</span><div class="transcription">/ʃiːz maɪ ˈɡɜːlfrend/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Она моя девушка.</span></li>
-        <li class="eng-mode"><span class="en">She's my teacher</span><div class="transcription">/ʃiːz maɪ ˈtiːtʃə/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Она моя учительница.</span></li>
-        <li class="eng-mode"><span class="en">She's a student</span><div class="transcription">/ʃiːz ə ˈstjuːdnt/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Она студентка.</span></li>
-        <li class="eng-mode"><span class="en">She's his wife</span><div class="transcription">/ʃiːz hɪz waɪf/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Она его жена.</span></li>
-        <li class="eng-mode"><span class="en">He's a young man</span><div class="transcription">/hiːz ə jʌŋ mæn/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он молодой человек.</span></li>
-        <li class="eng-mode"><span class="en">She's a very beautiful girl</span><div class="transcription">/ʃiːz ə ˈveri ˈbjuːtɪfl ɡɜːl/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Она очень красивая девушка.</span></li>
+    <div class="section-title">Оценка и Погода (It's)</div>
+    <ul>
+        <li class="eng-mode"><div class="en-text">It's important</div><div class="ipa-text">/ɪts ɪmˈpɔːtnt/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Это важно.</div></li>
+        <li class="eng-mode"><div class="en-text">It's difficult</div><div class="ipa-text">/ɪts ˈdɪfɪkəlt/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Это сложно.</div></li>
+        <li class="eng-mode"><div class="en-text">It's easy</div><div class="ipa-text">/ɪts ˈiːzi/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Это легко.</div></li>
+        <li class="eng-mode"><div class="en-text">It's good</div><div class="ipa-text">/ɪts ɡʊd/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Это хорошо.</div></li>
+        <li class="eng-mode"><div class="en-text">It's cold</div><div class="ipa-text">/ɪts kəʊld/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Холодно.</div></li>
+        <li class="eng-mode"><div class="en-text">It's hot</div><div class="ipa-text">/ɪts hɒt/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Жарко.</div></li>
+        <li class="eng-mode"><div class="en-text">It's sunny</div><div class="ipa-text">/ɪts ˈsʌni/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Солнечно.</div></li>
 
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Он врач.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">He's a doctor</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Он менеджер.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">He's a manager</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Он мой друг.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">He's my friend</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Он мой парень.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">He's my boyfriend</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Он бизнесмен.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">He's a businessman</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Он её муж.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">He's her husband</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Она учитель.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">She's a teacher</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Она моя девушка.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">She's my girlfriend</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Она моя учительница.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">She's my teacher</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Она студентка.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">She's a student</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Она его жена.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">She's his wife</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Он молодой человек.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">He's a young man</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Она очень красивая девушка.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">She's a very beautiful girl</div></li>
+        <li class="rus-mode hidden-mode"><div class="en-text">Это важно.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">It's important</div></li>
+        <li class="rus-mode hidden-mode"><div class="en-text">Это сложно.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">It's difficult</div></li>
+        <li class="rus-mode hidden-mode"><div class="en-text">Это легко.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">It's easy</div></li>
+        <li class="rus-mode hidden-mode"><div class="en-text">Это хорошо.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">It's good</div></li>
+        <li class="rus-mode hidden-mode"><div class="en-text">Холодно.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">It's cold</div></li>
+        <li class="rus-mode hidden-mode"><div class="en-text">Жарко.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">It's hot</div></li>
+        <li class="rus-mode hidden-mode"><div class="en-text">Солнечно.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">It's sunny</div></li>
     </ul>
 
     <!-- БЛОК 4 -->
-    <div class="section-title">It's (Оценка и качества)</div>
-    <ul id="list4">
-        <li class="eng-mode"><span class="en">It's important</span><div class="transcription">/ɪts ɪmˈpɔːtnt/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это важно.</span></li>
-        <li class="eng-mode"><span class="en">It's very important</span><div class="transcription">/ɪts ˈveri ɪmˈpɔːtnt/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это очень важно.</span></li>
-        <li class="eng-mode"><span class="en">It's so important</span><div class="transcription">/ɪts səʊ ɪmˈpɔːtnt/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это так важно.</span></li>
-        <li class="eng-mode"><span class="en">It's difficult</span><div class="transcription">/ɪts ˈdɪfɪkəlt/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это сложно.</span></li>
-        <li class="eng-mode"><span class="en">It's so difficult</span><div class="transcription">/ɪts səʊ ˈdɪfɪkəlt/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это так сложно.</span></li>
-        <li class="eng-mode"><span class="en">It's easy</span><div class="transcription">/ɪts ˈiːzi/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это легко.</span></li>
-        <li class="eng-mode"><span class="en">It's very easy</span><div class="transcription">/ɪts ˈveri ˈiːzi/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это очень легко.</span></li>
-        <li class="eng-mode"><span class="en">It's good</span><div class="transcription">/ɪts ɡʊd/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это хорошо.</span></li>
-        <li class="eng-mode"><span class="en">It's bad</span><div class="transcription">/ɪts bæd/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это плохо.</span></li>
-        <li class="eng-mode"><span class="en">It's so bad</span><div class="transcription">/ɪts səʊ bæd/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это так плохо.</span></li>
-        <li class="eng-mode"><span class="en">It's so good</span><div class="transcription">/ɪts səʊ ɡʊd/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это так хорошо.</span></li>
-        <li class="eng-mode"><span class="en">It's obvious</span><div class="transcription">/ɪts ˈɒbviəs/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это очевидно.</span></li>
-        <li class="eng-mode"><span class="en">It's interesting</span><div class="transcription">/ɪts ˈɪntrəstɪŋ/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это интересно.</span></li>
-        <li class="eng-mode"><span class="en">It's simple</span><div class="transcription">/ɪts ˈsɪmpl/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это просто.</span></li>
-        <li class="eng-mode"><span class="en">It's possible</span><div class="transcription">/ɪts ˈpɒsəbl/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это возможно.</span></li>
-        <li class="eng-mode"><span class="en">It's impossible</span><div class="transcription">/ɪts ɪmˈpɒsəbl/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это невозможно.</span></li>
-        <li class="eng-mode"><span class="en">It's better</span><div class="transcription">/ɪts ˈbetə/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это лучше.</span></li>
-        <li class="eng-mode"><span class="en">It's worse</span><div class="transcription">/ɪts wɜːs/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это хуже.</span></li>
+    <div class="section-title">Артикли (a/an) + Прилагательные</div>
+    <ul>
+        <li class="eng-mode"><div class="en-text">It's a good result</div><div class="ipa-text">/ɪts ə ɡʊd rɪˈzʌlt/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Это хороший результат.</div></li>
+        <li class="eng-mode"><div class="en-text">It's a very good result</div><div class="ipa-text">/ɪts ə ˈveri ɡʊd rɪˈzʌlt/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Это очень хороший результат.</div></li>
+        <li class="eng-mode"><div class="en-text">It's an interesting idea</div><div class="ipa-text">/ɪts ən ˈɪntrəstɪŋ aɪˈdɪə/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Это интересная идея.</div></li>
+        <li class="eng-mode"><div class="en-text">It's a big mistake</div><div class="ipa-text">/ɪts ə bɪɡ mɪˈsteɪk/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Это большая ошибка.</div></li>
+        <li class="eng-mode"><div class="en-text">It's a small mistake</div><div class="ipa-text">/ɪts ə smɔːl mɪˈsteɪk/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Это маленькая ошибка.</div></li>
+        <li class="eng-mode"><div class="en-text">It's a cold day</div><div class="ipa-text">/ɪts ə kəʊld deɪ/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Это холодный день.</div></li>
 
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это важно.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's important</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это очень важно.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's very important</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это так важно.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's so important</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это сложно.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's difficult</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это так сложно.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's so difficult</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это легко.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's easy</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это очень легко.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's very easy</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это хорошо.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's good</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это плохо.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's bad</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это так плохо.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's so bad</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это так хорошо.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's so good</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это очевидно.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's obvious</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это интересно.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's interesting</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это просто.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's simple</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это возможно.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's possible</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это невозможно.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's impossible</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это лучше.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's better</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это хуже.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's worse</div></li>
+        <li class="rus-mode hidden-mode"><div class="en-text">Это хороший результат.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">It's a good result</div></li>
+        <li class="rus-mode hidden-mode"><div class="en-text">Это очень хороший результат.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">It's a very good result</div></li>
+        <li class="rus-mode hidden-mode"><div class="en-text">Это интересная идея.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">It's an interesting idea</div></li>
+        <li class="rus-mode hidden-mode"><div class="en-text">Это большая ошибка.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">It's a big mistake</div></li>
+        <li class="rus-mode hidden-mode"><div class="en-text">Это маленькая ошибка.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">It's a small mistake</div></li>
+        <li class="rus-mode hidden-mode"><div class="en-text">Это холодный день.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">It's a cold day</div></li>
     </ul>
 
-    <!-- БЛОК 5: IT'S + ПОГОДА -->
-    <div class="section-title">It's (Погода и безличные)</div>
-    <ul id="list5">
-        <li class="eng-mode"><span class="en">It's cold</span><div class="transcription">/ɪts kəʊld/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Холодно.</span></li>
-        <li class="eng-mode"><span class="en">It's warm</span><div class="transcription">/ɪts wɔːm/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Тепло.</span></li>
-        <li class="eng-mode"><span class="en">It's hot</span><div class="transcription">/ɪts hɒt/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Жарко.</span></li>
-        <li class="eng-mode"><span class="en">It's rainy</span><div class="transcription">/ɪts ˈreɪni/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Дождливо.</span></li>
-        <li class="eng-mode"><span class="en">It's sunny</span><div class="transcription">/ɪts ˈsʌni/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Солнечно.</span></li>
-        <li class="eng-mode"><span class="en">It's dark</span><div class="transcription">/ɪts dɑːk/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Темно.</span></li>
-        <li class="eng-mode"><span class="en">It's too hot</span><div class="transcription">/ɪts tuː hɒt/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Слишком жарко.</span></li>
+    <!-- БЛОК 5 -->
+    <div class="section-title">Усилители и Степени (so/very/too/the best)</div>
+    <ul>
+        <li class="eng-mode"><div class="en-text">It's so boring</div><div class="ipa-text">/ɪts səʊ ˈbɔːrɪŋ/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Это так скучно.</div></li>
+        <li class="eng-mode"><div class="en-text">It's very boring</div><div class="ipa-text">/ɪts ˈveri ˈbɔːrɪŋ/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Это очень скучно.</div></li>
+        <li class="eng-mode"><div class="en-text">It's too boring</div><div class="ipa-text">/ɪts tuː ˈbɔːrɪŋ/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Это слишком скучно.</div></li>
+        <li class="eng-mode"><div class="en-text">It's too expensive</div><div class="ipa-text">/ɪts tuː ɪkˈspensɪv/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Это слишком дорого.</div></li>
+        <li class="eng-mode"><div class="en-text">It's the best channel</div><div class="ipa-text">/ɪts ðə best ˈtʃænl/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Это лучший канал.</div></li>
+        <li class="eng-mode"><div class="en-text">You're the best teacher in the world</div><div class="ipa-text">/jɔː ðə best ˈtiːtʃər ɪn ðə wɜːld/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Ты лучший учитель в мире.</div></li>
 
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Холодно.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's cold</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Тепло.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's warm</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Жарко.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's hot</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Дождливо.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's rainy</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Солнечно.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's sunny</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Темно.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's dark</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Слишком жарко.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's too hot</div></li>
+        <li class="rus-mode hidden-mode"><div class="en-text">Это так скучно.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">It's so boring</div></li>
+        <li class="rus-mode hidden-mode"><div class="en-text">Это очень скучно.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">It's very boring</div></li>
+        <li class="rus-mode hidden-mode"><div class="en-text">Это слишком скучно.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">It's too boring</div></li>
+        <li class="rus-mode hidden-mode"><div class="en-text">Это слишком дорого.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">It's too expensive</div></li>
+        <li class="rus-mode hidden-mode"><div class="en-text">Это лучший канал.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">It's the best channel</div></li>
+        <li class="rus-mode hidden-mode"><div class="en-text">Ты лучший учитель в мире.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">You're the best teacher in the world</div></li>
     </ul>
 
-    <!-- БЛОК 6: УСИЛИТЕЛИ И СТЕПЕНИ -->
-    <div class="section-title">Усилители (so/very/too) и Степени</div>
-    <ul id="list6">
-        <li class="eng-mode"><span class="en">It's so boring</span><div class="transcription">/ɪts səʊ ˈbɔːrɪŋ/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это так скучно.</span></li>
-        <li class="eng-mode"><span class="en">It's very boring</span><div class="transcription">/ɪts ˈveri ˈbɔːrɪŋ/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это очень скучно.</span></li>
-        <li class="eng-mode"><span class="en">It's too boring</span><div class="transcription">/ɪts tuː ˈbɔːrɪŋ/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это слишком скучно.</span></li>
-        <li class="eng-mode"><span class="en">It's too easy</span><div class="transcription">/ɪts tuː ˈiːzi/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это слишком легко.</span></li>
-        <li class="eng-mode"><span class="en">It's too difficult</span><div class="transcription">/ɪts tuː ˈdɪfɪkəlt/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это слишком сложно.</span></li>
-        <li class="eng-mode"><span class="en">It's too expensive</span><div class="transcription">/ɪts tuː ɪkˈspensɪv/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это слишком дорого.</span></li>
-        <li class="eng-mode"><span class="en">It's cheap</span><div class="transcription">/ɪts tʃiːp/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это дешево.</span></li>
-        <li class="eng-mode"><span class="en">It's the best channel</span><div class="transcription">/ɪts ðə best ˈtʃænl/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это лучший канал.</span></li>
-        <li class="eng-mode"><span class="en">You're the best teacher in the world</span><div class="transcription">/jɔː ðə best ˈtiːtʃər ɪn ðə wɜːld/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Ты лучший учитель в мире.</span></li>
-        <li class="eng-mode"><span class="en">It's the best example</span><div class="transcription">/ɪts ðə best ɪɡˈzɑːmpl/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это лучший пример.</span></li>
+    <!-- БЛОК 6 -->
+    <div class="section-title">Люди и Профессии (He / She)</div>
+    <ul>
+        <li class="eng-mode"><div class="en-text">He's a doctor</div><div class="ipa-text">/hiːz ə ˈdɒktə/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Он врач.</div></li>
+        <li class="eng-mode"><div class="en-text">He's a manager</div><div class="ipa-text">/hiːz ə ˈmænɪdʒə/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Он менеджер.</div></li>
+        <li class="eng-mode"><div class="en-text">She's a teacher</div><div class="ipa-text">/ʃiːz ə ˈtiːtʃə/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Она учитель.</div></li>
+        <li class="eng-mode"><div class="en-text">She's a very beautiful girl</div><div class="ipa-text">/ʃiːz ə ˈveri ˈbjuːtɪfl ɡɜːl/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Она очень красивая девушка.</div></li>
 
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это так скучно.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's so boring</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это очень скучно.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's very boring</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это слишком скучно.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's too boring</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это слишком легко.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's too easy</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это слишком сложно.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's too difficult</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это слишком дорого.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's too expensive</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это дешево.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's cheap</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это лучший канал.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's the best channel</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Ты лучший учитель в мире.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">You're the best teacher in the world</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это лучший пример.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's the best example</div></li>
+        <li class="rus-mode hidden-mode"><div class="en-text">Он врач.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">He's a doctor</div></li>
+        <li class="rus-mode hidden-mode"><div class="en-text">Он менеджер.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">He's a manager</div></li>
+        <li class="rus-mode hidden-mode"><div class="en-text">Она учитель.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">She's a teacher</div></li>
+        <li class="rus-mode hidden-mode"><div class="en-text">Она очень красивая девушка.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">She's a very beautiful girl</div></li>
     </ul>
 
-    <!-- БЛОК 7: АРТИКЛИ A/AN -->
-    <div class="section-title">It's a/an + прилагательное + существительное</div>
-    <ul id="list7">
-        <li class="eng-mode"><span class="en">It's a good result</span><div class="transcription">/ɪts ə ɡʊd rɪˈzʌlt/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это хороший результат.</span></li>
-        <li class="eng-mode"><span class="en">It's a very good result</span><div class="transcription">/ɪts ə ˈveri ɡʊd rɪˈzʌlt/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это очень хороший результат.</span></li>
-        <li class="eng-mode"><span class="en">It's an interesting idea</span><div class="transcription">/ɪts ən ˈɪntrəstɪŋ aɪˈdɪə/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это интересная идея.</span></li>
-        <li class="eng-mode"><span class="en">It's a very interesting idea</span><div class="transcription">/ɪts ə ˈveri ˈɪntrəstɪŋ aɪˈdɪə/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это очень интересная идея.</span></li>
-        <li class="eng-mode"><span class="en">It's a useful lesson</span><div class="transcription">/ɪts ə ˈjuːsfl ˈlesn/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это полезный урок.</span></li>
-        <li class="eng-mode"><span class="en">It's a very useful lesson</span><div class="transcription">/ɪts ə ˈveri ˈjuːsfl ˈlesn/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это очень полезный урок.</span></li>
-        <li class="eng-mode"><span class="en">It's an easy lesson</span><div class="transcription">/ɪts ən ˈiːzi ˈlesn/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это легкий урок.</span></li>
-        <li class="eng-mode"><span class="en">It's a very easy lesson</span><div class="transcription">/ɪts ə ˈveri ˈiːzi ˈlesn/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это очень легкий урок.</span></li>
-        <li class="eng-mode"><span class="en">It's a big success</span><div class="transcription">/ɪts ə bɪɡ səkˈses/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это большой успех.</span></li>
-        <li class="eng-mode"><span class="en">It's a very big success</span><div class="transcription">/ɪts ə ˈveri bɪɡ səkˈses/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это очень большой успех.</span></li>
-        <li class="eng-mode"><span class="en">It's a high level</span><div class="transcription">/ɪts ə haɪ ˈlevl/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это высокий уровень.</span></li>
-        <li class="eng-mode"><span class="en">It's a very high level</span><div class="transcription">/ɪts ə ˈveri haɪ ˈlevl/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это очень высокий уровень.</span></li>
-        <li class="eng-mode"><span class="en">It's a low level</span><div class="transcription">/ɪts ə ləʊ ˈlevl/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это низкий уровень.</span></li>
-        <li class="eng-mode"><span class="en">It's a very low level</span><div class="transcription">/ɪts ə ˈveri ləʊ ˈlevl/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это очень низкий уровень.</span></li>
-        <li class="eng-mode"><span class="en">It's an important detail</span><div class="transcription">/ɪts ən ɪmˈpɔːtnt ˈdiːteɪl/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это важная деталь.</span></li>
-        <li class="eng-mode"><span class="en">It's a very important detail</span><div class="transcription">/ɪts ə ˈveri ɪmˈpɔːtnt ˈdiːteɪl/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это очень важная деталь.</span></li>
-        <li class="eng-mode"><span class="en">It's an informative lesson</span><div class="transcription">/ɪts ən ɪnˈfɔːmətɪv ˈlesn/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это информативный урок.</span></li>
-        <li class="eng-mode"><span class="en">It's a very informative lesson</span><div class="transcription">/ɪts ə ˈveri ɪnˈfɔːmətɪv ˈlesn/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это очень информативный урок.</span></li>
-        <li class="eng-mode"><span class="en">It's a big mistake</span><div class="transcription">/ɪts ə bɪɡ mɪˈsteɪk/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это большая ошибка.</span></li>
-        <li class="eng-mode"><span class="en">It's a very big mistake</span><div class="transcription">/ɪts ə ˈveri bɪɡ mɪˈsteɪk/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это очень большая ошибка.</span></li>
-        <li class="eng-mode"><span class="en">It's a small mistake</span><div class="transcription">/ɪts ə smɔːl mɪˈsteɪk/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это маленькая ошибка.</span></li>
-        <li class="eng-mode"><span class="en">It's a very small mistake</span><div class="transcription">/ɪts ə ˈveri smɔːl mɪˈsteɪk/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это очень маленькая ошибка.</span></li>
-        <li class="eng-mode"><span class="en">It's a brilliant result</span><div class="transcription">/ɪts ə ˈbrɪljənt rɪˈzʌlt/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это блестящий результат.</span></li>
-        <li class="eng-mode"><span class="en">It's a cold day</span><div class="transcription">/ɪts ə kəʊld deɪ/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это холодный день.</span></li>
-        <li class="eng-mode"><span class="en">It's a warm day</span><div class="transcription">/ɪts ə wɔːm deɪ/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это теплый день.</span></li>
-        <li class="eng-mode"><span class="en">It's a hot day</span><div class="transcription">/ɪts ə hɒt deɪ/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это жаркий день.</span></li>
+    <!-- НАВИГАЦИЯ -->
+    <div class="nav-buttons">
+        <a href="legenda.html" class="nav-btn secondary">🔤 Звуки (IPA)</a>
+        <a href="index.html" class="nav-btn">← На главную</a>
+    </div>
 
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это хороший результат.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a good result</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это очень хороший результат.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a very good result</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это интересная идея.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's an interesting idea</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это очень интересная идея.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a very interesting idea</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это полезный урок.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a useful lesson</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это очень полезный урок.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a very useful lesson</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это легкий урок.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's an easy lesson</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это очень легкий урок.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a very easy lesson</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это большой успех.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a big success</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это очень большой успех.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a very big success</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это высокий уровень.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a high level</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это очень высокий уровень.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a very high level</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это низкий уровень.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a low level</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это очень низкий уровень.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a very low level</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это важная деталь.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's an important detail</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это очень важная деталь.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a very important detail</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это информативный урок.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's an informative lesson</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это очень информативный урок.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a very informative lesson</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это большая ошибка.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a big mistake</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это очень большая ошибка.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a very big mistake</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это маленькая ошибка.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a small mistake</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это очень маленькая ошибка.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a very small mistake</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это блестящий результат.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a brilliant result</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это холодный день.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a cold day</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это теплый день.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a warm day</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это жаркий день.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a hot day</div></li>
-    </ul>
-
-    <!-- БЛОК 8 -->
-    <div class="section-title">You're / They're (Качества и люди)</div>
-    <ul id="list8">
-        <li class="eng-mode"><span class="en">You're right</span><div class="transcription">/jɔː raɪt/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Ты прав.</span></li>
-        <li class="eng-mode"><span class="en">You're very kind</span><div class="transcription">/jɔː ˈveri kaɪnd/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Ты очень добрый.</span></li>
-        <li class="eng-mode"><span class="en">You're a good person</span><div class="transcription">/jɔː ə ɡʊd ˈpɜːsn/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Ты хороший человек.</span></li>
-        <li class="eng-mode"><span class="en">They're our friends</span><div class="transcription">/ðeə ˈaʊə frendz/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Они наши друзья.</span></li>
-        <li class="eng-mode"><span class="en">They're rich</span><div class="transcription">/ðeə rɪtʃ/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Они богатые.</span></li>
-        <li class="eng-mode"><span class="en">They're poor</span><div class="transcription">/ðeə pɔː/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Они бедные.</span></li>
-        <li class="eng-mode"><span class="en">They're lazy</span><div class="transcription">/ðeə ˈleɪzi/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Они ленивые.</span></li>
-        <li class="eng-mode"><span class="en">I'm ready</span><div class="transcription">/aɪm ˈredi/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я готов.</span></li>
-        <li class="eng-mode"><span class="en">I'm fine</span><div class="transcription">/aɪm faɪn/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я в порядке.</span></li>
-        <li class="eng-mode"><span class="en">Excellent!</span><div class="transcription">/ˈeksələnt/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Отлично!</span></li>
-        <li class="eng-mode"><span class="en">Wonderful!</span><div class="transcription">/ˈwʌndəfl/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Чудесно!</span></li>
-        <li class="eng-mode"><span class="en">Great!</span><div class="transcription">/ɡreɪt/</div><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Здорово!</span></li>
-
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Ты прав.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">You're right</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Ты очень добрый.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">You're very kind</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Ты хороший человек.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">You're a good person</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Они наши друзья.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">They're our friends</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Они богатые.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">They're rich</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Они бедные.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">They're poor</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Они ленивые.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">They're lazy</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Я готов.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I'm ready</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Я в порядке.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I'm fine</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Отлично!</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">Excellent!</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Чудесно!</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">Wonderful!</div></li>
-        <li class="rus-mode hidden-mode"><div class="ru-prompt">Здорово!</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">Great!</div></li>
-    </ul>
-</div>
-
-<div class="back-nav-wrapper">
-    <a href="legenda.html" class="legend-nav-btn">🔤 Легенда звуков</a>
-    <a href="index.html" class="back-nav-btn">← На главную</a>
 </div>
 
 <script>
     function setMode(mode) {
-        document.getElementById('btn-eng-rus').classList.remove('active');
-        document.getElementById('btn-rus-eng').classList.remove('active');
+        document.getElementById('btn-eng').classList.remove('active');
+        document.getElementById('btn-rus').classList.remove('active');
         document.getElementById('btn-' + mode).classList.add('active');
 
-        var engModeItems = document.querySelectorAll('.eng-mode');
-        var rusModeItems = document.querySelectorAll('.rus-mode');
+        var engItems = document.querySelectorAll('.eng-mode');
+        var rusItems = document.querySelectorAll('.rus-mode');
 
-        if (mode === 'eng-rus') {
-            engModeItems.forEach(item => item.classList.remove('hidden-mode'));
-            rusModeItems.forEach(item => item.classList.add('hidden-mode'));
+        if (mode === 'eng') {
+            engItems.forEach(el => el.classList.remove('hidden-mode'));
+            rusItems.forEach(el => el.classList.add('hidden-mode'));
         } else {
-            engModeItems.forEach(item => item.classList.add('hidden-mode'));
-            rusModeItems.forEach(item => item.classList.remove('hidden-mode'));
+            engItems.forEach(el => el.classList.add('hidden-mode'));
+            rusItems.forEach(el => el.classList.remove('hidden-mode'));
         }
     }
 
-    function toggleTranslation(button) {
-        var translation = button.nextElementSibling;
-        if (translation.classList.contains('show')) {
-            translation.classList.remove('show');
-            button.textContent = 'Показать перевод';
-            button.style.backgroundColor = '#e2e8f0';
+    function toggle(btn) {
+        var text = btn.nextElementSibling;
+        if (text.classList.contains('show')) {
+            text.classList.remove('show');
+            btn.textContent = btn.textContent.includes('перевод') || btn.textContent.includes('Перевод') ? 'Перевод' : 'Ответ';
         } else {
-            translation.classList.add('show');
-            button.textContent = 'Скрыть перевод';
-            button.style.backgroundColor = '#cbd5e0';
-        }
-    }
-
-    function toggleAnswer(button) {
-        var answer = button.nextElementSibling;
-        if (answer.classList.contains('show')) {
-            answer.classList.remove('show');
-            button.textContent = 'Показать ответ';
-            button.style.backgroundColor = '#e2e8f0';
-        } else {
-            answer.classList.add('show');
-            button.textContent = 'Скрыть ответ';
-            button.style.backgroundColor = '#cbd5e0';
+            text.classList.add('show');
+            btn.textContent = 'Скрыть';
         }
     }
 
     function filterList() {
-        var input = document.getElementById('searchInput').value.toLowerCase();
+        var input = document.getElementById('search').value.toLowerCase();
         var allItems = document.querySelectorAll('li');
         allItems.forEach(item => {
             var text = item.textContent.toLowerCase();
             if (text.includes(input)) {
-                item.classList.remove('hidden-item');
+                item.style.display = 'flex';
             } else {
-                item.classList.add('hidden-item');
+                item.style.display = 'none';
             }
         });
     }
