@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Легенда транскрипции (IPA)</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 14px;
+            background-color: #f0f4f8;
+            color: #333;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 { text-align: center; color: #2c3e50; margin-bottom: 20px; font-size: 1.35em; }
+        
+        .legend-box {
+            background-color: #fff;
+            border-top: 4px solid #3182ce;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+        .legend-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .legend-col h3 {
+            font-size: 1em;
+            color: #3182ce;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 5px;
+        }
+        .legend-table {
+            width: 100%;
+            font-size: 0.95em;
+            border-collapse: collapse;
+        }
+        .legend-table td {
+            padding: 8px 4px;
+            border-bottom: 1px dashed #edf2f7;
+        }
+        .legend-table td:first-child {
+            font-weight: bold;
+            color: #e53e3e;
+            width: 50px;
+            font-family: monospace;
+            font-size: 1.1em;
+        }
+        .legend-table td:last-child {
+            color: #4a5568;
+        }
+        
+        .back-nav-wrapper { text-align: center; margin: 30px auto 20px; }
+        .back-nav-btn {
+            display: inline-block;
+            background-color: #3182ce;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        }
+        
+        @media (max-width: 600px) {
+            .legend-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🔤 Как читать транскрипцию (IPA)</h1>
+    
+    <div class="legend-box">
+        <p style="text-align: center; font-size: 0.95em; color: #718096; margin-top: 0; margin-bottom: 20px;">
+            Значок <b>ˈ</b> означает ударение на следующий слог.
+        </p>
+        
+        <div class="legend-grid">
+            <!-- Гласные -->
+            <div class="legend-col">
+                <h3>Гласные звуки</h3>
+                <table class="legend-table">
+                    <tr><td>iː</td><td>долгий «и» (<b>see</b> /siː/, <b>he</b> /hiː/)</td></tr>
+                    <tr><td>ɪ</td><td>краткий «и» (<b>it</b> /ɪt/, <b>rich</b> /rɪtʃ/)</td></tr>
+                    <tr><td>e</td><td>«э» (<b>friend</b> /frend/)</td></tr>
+                    <tr><td>æ</td><td>«э» шире, между «э» и «а» (<b>happy</b> /ˈhæpi/, <b>bad</b> /bæd/)</td></tr>
+                    <tr><td>ɑː</td><td>долгий «а» (<b>park</b> /pɑːk/)</td></tr>
+                    <tr><td>ɒ</td><td>краткий «о» (<b>doctor</b> /ˈdɒktə/)</td></tr>
+                    <tr><td>ɔː</td><td>долгий «о» (<b>poor</b> /pɔː/, <b>important</b> /ɪmˈpɔːtnt/)</td></tr>
+                    <tr><td>ʊə</td><td>«уэ» (<b>sure</b> /ʃʊə/)</td></tr>
+                    <tr><td>ɜː</td><td>«ё» (<b>work</b> /wɜːk/, <b>person</b> /ˈpɜːsn/)</td></tr>
+                    <tr><td>ə</td><td>краткий, нечеткий «э» (артикль <b>a</b> /ə/)</td></tr>
+                    <tr><td>ʌ</td><td>краткий «а» (<b>husband</b> /ˈhʌzbənd/, <b>result</b> /rɪˈzʌlt/)</td></tr>
+                    <tr><td>əʊ</td><td>«оу» (<b>home</b> /həʊm/)</td></tr>
+                    <tr><td>aɪ</td><td>«ай» (<b>I'm</b> /aɪm/, <b>right</b> /raɪt/)</td></tr>
+                    <tr><td>aʊ</td><td>«ау» (<b>our</b> /ˈaʊə/)</td></tr>
+                    <tr><td>ɪə</td><td>«иэ» (<b>here</b> /hɪə/, <b>idea</b> /aɪˈdɪə/)</td></tr>
+                    <tr><td>eə</td><td>«эа» (<b>there</b> /ðeə/, <b>they're</b> /ðeə/)</td></tr>
+                    <tr><td>uː</td><td>долгий «у» (<b>useful</b> /ˈjuːsfl/)</td></tr>
+                </table>
+            </div>
+
+            <!-- Согласные -->
+            <div class="legend-col">
+                <h3>Согласные звуки</h3>
+                <table class="legend-table">
+                    <tr><td>ð</td><td>«з» с кончиком языка между зубами (<b>there</b> /ðeə/)</td></tr>
+                    <tr><td>θ</td><td>«с» с кончиком языка между зубами</td></tr>
+                    <tr><td>ʃ</td><td>«ш» (<b>she</b> /ʃiː/, <b>sure</b> /ʃʊə/)</td></tr>
+                    <tr><td>tʃ</td><td>«ч» (<b>rich</b> /rɪtʃ/, <b>teacher</b> /ˈtiːtʃə/)</td></tr>
+                    <tr><td>dʒ</td><td>«дж» (<b>manager</b> /ˈmænɪdʒə/, <b>girlfriend</b> /ˈɡɜːlfrend/)</td></tr>
+                    <tr><td>j</td><td>«й» (<b>you're</b> /jɔː/, <b>useful</b> /ˈjuːsfl/)</td></tr>
+                    <tr><td>w</td><td>«у» (губы трубочкой) (<b>we're</b> /wɪə/, <b>wife</b> /waɪf/)</td></tr>
+                    <tr><td>ŋ</td><td>носовое «н» (<b>interesting</b> /ˈɪntrəstɪŋ/)</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="back-nav-wrapper">
+    <a href="tobe.html" class="back-nav-btn">← Назад к To Be</a>
+</div>
+
+</body>
+</html>
