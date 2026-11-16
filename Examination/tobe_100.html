@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Контрольная: To Be (1-100)</title>
+    <style>
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 14px;
+            background-color: #f0f4f8;
+            color: #333;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin: 0 0 16px;
+            font-size: 1.35em;
+            word-wrap: break-word;
+        }
+
+        .mode-switcher {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .mode-btn {
+            background-color: #cbd5e0;
+            color: #4a5568;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: background-color 0.2s, color 0.2s;
+            min-width: 100px;
+        }
+        .mode-btn.active { background-color: #3182ce; color: #fff; }
+
+        .search-box {
+            width: 100%;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            border: 2px solid #3182ce;
+            border-radius: 8px;
+            font-size: 1em;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .search-box:focus { border-color: #2b6cb0; box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.2); }
+
+        .rule-box {
+            background-color: #fff;
+            border-left: 6px solid #3182ce;
+            padding: 16px 14px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 22px;
+        }
+        .rule-box h2 { margin-top: 0; color: #2b6cb0; font-size: 1.05em; line-height: 1.35; }
+        .rule-box p { margin-bottom: 10px; font-size: 0.95em; }
+
+        .section-title {
+            background-color: #3182ce;
+            color: #fff;
+            padding: 8px 14px;
+            border-radius: 6px;
+            margin: 25px 0 15px;
+            font-size: 1.1em;
+            text-align: center;
+        }
+
+        ul { list-style-type: none; padding-left: 0; margin: 0; }
+        li {
+            background: #fff;
+            margin-bottom: 10px;
+            padding: 12px 14px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            border-left: 5px solid #38a169;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            align-items: flex-start;
+        }
+        .en {
+            font-weight: bold;
+            font-size: 1.02em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            line-height: 1.45;
+            text-align: left;
+        }
+        .ru-prompt {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #2c3e50;
+            text-align: left;
+            margin-bottom: 15px;
+            line-height: 1.45;
+        }
+
+        .btn-toggle {
+            background-color: #e2e8f0;
+            color: #4a5568;
+            border: none;
+            padding: 9px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background-color 0.2s;
+            min-height: 38px;
+            align-self: flex-start;
+        }
+        .btn-toggle:active { background-color: #cbd5e0; }
+
+        .ru {
+            display: none;
+            color: #2b6cb0;
+            font-size: 0.98em;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed #e2e8f0;
+            font-weight: 500;
+            text-align: left;
+        }
+        .ru.show { display: block; }
+
+        .hidden-mode { display: none !important; }
+        .en-answer {
+            display: none;
+            color: #2b6cb0;
+            font-size: 1.05em;
+            font-weight: bold;
+            text-align: left;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed #e2e8f0;
+        }
+        .en-answer.show { display: block; }
+
+        .hidden-item { display: none !important; }
+
+        @media (max-width: 360px) {
+            body { padding: 10px; }
+            h1 { font-size: 1.2em; }
+            .en { font-size: 0.98em; }
+            .ru-prompt { font-size: 1.05em; }
+            li { padding: 10px 12px; }
+            .search-box { padding: 10px 12px; font-size: 0.9em; }
+            .mode-switcher { flex-direction: row; gap: 10px; }
+            .mode-btn { padding: 8px 15px; font-size: 0.9em; min-width: 80px; }
+        }
+        
+        .back-nav-wrapper { text-align: center; margin: 30px auto 20px; padding: 0 14px; }
+        .back-nav-btn {
+            display: inline-block;
+            background-color: #3182ce;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Контрольная: To Be (1-100)</h1>
+
+    <div class="mode-switcher">
+        <button id="btn-eng-rus" class="mode-btn active" onclick="setMode('eng-rus')">ENG</button>
+        <button id="btn-rus-eng" class="mode-btn" onclick="setMode('rus-eng')">RUS</button>
+    </div>
+
+    <input type="text" id="searchInput" class="search-box" placeholder="🔍 Поиск по фразе или переводу..." onkeyup="filterList()">
+
+    <div class="rule-box">
+        <h2>📌 Инструкция</h2>
+        <p id="instruction-text">Прочитайте английскую фразу, переведите её вслух, а затем нажмите кнопку, чтобы проверить себя.</p>
+    </div>
+
+    <!-- БЛОК 1-10 -->
+    <div class="section-title">Фразы 1–10</div>
+    <ul id="list1">
+        <li class="eng-mode"><span class="en">It's easy</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это легко.</span></li>
+        <li class="eng-mode"><span class="en">It's good</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это хорошо.</span></li>
+        <li class="eng-mode"><span class="en">It's a simple test</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это простой тест.</span></li>
+        <li class="eng-mode"><span class="en">It's so cold</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Так холодно.</span></li>
+        <li class="eng-mode"><span class="en">It's a big mistake</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это большая ошибка.</span></li>
+        <li class="eng-mode"><span class="en">It's so boring</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это так скучно.</span></li>
+        <li class="eng-mode"><span class="en">It's an easy lesson</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это легкий урок.</span></li>
+        <li class="eng-mode"><span class="en">It's a very expensive thing</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это очень дорогая вещь.</span></li>
+        <li class="eng-mode"><span class="en">It's a good result</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это хороший результат.</span></li>
+        <li class="eng-mode"><span class="en">It's too difficult</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это слишком сложно.</span></li>
+
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это легко.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's easy</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это хорошо.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's good</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это простой тест.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a simple test</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Так холодно.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's so cold</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это большая ошибка.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a big mistake</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это так скучно.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's so boring</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это легкий урок.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's an easy lesson</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это очень дорогая вещь.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a very expensive thing</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это хороший результат.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a good result</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это слишком сложно.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's too difficult</div></li>
+    </ul>
+
+    <!-- БЛОК 11-20 -->
+    <div class="section-title">Фразы 11–20</div>
+    <ul id="list2">
+        <li class="eng-mode"><span class="en">It's a bad result</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это плохой результат.</span></li>
+        <li class="eng-mode"><span class="en">You're the best teacher in the world</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Ты лучший учитель в мире.</span></li>
+        <li class="eng-mode"><span class="en">It's too cheap</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это слишком дешево.</span></li>
+        <li class="eng-mode"><span class="en">He's a very poor person</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он очень бедный человек.</span></li>
+        <li class="eng-mode"><span class="en">It's too cold</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Слишком холодно.</span></li>
+        <li class="eng-mode"><span class="en">It's dark</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Темно.</span></li>
+        <li class="eng-mode"><span class="en">It's interesting</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это интересно.</span></li>
+        <li class="eng-mode"><span class="en">It's an informative lesson</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это информативный урок.</span></li>
+        <li class="eng-mode"><span class="en">She's a very beautiful girl</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Она очень красивая девушка.</span></li>
+        <li class="eng-mode"><span class="en">I'm fine</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я в порядке.</span></li>
+
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это плохой результат.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a bad result</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Ты лучший учитель в мире.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">You're the best teacher in the world</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это слишком дешево.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's too cheap</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Он очень бедный человек.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">He's a very poor person</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Слишком холодно.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's too cold</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Темно.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's dark</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это интересно.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's interesting</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это информативный урок.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's an informative lesson</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Она очень красивая девушка.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">She's a very beautiful girl</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Я в порядке.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I'm fine</div></li>
+    </ul>
+
+    <!-- БЛОК 21-30 -->
+    <div class="section-title">Фразы 21–30</div>
+    <ul id="list3">
+        <li class="eng-mode"><span class="en">It's worse</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это хуже.</span></li>
+        <li class="eng-mode"><span class="en">It's a brilliant result</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это блестящий результат.</span></li>
+        <li class="eng-mode"><span class="en">It's an important thing</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это важная вещь.</span></li>
+        <li class="eng-mode"><span class="en">It's so difficult</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это так сложно.</span></li>
+        <li class="eng-mode"><span class="en">It's a very simple method</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это очень простой метод.</span></li>
+        <li class="eng-mode"><span class="en">It's a very big mistake</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это очень большая ошибка.</span></li>
+        <li class="eng-mode"><span class="en">It's the best channel</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это лучший канал.</span></li>
+        <li class="eng-mode"><span class="en">It's an expensive thing</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это дорогая вещь.</span></li>
+        <li class="eng-mode"><span class="en">It's too easy</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это слишком легко.</span></li>
+        <li class="eng-mode"><span class="en">You're a happy person</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Ты счастливый человек.</span></li>
+
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это хуже.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's worse</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это блестящий результат.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a brilliant result</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это важная вещь.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's an important thing</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это так сложно.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's so difficult</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это очень простой метод.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a very simple method</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это очень большая ошибка.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a very big mistake</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это лучший канал.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's the best channel</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это дорогая вещь.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's an expensive thing</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это слишком легко.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's too easy</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Ты счастливый человек.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">You're a happy person</div></li>
+    </ul>
+
+    <!-- БЛОК 31-40 -->
+    <div class="section-title">Фразы 31–40</div>
+    <ul id="list4">
+        <li class="eng-mode"><span class="en">I'm ready</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я готов.</span></li>
+        <li class="eng-mode"><span class="en">It's obvious</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это очевидно.</span></li>
+        <li class="eng-mode"><span class="en">It's on the right</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это справа.</span></li>
+        <li class="eng-mode"><span class="en">It's simple</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это просто.</span></li>
+        <li class="eng-mode"><span class="en">It's too hot</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Слишком жарко.</span></li>
+        <li class="eng-mode"><span class="en">He's a rich person</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он богатый человек.</span></li>
+        <li class="eng-mode"><span class="en">It's a very important thing</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это очень важная вещь.</span></li>
+        <li class="eng-mode"><span class="en">It's so cheap</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это так дешево.</span></li>
+        <li class="eng-mode"><span class="en">It's so simple</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это так просто.</span></li>
+        <li class="eng-mode"><span class="en">It's too expensive</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это слишком дорого.</span></li>
+
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Я готов.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I'm ready</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это очевидно.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's obvious</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это справа.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's on the right</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это просто.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's simple</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Слишком жарко.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's too hot</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Он богатый человек.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">He's a rich person</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это очень важная вещь.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a very important thing</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это так дешево.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's so cheap</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это так просто.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's so simple</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это слишком дорого.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's too expensive</div></li>
+    </ul>
+
+    <!-- БЛОК 41-50 -->
+    <div class="section-title">Фразы 41–50</div>
+    <ul id="list5">
+        <li class="eng-mode"><span class="en">It's very dark</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Очень темно.</span></li>
+        <li class="eng-mode"><span class="en">He's a young man</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он молодой человек.</span></li>
+        <li class="eng-mode"><span class="en">It's a very boring book</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это очень скучная книга.</span></li>
+        <li class="eng-mode"><span class="en">It's a cold day</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это холодный день.</span></li>
+        <li class="eng-mode"><span class="en">It's rainy</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Дождливо.</span></li>
+        <li class="eng-mode"><span class="en">It's a useful lesson</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это полезный урок.</span></li>
+        <li class="eng-mode"><span class="en">It's impossible (It isn't possible)</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это невозможно (Это не возможно).</span></li>
+        <li class="eng-mode"><span class="en">It's a low level</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это низкий уровень.</span></li>
+        <li class="eng-mode"><span class="en">It's a very interesting offer</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это очень интересное предложение.</span></li>
+        <li class="eng-mode"><span class="en">He's a poor person</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он бедный человек.</span></li>
+
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Очень темно.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's very dark</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Он молодой человек.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">He's a young man</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это очень скучная книга.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a very boring book</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это холодный день.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a cold day</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Дождливо.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's rainy</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это полезный урок.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a useful lesson</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это невозможно (Это не возможно).</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's impossible (It isn't possible)</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это низкий уровень.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a low level</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это очень интересное предложение.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a very interesting offer</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Он бедный человек.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">He's a poor person</div></li>
+    </ul>
+
+    <!-- БЛОК 51-60 -->
+    <div class="section-title">Фразы 51–60</div>
+    <ul id="list6">
+        <li class="eng-mode"><span class="en">It's an interesting idea</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это интересная идея.</span></li>
+        <li class="eng-mode"><span class="en">It's on the left</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это слева.</span></li>
+        <li class="eng-mode"><span class="en">It's a very interesting idea</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это очень интересная идея.</span></li>
+        <li class="eng-mode"><span class="en">It's a very low level</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это очень низкий уровень.</span></li>
+        <li class="eng-mode"><span class="en">It's sunny</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Солнечно.</span></li>
+        <li class="eng-mode"><span class="en">You're a very happy person</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Ты очень счастливый человек.</span></li>
+        <li class="eng-mode"><span class="en">It's possible</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это возможно.</span></li>
+        <li class="eng-mode"><span class="en">It's too boring</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это слишком скучно.</span></li>
+        <li class="eng-mode"><span class="en">It's a very useful lesson</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это очень полезный урок.</span></li>
+        <li class="eng-mode"><span class="en">It's better</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это лучше.</span></li>
+
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это интересная идея.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's an interesting idea</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это слева.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's on the left</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это очень интересная идея.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a very interesting idea</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это очень низкий уровень.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a very low level</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Солнечно.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's sunny</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Ты очень счастливый человек.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">You're a very happy person</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это возможно.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's possible</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это слишком скучно.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's too boring</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это очень полезный урок.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a very useful lesson</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это лучше.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's better</div></li>
+    </ul>
+
+    <!-- БЛОК 61-70 -->
+    <div class="section-title">Фразы 61–70</div>
+    <ul id="list7">
+        <li class="eng-mode"><span class="en">It's a very informative lesson</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это очень информативный урок.</span></li>
+        <li class="eng-mode"><span class="en">He's the best teacher in the world</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он лучший учитель в мире.</span></li>
+        <li class="eng-mode"><span class="en">It's a very important detail</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это очень важная деталь.</span></li>
+        <li class="eng-mode"><span class="en">It's very boring</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это очень скучно.</span></li>
+        <li class="eng-mode"><span class="en">It's a warm day</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это теплый день.</span></li>
+        <li class="eng-mode"><span class="en">It's a very good result</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это очень хороший результат.</span></li>
+        <li class="eng-mode"><span class="en">It's a very interesting detail</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это очень интересная деталь.</span></li>
+        <li class="eng-mode"><span class="en">It's a very big success</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это очень большой успех.</span></li>
+        <li class="eng-mode"><span class="en">It's a hot day</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это жаркий день.</span></li>
+        <li class="eng-mode"><span class="en">It's a very small mistake</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это очень маленькая ошибка.</span></li>
+
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это очень информативный урок.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a very informative lesson</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Он лучший учитель в мире.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">He's the best teacher in the world</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это очень важная деталь.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a very important detail</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это очень скучно.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's very boring</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это теплый день.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a warm day</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это очень хороший результат.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a very good result</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это очень интересная деталь.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a very interesting detail</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это очень большой успех.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a very big success</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это жаркий день.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a hot day</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это очень маленькая ошибка.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a very small mistake</div></li>
+    </ul>
+
+    <!-- БЛОК 71-80 -->
+    <div class="section-title">Фразы 71–80</div>
+    <ul id="list8">
+        <li class="eng-mode"><span class="en">It's a very bad result</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это очень плохой результат.</span></li>
+        <li class="eng-mode"><span class="en">It's hot</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Жарко.</span></li>
+        <li class="eng-mode"><span class="en">It's a big success</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это большой успех.</span></li>
+        <li class="eng-mode"><span class="en">It's a very easy lesson</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это очень легкий урок.</span></li>
+        <li class="eng-mode"><span class="en">It's cheap</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это дешево.</span></li>
+        <li class="eng-mode"><span class="en">He's a lazy student</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он ленивый студент.</span></li>
+        <li class="eng-mode"><span class="en">It's the best playlist</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это лучший плейлист.</span></li>
+        <li class="eng-mode"><span class="en">It's bad</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это плохо.</span></li>
+        <li class="eng-mode"><span class="en">It's a high level</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это высокий уровень.</span></li>
+        <li class="eng-mode"><span class="en">It's a very high level</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это очень высокий уровень.</span></li>
+
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это очень плохой результат.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a very bad result</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Жарко.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's hot</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это большой успех.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a big success</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это очень легкий урок.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a very easy lesson</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это дешево.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's cheap</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Он ленивый студент.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">He's a lazy student</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это лучший плейлист.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's the best playlist</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это плохо.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's bad</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это высокий уровень.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a high level</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это очень высокий уровень.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a very high level</div></li>
+    </ul>
+
+    <!-- БЛОК 81-90 -->
+    <div class="section-title">Фразы 81–90</div>
+    <ul id="list9">
+        <li class="eng-mode"><span class="en">It's an important detail</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это важная деталь.</span></li>
+        <li class="eng-mode"><span class="en">It's the best book</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это лучшая книга.</span></li>
+        <li class="eng-mode"><span class="en">It's a useless lesson</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это бесполезный урок.</span></li>
+        <li class="eng-mode"><span class="en">It's a very good decision</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это очень хорошее решение.</span></li>
+        <li class="eng-mode"><span class="en">He's a very rich person</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он очень богатый человек.</span></li>
+        <li class="eng-mode"><span class="en">It's warm</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Тепло.</span></li>
+        <li class="eng-mode"><span class="en">It's the best example</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это лучший пример.</span></li>
+        <li class="eng-mode"><span class="en">It's the best course</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это лучший курс.</span></li>
+        <li class="eng-mode"><span class="en">It's so easy</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это так легко.</span></li>
+        <li class="eng-mode"><span class="en">It's a very important thing</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это очень важная вещь.</span></li>
+
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это важная деталь.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's an important detail</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это лучшая книга.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's the best book</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это бесполезный урок.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a useless lesson</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это очень хорошее решение.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a very good decision</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Он очень богатый человек.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">He's a very rich person</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Тепло.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's warm</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это лучший пример.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's the best example</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это лучший курс.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's the best course</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это так легко.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's so easy</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это очень важная вещь.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a very important thing</div></li>
+    </ul>
+
+    <!-- БЛОК 91-100 -->
+    <div class="section-title">Фразы 91–100</div>
+    <ul id="list10">
+        <li class="eng-mode"><span class="en">It's cold</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Холодно.</span></li>
+        <li class="eng-mode"><span class="en">It's a very bad decision</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это очень плохое решение.</span></li>
+        <li class="eng-mode"><span class="en">It's a small mistake</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это маленькая ошибка.</span></li>
+        <li class="eng-mode"><span class="en">It's a boring book</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это скучная книга.</span></li>
+        <li class="eng-mode"><span class="en">It's a simple method</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это простой метод.</span></li>
+        <li class="eng-mode"><span class="en">He's a good manager</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он хороший менеджер.</span></li>
+        <li class="eng-mode"><span class="en">She's a very good doctor</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Она очень хороший врач.</span></li>
+        <li class="eng-mode"><span class="en">It's a very useful thing</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это очень полезная вещь.</span></li>
+        <li class="eng-mode"><span class="en">It's so interesting</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это так интересно.</span></li>
+        <li class="eng-mode"><span class="en">You're a very good teacher</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Ты очень хороший учитель.</span></li>
+
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Холодно.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's cold</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это очень плохое решение.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a very bad decision</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это маленькая ошибка.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a small mistake</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это скучная книга.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a boring book</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это простой метод.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a simple method</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Он хороший менеджер.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">He's a good manager</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Она очень хороший врач.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">She's a very good doctor</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это очень полезная вещь.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a very useful thing</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Это так интересно.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's so interesting</div></li>
+        <li class="rus-mode hidden-mode"><div class="ru-prompt">Ты очень хороший учитель.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">You're a very good teacher</div></li>
+    </ul>
+
+</div>
+
+<div class="back-nav-wrapper">
+    <a href="../index.html" class="back-nav-btn">← На главную</a>
+</div>
+
+<script>
+    function setMode(mode) {
+        document.getElementById('btn-eng-rus').classList.remove('active');
+        document.getElementById('btn-rus-eng').classList.remove('active');
+        document.getElementById('btn-' + mode).classList.add('active');
+
+        var engModeItems = document.querySelectorAll('.eng-mode');
+        var rusModeItems = document.querySelectorAll('.rus-mode');
+        var instruction = document.getElementById('instruction-text');
+
+        if (mode === 'eng-rus') {
+            engModeItems.forEach(item => item.classList.remove('hidden-mode'));
+            rusModeItems.forEach(item => item.classList.add('hidden-mode'));
+            instruction.textContent = 'Прочитайте английскую фразу, переведите её вслух, а затем нажмите кнопку, чтобы проверить себя.';
+        } else {
+            engModeItems.forEach(item => item.classList.add('hidden-mode'));
+            rusModeItems.forEach(item => item.classList.remove('hidden-mode'));
+            instruction.textContent = 'Прочитайте русскую фразу, проговорите её вслух на английском, а затем нажмите кнопку, чтобы проверить себя.';
+        }
+    }
+
+    function toggleTranslation(button) {
+        var translation = button.nextElementSibling;
+        if (translation.classList.contains('show')) {
+            translation.classList.remove('show');
+            button.textContent = 'Показать перевод';
+            button.style.backgroundColor = '#e2e8f0';
+        } else {
+            translation.classList.add('show');
+            button.textContent = 'Скрыть перевод';
+            button.style.backgroundColor = '#cbd5e0';
+        }
+    }
+
+    function toggleAnswer(button) {
+        var answer = button.nextElementSibling;
+        if (answer.classList.contains('show')) {
+            answer.classList.remove('show');
+            button.textContent = 'Показать ответ';
+            button.style.backgroundColor = '#e2e8f0';
+        } else {
+            answer.classList.add('show');
+            button.textContent = 'Скрыть ответ';
+            button.style.backgroundColor = '#cbd5e0';
+        }
+    }
+
+    function filterList() {
+        var input = document.getElementById('searchInput').value.toLowerCase();
+        var allItems = document.querySelectorAll('li');
+        allItems.forEach(item => {
+            var text = item.textContent.toLowerCase();
+            if (text.includes(input)) {
+                item.classList.remove('hidden-item');
+            } else {
+                item.classList.add('hidden-item');
+            }
+        });
+    }
+</script>
+
+</body>
+</html>

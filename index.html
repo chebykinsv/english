@@ -98,16 +98,14 @@
             font-size: 0.95em;
             font-weight: bold;
             border-radius: 8px;
-            border-left: 5px solid #3182ce; /* Синий цвет для уроков */
+            border-left: 5px solid #3182ce;
             transition: background-color 0.2s, transform 0.1s;
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 10px;
         }
-        .accordion-btn:hover {
-            background-color: #718096;
-        }
+        .accordion-btn:hover { background-color: #718096; }
         .accordion-btn:after {
             content: '\002B'; /* Плюс */
             font-weight: bold;
@@ -119,7 +117,7 @@
         
         /* Синий аккордеон для To Be */
         .accordion-btn.tobe-btn { border-left-color: #3182ce; }
-        /* Фиолетовый аккордеон для Контрольных */
+        /* Фиолетовый аккордеон для Present Simple */
         .accordion-btn.exam-btn { border-left-color: #9f7aea; }
 
         .panel {
@@ -128,7 +126,7 @@
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease-out;
-            margin-bottom: 0;
+            margin-bottom: 15px; /* Отступ между аккордеонами */
         }
         .panel ul {
             padding-top: 5px;
@@ -136,31 +134,15 @@
         }
 
         @media (max-width: 850px) {
-            .columns-wrapper {
-                grid-template-columns: 1fr 1fr;
-            }
-            .column:last-child {
-                grid-column: span 2;
-            }
-            .menu-list {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 10px;
-            }
-            .panel .menu-list {
-                display: block; /* Внутри аккордеона всегда список */
-            }
+            .columns-wrapper { grid-template-columns: 1fr 1fr; }
+            .column:last-child { grid-column: span 2; }
+            .menu-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+            .panel .menu-list { display: block; }
         }
         @media (max-width: 650px) {
-            .columns-wrapper {
-                grid-template-columns: 1fr;
-            }
-            .column:last-child {
-                grid-column: span 1;
-            }
-            .menu-list {
-                display: block;
-            }
+            .columns-wrapper { grid-template-columns: 1fr; }
+            .column:last-child { grid-column: span 1; }
+            .menu-list { display: block; }
             h1 { font-size: 1.3em; margin-bottom: 20px; }
         }
     </style>
@@ -201,23 +183,13 @@
         <!-- 2 КОЛОНКА: УРОКИ -->
         <div class="column">
             <h2>🎯 Уроки</h2>
-            
-            <!-- Аккордеон для To Be -->
-            <button class="accordion-btn tobe-btn">🟢 Глагол To Be</button>
-            <div class="panel">
-                <ul class="menu-list">
-                    <li>
-                        <a href="tobe.html" class="menu-link" style="border-left-color: #3182ce;">
-                            📗 Часть 1: Основы
-                            <span>Утверждения, артикли, погода</span>
-                        </a>
-                    </li>
-                    <!-- Сюда потом добавим Часть 2 -->
-                </ul>
-            </div>
-
-            <!-- Обычные уроки -->
-            <ul class="menu-list" style="margin-top: 15px;">
+            <ul class="menu-list">
+                <li>
+                    <a href="tobe.html" class="menu-link" style="border-left-color: #3182ce;">
+                        🟢 Глагол To Be
+                        <span>Теория и основы</span>
+                    </a>
+                </li>
                 <li>
                     <a href="lesson18.html" class="menu-link" style="border-left-color: #27ae60;">
                         📘 Урок 18: Вопросы
@@ -240,8 +212,22 @@
         <div class="column">
             <h2>📝 Контрольные</h2>
             
-            <!-- Аккордеон для фраз -->
-            <button class="accordion-btn exam-btn">🔢 Present Simple (0–700)</button>
+            <!-- Аккордеон To Be (Просто название) -->
+            <button class="accordion-btn tobe-btn">🟢 To Be</button>
+            <div class="panel">
+                <ul class="menu-list">
+                    <li>
+                        <a href="Examination/tobe_100.html" class="menu-link" style="border-left-color: #3182ce;">
+                            📝 Фразы 1–100
+                            <span>Контрольная To Be</span>
+                        </a>
+                    </li>
+                    <!-- Сюда потом добавим Фразы 101–200 и т.д. -->
+                </ul>
+            </div>
+
+            <!-- Аккордеон Present Simple -->
+            <button class="accordion-btn exam-btn">🔢 Present Simple</button>
             <div class="panel">
                 <ul class="menu-list">
                     <li>
