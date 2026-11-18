@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ошибки: To Be</title>
+    <style>
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 14px;
+            background-color: #f0f4f8;
+            color: #333;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 {
+            text-align: center;
+            color: #c53030;
+            margin: 0 0 16px;
+            font-size: 1.35em;
+            word-wrap: break-word;
+        }
+
+        .mode-switcher {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .mode-btn {
+            background-color: #cbd5e0;
+            color: #4a5568;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: background-color 0.2s, color 0.2s;
+            min-width: 100px;
+        }
+        .mode-btn.active { background-color: #3182ce; color: #fff; }
+
+        ul { list-style-type: none; padding-left: 0; margin: 0; }
+        li {
+            background: #fff;
+            margin-bottom: 10px;
+            padding: 16px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            border-left: 5px solid #e53e3e;
+            word-wrap: break-word;
+            align-items: flex-start;
+        }
+        
+        /* ENG режим */
+        .en-text {
+            font-weight: bold;
+            font-size: 1.05em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+
+        /* RUS режим */
+        .ru-text {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #2c3e50;
+            text-align: left;
+            margin-bottom: 10px;
+        }
+
+        .error-note {
+            font-size: 0.85em;
+            color: #e53e3e;
+            margin-bottom: 10px;
+            font-style: italic;
+            text-align: left;
+            background: #fff5f5;
+            padding: 6px 10px;
+            border-radius: 4px;
+        }
+
+        .btn-toggle {
+            background-color: #3182ce;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95em;
+            align-self: flex-start;
+            transition: background-color 0.2s;
+            min-height: 40px;
+        }
+        .btn-toggle:active { background-color: #2b6cb0; }
+
+        .answer {
+            display: none;
+            color: #2b6cb0;
+            font-size: 1.05em;
+            font-weight: bold;
+            text-align: left;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed #e2e8f0;
+        }
+        .answer.show { display: block; }
+
+        .hidden-mode { display: none !important; }
+
+        @media (max-width: 360px) {
+            body { padding: 10px; }
+            h1 { font-size: 1.2em; }
+            .en-text, .ru-text { font-size: 1em; }
+            li { padding: 12px; }
+            .btn-toggle { padding: 8px 16px; font-size: 0.9em; }
+            .mode-switcher { flex-direction: row; gap: 10px; }
+            .mode-btn { padding: 8px 15px; font-size: 0.9em; min-width: 80px; }
+        }
+        
+        .back-nav-wrapper { text-align: center; margin: 30px auto 20px; padding: 0 14px; }
+        .back-nav-btn {
+            display: inline-block;
+            background-color: #718096;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🚫 Работа над ошибками (To Be)</h1>
+    
+    <div class="mode-switcher">
+        <button id="btn-eng-rus" class="mode-btn active" onclick="setMode('eng-rus')">ENG</button>
+        <button id="btn-rus-eng" class="mode-btn" onclick="setMode('rus-eng')">RUS</button>
+    </div>
+
+    <ul id="list1">
+        <!-- Ошибка 1 -->
+        <li class="eng-mode">
+            <div class="en-text">It's a simple test</div>
+            <div class="error-note">(simple, а не present)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Это простой тест.</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Это простой тест.</div>
+            <div class="error-note">(simple, а не present)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">It's a simple test</div>
+        </li>
+
+        <!-- Ошибка 2 -->
+        <li class="eng-mode">
+            <div class="en-text">It's so cold</div>
+            <div class="error-note">(пропущено слово so)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Так холодно.</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Так холодно.</div>
+            <div class="error-note">(пропущено слово so)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">It's so cold</div>
+        </li>
+
+        <!-- Ошибка 3 -->
+        <li class="eng-mode">
+            <div class="en-text">It's a big mistake</div>
+            <div class="error-note">(лишнее so, артикль a перед прилагательным)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Это большая ошибка.</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Это большая ошибка.</div>
+            <div class="error-note">(лишнее so, артикль a перед прилагательным)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">It's a big mistake</div>
+        </li>
+
+        <!-- Ошибка 4 -->
+        <li class="eng-mode">
+            <div class="en-text">It's obvious</div>
+            <div class="error-note">(прилагательное obvious, а не наречие obviously)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Это очевидно.</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Это очевидно.</div>
+            <div class="error-note">(прилагательное obvious, а не наречие obviously)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">It's obvious</div>
+        </li>
+
+        <!-- Ошибка 5 -->
+        <li class="eng-mode">
+            <div class="en-text">It's very dark</div>
+            <div class="error-note">(без артикля a, так как нет существительного)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Очень темно.</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Очень темно.</div>
+            <div class="error-note">(без артикля a, так как нет существительного)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">It's very dark</div>
+        </li>
+
+        <!-- Ошибка 6 -->
+        <li class="eng-mode">
+            <div class="en-text">He's a young man</div>
+            <div class="error-note">(нужен артикль a перед man)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Он молодой человек.</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Он молодой человек.</div>
+            <div class="error-note">(нужен артикль a перед man)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">He's a young man</div>
+        </li>
+
+        <!-- Ошибка 7 -->
+        <li class="eng-mode">
+            <div class="en-text">It's possible</div>
+            <div class="error-note">(possible, а не maybe)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Это возможно.</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Это возможно.</div>
+            <div class="error-note">(possible, а не maybe)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">It's possible</div>
+        </li>
+
+        <!-- Ошибка 8 -->
+        <li class="eng-mode">
+            <div class="en-text">She's a very good doctor</div>
+            <div class="error-note">(пропущено слово very)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Она очень хороший врач.</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Она очень хороший врач.</div>
+            <div class="error-note">(пропущено слово very)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">She's a very good doctor</div>
+        </li>
+
+        <!-- Ошибка 9 -->
+        <li class="eng-mode">
+            <div class="en-text">You're a very good teacher</div>
+            <div class="error-note">(пропущено слово very)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+            <div class="answer">— Ты очень хороший учитель.</div>
+        </li>
+        <li class="rus-mode hidden-mode">
+            <div class="ru-text">Ты очень хороший учитель.</div>
+            <div class="error-note">(пропущено слово very)</div>
+            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+            <div class="answer">You're a very good teacher</div>
+        </li>
+    </ul>
+</div>
+
+<div class="back-nav-wrapper">
+    <a href="../index.html" class="back-nav-btn">← На главную</a>
+</div>
+
+<script>
+    function setMode(mode) {
+        document.getElementById('btn-eng-rus').classList.remove('active');
+        document.getElementById('btn-rus-eng').classList.remove('active');
+        document.getElementById('btn-' + mode).classList.add('active');
+
+        var engModeItems = document.querySelectorAll('.eng-mode');
+        var rusModeItems = document.querySelectorAll('.rus-mode');
+
+        if (mode === 'eng-rus') {
+            engModeItems.forEach(item => item.classList.remove('hidden-mode'));
+            rusModeItems.forEach(item => item.classList.add('hidden-mode'));
+        } else {
+            engModeItems.forEach(item => item.classList.add('hidden-mode'));
+            rusModeItems.forEach(item => item.classList.remove('hidden-mode'));
+        }
+    }
+
+    function toggleAnswer(button) {
+        var answer = button.nextElementSibling;
+
+        if (answer.classList.contains('show')) {
+            answer.classList.remove('show');
+            button.textContent = 'Показать перевод';
+            button.style.backgroundColor = '#3182ce';
+        } else {
+            answer.classList.add('show');
+            button.textContent = 'Скрыть перевод';
+            button.style.backgroundColor = '#718096';
+        }
+    }
+</script>
+
+</body>
+</html>
