@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Be — теория и тренажёр (1–50)</title>
+    <style>
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; margin: 0; padding: 14px; background-color: #f0f4f8; color: #333; }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 { text-align: center; color: #2c3e50; margin: 0 0 16px; font-size: 1.35em; word-wrap: break-word; }
+
+        /* ---- Вкладки Теория / Тренажёр ---- */
+        .tabs { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; }
+        .tab-btn { background-color: #cbd5e0; color: #4a5568; border: none; padding: 10px 30px; border-radius: 6px; cursor: pointer; font-size: 1em; font-weight: bold; transition: background-color 0.2s, color 0.2s; min-width: 110px; white-space: nowrap; }
+        .tab-btn.active { background-color: #2c3e50; color: #fff; }
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+
+        /* ---- Переключатель направления ENG → RU / RU → ENG ---- */
+        .mode-switcher { display: flex; justify-content: center; gap: 12px; margin-bottom: 20px; flex-wrap: nowrap; }
+        .mode-btn { background-color: #cbd5e0; color: #4a5568; border: none; padding: 10px 22px; border-radius: 6px; cursor: pointer; font-size: 1em; font-weight: bold; transition: background-color 0.2s, color 0.2s; min-width: 120px; white-space: nowrap; }
+        .mode-btn.active { background-color: #3182ce; color: #fff; }
+
+        .search-box { width: 100%; padding: 12px 16px; margin-bottom: 20px; border: 2px solid #3182ce; border-radius: 8px; font-size: 1em; box-shadow: 0 2px 5px rgba(0,0,0,0.05); outline: none; transition: border-color 0.2s; }
+        .search-box:focus { border-color: #2b6cb0; box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.2); }
+
+        .rule-box { background-color: #fff; border-left: 6px solid #3182ce; padding: 16px 14px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 22px; }
+        .rule-box h2 { margin-top: 0; color: #2b6cb0; font-size: 1.05em; line-height: 1.35; }
+        .rule-box p { margin: 0 0 10px; font-size: 0.95em; }
+        .rule-box p:last-child { margin-bottom: 0; }
+        .ex { font-weight: 600; color: #2c3e50; }
+        .num-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 4px 14px; font-size: 0.92em; }
+
+        .section-title { background-color: #3182ce; color: #fff; padding: 8px 14px; border-radius: 6px; margin: 25px 0 15px; font-size: 1.1em; text-align: center; }
+
+        ul { list-style-type: none; padding-left: 0; margin: 0; }
+        li { background: #fff; margin-bottom: 10px; padding: 12px 14px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); display: flex; flex-direction: column; border-left: 5px solid #9f7aea; word-wrap: break-word; overflow-wrap: break-word; align-items: flex-start; }
+        .en { font-weight: bold; font-size: 1.02em; color: #2c3e50; margin-bottom: 10px; line-height: 1.45; text-align: left; }
+        .ru-prompt { font-size: 1.1em; font-weight: bold; color: #2c3e50; text-align: left; margin-bottom: 15px; line-height: 1.45; }
+        .btn-toggle { background-color: #e2e8f0; color: #4a5568; border: none; padding: 9px 14px; border-radius: 6px; cursor: pointer; font-size: 0.9em; transition: background-color 0.2s; min-height: 38px; align-self: flex-start; }
+        .btn-toggle:active { background-color: #cbd5e0; }
+        .ru { display: none; color: #2b6cb0; font-size: 0.98em; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #e2e8f0; font-weight: 500; text-align: left; }
+        .ru.show { display: block; }
+        .en-answer { display: none; color: #2b6cb0; font-size: 1.05em; font-weight: bold; text-align: left; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #e2e8f0; }
+        .en-answer.show { display: block; }
+        .hidden-mode { display: none !important; }
+        .hidden-item { display: none !important; }
+
+        @media (max-width: 360px) {
+            body { padding: 10px; }
+            h1 { font-size: 1.2em; }
+            .en { font-size: 0.98em; }
+            .ru-prompt { font-size: 1.05em; }
+            li { padding: 10px 12px; }
+            .search-box { padding: 10px 12px; font-size: 0.9em; }
+            .mode-switcher { gap: 8px; }
+            .mode-btn { padding: 9px 10px; font-size: 0.85em; min-width: 0; }
+            .tabs { gap: 8px; }
+            .tab-btn { padding: 9px 12px; font-size: 0.85em; min-width: 0; }
+        }
+
+        .back-nav-wrapper { text-align: center; margin: 30px auto 20px; padding: 0 14px; }
+        .back-nav-btn { display: inline-block; background-color: #3182ce; color: #ffffff; text-decoration: none; padding: 12px 28px; border-radius: 8px; font-size: 1em; font-weight: 600; box-shadow: 0 3px 6px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Глагол TO BE — теория и тренажёр</h1>
+
+    <div class="tabs">
+        <button id="tab-theory" class="tab-btn active" onclick="setTab('theory')">Теория</button>
+        <button id="tab-trainer" class="tab-btn" onclick="setTab('trainer')">Тренажёр</button>
+    </div>
+
+    <!-- ==================== ТЕОРИЯ ==================== -->
+    <div id="panel-theory" class="tab-panel active">
+        <div class="rule-box">
+            <h2>📌 Формы глагола to be</h2>
+            <p class="ex">I am → I'm</p>
+            <p class="ex">He / She / It is → 's</p>
+            <p class="ex">We / You / They are → 're</p>
+            <p>Отрицание: <span class="ex">isn't / aren't / I'm not</span>.</p>
+            <p>Вопрос: глагол to be ставим в начало — <span class="ex">Is he busy? Are they here?</span></p>
+        </div>
+
+        <div class="rule-box">
+            <h2>📌 Примеры с to be</h2>
+            <p class="ex">This video is very informative.</p>
+            <p class="ex">These videos are very informative.</p>
+            <p class="ex">All these videos are very useful.</p>
+            <p class="ex">All your videos are so interesting.</p>
+            <p class="ex">This student is so hard-working.</p>
+            <p class="ex">These students are very lazy.</p>
+            <p class="ex">My boss is very busy now.</p>
+            <p class="ex">Her boss is very busy at the moment.</p>
+        </div>
+
+        <div class="rule-box">
+            <h2>📌 Единственное и множественное число</h2>
+            <p class="ex">man — men · woman — women</p>
+            <p>This man is a doctor. — These men are managers.</p>
+            <p>That woman is a designer. — Those women are teachers.</p>
+            <p>These lessons are so effective.</p>
+            <p>Those lessons are ineffective (those lessons aren't effective).</p>
+            <p>This problem is very big. — These problems are small.</p>
+            <p>this / that → единственное число · these / those → множественное.</p>
+        </div>
+
+        <div class="rule-box">
+            <h2>📌 Короткие фразы, которые стоит запомнить</h2>
+            <p class="ex">Time is money.</p>
+            <p class="ex">Money is important.</p>
+            <p class="ex">English is easy.</p>
+            <p class="ex">Chinese is very difficult.</p>
+            <p class="ex">Love is a wonderful feeling.</p>
+            <p class="ex">Knowledge is power.</p>
+            <p class="ex">This place is very beautiful.</p>
+        </div>
+
+        <div class="rule-box">
+            <h2>📌 Числа 1–100</h2>
+            <div class="num-grid">
+                <span>1 one · 2 two · 3 three</span>
+                <span>4 four · 5 five · 6 six</span>
+                <span>7 seven · 8 eight · 9 nine</span>
+                <span>10 ten · 11 eleven · 12 twelve</span>
+                <span>13 thirteen · 14 fourteen</span>
+                <span>15 fifteen · 16 sixteen</span>
+                <span>17 seventeen · 18 eighteen</span>
+                <span>19 nineteen · 20 twenty</span>
+                <span>30 thirty · 40 forty</span>
+                <span>50 fifty · 60 sixty</span>
+                <span>70 seventy · 80 eighty</span>
+                <span>90 ninety · 100 a hundred</span>
+            </div>
+        </div>
+
+        <div class="rule-box">
+            <h2>📌 Возраст</h2>
+            <p class="ex">I'm 21 (years old) — twenty-one.</p>
+            <p class="ex">I'm 32 (years old) — thirty-two.</p>
+            <p>Возраст в английском — через to be, а не «have»: <span class="ex">He's 32. My brother is 21. His wife is 32.</span></p>
+            <p>Вопрос о возрасте: <span class="ex">I'm thirty-one. And you?</span></p>
+        </div>
+    </div>
+
+    <!-- ==================== ТРЕНАЖЁР ==================== -->
+    <div id="panel-trainer" class="tab-panel">
+        <div class="mode-switcher">
+            <button id="btn-eng-rus" class="mode-btn active" onclick="setMode('eng-rus')">ENG → RU</button>
+            <button id="btn-rus-eng" class="mode-btn" onclick="setMode('rus-eng')">RU → ENG</button>
+        </div>
+
+        <input type="text" id="searchInput" class="search-box" placeholder="🔍 Поиск по фразе или переводу..." onkeyup="filterList()">
+
+        <div class="rule-box">
+            <h2>📌 Инструкция</h2>
+            <p id="instruction-text">Прочитайте английскую фразу, переведите её вслух, а затем нажмите кнопку, чтобы проверить себя.</p>
+        </div>
+
+        <div class="section-title">Фразы 1–25</div>
+        <ul id="list1">
+            <li class="eng-mode"><span class="en">1. Money is important</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Деньги важны.</span></li>
+            <li class="eng-mode"><span class="en">2. This businessman is very rich</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Этот бизнесмен очень богат.</span></li>
+            <li class="eng-mode"><span class="en">3. The lesson is useful</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Урок полезный.</span></li>
+            <li class="eng-mode"><span class="en">4. The day is windy</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— День ветреный.</span></li>
+            <li class="eng-mode"><span class="en">5. Our teacher is very hard-working</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Наш учитель очень трудолюбивый.</span></li>
+            <li class="eng-mode"><span class="en">6. This boy is very lazy</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Этот мальчик очень ленивый.</span></li>
+            <li class="eng-mode"><span class="en">7. Your results are excellent</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Твои результаты отличные.</span></li>
+            <li class="eng-mode"><span class="en">8. His result is so bad</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Его результат такой плохой.</span></li>
+            <li class="eng-mode"><span class="en">9. Our manager is very professional</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Наш менеджер очень профессиональный.</span></li>
+            <li class="eng-mode"><span class="en">10. Knowledge is power</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Знание — сила.</span></li>
+            <li class="eng-mode"><span class="en">11. This word is new for me</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это слово новое для меня.</span></li>
+            <li class="eng-mode"><span class="en">12. This man is very rich</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Этот мужчина очень богат.</span></li>
+            <li class="eng-mode"><span class="en">13. The test is easy</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Тест лёгкий.</span></li>
+            <li class="eng-mode"><span class="en">14. These problems are small</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Эти проблемы маленькие.</span></li>
+            <li class="eng-mode"><span class="en">15. The exam is difficult</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Экзамен сложный.</span></li>
+            <li class="eng-mode"><span class="en">16. My boss is very busy now</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Мой начальник сейчас очень занят.</span></li>
+            <li class="eng-mode"><span class="en">17. His girlfriend is 19 (nineteen)</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Его девушке 19.</span></li>
+            <li class="eng-mode"><span class="en">18. Her boyfriend is 22 (twenty-two)</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Её парню 22.</span></li>
+            <li class="eng-mode"><span class="en">19. The men are here</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Мужчины здесь.</span></li>
+            <li class="eng-mode"><span class="en">20. This company is very rich</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Эта компания очень богатая.</span></li>
+            <li class="eng-mode"><span class="en">21. His result is brilliant</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Его результат блестящий.</span></li>
+            <li class="eng-mode"><span class="en">22. All these details are very important</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Все эти детали очень важны.</span></li>
+            <li class="eng-mode"><span class="en">23. Those lessons are ineffective (aren't effective)</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Те уроки неэффективны (не являются эффективными).</span></li>
+            <li class="eng-mode"><span class="en">24. English is easy</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Английский лёгкий.</span></li>
+            <li class="eng-mode"><span class="en">25. This method is very simple</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Этот метод очень простой.</span></li>
+
+            <!-- RU → ENG, 1–25 -->
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">1. Деньги важны.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">Money is important</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">2. Этот бизнесмен очень богат.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">This businessman is very rich</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">3. Урок полезный.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">The lesson is useful</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">4. День ветреный.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">The day is windy</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">5. Наш учитель очень трудолюбивый.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">Our teacher is very hard-working</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">6. Этот мальчик очень ленивый.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">This boy is very lazy</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">7. Твои результаты отличные.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">Your results are excellent</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">8. Его результат такой плохой.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">His result is so bad</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">9. Наш менеджер очень профессиональный.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">Our manager is very professional</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">10. Знание — сила.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">Knowledge is power</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">11. Это слово новое для меня.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">This word is new for me</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">12. Этот мужчина очень богат.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">This man is very rich</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">13. Тест лёгкий.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">The test is easy</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">14. Эти проблемы маленькие.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">These problems are small</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">15. Экзамен сложный.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">The exam is difficult</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">16. Мой начальник сейчас очень занят.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">My boss is very busy now</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">17. Его девушке 19.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">His girlfriend is 19 (nineteen)</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">18. Её парню 22.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">Her boyfriend is 22 (twenty-two)</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">19. Мужчины здесь.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">The men are here</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">20. Эта компания очень богатая.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">This company is very rich</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">21. Его результат блестящий.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">His result is brilliant</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">22. Все эти детали очень важны.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">All these details are very important</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">23. Те уроки неэффективны.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">Those lessons are ineffective (aren't effective)</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">24. Английский лёгкий.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">English is easy</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">25. Этот метод очень простой.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">This method is very simple</div></li>
+        </ul>
+
+        <div class="section-title">Фразы 26–50</div>
+        <ul id="list2">
+            <li class="eng-mode"><span class="en">26. This book is really boring</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Эта книга действительно скучная.</span></li>
+            <li class="eng-mode"><span class="en">27. The boy is very clever</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Мальчик очень умный.</span></li>
+            <li class="eng-mode"><span class="en">28. Those women are teachers</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Те женщины — учителя.</span></li>
+            <li class="eng-mode"><span class="en">29. This mistake is very big</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Эта ошибка очень большая.</span></li>
+            <li class="eng-mode"><span class="en">30. Her level is very low</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Её уровень очень низкий.</span></li>
+            <li class="eng-mode"><span class="en">31. Chinese is very difficult</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Китайский очень сложный.</span></li>
+            <li class="eng-mode"><span class="en">32. These students are very lazy</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Эти студенты очень ленивые.</span></li>
+            <li class="eng-mode"><span class="en">33. The question is simple</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Вопрос простой.</span></li>
+            <li class="eng-mode"><span class="en">34. This year is very difficult</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Этот год очень сложный.</span></li>
+            <li class="eng-mode"><span class="en">35. The boys are at home</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Мальчики дома.</span></li>
+            <li class="eng-mode"><span class="en">36. My memory is bad</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Моя память плохая.</span></li>
+            <li class="eng-mode"><span class="en">37. This student is so hard-working</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Этот студент такой трудолюбивый.</span></li>
+            <li class="eng-mode"><span class="en">38. Her boyfriend is 18 (eighteen)</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Её парню 18.</span></li>
+            <li class="eng-mode"><span class="en">39. I'm thirty-one. And you?</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Мне тридцать один. А тебе?</span></li>
+            <li class="eng-mode"><span class="en">40. All your videos are so interesting</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Все твои видео такие интересные.</span></li>
+            <li class="eng-mode"><span class="en">41. That woman is a designer</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Та женщина — дизайнер.</span></li>
+            <li class="eng-mode"><span class="en">42. The day is cold</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— День холодный.</span></li>
+            <li class="eng-mode"><span class="en">43. This lesson is very useful</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Этот урок очень полезный.</span></li>
+            <li class="eng-mode"><span class="en">44. The girl is so hard-working</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Девочка такая трудолюбивая.</span></li>
+            <li class="eng-mode"><span class="en">45. I have a computer. The computer is new</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— У меня есть компьютер. Компьютер новый.</span></li>
+            <li class="eng-mode"><span class="en">46. The song is so popular</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Песня такая популярная.</span></li>
+            <li class="eng-mode"><span class="en">47. The playlist is so informative</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Плейлист такой информативный.</span></li>
+            <li class="eng-mode"><span class="en">48. His father is 55 (fifty-five)</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Его отцу 55.</span></li>
+            <li class="eng-mode"><span class="en">49. His level is very high</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Его уровень очень высокий.</span></li>
+            <li class="eng-mode"><span class="en">50. The day is sunny</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— День солнечный.</span></li>
+
+            <!-- RU → ENG, 26–50 -->
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">26. Эта книга действительно скучная.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">This book is really boring</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">27. Мальчик очень умный.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">The boy is very clever</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">28. Те женщины — учителя.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">Those women are teachers</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">29. Эта ошибка очень большая.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">This mistake is very big</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">30. Её уровень очень низкий.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">Her level is very low</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">31. Китайский очень сложный.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">Chinese is very difficult</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">32. Эти студенты очень ленивые.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">These students are very lazy</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">33. Вопрос простой.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">The question is simple</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">34. Этот год очень сложный.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">This year is very difficult</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">35. Мальчики дома.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">The boys are at home</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">36. Моя память плохая.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">My memory is bad</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">37. Этот студент такой трудолюбивый.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">This student is so hard-working</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">38. Её парню 18.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">Her boyfriend is 18 (eighteen)</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">39. Мне тридцать один. А тебе?</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I'm thirty-one. And you?</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">40. Все твои видео такие интересные.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">All your videos are so interesting</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">41. Та женщина — дизайнер.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">That woman is a designer</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">42. День холодный.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">The day is cold</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">43. Этот урок очень полезный.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">This lesson is very useful</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">44. Девочка такая трудолюбивая.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">The girl is so hard-working</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">45. У меня есть компьютер. Компьютер новый.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I have a computer. The computer is new</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">46. Песня такая популярная.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">The song is so popular</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">47. Плейлист такой информативный.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">The playlist is so informative</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">48. Его отцу 55.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">His father is 55 (fifty-five)</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">49. Его уровень очень высокий.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">His level is very high</div></li>
+            <li class="rus-mode hidden-mode"><div class="ru-prompt">50. День солнечный.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">The day is sunny</div></li>
+        </ul>
+    </div>
+</div>
+
+<div class="back-nav-wrapper"><a href="../index.html" class="back-nav-btn">← На главную</a></div>
+
+<script>
+    function setTab(tab) {
+        ['theory', 'trainer'].forEach(function (t) {
+            document.getElementById('tab-' + t).classList.remove('active');
+            document.getElementById('panel-' + t).classList.remove('active');
+        });
+        document.getElementById('tab-' + tab).classList.add('active');
+        document.getElementById('panel-' + tab).classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setMode(mode) {
+        document.getElementById('btn-eng-rus').classList.remove('active');
+        document.getElementById('btn-rus-eng').classList.remove('active');
+        document.getElementById('btn-' + mode).classList.add('active');
+
+        var engModeItems = document.querySelectorAll('.eng-mode');
+        var rusModeItems = document.querySelectorAll('.rus-mode');
+        var instruction = document.getElementById('instruction-text');
+
+        if (mode === 'eng-rus') {
+            engModeItems.forEach(item => item.classList.remove('hidden-mode'));
+            rusModeItems.forEach(item => item.classList.add('hidden-mode'));
+            instruction.textContent = 'Прочитайте английскую фразу, переведите её вслух, а затем нажмите кнопку, чтобы проверить себя.';
+        } else {
+            engModeItems.forEach(item => item.classList.add('hidden-mode'));
+            rusModeItems.forEach(item => item.classList.remove('hidden-mode'));
+            instruction.textContent = 'Прочитайте русскую фразу, проговорите её вслух на английском, а затем нажмите кнопку, чтобы проверить себя.';
+        }
+
+        // сбрасываем раскрытые ответы и поиск при смене направления
+        document.querySelectorAll('.ru.show, .en-answer.show').forEach(function (el) {
+            el.classList.remove('show');
+        });
+        document.querySelectorAll('.btn-toggle').forEach(function (btn) {
+            var isAnswer = btn.textContent.indexOf('ответ') !== -1;
+            btn.textContent = isAnswer ? 'Показать ответ' : 'Показать перевод';
+            btn.style.backgroundColor = '#e2e8f0';
+        });
+        document.getElementById('searchInput').value = '';
+        document.querySelectorAll('li').forEach(function (item) {
+            item.classList.remove('hidden-item');
+        });
+    }
+
+    function toggleTranslation(button) {
+        var translation = button.nextElementSibling;
+        if (translation.classList.contains('show')) {
+            translation.classList.remove('show');
+            button.textContent = 'Показать перевод';
+            button.style.backgroundColor = '#e2e8f0';
+        } else {
+            translation.classList.add('show');
+            button.textContent = 'Скрыть перевод';
+            button.style.backgroundColor = '#cbd5e0';
+        }
+    }
+
+    function toggleAnswer(button) {
+        var answer = button.nextElementSibling;
+        if (answer.classList.contains('show')) {
+            answer.classList.remove('show');
+            button.textContent = 'Показать ответ';
+            button.style.backgroundColor = '#e2e8f0';
+        } else {
+            answer.classList.add('show');
+            button.textContent = 'Скрыть ответ';
+            button.style.backgroundColor = '#cbd5e0';
+        }
+    }
+
+    function filterList() {
+        var input = document.getElementById('searchInput').value.toLowerCase().trim();
+        document.querySelectorAll('li').forEach(function (item) {
+            if (item.textContent.toLowerCase().includes(input)) {
+                item.classList.remove('hidden-item');
+            } else {
+                item.classList.add('hidden-item');
+            }
+        });
+    }
+</script>
+</body>
+</html>
+
