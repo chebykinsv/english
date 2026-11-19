@@ -30,7 +30,13 @@
         .rule-box p { margin: 0 0 10px; font-size: 0.95em; }
         .rule-box p:last-child { margin-bottom: 0; }
         .ex { font-weight: 600; color: #2c3e50; }
-        .num-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 4px 14px; font-size: 0.92em; }
+
+        /* ---- Таблица для чисел ---- */
+        .num-table { width: 100%; border-collapse: collapse; margin-top: 10px; background: #f8fafc; border-radius: 6px; overflow: hidden; font-size: 0.9em; }
+        .num-table td { padding: 8px 12px; border-bottom: 1px solid #e2e8f0; text-align: left; }
+        .num-table tr:last-child td { border-bottom: none; }
+        .num-table tr:nth-child(even) { background-color: #edf2f7; }
+        .num-table .num { color: #e53e3e; font-weight: bold; width: 40px; display: inline-block; }
 
         .section-title { background-color: #3182ce; color: #fff; padding: 8px 14px; border-radius: 6px; margin: 25px 0 15px; font-size: 1.1em; text-align: center; }
 
@@ -58,6 +64,7 @@
             .mode-btn { padding: 9px 10px; font-size: 0.85em; min-width: 0; }
             .tabs { gap: 8px; }
             .tab-btn { padding: 9px 12px; font-size: 0.85em; min-width: 0; }
+            .num-table td { padding: 6px 8px; font-size: 0.95em; }
         }
 
         .back-nav-wrapper { text-align: center; margin: 30px auto 20px; padding: 0 14px; }
@@ -119,21 +126,19 @@
         </div>
 
         <div class="rule-box">
-            <h2>📌 Числа 1–100</h2>
-            <div class="num-grid">
-                <span>1 one · 2 two · 3 three</span>
-                <span>4 four · 5 five · 6 six</span>
-                <span>7 seven · 8 eight · 9 nine</span>
-                <span>10 ten · 11 eleven · 12 twelve</span>
-                <span>13 thirteen · 14 fourteen</span>
-                <span>15 fifteen · 16 sixteen</span>
-                <span>17 seventeen · 18 eighteen</span>
-                <span>19 nineteen · 20 twenty</span>
-                <span>30 thirty · 40 forty</span>
-                <span>50 fifty · 60 sixty</span>
-                <span>70 seventy · 80 eighty</span>
-                <span>90 ninety · 100 a hundred</span>
-            </div>
+            <h2>📌 Числа 1–100 (таблица)</h2>
+            <table class="num-table">
+                <tr><td><span class="num">1</span> one</td><td><span class="num">2</span> two</td><td><span class="num">3</span> three</td></tr>
+                <tr><td><span class="num">4</span> four</td><td><span class="num">5</span> five</td><td><span class="num">6</span> six</td></tr>
+                <tr><td><span class="num">7</span> seven</td><td><span class="num">8</span> eight</td><td><span class="num">9</span> nine</td></tr>
+                <tr><td><span class="num">10</span> ten</td><td><span class="num">11</span> eleven</td><td><span class="num">12</span> twelve</td></tr>
+                <tr><td><span class="num">13</span> thirteen</td><td><span class="num">14</span> fourteen</td><td><span class="num">15</span> fifteen</td></tr>
+                <tr><td><span class="num">16</span> sixteen</td><td><span class="num">17</span> seventeen</td><td><span class="num">18</span> eighteen</td></tr>
+                <tr><td><span class="num">19</span> nineteen</td><td><span class="num">20</span> twenty</td><td><span class="num">30</span> thirty</td></tr>
+                <tr><td><span class="num">40</span> forty</td><td><span class="num">50</span> fifty</td><td><span class="num">60</span> sixty</td></tr>
+                <tr><td><span class="num">70</span> seventy</td><td><span class="num">80</span> eighty</td><td><span class="num">90</span> ninety</td></tr>
+                <tr><td colspan="3" style="text-align: center; font-weight: bold;"><span class="num">100</span> a hundred</td></tr>
+            </table>
         </div>
 
         <div class="rule-box">
@@ -187,7 +192,6 @@
             <li class="eng-mode"><span class="en">24. English is easy</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Английский лёгкий.</span></li>
             <li class="eng-mode"><span class="en">25. This method is very simple</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Этот метод очень простой.</span></li>
 
-            <!-- RU → ENG, 1–25 -->
             <li class="rus-mode hidden-mode"><div class="ru-prompt">1. Деньги важны.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">Money is important</div></li>
             <li class="rus-mode hidden-mode"><div class="ru-prompt">2. Этот бизнесмен очень богат.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">This businessman is very rich</div></li>
             <li class="rus-mode hidden-mode"><div class="ru-prompt">3. Урок полезный.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">The lesson is useful</div></li>
@@ -243,7 +247,6 @@
             <li class="eng-mode"><span class="en">49. His level is very high</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Его уровень очень высокий.</span></li>
             <li class="eng-mode"><span class="en">50. The day is sunny</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— День солнечный.</span></li>
 
-            <!-- RU → ENG, 26–50 -->
             <li class="rus-mode hidden-mode"><div class="ru-prompt">26. Эта книга действительно скучная.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">This book is really boring</div></li>
             <li class="rus-mode hidden-mode"><div class="ru-prompt">27. Мальчик очень умный.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">The boy is very clever</div></li>
             <li class="rus-mode hidden-mode"><div class="ru-prompt">28. Те женщины — учителя.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">Those women are teachers</div></li>
@@ -359,4 +362,3 @@
 </script>
 </body>
 </html>
-
