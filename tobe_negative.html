@@ -1,434 +1,127 @@
 <!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To Be — отрицание (negative form) 1–86</title>
-    <style>
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; margin: 0; padding: 14px; background-color: #f0f4f8; color: #333; }
-        .container { max-width: 900px; margin: 0 auto; }
-        h1 { text-align: center; color: #2c3e50; margin: 0 0 16px; font-size: 1.35em; word-wrap: break-word; }
-
-        /* ---- Вкладки Теория / Тренажёр ---- */
-        .tabs { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; }
-        .tab-btn { background-color: #cbd5e0; color: #4a5568; border: none; padding: 10px 30px; border-radius: 6px; cursor: pointer; font-size: 1em; font-weight: bold; transition: background-color 0.2s, color 0.2s; min-width: 110px; white-space: nowrap; }
-        .tab-btn.active { background-color: #2c3e50; color: #fff; }
-        .tab-panel { display: none; }
-        .tab-panel.active { display: block; }
-
-        /* ---- Переключатель направления ---- */
-        .mode-switcher { display: flex; justify-content: center; gap: 12px; margin-bottom: 20px; flex-wrap: nowrap; }
-        .mode-btn { background-color: #cbd5e0; color: #4a5568; border: none; padding: 10px 22px; border-radius: 6px; cursor: pointer; font-size: 1em; font-weight: bold; transition: background-color 0.2s, color 0.2s; min-width: 120px; white-space: nowrap; }
-        .mode-btn.active { background-color: #3182ce; color: #fff; }
-
-        .search-box { width: 100%; padding: 12px 16px; margin-bottom: 20px; border: 2px solid #3182ce; border-radius: 8px; font-size: 1em; box-shadow: 0 2px 5px rgba(0,0,0,0.05); outline: none; transition: border-color 0.2s; }
-        .search-box:focus { border-color: #2b6cb0; box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.2); }
-
-        .rule-box { background-color: #fff; border-left: 6px solid #e53e3e; padding: 16px 14px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 22px; }
-        .rule-box h2 { margin-top: 0; color: #c53030; font-size: 1.05em; line-height: 1.35; }
-        .rule-box p { margin: 0 0 10px; font-size: 0.95em; }
-        .rule-box p:last-child { margin-bottom: 0; }
-        .ex { font-weight: 600; color: #2c3e50; }
-
-        .form-table { width: 100%; border-collapse: collapse; margin-top: 10px; background: #f8fafc; border-radius: 6px; overflow: hidden; font-size: 0.92em; }
-        .form-table td { padding: 9px 12px; border-bottom: 1px solid #e2e8f0; text-align: left; }
-        .form-table tr:last-child td { border-bottom: none; }
-        .form-table tr:nth-child(even) { background-color: #edf2f7; }
-        .form-table .neg { color: #c53030; font-weight: bold; }
-
-        .section-title { background-color: #e53e3e; color: #fff; padding: 8px 14px; border-radius: 6px; margin: 25px 0 15px; font-size: 1.1em; text-align: center; }
-
-        ul { list-style-type: none; padding-left: 0; margin: 0; }
-        li { background: #fff; margin-bottom: 10px; padding: 12px 14px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); display: flex; flex-direction: column; border-left: 5px solid #e53e3e; word-wrap: break-word; overflow-wrap: break-word; align-items: flex-start; }
-        .en { font-weight: bold; font-size: 1.02em; color: #2c3e50; margin-bottom: 10px; line-height: 1.45; text-align: left; }
-        .ru-prompt { font-size: 1.1em; font-weight: bold; color: #2c3e50; text-align: left; margin-bottom: 15px; line-height: 1.45; }
-        .btn-toggle { background-color: #e2e8f0; color: #4a5568; border: none; padding: 9px 14px; border-radius: 6px; cursor: pointer; font-size: 0.9em; transition: background-color 0.2s; min-height: 38px; align-self: flex-start; }
-        .btn-toggle:active { background-color: #cbd5e0; }
-        .ru { display: none; color: #c53030; font-size: 0.98em; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #e2e8f0; font-weight: 500; text-align: left; }
-        .ru.show { display: block; }
-        .en-answer { display: none; color: #c53030; font-size: 1.05em; font-weight: bold; text-align: left; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #e2e8f0; }
-        .en-answer.show { display: block; }
-        .hidden-mode { display: none !important; }
-        .hidden-item { display: none !important; }
-
-        @media (max-width: 360px) {
-            body { padding: 10px; }
-            h1 { font-size: 1.2em; }
-            .en { font-size: 0.98em; }
-            .ru-prompt { font-size: 1.05em; }
-            li { padding: 10px 12px; }
-            .search-box { padding: 10px 12px; font-size: 0.9em; }
-            .mode-switcher { gap: 8px; }
-            .mode-btn { padding: 9px 10px; font-size: 0.85em; min-width: 0; }
-            .tabs { gap: 8px; }
-            .tab-btn { padding: 9px 12px; font-size: 0.85em; min-width: 0; }
-            .form-table td { padding: 6px 8px; font-size: 0.95em; }
-        }
-
-        .back-nav-wrapper { text-align: center; margin: 30px auto 20px; padding: 0 14px; }
-        .back-nav-btn { display: inline-block; background-color: #3182ce; color: #ffffff; text-decoration: none; padding: 12px 28px; border-radius: 8px; font-size: 1em; font-weight: 600; box-shadow: 0 3px 6px rgba(0,0,0,0.1); }
-    </style>
-</head>
-<body>
-<div class="container">
-    <h1>Глагол TO BE — отрицание</h1>
-
-    <div class="tabs">
-        <button id="tab-theory" class="tab-btn active" onclick="setTab('theory')">Теория</button>
-        <button id="tab-trainer" class="tab-btn" onclick="setTab('trainer')">Тренажёр</button>
-    </div>
-
-    <!-- ==================== ТЕОРИЯ ==================== -->
-    <div id="panel-theory" class="tab-panel active">
-        <div class="rule-box">
-            <h2>📌 Отрицательная форма to be</h2>
-            <table class="form-table">
-                <tr><td>I am not</td><td class="neg">= I'm not</td></tr>
-                <tr><td>We are not</td><td class="neg">= We aren't</td></tr>
-                <tr><td>You are not</td><td class="neg">= You aren't</td></tr>
-                <tr><td>They are not</td><td class="neg">= They aren't</td></tr>
-                <tr><td>He is not</td><td class="neg">= He isn't</td></tr>
-                <tr><td>She is not</td><td class="neg">= She isn't</td></tr>
-                <tr><td>It is not</td><td class="neg">= It isn't</td></tr>
-            </table>
-            <p style="margin-top:10px;">Порядок слов: <span class="ex">подлежащее + am / is / are + not + остальное</span>.</p>
-            <p>Важно: у <span class="ex">I</span> короткой формы «amn't» нет — только <span class="ex">I'm not</span>.</p>
-        </div>
-
-        <div class="rule-box">
-            <h2>📌 Примеры по местоимениям</h2>
-            <p class="ex">I'm not at home.</p>
-            <p class="ex">We aren't at home.</p>
-            <p class="ex">You aren't at home.</p>
-            <p class="ex">They aren't at home.</p>
-            <p class="ex">He isn't at home.</p>
-            <p class="ex">She isn't at home.</p>
-            <p class="ex">It isn't at home.</p>
-        </div>
-
-        <div class="rule-box">
-            <h2>📌 Схема «не… , а …»</h2>
-            <p>Сначала отрицание, потом правда — так звучит естественно.</p>
-            <p class="ex">I'm not married. I'm single.</p>
-            <p class="ex">I'm not a manager. I'm a teacher.</p>
-            <p class="ex">I'm not at home. I'm at work.</p>
-            <p class="ex">I'm not a student. I work.</p>
-            <p class="ex">We aren't tired. We're full of energy.</p>
-            <p class="ex">We aren't stupid. We're clever.</p>
-            <p class="ex">We aren't angry. We're very kind.</p>
-            <p class="ex">We aren't sad. We're happy.</p>
-            <p class="ex">He isn't old. He's very young.</p>
-            <p class="ex">He isn't poor. He's very rich.</p>
-            <p class="ex">He isn't a director. He's a manager.</p>
-            <p class="ex">She isn't here. She's there.</p>
-            <p class="ex">She isn't a singer. She's an actress.</p>
-        </div>
-
-        <div class="rule-box">
-            <h2>📌 Полезные замены</h2>
-            <p class="ex">You aren't right = You're wrong.</p>
-            <p class="ex">They aren't successful = They're unsuccessful.</p>
-            <p>Приставка <span class="ex">un-</span> делает слово отрицательным: successful → unsuccessful.</p>
-            <p class="ex">actor → actress</p>
-            <p><span class="ex">free</span> — два значения: «свободный» (I'm free, He isn't busy. He's free) и «бесплатный» (These lessons are free, All these lessons are free).</p>
-        </div>
-
-        <div class="rule-box">
-            <h2>📌 Предлоги в этих фразах</h2>
-            <p><span class="ex">at</span> home / at work / at school — дома, на работе, в школе.</p>
-            <p><span class="ex">in</span> the city / in America / in Russia / in this place / in the first place — в городе, в Америке, в России, в этом месте, на первом месте.</p>
-            <p><span class="ex">with</span> him / with her / with them / with us — с ним, с ней, с ними, с нами.</p>
-            <p><span class="ex">on</span> the right / on the left — справа / слева.</p>
-            <p><span class="ex">for</span> this level / for me — для этого уровня / для меня.</p>
-        </div>
-    </div>
-
-    <!-- ==================== ТРЕНАЖЁР ==================== -->
-    <div id="panel-trainer" class="tab-panel">
-        <div class="mode-switcher">
-            <button id="btn-eng-rus" class="mode-btn active" onclick="setMode('eng-rus')">ENG → RU</button>
-            <button id="btn-rus-eng" class="mode-btn" onclick="setMode('rus-eng')">RU → ENG</button>
-        </div>
-
-        <input type="text" id="searchInput" class="search-box" placeholder="🔍 Поиск по фразе или переводу..." onkeyup="filterList()">
-
-        <div class="rule-box">
-            <h2>📌 Инструкция</h2>
-            <p id="instruction-text">Прочитайте английскую фразу, переведите её вслух, а затем нажмите кнопку, чтобы проверить себя.</p>
-        </div>
-
-        <div class="section-title">Фразы 1–29</div>
-        <ul id="list1">
-            <li class="eng-mode"><span class="en">1. I'm not at home</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я не дома.</span></li>
-            <li class="eng-mode"><span class="en">2. We aren't at home</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Мы не дома.</span></li>
-            <li class="eng-mode"><span class="en">3. You aren't at home</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Ты не дома.</span></li>
-            <li class="eng-mode"><span class="en">4. They aren't at home</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Они не дома.</span></li>
-            <li class="eng-mode"><span class="en">5. He isn't at home</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он не дома.</span></li>
-            <li class="eng-mode"><span class="en">6. She isn't at home</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Она не дома.</span></li>
-            <li class="eng-mode"><span class="en">7. It isn't at home</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Оно не дома.</span></li>
-            <li class="eng-mode"><span class="en">8. I'm not married. I'm single</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я не женат. Я холост.</span></li>
-            <li class="eng-mode"><span class="en">9. I'm not a manager. I'm a teacher</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я не менеджер. Я учитель.</span></li>
-            <li class="eng-mode"><span class="en">10. I'm not at home. I'm at work</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я не дома. Я на работе.</span></li>
-            <li class="eng-mode"><span class="en">11. I'm not a student. I work</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я не студент. Я работаю.</span></li>
-            <li class="eng-mode"><span class="en">12. We aren't tired. We're full of energy</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Мы не устали. Мы полны энергии.</span></li>
-            <li class="eng-mode"><span class="en">13. We aren't stupid. We're clever</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Мы не глупые. Мы умные.</span></li>
-            <li class="eng-mode"><span class="en">14. We aren't angry. We're very kind</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Мы не злые. Мы очень добрые.</span></li>
-            <li class="eng-mode"><span class="en">15. We aren't sad. We're happy</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Мы не грустные. Мы счастливые.</span></li>
-            <li class="eng-mode"><span class="en">16. You aren't right (You are wrong)</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Ты не прав (ты ошибаешься).</span></li>
-            <li class="eng-mode"><span class="en">17. You aren't in this place</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Ты не в этом месте.</span></li>
-            <li class="eng-mode"><span class="en">18. You aren't in the first place. You're in the second place</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Ты не на первом месте. Ты на втором месте.</span></li>
-            <li class="eng-mode"><span class="en">19. They aren't together</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Они не вместе.</span></li>
-            <li class="eng-mode"><span class="en">20. They aren't my colleagues</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Они не мои коллеги.</span></li>
-            <li class="eng-mode"><span class="en">21. They aren't successful (They're unsuccessful)</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Они не успешные (они неуспешные).</span></li>
-            <li class="eng-mode"><span class="en">22. They aren't businessmen. They're managers</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Они не бизнесмены. Они менеджеры.</span></li>
-            <li class="eng-mode"><span class="en">23. He isn't old. He's very young</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он не старый. Он очень молодой.</span></li>
-            <li class="eng-mode"><span class="en">24. He isn't poor. He's very rich</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он не бедный. Он очень богатый.</span></li>
-            <li class="eng-mode"><span class="en">25. He isn't a director. He's a manager</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он не директор. Он менеджер.</span></li>
-            <li class="eng-mode"><span class="en">26. He isn't in the city. He's in another place</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он не в городе. Он в другом месте.</span></li>
-            <li class="eng-mode"><span class="en">27. He isn't busy. He's free</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он не занят. Он свободен.</span></li>
-            <li class="eng-mode"><span class="en">28. She isn't here. She's there</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Она не здесь. Она там.</span></li>
-            <li class="eng-mode"><span class="en">29. She isn't a singer. She's an actress</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Она не певица. Она актриса.</span></li>
-
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">1. Я не дома.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I'm not at home</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">2. Мы не дома.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">We aren't at home</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">3. Ты не дома.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">You aren't at home</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">4. Они не дома.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">They aren't at home</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">5. Он не дома.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">He isn't at home</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">6. Она не дома.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">She isn't at home</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">7. Оно не дома.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It isn't at home</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">8. Я не женат. Я холост.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I'm not married. I'm single</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">9. Я не менеджер. Я учитель.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I'm not a manager. I'm a teacher</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">10. Я не дома. Я на работе.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I'm not at home. I'm at work</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">11. Я не студент. Я работаю.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I'm not a student. I work</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">12. Мы не устали. Мы полны энергии.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">We aren't tired. We're full of energy</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">13. Мы не глупые. Мы умные.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">We aren't stupid. We're clever</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">14. Мы не злые. Мы очень добрые.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">We aren't angry. We're very kind</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">15. Мы не грустные. Мы счастливые.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">We aren't sad. We're happy</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">16. Ты не прав (ты ошибаешься).</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">You aren't right (You are wrong)</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">17. Ты не в этом месте.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">You aren't in this place</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">18. Ты не на первом месте. Ты на втором месте.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">You aren't in the first place. You're in the second place</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">19. Они не вместе.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">They aren't together</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">20. Они не мои коллеги.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">They aren't my colleagues</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">21. Они не успешные (они неуспешные).</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">They aren't successful (They're unsuccessful)</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">22. Они не бизнесмены. Они менеджеры.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">They aren't businessmen. They're managers</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">23. Он не старый. Он очень молодой.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">He isn't old. He's very young</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">24. Он не бедный. Он очень богатый.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">He isn't poor. He's very rich</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">25. Он не директор. Он менеджер.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">He isn't a director. He's a manager</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">26. Он не в городе. Он в другом месте.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">He isn't in the city. He's in another place</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">27. Он не занят. Он свободен.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">He isn't busy. He's free</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">28. Она не здесь. Она там.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">She isn't here. She's there</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">29. Она не певица. Она актриса.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">She isn't a singer. She's an actress</div></li>
-        </ul>
-
-        <div class="section-title">Фразы 30–58</div>
-        <ul id="list2">
-            <li class="eng-mode"><span class="en">30. She isn't free. She's very busy</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Она не свободна. Она очень занята.</span></li>
-            <li class="eng-mode"><span class="en">31. She isn't with him. She's with her / them / us</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Она не с ним. Она с ней / ними / нами.</span></li>
-            <li class="eng-mode"><span class="en">32. It isn't warm. It's cold</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Не тепло. Холодно.</span></li>
-            <li class="eng-mode"><span class="en">33. It isn't rainy. It's sunny</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Не дождливо. Солнечно.</span></li>
-            <li class="eng-mode"><span class="en">34. It isn't the same</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это не одно и то же.</span></li>
-            <li class="eng-mode"><span class="en">35. It isn't so easy. It's very difficult</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это не так легко. Это очень сложно.</span></li>
-            <li class="eng-mode"><span class="en">36. It isn't far. It's near</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это не далеко. Это близко.</span></li>
-            <li class="eng-mode"><span class="en">37. It isn't a good method. It's a very bad method</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это не хороший метод. Это очень плохой метод.</span></li>
-            <li class="eng-mode"><span class="en">38. It's such a bad method</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это такой плохой метод.</span></li>
-            <li class="eng-mode"><span class="en">39. It's a very ineffective method</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это очень неэффективный метод.</span></li>
-            <li class="eng-mode"><span class="en">40. I prefer these lessons</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я предпочитаю эти уроки.</span></li>
-            <li class="eng-mode"><span class="en">41. I'm full of ideas</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я полон идей.</span></li>
-            <li class="eng-mode"><span class="en">42. It isn't so bad</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это не так плохо.</span></li>
-            <li class="eng-mode"><span class="en">43. This woman isn't so wise</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Эта женщина не так мудра.</span></li>
-            <li class="eng-mode"><span class="en">44. It isn't for this level</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это не для этого уровня.</span></li>
-            <li class="eng-mode"><span class="en">45. It isn't a difficult rule</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это не сложное правило.</span></li>
-            <li class="eng-mode"><span class="en">46. It isn't interesting</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это не интересно.</span></li>
-            <li class="eng-mode"><span class="en">47. I'm free</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я свободен.</span></li>
-            <li class="eng-mode"><span class="en">48. He isn't Russian</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он не русский.</span></li>
-            <li class="eng-mode"><span class="en">49. They aren't in Russia now</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Они сейчас не в России.</span></li>
-            <li class="eng-mode"><span class="en">50. It isn't a very bad situation</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это не очень плохая ситуация.</span></li>
-            <li class="eng-mode"><span class="en">51. He isn't so hard-working</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он не такой трудолюбивый.</span></li>
-            <li class="eng-mode"><span class="en">52. It isn't a big mistake</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это не большая ошибка.</span></li>
-            <li class="eng-mode"><span class="en">53. It isn't his profession</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это не его профессия.</span></li>
-            <li class="eng-mode"><span class="en">54. He isn't ready</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он не готов.</span></li>
-            <li class="eng-mode"><span class="en">55. It's so far</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это так далеко.</span></li>
-            <li class="eng-mode"><span class="en">56. It isn't the best course. I like this course more</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это не лучший курс. Мне больше нравится этот курс.</span></li>
-            <li class="eng-mode"><span class="en">57. It isn't a high level</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это не высокий уровень.</span></li>
-            <li class="eng-mode"><span class="en">58. It isn't a very good decision</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это не очень хорошее решение.</span></li>
-
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">30. Она не свободна. Она очень занята.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">She isn't free. She's very busy</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">31. Она не с ним. Она с ней / ними / нами.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">She isn't with him. She's with her / them / us</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">32. Не тепло. Холодно.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It isn't warm. It's cold</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">33. Не дождливо. Солнечно.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It isn't rainy. It's sunny</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">34. Это не одно и то же.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It isn't the same</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">35. Это не так легко. Это очень сложно.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It isn't so easy. It's very difficult</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">36. Это не далеко. Это близко.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It isn't far. It's near</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">37. Это не хороший метод. Это очень плохой метод.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It isn't a good method. It's a very bad method</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">38. Это такой плохой метод.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's such a bad method</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">39. Это очень неэффективный метод.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's a very ineffective method</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">40. Я предпочитаю эти уроки.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I prefer these lessons</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">41. Я полон идей.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I'm full of ideas</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">42. Это не так плохо.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It isn't so bad</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">43. Эта женщина не так мудра.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">This woman isn't so wise</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">44. Это не для этого уровня.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It isn't for this level</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">45. Это не сложное правило.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It isn't a difficult rule</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">46. Это не интересно.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It isn't interesting</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">47. Я свободен.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I'm free</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">48. Он не русский.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">He isn't Russian</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">49. Они сейчас не в России.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">They aren't in Russia now</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">50. Это не очень плохая ситуация.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It isn't a very bad situation</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">51. Он не такой трудолюбивый.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">He isn't so hard-working</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">52. Это не большая ошибка.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It isn't a big mistake</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">53. Это не его профессия.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It isn't his profession</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">54. Он не готов.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">He isn't ready</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">55. Это так далеко.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It's so far</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">56. Это не лучший курс. Мне больше нравится этот курс.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It isn't the best course. I like this course more</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">57. Это не высокий уровень.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It isn't a high level</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">58. Это не очень хорошее решение.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It isn't a very good decision</div></li>
-        </ul>
-
-        <div class="section-title">Фразы 59–86</div>
-        <ul id="list3">
-            <li class="eng-mode"><span class="en">59. It isn't boring</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это не скучно.</span></li>
-            <li class="eng-mode"><span class="en">60. It isn't a very big mistake</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это не очень большая ошибка.</span></li>
-            <li class="eng-mode"><span class="en">61. It isn't on the right</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это не справа.</span></li>
-            <li class="eng-mode"><span class="en">62. He isn't sure</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он не уверен.</span></li>
-            <li class="eng-mode"><span class="en">63. It isn't an easy lesson</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это не лёгкий урок.</span></li>
-            <li class="eng-mode"><span class="en">64. It isn't such an important meeting</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это не такое важное совещание.</span></li>
-            <li class="eng-mode"><span class="en">65. It isn't such a difficult exercise</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это не такое сложное упражнение.</span></li>
-            <li class="eng-mode"><span class="en">66. We aren't colleagues</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Мы не коллеги.</span></li>
-            <li class="eng-mode"><span class="en">67. He isn't a professional teacher</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он не профессиональный учитель.</span></li>
-            <li class="eng-mode"><span class="en">68. I'm not tired at all</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я совсем не устал.</span></li>
-            <li class="eng-mode"><span class="en">69. It isn't worse</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это не хуже.</span></li>
-            <li class="eng-mode"><span class="en">70. It isn't near. It's very far</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это не близко. Это очень далеко.</span></li>
-            <li class="eng-mode"><span class="en">71. He isn't with them</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он не с ними.</span></li>
-            <li class="eng-mode"><span class="en">72. I'm so tired</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Я так устал.</span></li>
-            <li class="eng-mode"><span class="en">73. It isn't late now</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Сейчас не поздно.</span></li>
-            <li class="eng-mode"><span class="en">74. He isn't in America</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он не в Америке.</span></li>
-            <li class="eng-mode"><span class="en">75. He isn't my colleague</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Он не мой коллега.</span></li>
-            <li class="eng-mode"><span class="en">76. It isn't a bad situation</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это не плохая ситуация.</span></li>
-            <li class="eng-mode"><span class="en">77. It isn't a very high level</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это не очень высокий уровень.</span></li>
-            <li class="eng-mode"><span class="en">78. It isn't better</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это не лучше.</span></li>
-            <li class="eng-mode"><span class="en">79. It isn't in the first place for me</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Для меня это не на первом месте.</span></li>
-            <li class="eng-mode"><span class="en">80. It isn't on the left</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это не слева.</span></li>
-            <li class="eng-mode"><span class="en">81. It isn't such a bad situation</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это не такая плохая ситуация.</span></li>
-            <li class="eng-mode"><span class="en">82. It isn't a low level</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это не низкий уровень.</span></li>
-            <li class="eng-mode"><span class="en">83. She isn't with us</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Она не с нами.</span></li>
-            <li class="eng-mode"><span class="en">84. It isn't obvious</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это не очевидно.</span></li>
-            <li class="eng-mode"><span class="en">85. All these lessons are free</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Все эти уроки бесплатные.</span></li>
-            <li class="eng-mode"><span class="en">86. It isn't the best decision</span><button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button><span class="ru">— Это не лучшее решение.</span></li>
-
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">59. Это не скучно.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It isn't boring</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">60. Это не очень большая ошибка.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It isn't a very big mistake</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">61. Это не справа.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It isn't on the right</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">62. Он не уверен.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">He isn't sure</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">63. Это не лёгкий урок.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It isn't an easy lesson</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">64. Это не такое важное совещание.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It isn't such an important meeting</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">65. Это не такое сложное упражнение.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It isn't such a difficult exercise</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">66. Мы не коллеги.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">We aren't colleagues</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">67. Он не профессиональный учитель.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">He isn't a professional teacher</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">68. Я совсем не устал.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I'm not tired at all</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">69. Это не хуже.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It isn't worse</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">70. Это не близко. Это очень далеко.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It isn't near. It's very far</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">71. Он не с ними.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">He isn't with them</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">72. Я так устал.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">I'm so tired</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">73. Сейчас не поздно.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It isn't late now</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">74. Он не в Америке.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">He isn't in America</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">75. Он не мой коллега.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">He isn't my colleague</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">76. Это не плохая ситуация.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It isn't a bad situation</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">77. Это не очень высокий уровень.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It isn't a very high level</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">78. Это не лучше.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It isn't better</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">79. Для меня это не на первом месте.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It isn't in the first place for me</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">80. Это не слева.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It isn't on the left</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">81. Это не такая плохая ситуация.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It isn't such a bad situation</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">82. Это не низкий уровень.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It isn't a low level</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">83. Она не с нами.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">She isn't with us</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">84. Это не очевидно.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It isn't obvious</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">85. Все эти уроки бесплатные.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">All these lessons are free</div></li>
-            <li class="rus-mode hidden-mode"><div class="ru-prompt">86. Это не лучшее решение.</div><button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button><div class="en-answer">It isn't the best decision</div></li>
-        </ul>
-    </div>
+<html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>To Be — отрицание | теория, тренажёр и экзамен</title>
+<style>
+:root{--primary:#3182ce;--dark:#2b6cb0;--bg:#f0f4f8;--ink:#2d3748;--muted:#687386;--line:#e2e8f0}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;line-height:1.6;margin:0;padding:14px;background:#f0f4f8;color:#333}
+.container{max-width:900px;margin:auto}h1{text-align:center;color:#2c3e50;margin:8px 0 5px;font-size:1.5em}.subtitle{text-align:center;color:var(--muted);margin:0 0 16px}
+.home-row{text-align:left;margin:0 0 16px}.home-btn{display:inline-block;background:var(--primary);color:white;text-decoration:none;padding:10px 17px;border-radius:8px;font-weight:700}
+.tabs{display:flex;gap:9px;justify-content:center;margin:18px 0;flex-wrap:wrap}.tab{border:0;border-radius:8px;padding:11px 22px;background:#cbd5e0;color:#4a5568;font-weight:700;font-size:1em;cursor:pointer}.tab.active{background:var(--dark);color:#fff}
+.panel{display:none}.panel.active{display:block}
+.rule-box{background:#fff;border-left:6px solid #3182ce;padding:16px 14px;border-radius:8px;box-shadow:0 4px 6px rgba(0,0,0,.05);margin-bottom:22px}
+.rule-box h2{margin-top:0;color:#2b6cb0;font-size:1.05em;line-height:1.35}.rule-box p{margin:0 0 10px;font-size:.95em}.rule-box p:last-child{margin-bottom:0}
+.ex{font-weight:600;color:#2b6cb0}
+.form-table{width:100%;border-collapse:collapse;margin-top:10px;background:#f8fafc;border-radius:6px;overflow:hidden;font-size:.92em}.form-table td{padding:9px 12px;border-bottom:1px solid #e2e8f0;text-align:left}.form-table tr:last-child td{border-bottom:none}.form-table tr:nth-child(even){background:#edf2f7}.form-table .neg{color:#2b6cb0;font-weight:bold}
+.section-title{background:#3182ce;color:#fff;padding:8px 14px;border-radius:6px;margin:25px 0 15px;font-size:1.1em;text-align:center}
+.controls{display:flex;gap:9px;margin:12px 0}.mode{flex:1;border:0;border-radius:8px;padding:11px;background:#cbd5e0;color:#4a5568;font-weight:700;cursor:pointer}.mode.active{background:var(--primary);color:white}
+.search{width:100%;padding:12px;border:2px solid var(--primary);border-radius:8px;font:inherit;margin:4px 0 15px}
+ul.phrases{list-style:none;padding:0;margin:0}ul.phrases li{background:white;border-left:5px solid #3182ce;border-radius:8px;padding:13px 15px;margin-bottom:10px;box-shadow:0 2px 5px #00000008;display:flex;flex-direction:column;align-items:flex-start}
+.en{font-weight:700;margin-bottom:9px;color:#2c3e50}.ru-prompt{font-weight:700;font-size:1.06em;margin-bottom:10px;color:#2c3e50}
+.toggle{border:0;border-radius:6px;background:#e2e8f0;color:#34415a;padding:8px 13px;font:inherit;cursor:pointer}.translation{display:none;color:#2b6cb0;font-weight:600;margin-top:10px;padding-top:9px;border-top:1px dashed var(--line)}.translation.show{display:block}.hidden{display:none!important}
+.card{background:white;border-radius:10px;padding:17px;margin:12px 0;box-shadow:0 3px 8px #00000008}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}.field label{display:block;color:var(--muted);font-size:13px;font-weight:700;margin-bottom:5px}.field select{width:100%;padding:10px;border:1px solid #cbd5e0;border-radius:8px;background:white;font:inherit}
+button.primary{background:var(--primary);color:white;border:0;border-radius:8px;padding:11px 16px;font:inherit;font-weight:700;cursor:pointer}button.secondary{background:#e2e8f0;color:#34415a;border:0;border-radius:8px;padding:11px 16px;font:inherit;font-weight:700;cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}
+.progress{height:9px;background:#e2e8f0;border-radius:20px;overflow:hidden;margin:13px 0}.bar{height:100%;width:0;background:var(--primary)}.meta{display:flex;justify-content:space-between;color:var(--muted);font-size:14px;gap:10px}.question{font-size:1.4em;font-weight:750;margin:16px 0}.answer{width:100%;padding:13px;border:1px solid #cbd5e0;border-radius:8px;font:inherit;font-size:18px}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:13px}.feedback{display:none;padding:12px;border-radius:8px;margin-top:13px}.feedback.good{display:block;background:#e8f6ee;color:#12683a}.feedback.bad{display:block;background:#fff0f0;color:#9e282e}.stats{display:flex;gap:10px;flex-wrap:wrap}.stat{background:#f0f4f8;padding:10px 14px;border-radius:8px}.stat b{display:block;font-size:22px}
+@media(max-width:500px){body{padding:10px}.tab{flex:1;padding:10px 8px}.question{font-size:1.2em}.actions button{flex:1}}
+</style></head><body><main class="container">
+<div class="home-row"><a class="home-btn" href="index.html">← На главную</a></div>
+<h1>Глагол TO BE — отрицание</h1><p class="subtitle">86 фраз · теория, тренажёр и экзамен</p>
+<div class="tabs"><button class="tab active" data-tab="theory">Теория</button><button class="tab" data-tab="trainer">Тренажёр</button><button class="tab" data-tab="exam">Экзамен</button></div>
+<section class="panel active" id="theory">
+<div class="rule-box">
+<h2>📌 Отрицательная форма to be</h2>
+<table class="form-table">
+<tr><td>I am not</td><td class="neg">= I'm not</td></tr>
+<tr><td>We are not</td><td class="neg">= We aren't</td></tr>
+<tr><td>You are not</td><td class="neg">= You aren't</td></tr>
+<tr><td>They are not</td><td class="neg">= They aren't</td></tr>
+<tr><td>He is not</td><td class="neg">= He isn't</td></tr>
+<tr><td>She is not</td><td class="neg">= She isn't</td></tr>
+<tr><td>It is not</td><td class="neg">= It isn't</td></tr>
+</table>
+<p style="margin-top:10px;">Порядок слов: <span class="ex">подлежащее + am / is / are + not + остальное</span>.</p>
+<p>Важно: у <span class="ex">I</span> короткой формы «amn't» нет — только <span class="ex">I'm not</span>.</p>
 </div>
-
-<div class="back-nav-wrapper"><a href="../index.html" class="back-nav-btn">← На главную</a></div>
-
-<script>
-    function setTab(tab) {
-        ['theory', 'trainer'].forEach(function (t) {
-            document.getElementById('tab-' + t).classList.remove('active');
-            document.getElementById('panel-' + t).classList.remove('active');
-        });
-        document.getElementById('tab-' + tab).classList.add('active');
-        document.getElementById('panel-' + tab).classList.add('active');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function setMode(mode) {
-        document.getElementById('btn-eng-rus').classList.remove('active');
-        document.getElementById('btn-rus-eng').classList.remove('active');
-        document.getElementById('btn-' + mode).classList.add('active');
-
-        var engModeItems = document.querySelectorAll('.eng-mode');
-        var rusModeItems = document.querySelectorAll('.rus-mode');
-        var instruction = document.getElementById('instruction-text');
-
-        if (mode === 'eng-rus') {
-            engModeItems.forEach(item => item.classList.remove('hidden-mode'));
-            rusModeItems.forEach(item => item.classList.add('hidden-mode'));
-            instruction.textContent = 'Прочитайте английскую фразу, переведите её вслух, а затем нажмите кнопку, чтобы проверить себя.';
-        } else {
-            engModeItems.forEach(item => item.classList.add('hidden-mode'));
-            rusModeItems.forEach(item => item.classList.remove('hidden-mode'));
-            instruction.textContent = 'Прочитайте русскую фразу, проговорите её вслух на английском, а затем нажмите кнопку, чтобы проверить себя.';
-        }
-
-        document.querySelectorAll('.ru.show, .en-answer.show').forEach(function (el) {
-            el.classList.remove('show');
-        });
-        document.querySelectorAll('.btn-toggle').forEach(function (btn) {
-            var isAnswer = btn.textContent.indexOf('ответ') !== -1;
-            btn.textContent = isAnswer ? 'Показать ответ' : 'Показать перевод';
-            btn.style.backgroundColor = '#e2e8f0';
-        });
-        document.getElementById('searchInput').value = '';
-        document.querySelectorAll('li').forEach(function (item) {
-            item.classList.remove('hidden-item');
-        });
-    }
-
-    function toggleTranslation(button) {
-        var translation = button.nextElementSibling;
-        if (translation.classList.contains('show')) {
-            translation.classList.remove('show');
-            button.textContent = 'Показать перевод';
-            button.style.backgroundColor = '#e2e8f0';
-        } else {
-            translation.classList.add('show');
-            button.textContent = 'Скрыть перевод';
-            button.style.backgroundColor = '#cbd5e0';
-        }
-    }
-
-    function toggleAnswer(button) {
-        var answer = button.nextElementSibling;
-        if (answer.classList.contains('show')) {
-            answer.classList.remove('show');
-            button.textContent = 'Показать ответ';
-            button.style.backgroundColor = '#e2e8f0';
-        } else {
-            answer.classList.add('show');
-            button.textContent = 'Скрыть ответ';
-            button.style.backgroundColor = '#cbd5e0';
-        }
-    }
-
-    function filterList() {
-        var input = document.getElementById('searchInput').value.toLowerCase().trim();
-        document.querySelectorAll('li').forEach(function (item) {
-            if (item.textContent.toLowerCase().includes(input)) {
-                item.classList.remove('hidden-item');
-            } else {
-                item.classList.add('hidden-item');
-            }
-        });
-    }
-</script>
-</body>
-</html>
+<div class="rule-box">
+<h2>📌 Примеры по местоимениям</h2>
+<p class="ex">I'm not at home.</p>
+<p class="ex">We aren't at home.</p>
+<p class="ex">You aren't at home.</p>
+<p class="ex">They aren't at home.</p>
+<p class="ex">He isn't at home.</p>
+<p class="ex">She isn't at home.</p>
+<p class="ex">It isn't at home.</p>
+</div>
+<div class="rule-box">
+<h2>📌 Схема «не… , а …»</h2>
+<p>Сначала отрицание, потом правда — так звучит естественно.</p>
+<p class="ex">I'm not married. I'm single.</p>
+<p class="ex">I'm not a manager. I'm a teacher.</p>
+<p class="ex">I'm not at home. I'm at work.</p>
+<p class="ex">I'm not a student. I work.</p>
+<p class="ex">We aren't tired. We're full of energy.</p>
+<p class="ex">We aren't stupid. We're clever.</p>
+<p class="ex">We aren't angry. We're very kind.</p>
+<p class="ex">We aren't sad. We're happy.</p>
+<p class="ex">He isn't old. He's very young.</p>
+<p class="ex">He isn't poor. He's very rich.</p>
+<p class="ex">He isn't a director. He's a manager.</p>
+<p class="ex">She isn't here. She's there.</p>
+<p class="ex">She isn't a singer. She's an actress.</p>
+</div>
+<div class="rule-box">
+<h2>📌 Полезные замены</h2>
+<p class="ex">You aren't right = You're wrong.</p>
+<p class="ex">They aren't successful = They're unsuccessful.</p>
+<p>Приставка <span class="ex">un-</span> делает слово отрицательным: successful → unsuccessful.</p>
+<p class="ex">actor → actress</p>
+<p><span class="ex">free</span> — два значения: «свободный» (I'm free, He isn't busy. He's free) и «бесплатный» (These lessons are free, All these lessons are free).</p>
+</div>
+<div class="rule-box">
+<h2>📌 Предлоги в этих фразах</h2>
+<p><span class="ex">at</span> home / at work / at school — дома, на работе, в школе.</p>
+<p><span class="ex">in</span> the city / in America / in Russia / in this place / in the first place — в городе, в Америке, в России, в этом месте, на первом месте.</p>
+<p><span class="ex">with</span> him / with her / with them / with us — с ним, с ней, с ними, с нами.</p>
+<p><span class="ex">on</span> the right / on the left — справа / слева.</p>
+<p><span class="ex">for</span> this level / for me — для этого уровня / для меня.</p>
+</div>
+</section>
+<section class="panel" id="trainer">
+<div class="controls"><button class="mode active" id="modeEng" onclick="setMode('eng')">ENG → RU</button><button class="mode" id="modeRus" onclick="setMode('rus')">RU → ENG</button></div>
+<input id="search" class="search" placeholder="🔍 Поиск по фразе или переводу..." oninput="filterList()" spellcheck="true">
+<div class="rule-box"><b>Инструкция</b><p id="instruction">Прочитай английскую фразу и попробуй перевести её, затем открой перевод.</p></div>
+<div id="phraseLists"></div></section>
+<section class="panel" id="exam">
+<div class="card"><h2>Настройки экзамена</h2><div class="grid">
+<div class="field"><label for="range">Блок фраз</label><select id="range"><option value="all">Все фразы</option><option value="1-10">1–10</option><option value="11-20">11–20</option><option value="21-30">21–30</option><option value="31-40">31–40</option><option value="41-50">41–50</option><option value="51-60">51–60</option><option value="61-70">61–70</option><option value="71-80">71–80</option><option value="81-86">81–86</option></select></div>
+<div class="field"><label for="count">Количество вопросов</label><select id="count"><option value="all">Все выбранные</option><option>10</option><option>20</option><option>30</option><option>50</option></select></div>
+</div><div class="actions"><button class="primary" id="start">Начать экзамен</button><button class="secondary" id="mistakes" disabled>Работа над ошибками</button></div></div>
+<div class="card" id="exercise" hidden><div class="meta"><span id="counter"></span><span id="score"></span></div><div class="progress"><div class="bar" id="bar"></div></div><div class="question" id="prompt"></div>
+<input class="answer" id="answer" type="text" lang="en" spellcheck="true" autocomplete="off" placeholder="Введи перевод на английском">
+<div class="actions"><button class="primary" id="check">Проверить</button><button class="secondary" id="skip">Пропустить</button><button class="secondary" id="accept" hidden>Не считать ошибкой</button><button class="secondary" id="next" hidden>Следующий вопрос</button></div><div class="feedback" id="feedback" aria-live="polite"></div></div>
+<div class="card" id="finish" hidden><h2>Экзамен завершён</h2><div class="stats" id="stats"></div><div class="actions"><button class="primary" id="retry">Пройти ещё раз</button><button class="secondary" id="retryWrong">Повторить ошибки</button></div></div>
+</section>
+<div class="home-row" style="text-align:center;margin-top:26px"><a class="home-btn" href="index.html">← На главную</a></div>
+</main><script>
+const data=[{"en": "I'm not at home", "ru": "Я не дома."}, {"en": "We aren't at home", "ru": "Мы не дома."}, {"en": "You aren't at home", "ru": "Ты не дома."}, {"en": "They aren't at home", "ru": "Они не дома."}, {"en": "He isn't at home", "ru": "Он не дома."}, {"en": "She isn't at home", "ru": "Она не дома."}, {"en": "It isn't at home", "ru": "Оно не дома."}, {"en": "I'm not married. I'm single", "ru": "Я не женат. Я холост."}, {"en": "I'm not a manager. I'm a teacher", "ru": "Я не менеджер. Я учитель."}, {"en": "I'm not at home. I'm at work", "ru": "Я не дома. Я на работе."}, {"en": "I'm not a student. I work", "ru": "Я не студент. Я работаю."}, {"en": "We aren't tired. We're full of energy", "ru": "Мы не устали. Мы полны энергии."}, {"en": "We aren't stupid. We're clever", "ru": "Мы не глупые. Мы умные."}, {"en": "We aren't angry. We're very kind", "ru": "Мы не злые. Мы очень добрые."}, {"en": "We aren't sad. We're happy", "ru": "Мы не грустные. Мы счастливые."}, {"en": "You aren't right (You are wrong)", "ru": "Ты не прав (ты ошибаешься)."}, {"en": "You aren't in this place", "ru": "Ты не в этом месте."}, {"en": "You aren't in the first place. You're in the second place", "ru": "Ты не на первом месте. Ты на втором месте."}, {"en": "They aren't together", "ru": "Они не вместе."}, {"en": "They aren't my colleagues", "ru": "Они не мои коллеги."}, {"en": "They aren't successful (They're unsuccessful)", "ru": "Они не успешные (они неуспешные)."}, {"en": "They aren't businessmen. They're managers", "ru": "Они не бизнесмены. Они менеджеры."}, {"en": "He isn't old. He's very young", "ru": "Он не старый. Он очень молодой."}, {"en": "He isn't poor. He's very rich", "ru": "Он не бедный. Он очень богатый."}, {"en": "He isn't a director. He's a manager", "ru": "Он не директор. Он менеджер."}, {"en": "He isn't in the city. He's in another place", "ru": "Он не в городе. Он в другом месте."}, {"en": "He isn't busy. He's free", "ru": "Он не занят. Он свободен."}, {"en": "She isn't here. She's there", "ru": "Она не здесь. Она там."}, {"en": "She isn't a singer. She's an actress", "ru": "Она не певица. Она актриса."}, {"en": "She isn't free. She's very busy", "ru": "Она не свободна. Она очень занята."}, {"en": "She isn't with him. She's with her / them / us", "ru": "Она не с ним. Она с ней / ними / нами."}, {"en": "It isn't warm. It's cold", "ru": "Не тепло. Холодно."}, {"en": "It isn't rainy. It's sunny", "ru": "Не дождливо. Солнечно."}, {"en": "It isn't the same", "ru": "Это не одно и то же."}, {"en": "It isn't so easy. It's very difficult", "ru": "Это не так легко. Это очень сложно."}, {"en": "It isn't far. It's near", "ru": "Это не далеко. Это близко."}, {"en": "It isn't a good method. It's a very bad method", "ru": "Это не хороший метод. Это очень плохой метод."}, {"en": "It's such a bad method", "ru": "Это такой плохой метод."}, {"en": "It's a very ineffective method", "ru": "Это очень неэффективный метод."}, {"en": "I prefer these lessons", "ru": "Я предпочитаю эти уроки."}, {"en": "I'm full of ideas", "ru": "Я полон идей."}, {"en": "It isn't so bad", "ru": "Это не так плохо."}, {"en": "This woman isn't so wise", "ru": "Эта женщина не так мудра."}, {"en": "It isn't for this level", "ru": "Это не для этого уровня."}, {"en": "It isn't a difficult rule", "ru": "Это не сложное правило."}, {"en": "It isn't interesting", "ru": "Это не интересно."}, {"en": "I'm free", "ru": "Я свободен."}, {"en": "He isn't Russian", "ru": "Он не русский."}, {"en": "They aren't in Russia now", "ru": "Они сейчас не в России."}, {"en": "It isn't a very bad situation", "ru": "Это не очень плохая ситуация."}, {"en": "He isn't so hard-working", "ru": "Он не такой трудолюбивый."}, {"en": "It isn't a big mistake", "ru": "Это не большая ошибка."}, {"en": "It isn't his profession", "ru": "Это не его профессия."}, {"en": "He isn't ready", "ru": "Он не готов."}, {"en": "It's so far", "ru": "Это так далеко."}, {"en": "It isn't the best course. I like this course more", "ru": "Это не лучший курс. Мне больше нравится этот курс."}, {"en": "It isn't a high level", "ru": "Это не высокий уровень."}, {"en": "It isn't a very good decision", "ru": "Это не очень хорошее решение."}, {"en": "It isn't boring", "ru": "Это не скучно."}, {"en": "It isn't a very big mistake", "ru": "Это не очень большая ошибка."}, {"en": "It isn't on the right", "ru": "Это не справа."}, {"en": "He isn't sure", "ru": "Он не уверен."}, {"en": "It isn't an easy lesson", "ru": "Это не лёгкий урок."}, {"en": "It isn't such an important meeting", "ru": "Это не такое важное совещание."}, {"en": "It isn't such a difficult exercise", "ru": "Это не такое сложное упражнение."}, {"en": "We aren't colleagues", "ru": "Мы не коллеги."}, {"en": "He isn't a professional teacher", "ru": "Он не профессиональный учитель."}, {"en": "I'm not tired at all", "ru": "Я совсем не устал."}, {"en": "It isn't worse", "ru": "Это не хуже."}, {"en": "It isn't near. It's very far", "ru": "Это не близко. Это очень далеко."}, {"en": "He isn't with them", "ru": "Он не с ними."}, {"en": "I'm so tired", "ru": "Я так устал."}, {"en": "It isn't late now", "ru": "Сейчас не поздно."}, {"en": "He isn't in America", "ru": "Он не в Америке."}, {"en": "He isn't my colleague", "ru": "Он не мой коллега."}, {"en": "It isn't a bad situation", "ru": "Это не плохая ситуация."}, {"en": "It isn't a very high level", "ru": "Это не очень высокий уровень."}, {"en": "It isn't better", "ru": "Это не лучше."}, {"en": "It isn't in the first place for me", "ru": "Для меня это не на первом месте."}, {"en": "It isn't on the left", "ru": "Это не слева."}, {"en": "It isn't such a bad situation", "ru": "Это не такая плохая ситуация."}, {"en": "It isn't a low level", "ru": "Это не низкий уровень."}, {"en": "She isn't with us", "ru": "Она не с нами."}, {"en": "It isn't obvious", "ru": "Это не очевидно."}, {"en": "All these lessons are free", "ru": "Все эти уроки бесплатные."}, {"en": "It isn't the best decision", "ru": "Это не лучшее решение."}];
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id===b.dataset.tab));window.scrollTo({top:0,behavior:'smooth'});});
+let direction='eng';
+function setMode(mode){direction=mode;document.getElementById('modeEng').classList.toggle('active',mode==='eng');document.getElementById('modeRus').classList.toggle('active',mode==='rus');document.getElementById('instruction').textContent=mode==='eng'?'Прочитай английскую фразу и попробуй перевести её, затем открой перевод.':'Прочитай русскую фразу и попробуй перевести её на английский, затем открой ответ.';renderLists();}
+function renderLists(){let root=document.getElementById('phraseLists');root.innerHTML='';for(let start=0;start<data.length;start+=25){let chunk=data.slice(start,start+25),sec=document.createElement('div');sec.innerHTML=`<div class="section-title">Фразы ${start+1}–${start+chunk.length}</div><ul class="phrases"></ul>`;sec.querySelector('ul').innerHTML=chunk.map((q,i)=>direction==='eng'?`<li data-search="${esc((q.en+' '+q.ru).toLowerCase())}"><div class="en">${start+i+1}. ${esc(q.en)}</div><button class="toggle" onclick="toggle(this)">Показать перевод</button><div class="translation">— ${esc(q.ru)}</div></li>`:`<li data-search="${esc((q.en+' '+q.ru).toLowerCase())}"><div class="ru-prompt">${start+i+1}. ${esc(q.ru)}</div><button class="toggle" onclick="toggle(this)">Показать ответ</button><div class="translation">${esc(q.en)}</div></li>`).join('');root.appendChild(sec);}filterList();}
+function toggle(btn){let el=btn.nextElementSibling,show=el.classList.toggle('show');btn.textContent=show?(direction==='eng'?'Скрыть перевод':'Скрыть ответ'):(direction==='eng'?'Показать перевод':'Показать ответ');}
+function filterList(){let q=document.getElementById('search').value.toLowerCase().trim();document.querySelectorAll('#phraseLists li').forEach(li=>li.classList.toggle('hidden',!li.dataset.search.includes(q)));}
+renderLists();
+let session=[],index=0,correct=0,wrong=[],checked=false,lastWrong=[];
+const $=id=>document.getElementById(id);
+function norm(s){return s.toLowerCase().trim().replace(/[.,!?;:'"“”‘’]/g,'').replace(/\\s+/g,' ');}
+function chosen(){let r=$('range').value,a=data.map((x,i)=>({...x,id:i}));if(r!=='all'){let [st,en]=r.split('-').map(Number);a=a.slice(st-1,en);}let n=$('count').value;if(n!=='all')a=a.slice(0,+n);return a;}
+function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function begin(a){session=shuffle(a);index=0;correct=0;wrong=[];$('finish').hidden=true;$('exercise').hidden=false;renderQuestion();}
+function renderQuestion(){if(index>=session.length){finish();return;}checked=false;let q=session[index];$('counter').textContent=`Вопрос ${index+1} из ${session.length}`;$('score').textContent=`Верно: ${correct} · Ошибки: ${wrong.length}`;$('bar').style.width=`${index/session.length*100}%`;$('prompt').textContent=q.ru;$('answer').value='';$('answer').disabled=false;$('check').hidden=false;$('skip').hidden=false;$('next').hidden=true;$('accept').hidden=true;$('feedback').className='feedback';$('feedback').textContent='';$('answer').focus();}
+function check(){if(checked)return;let q=session[index],v=norm($('answer').value);if(!v)return;checked=true;$('answer').disabled=true;$('check').hidden=true;$('skip').hidden=true;$('next').hidden=false;$('accept').hidden=false;if(v===norm(q.en)){correct++;$('feedback').className='feedback good';$('feedback').innerHTML='Верно! <b>'+esc(q.en)+'</b>';$('accept').hidden=true;}else{wrong.push(q);$('feedback').className='feedback bad';$('feedback').innerHTML='Ошибка. Правильный ответ: <b>'+esc(q.en)+'</b>';}$('score').textContent=`Верно: ${correct} · Ошибки: ${wrong.length}`;}
+function advance(){index++;renderQuestion();}
+function finish(){lastWrong=[...wrong];$('exercise').hidden=true;$('finish').hidden=false;$('bar').style.width='100%';let n=session.length,p=n?Math.round(correct/n*100):0;$('stats').innerHTML=`<div class="stat"><b>${correct}/${n}</b>Верно</div><div class="stat"><b>${wrong.length}</b>Ошибки</div><div class="stat"><b>${p}%</b>Результат</div>`;$('retryWrong').disabled=!lastWrong.length;$('mistakes').disabled=!lastWrong.length;}
+$('start').onclick=()=>begin(chosen());$('check').onclick=check;$('next').onclick=advance;$('skip').onclick=()=>{wrong.push(session[index]);advance();};$('retry').onclick=()=>begin(chosen());$('retryWrong').onclick=()=>lastWrong.length&&begin(lastWrong);$('mistakes').onclick=()=>lastWrong.length&&begin(lastWrong);
+$('accept').onclick=()=>{let q=session[index];wrong=wrong.filter(x=>x.id!==q.id);correct++;$('feedback').className='feedback good';$('feedback').innerHTML='Принято, не считаем ошибкой. <b>'+esc(q.en)+'</b>';$('accept').hidden=true;$('score').textContent=`Верно: ${correct} · Ошибки: ${wrong.length}`;}; 
+$('answer').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();if(checked)advance();else check();}});
+</script></body></html>
