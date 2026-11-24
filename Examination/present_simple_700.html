@@ -86,7 +86,7 @@ button,.btn{border:0;border-radius:7px;padding:11px 17px;font-size:.96em;font-we
   <div id="resultSummary"></div>
   <div id="mistakes"></div>
   <div class="actions">
-    <button class="primary" type="button" onclick="repeatMistakes()">Повторить ошибки</button>
+    <button id="mistakeReviewBtn" class="primary" type="button" onclick="repeatMistakes()">Провести работу над ошибками</button>
     <button class="secondary" type="button" onclick="backToSetup()">К выбору блоков</button>
   </div>
 </section>
@@ -238,6 +238,8 @@ function finishExam() {
 }
 function renderMistakes() {
   const root = document.getElementById("mistakes");
+  const reviewButton = document.getElementById("mistakeReviewBtn");
+  reviewButton.classList.toggle("hidden", mistakes.length === 0);
   if (!mistakes.length) { root.innerHTML = `<p class="correct-text">Отлично! Ошибок нет.</p>`; return; }
   root.innerHTML = `<h2 style="margin-top:18px">Фразы для повторения</h2>` + mistakes.map((m,i) =>
     `<div class="result-item"><div><strong>${i+1}. ${escapeHtml(m.ru)}</strong></div>
@@ -246,7 +248,14 @@ function renderMistakes() {
 }
 function repeatMistakes() {
   if (!mistakes.length) return;
+  // Создаём отдельный короткий экзамен только из фраз, допущенных с ошибками.
+  // Исходные ошибки очищаются: после повторения в результатах останутся
+  // только те фразы, в которых ошибка повторилась снова.
   questions = mistakes.map(({en,ru,group}) => ({en,ru,group}));
+  for (let n = questions.length - 1; n > 0; n--) {
+    const j = Math.floor(Math.random() * (n + 1));
+    [questions[n], questions[j]] = [questions[j], questions[n]];
+  }
   current = 0; correct = 0; mistakes = [];
   document.getElementById("results").classList.add("hidden");
   document.getElementById("exam").classList.remove("hidden");
