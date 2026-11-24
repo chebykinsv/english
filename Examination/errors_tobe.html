@@ -29,10 +29,36 @@ li { background: #fff; margin-bottom: 10px; padding: 16px; border-radius: 8px; b
  li { padding: 12px; } .btn-toggle { padding: 8px 16px; font-size: .9em; }
  .mode-switcher { flex-direction: row; gap: 10px; } .mode-btn { padding: 8px 15px; font-size: .9em; min-width: 80px; }
 }
+
+.back-button {
+ display: inline-flex;
+ align-items: center;
+ gap: 8px;
+ margin: 0 0 16px;
+ padding: 10px 18px;
+ border: 0;
+ border-radius: 6px;
+ background: #4a5568;
+ color: #fff;
+ font-size: .95em;
+ font-weight: 600;
+ text-decoration: none;
+ cursor: pointer;
+ transition: background-color .2s;
+}
+.back-button:hover { background: #2d3748; }
+.back-button:active { background: #1a202c; }
+
 </style>
 </head>
 <body>
 <div class="container">
+
+<a class="back-button" href="../index.html"
+   onclick="if (window.history.length > 1) { window.history.back(); return false; }">
+  ← Назад
+</a>
+
 <h1>🚫 Ошибки двух экзаменов To Be</h1>
 <p class="subtitle">Всего 27 ошибок: 16 из экзамена To Be (90 фраз) и 11 из To Be Negative (86 фраз)</p>
 <div class="mode-switcher">
