@@ -17,6 +17,32 @@ ul.phrases{list-style:none;padding:0;margin:0}ul.phrases li{background:white;bor
 button.primary{background:var(--primary);color:white;border:0;border-radius:8px;padding:11px 16px;font:inherit;font-weight:700;cursor:pointer}button.secondary{background:#e2e8f0;color:#34415a;border:0;border-radius:8px;padding:11px 16px;font:inherit;font-weight:700;cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}
 .progress{height:9px;background:#e2e8f0;border-radius:20px;overflow:hidden;margin:13px 0}.bar{height:100%;width:0;background:var(--primary)}.meta{display:flex;justify-content:space-between;color:var(--muted);font-size:14px;gap:10px}.question{font-size:1.4em;font-weight:750;margin:16px 0}.answer{width:100%;padding:13px;border:1px solid #cbd5e0;border-radius:8px;font:inherit;font-size:18px}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:13px}.feedback{display:none;padding:12px;border-radius:8px;margin-top:13px}.feedback.good{display:block;background:#e8f6ee;color:#12683a}.feedback.bad{display:block;background:#fff0f0;color:#9e282e}.stats{display:flex;gap:10px;flex-wrap:wrap}.stat{background:#f0f4f8;padding:10px 14px;border-radius:8px}.stat b{display:block;font-size:22px}
 @media(max-width:500px){body{padding:10px}.tab{flex:1;padding:10px 8px}.question{font-size:1.2em}.actions button{flex:1}}
+
+/* Исходное оформление теории; акцентный цвет унифицирован в синий */
+#theory .rules-grid{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:25px}
+@media(min-width:600px){#theory .rules-grid{grid-template-columns:1fr 1fr}}
+#theory .rule-card{background:#fff;border-radius:12px;padding:16px;box-shadow:0 4px 6px rgba(0,0,0,.02);border-left:4px solid #3182ce}
+#theory .rule-card h3{margin:0 0 8px;font-size:1.05em;color:#2b6cb0;display:flex;align-items:center;gap:8px}
+#theory .rule-card p{margin:0 0 8px;font-size:.95em;color:#718096}
+#theory .example-box{background:#edf2f7;border-radius:6px;padding:8px 12px;font-size:.9em;font-weight:600;color:#2d3748}
+#theory .highlight{color:#2b6cb0;font-weight:700}
+#theory .table-responsive{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 6px rgba(0,0,0,.02);margin-bottom:25px}
+#theory table{width:100%;border-collapse:collapse;text-align:left}
+#theory th,#theory td{padding:12px 16px;border-bottom:1px solid #e2e8f0}
+#theory th{background:#3182ce;color:#fff;font-weight:600}
+#theory tr:last-child td{border-bottom:none}
+#theory .rule-box{background:#fff;border-left:6px solid #3182ce;padding:16px 14px;border-radius:8px;box-shadow:0 4px 6px rgba(0,0,0,.05);margin-bottom:22px}
+#theory .rule-box h2{margin-top:0;color:#2b6cb0;font-size:1.05em;line-height:1.35}
+#theory .rule-box p{margin:0 0 10px;font-size:.95em}
+#theory .rule-box p:last-child{margin-bottom:0}
+#theory .ex{font-weight:600;color:#2b6cb0}
+#theory .num-table{width:100%;border-collapse:collapse;margin-top:10px;background:#f8fafc;border-radius:6px;overflow:hidden;font-size:.9em}
+#theory .num-table td{padding:8px 12px;border-bottom:1px solid #e2e8f0;text-align:left}
+#theory .num-table tr:last-child td{border-bottom:none}
+#theory .num-table tr:nth-child(even){background:#edf2f7}
+#theory .num-table .num{color:#2b6cb0;font-weight:700;width:40px;display:inline-block}
+#theory .section-title{background:#3182ce;color:#fff;padding:10px 16px;border-radius:8px;margin:30px 0 15px;font-size:1.1em;font-weight:700;text-align:center}
+
 </style></head><body><main class="container">
 <div class="home-row"><a class="home-btn" href="index.html">← На главную</a></div>
 <h1>Глагол To Be — основа</h1><p class="subtitle">37 фраз · теория, тренажёр и экзамен</p>

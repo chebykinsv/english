@@ -1,355 +1,107 @@
 <!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>So / Such: Полный гид и тренажер</title>
-    <style>
-        :root {
-            --primary: #e53e3e;
-            --primary-dark: #c53030;
-            --bg: #f4f7f6;
-            --card-bg: #ffffff;
-            --text: #2d3748;
-            --text-light: #718096;
-            --border: #e2e8f0;
-            --success: #38a169;
-        }
+<html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>So / Such — теория и практика</title>
+<style>
+:root{--primary:#3182ce;--dark:#2b6cb0;--bg:#f0f4f8;--ink:#2d3748;--muted:#687386;--line:#e2e8f0}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.55;margin:0;padding:14px;background:var(--bg);color:var(--ink)}
+.container{max-width:900px;margin:auto}h1{text-align:center;font-size:1.55em;margin:8px 0 5px}.subtitle{text-align:center;color:var(--muted);margin:0 0 16px}
+.home-row{text-align:left;margin:0 0 16px}.home-btn{display:inline-block;background:var(--primary);color:white;text-decoration:none;padding:10px 17px;border-radius:8px;font-weight:700}
+.tabs{display:flex;gap:9px;justify-content:center;margin:18px 0;flex-wrap:wrap}.tab{border:0;border-radius:8px;padding:11px 22px;background:#cbd5e0;color:#4a5568;font-weight:700;font-size:1em;cursor:pointer}.tab.active{background:var(--dark);color:#fff}
+.panel{display:none}.panel.active{display:block}.rule-box{background:white;border-left:5px solid var(--primary);border-radius:9px;padding:16px;margin:12px 0;box-shadow:0 3px 8px #00000008}
+.controls{display:flex;gap:9px;margin:12px 0}.mode{flex:1;border:0;border-radius:8px;padding:11px;background:#cbd5e0;color:#4a5568;font-weight:700;cursor:pointer}.mode.active{background:var(--primary);color:white}
+.search{width:100%;padding:12px;border:2px solid var(--primary);border-radius:8px;font:inherit;margin:4px 0 15px}
+.section-title{background:var(--dark);color:white;border-radius:7px;padding:9px;text-align:center;margin:22px 0 12px;font-weight:700}
+ul.phrases{list-style:none;padding:0;margin:0}ul.phrases li{background:white;border-left:5px solid #38a169;border-radius:8px;padding:13px 15px;margin-bottom:10px;box-shadow:0 2px 5px #00000008;display:flex;flex-direction:column;align-items:flex-start}
+.en{font-weight:700;margin-bottom:9px}.ru-prompt{font-weight:700;font-size:1.06em;margin-bottom:10px}.toggle{border:0;border-radius:6px;background:#e2e8f0;color:#34415a;padding:8px 13px;font:inherit;cursor:pointer}.translation{display:none;color:var(--dark);font-weight:600;margin-top:10px;padding-top:9px;border-top:1px dashed var(--line)}.translation.show{display:block}.hidden{display:none!important}
+.card{background:white;border-radius:10px;padding:17px;margin:12px 0;box-shadow:0 3px 8px #00000008}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}.field label{display:block;color:var(--muted);font-size:13px;font-weight:700;margin-bottom:5px}.field select{width:100%;padding:10px;border:1px solid #cbd5e0;border-radius:8px;background:white;font:inherit}
+button.primary{background:var(--primary);color:white;border:0;border-radius:8px;padding:11px 16px;font:inherit;font-weight:700;cursor:pointer}button.secondary{background:#e2e8f0;color:#34415a;border:0;border-radius:8px;padding:11px 16px;font:inherit;font-weight:700;cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}
+.progress{height:9px;background:#e2e8f0;border-radius:20px;overflow:hidden;margin:13px 0}.bar{height:100%;width:0;background:var(--primary)}.meta{display:flex;justify-content:space-between;color:var(--muted);font-size:14px;gap:10px}.question{font-size:1.4em;font-weight:750;margin:16px 0}.answer{width:100%;padding:13px;border:1px solid #cbd5e0;border-radius:8px;font:inherit;font-size:18px}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:13px}.feedback{display:none;padding:12px;border-radius:8px;margin-top:13px}.feedback.good{display:block;background:#e8f6ee;color:#12683a}.feedback.bad{display:block;background:#fff0f0;color:#9e282e}.stats{display:flex;gap:10px;flex-wrap:wrap}.stat{background:#f0f4f8;padding:10px 14px;border-radius:8px}.stat b{display:block;font-size:22px}
+@media(max-width:500px){body{padding:10px}.tab{flex:1;padding:10px 8px}.question{font-size:1.2em}.actions button{flex:1}}
 
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 12px;
-            background-color: var(--bg);
-            color: var(--text);
-        }
+/* Исходное оформление теории; акцентный цвет унифицирован в синий */
+#theory .rules-grid{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:25px}
+@media(min-width:600px){#theory .rules-grid{grid-template-columns:1fr 1fr}}
+#theory .rule-card{background:#fff;border-radius:12px;padding:16px;box-shadow:0 4px 6px rgba(0,0,0,.02);border-left:4px solid #3182ce}
+#theory .rule-card h3{margin:0 0 8px;font-size:1.05em;color:#2b6cb0;display:flex;align-items:center;gap:8px}
+#theory .rule-card p{margin:0 0 8px;font-size:.95em;color:#718096}
+#theory .example-box{background:#edf2f7;border-radius:6px;padding:8px 12px;font-size:.9em;font-weight:600;color:#2d3748}
+#theory .highlight{color:#2b6cb0;font-weight:700}
+#theory .table-responsive{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 6px rgba(0,0,0,.02);margin-bottom:25px}
+#theory table{width:100%;border-collapse:collapse;text-align:left}
+#theory th,#theory td{padding:12px 16px;border-bottom:1px solid #e2e8f0}
+#theory th{background:#3182ce;color:#fff;font-weight:600}
+#theory tr:last-child td{border-bottom:none}
+#theory .rule-box{background:#fff;border-left:6px solid #3182ce;padding:16px 14px;border-radius:8px;box-shadow:0 4px 6px rgba(0,0,0,.05);margin-bottom:22px}
+#theory .rule-box h2{margin-top:0;color:#2b6cb0;font-size:1.05em;line-height:1.35}
+#theory .rule-box p{margin:0 0 10px;font-size:.95em}
+#theory .rule-box p:last-child{margin-bottom:0}
+#theory .ex{font-weight:600;color:#2b6cb0}
+#theory .num-table{width:100%;border-collapse:collapse;margin-top:10px;background:#f8fafc;border-radius:6px;overflow:hidden;font-size:.9em}
+#theory .num-table td{padding:8px 12px;border-bottom:1px solid #e2e8f0;text-align:left}
+#theory .num-table tr:last-child td{border-bottom:none}
+#theory .num-table tr:nth-child(even){background:#edf2f7}
+#theory .num-table .num{color:#2b6cb0;font-weight:700;width:40px;display:inline-block}
+#theory .section-title{background:#3182ce;color:#fff;padding:10px 16px;border-radius:8px;margin:30px 0 15px;font-size:1.1em;font-weight:700;text-align:center}
 
-        .container { max-width: 800px; margin: 0 auto; }
-
-        h1 {
-            text-align: center;
-            color: var(--text);
-            margin: 10px 0 20px;
-            font-size: 1.5em;
-            font-weight: 800;
-        }
-
-        /* Карточки правил */
-        .rules-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 12px;
-            margin-bottom: 25px;
-        }
-        @media (min-width: 600px) {
-            .rules-grid { grid-template-columns: 1fr 1fr; }
-        }
-
-        .rule-card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 16px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-            border-left: 4px solid var(--primary);
-        }
-        .rule-card h3 {
-            margin: 0 0 8px;
-            font-size: 1.05em;
-            color: var(--primary-dark);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .rule-card p {
-            margin: 0 0 8px;
-            font-size: 0.95em;
-            color: var(--text-light);
-        }
-        .example-box {
-            background: #fff5f5;
-            border-radius: 6px;
-            padding: 8px 12px;
-            font-size: 0.9em;
-            font-weight: 600;
-            color: var(--text);
-        }
-        .highlight { color: var(--primary-dark); font-weight: bold; }
-
-        /* Переключатель и поиск */
-        .controls {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-            position: sticky;
-            top: 0;
-            background: var(--bg);
-            padding: 10px 0;
-            z-index: 10;
-        }
-        .mode-btn {
-            flex: 1;
-            background: var(--card-bg);
-            color: var(--text-light);
-            border: 2px solid var(--border);
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 1em;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .mode-btn.active {
-            background: var(--primary);
-            border-color: var(--primary);
-            color: white;
-        }
-        .search-input {
-            width: 100%;
-            padding: 12px 16px;
-            margin-bottom: 20px;
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            font-size: 1em;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-        .search-input:focus { border-color: var(--primary); }
-
-        /* Заголовки блоков */
-        .section-title {
-            background: var(--primary-dark);
-            color: white;
-            padding: 10px 16px;
-            border-radius: 8px;
-            margin: 30px 0 15px;
-            font-size: 1.1em;
-            font-weight: 700;
-            text-align: center;
-        }
-
-        /* Список фраз */
-        ul { list-style: none; padding: 0; margin: 0; }
-        li {
-            background: var(--card-bg);
-            border-radius: 10px;
-            padding: 14px 16px;
-            margin-bottom: 10px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-            border-left: 4px solid var(--success);
-            display: flex;
-            flex-direction: column;
-        }
-        .en-text {
-            font-size: 1.1em;
-            font-weight: 700;
-            color: var(--text);
-            margin-bottom: 4px;
-        }
-        .ipa-text {
-            font-size: 0.9em;
-            color: var(--primary);
-            margin-bottom: 12px;
-            font-weight: 500;
-        }
-        .ru-text {
-            display: none;
-            margin-top: 12px;
-            padding-top: 12px;
-            border-top: 1px dashed var(--border);
-            color: var(--primary-dark);
-            font-weight: 600;
-        }
-        .ru-text.show { display: block; }
-
-        .btn-show {
-            background: #edf2f7;
-            color: var(--text);
-            border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-size: 0.9em;
-            font-weight: 600;
-            cursor: pointer;
-            align-self: flex-start;
-            transition: background 0.2s;
-        }
-        .btn-show:active { background: var(--border); }
-
-        .hidden-mode { display: none !important; }
-        
-        /* Нижняя навигация */
-        .nav-buttons {
-            display: flex;
-            gap: 12px;
-            margin: 30px 0;
-        }
-        .nav-btn {
-            flex: 1;
-            text-align: center;
-            text-decoration: none;
-            padding: 14px;
-            border-radius: 10px;
-            font-weight: 700;
-            color: white;
-            background: var(--primary);
-            box-shadow: 0 4px 6px rgba(229, 62, 62, 0.2);
-        }
-        .nav-btn.secondary { background: var(--text-light); box-shadow: 0 4px 6px rgba(113, 128, 150, 0.2); }
-    </style>
-</head>
-<body>
-
-<div class="container">
-    <h1>So / Such (Такой / Так)</h1>
-
-    <!-- ПРАВИЛА -->
-    <div class="rules-grid">
-        <div class="rule-card">
-            <h3>📌 So + прилагательное</h3>
-            <p>Используем <b>so</b>, когда описываем <u>только качество</u> (прилагательное). Существительного нет.</p>
-            <div class="example-box">
-                It's <span class="highlight">so</span> interesting.<br>
+</style></head><body><main class="container">
+<div class="home-row"><a class="home-btn" href="index.html">← На главную</a></div>
+<h1>So / Such — теория и практика</h1><p class="subtitle">27 фраз · теория, тренажёр и экзамен</p>
+<div class="tabs"><button class="tab active" data-tab="theory">Теория</button><button class="tab" data-tab="trainer">Тренажёр</button><button class="tab" data-tab="exam">Экзамен</button></div>
+<section class="panel active" id="theory"><div class="rules-grid">
+<div class="rule-card">
+<h3>📌 So + прилагательное</h3>
+<p>Используем <b>so</b>, когда описываем <u>только качество</u> (прилагательное). Существительного нет.</p>
+<div class="example-box">
+                It's <span class="highlight">so</span> interesting.<br/>
                 She's <span class="highlight">so</span> beautiful.
             </div>
-        </div>
-        
-        <div class="rule-card">
-            <h3>💡 Such + a/an + прил. + сущ.</h3>
-            <p>Используем <b>such a/an</b>, когда после качества <u>есть существительное</u> в единственном числе.</p>
-            <div class="example-box">
-                It's <span class="highlight">such an</span> interesting story.<br>
+</div>
+<div class="rule-card">
+<h3>💡 Such + a/an + прил. + сущ.</h3>
+<p>Используем <b>such a/an</b>, когда после качества <u>есть существительное</u> в единственном числе.</p>
+<div class="example-box">
+                It's <span class="highlight">such an</span> interesting story.<br/>
                 She's <span class="highlight">such a</span> beautiful girl.
             </div>
-        </div>
-    </div>
-
-    <!-- УПРАВЛЕНИЕ -->
-    <div class="controls">
-        <button id="btn-eng" class="mode-btn active" onclick="setMode('eng')">ENG 🇬🇧</button>
-        <button id="btn-rus" class="mode-btn" onclick="setMode('rus')">RUS 🇷🇺</button>
-    </div>
-
-    <input type="text" id="search" class="search-input" placeholder="🔍 Поиск по фразам..." oninput="filterList()">
-
-    <!-- БЛОК 1 -->
-    <div class="section-title">So (Только качество)</div>
-    <ul>
-        <li class="eng-mode"><div class="en-text">It's so interesting</div><div class="ipa-text">/ɪts səʊ ˈɪntrəstɪŋ/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Это так интересно.</div></li>
-        <li class="eng-mode"><div class="en-text">It's so important</div><div class="ipa-text">/ɪts səʊ ɪmˈpɔːtnt/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Это так важно.</div></li>
-        <li class="eng-mode"><div class="en-text">It's so popular</div><div class="ipa-text">/ɪts səʊ ˈpɒpjələ/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Это так популярно.</div></li>
-        <li class="eng-mode"><div class="en-text">It's so difficult</div><div class="ipa-text">/ɪts səʊ ˈdɪfɪkəlt/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Это так сложно.</div></li>
-        <li class="eng-mode"><div class="en-text">It's so easy</div><div class="ipa-text">/ɪts səʊ ˈiːzi/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Это так легко.</div></li>
-        <li class="eng-mode"><div class="en-text">She's so beautiful</div><div class="ipa-text">/ʃiːz səʊ ˈbjuːtɪfl/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Она так красива.</div></li>
-        <li class="eng-mode"><div class="en-text">It's so useful</div><div class="ipa-text">/ɪts səʊ ˈjuːsfl/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Это так полезно.</div></li>
-        <li class="eng-mode"><div class="en-text">It's so bad</div><div class="ipa-text">/ɪts səʊ bæd/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Это так плохо.</div></li>
-        <li class="eng-mode"><div class="en-text">It's so cheap</div><div class="ipa-text">/ɪts səʊ tʃiːp/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Это так дешево.</div></li>
-        <li class="eng-mode"><div class="en-text">He's so strange</div><div class="ipa-text">/hiːz səʊ streɪndʒ/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Он такой странный.</div></li>
-        <li class="eng-mode"><div class="en-text">He's so clever (smart)</div><div class="ipa-text">/hiːz səʊ ˈklevə/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Он такой умный.</div></li>
-        <li class="eng-mode"><div class="en-text">He's so talented</div><div class="ipa-text">/hiːz səʊ ˈtæləntɪd/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Он такой талантливый.</div></li>
-        <li class="eng-mode"><div class="en-text">It's so effective</div><div class="ipa-text">/ɪts səʊ ɪˈfektɪv/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Это так эффективно.</div></li>
-
-        <li class="rus-mode hidden-mode"><div class="en-text">Это так интересно.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">It's so interesting</div></li>
-        <li class="rus-mode hidden-mode"><div class="en-text">Это так важно.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">It's so important</div></li>
-        <li class="rus-mode hidden-mode"><div class="en-text">Это так популярно.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">It's so popular</div></li>
-        <li class="rus-mode hidden-mode"><div class="en-text">Это так сложно.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">It's so difficult</div></li>
-        <li class="rus-mode hidden-mode"><div class="en-text">Это так легко.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">It's so easy</div></li>
-        <li class="rus-mode hidden-mode"><div class="en-text">Она так красива.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">She's so beautiful</div></li>
-        <li class="rus-mode hidden-mode"><div class="en-text">Это так полезно.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">It's so useful</div></li>
-        <li class="rus-mode hidden-mode"><div class="en-text">Это так плохо.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">It's so bad</div></li>
-        <li class="rus-mode hidden-mode"><div class="en-text">Это так дешево.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">It's so cheap</div></li>
-        <li class="rus-mode hidden-mode"><div class="en-text">Он такой странный.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">He's so strange</div></li>
-        <li class="rus-mode hidden-mode"><div class="en-text">Он такой умный.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">He's so clever (smart)</div></li>
-        <li class="rus-mode hidden-mode"><div class="en-text">Он такой талантливый.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">He's so talented</div></li>
-        <li class="rus-mode hidden-mode"><div class="en-text">Это так эффективно.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">It's so effective</div></li>
-    </ul>
-
-    <!-- БЛОК 2 -->
-    <div class="section-title">Such a/an (Качество + Существительное)</div>
-    <ul>
-        <li class="eng-mode"><div class="en-text">It's such an interesting story</div><div class="ipa-text">/ɪts sʌtʃ ən ˈɪntrəstɪŋ ˈstɔːri/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Это такая интересная история.</div></li>
-        <li class="eng-mode"><div class="en-text">It's such an important meeting</div><div class="ipa-text">/ɪts sʌtʃ ən ɪmˈpɔːtnt ˈmiːtɪŋ/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Это такая важная встреча.</div></li>
-        <li class="eng-mode"><div class="en-text">It's such a popular song</div><div class="ipa-text">/ɪts sʌtʃ ə ˈpɒpjələ sɒŋ/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Это такая популярная песня.</div></li>
-        <li class="eng-mode"><div class="en-text">It's such a difficult exam</div><div class="ipa-text">/ɪts sʌtʃ ə ˈdɪfɪkəlt ɪɡˈzæm/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Это такой сложный экзамен.</div></li>
-        <li class="eng-mode"><div class="en-text">It's such an easy test</div><div class="ipa-text">/ɪts sʌtʃ ən ˈiːzi test/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Это такой легкий тест.</div></li>
-        <li class="eng-mode"><div class="en-text">She's such a beautiful girl</div><div class="ipa-text">/ʃiːz sʌtʃ ə ˈbjuːtɪfl ɡɜːl/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Она такая красивая девушка.</div></li>
-        <li class="eng-mode"><div class="en-text">It's such a useful video</div><div class="ipa-text">/ɪts sʌtʃ ə ˈjuːsfl ˈvɪdiəʊ/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Это такое полезное видео.</div></li>
-        <li class="eng-mode"><div class="en-text">It's such a bad situation</div><div class="ipa-text">/ɪts sʌtʃ ə bæd ˌsɪtʃuˈeɪʃn/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Это такая плохая ситуация.</div></li>
-        <li class="eng-mode"><div class="en-text">It's such a cheap thing</div><div class="ipa-text">/ɪts sʌtʃ ə tʃiːp θɪŋ/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Это такая дешевая вещь.</div></li>
-        <li class="eng-mode"><div class="en-text">He's such a strange person</div><div class="ipa-text">/hiːz sʌtʃ ə streɪndʒ ˈpɜːsn/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Он такой странный человек.</div></li>
-        <li class="eng-mode"><div class="en-text">He's such a clever man</div><div class="ipa-text">/hiːz sʌtʃ ə ˈklevə mæn/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Он такой умный человек.</div></li>
-        <li class="eng-mode"><div class="en-text">He's such a talented boy</div><div class="ipa-text">/hiːz sʌtʃ ə ˈtæləntɪd bɔɪ/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Он такой талантливый мальчик.</div></li>
-        <li class="eng-mode"><div class="en-text">He's such a poor boy</div><div class="ipa-text">/hiːz sʌtʃ ə pɔː bɔɪ/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Он такой бедный мальчик.</div></li>
-        <li class="eng-mode"><div class="en-text">It's such an effective method</div><div class="ipa-text">/ɪts sʌtʃ ən ɪˈfektɪv ˈmeθəd/</div><button class="btn-show" onclick="toggle(this)">Перевод</button><div class="ru-text">— Это такой эффективный метод.</div></li>
-
-        <li class="rus-mode hidden-mode"><div class="en-text">Это такая интересная история.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">It's such an interesting story</div></li>
-        <li class="rus-mode hidden-mode"><div class="en-text">Это такая важная встреча.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">It's such an important meeting</div></li>
-        <li class="rus-mode hidden-mode"><div class="en-text">Это такая популярная песня.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">It's such a popular song</div></li>
-        <li class="rus-mode hidden-mode"><div class="en-text">Это такой сложный экзамен.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">It's such a difficult exam</div></li>
-        <li class="rus-mode hidden-mode"><div class="en-text">Это такой легкий тест.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">It's such an easy test</div></li>
-        <li class="rus-mode hidden-mode"><div class="en-text">Она такая красивая девушка.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">She's such a beautiful girl</div></li>
-        <li class="rus-mode hidden-mode"><div class="en-text">Это такое полезное видео.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">It's such a useful video</div></li>
-        <li class="rus-mode hidden-mode"><div class="en-text">Это такая плохая ситуация.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">It's such a bad situation</div></li>
-        <li class="rus-mode hidden-mode"><div class="en-text">Это такая дешевая вещь.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">It's such a cheap thing</div></li>
-        <li class="rus-mode hidden-mode"><div class="en-text">Он такой странный человек.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">He's such a strange person</div></li>
-        <li class="rus-mode hidden-mode"><div class="en-text">Он такой умный человек.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">He's such a clever man</div></li>
-        <li class="rus-mode hidden-mode"><div class="en-text">Он такой талантливый мальчик.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">He's such a talented boy</div></li>
-        <li class="rus-mode hidden-mode"><div class="en-text">Он такой бедный мальчик.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">He's such a poor boy</div></li>
-        <li class="rus-mode hidden-mode"><div class="en-text">Это такой эффективный метод.</div><button class="btn-show" onclick="toggle(this)">Ответ</button><div class="ru-text">It's such an effective method</div></li>
-    </ul>
-
-    <!-- НАВИГАЦИЯ -->
-    <div class="nav-buttons">
-        <a href="tobe.html" class="nav-btn secondary">← К глаголу To Be</a>
-        <a href="index.html" class="nav-btn">← На главную</a>
-    </div>
-
 </div>
-
-<script>
-    function setMode(mode) {
-        document.getElementById('btn-eng').classList.remove('active');
-        document.getElementById('btn-rus').classList.remove('active');
-        document.getElementById('btn-' + mode).classList.add('active');
-
-        var engItems = document.querySelectorAll('.eng-mode');
-        var rusItems = document.querySelectorAll('.rus-mode');
-
-        if (mode === 'eng') {
-            engItems.forEach(el => el.classList.remove('hidden-mode'));
-            rusItems.forEach(el => el.classList.add('hidden-mode'));
-        } else {
-            engItems.forEach(el => el.classList.add('hidden-mode'));
-            rusItems.forEach(el => el.classList.remove('hidden-mode'));
-        }
-    }
-
-    function toggle(btn) {
-        var text = btn.nextElementSibling;
-        if (text.classList.contains('show')) {
-            text.classList.remove('show');
-            btn.textContent = btn.textContent.includes('перевод') || btn.textContent.includes('Перевод') ? 'Перевод' : 'Ответ';
-        } else {
-            text.classList.add('show');
-            btn.textContent = 'Скрыть';
-        }
-    }
-
-    function filterList() {
-        var input = document.getElementById('search').value.toLowerCase();
-        var allItems = document.querySelectorAll('li');
-        allItems.forEach(item => {
-            var text = item.textContent.toLowerCase();
-            if (text.includes(input)) {
-                item.style.display = 'flex';
-            } else {
-                item.style.display = 'none';
-            }
-        });
-    }
-</script>
-
-</body>
-</html>
+</div></section>
+<section class="panel" id="trainer">
+<div class="controls"><button class="mode active" id="modeEng" onclick="setMode('eng')">ENG → RU</button><button class="mode" id="modeRus" onclick="setMode('rus')">RU → ENG</button></div>
+<input id="search" class="search" placeholder="🔍 Поиск по фразе или переводу..." oninput="filterList()" spellcheck="true">
+<div class="rule-box"><b>Инструкция</b><p id="instruction">Прочитай английскую фразу и попробуй перевести её, затем открой перевод.</p></div>
+<div id="phraseLists"></div></section>
+<section class="panel" id="exam">
+<div class="card"><h2>Настройки экзамена</h2><div class="grid">
+<div class="field"><label for="range">Блок фраз</label><select id="range"><option value="all">Все фразы</option><option value="1-10">1–10</option><option value="11-20">11–20</option><option value="21-27">21–27</option></select></div>
+<div class="field"><label for="count">Количество вопросов</label><select id="count"><option value="all">Все выбранные</option><option>10</option><option>20</option><option>30</option><option>50</option></select></div>
+</div><div class="actions"><button class="primary" id="start">Начать экзамен</button><button class="secondary" id="mistakes" disabled>Работа над ошибками</button></div></div>
+<div class="card" id="exercise" hidden><div class="meta"><span id="counter"></span><span id="score"></span></div><div class="progress"><div class="bar" id="bar"></div></div><div class="question" id="prompt"></div>
+<input class="answer" id="answer" type="text" lang="en" spellcheck="true" autocomplete="off" placeholder="Введи перевод на английском">
+<div class="actions"><button class="primary" id="check">Проверить</button><button class="secondary" id="skip">Пропустить</button><button class="secondary" id="accept" hidden>Не считать ошибкой</button><button class="secondary" id="next" hidden>Следующий вопрос</button></div><div class="feedback" id="feedback" aria-live="polite"></div></div>
+<div class="card" id="finish" hidden><h2>Экзамен завершён</h2><div class="stats" id="stats"></div><div class="actions"><button class="primary" id="retry">Пройти ещё раз</button><button class="secondary" id="retryWrong">Повторить ошибки</button></div></div>
+</section>
+<div class="home-row" style="text-align:center;margin-top:26px"><a class="home-btn" href="index.html">← На главную</a></div>
+</main><script>
+const data=[{"en": "It's so interesting", "ru": "Это так интересно."}, {"en": "It's so important", "ru": "Это так важно."}, {"en": "It's so popular", "ru": "Это так популярно."}, {"en": "It's so difficult", "ru": "Это так сложно."}, {"en": "It's so easy", "ru": "Это так легко."}, {"en": "She's so beautiful", "ru": "Она так красива."}, {"en": "It's so useful", "ru": "Это так полезно."}, {"en": "It's so bad", "ru": "Это так плохо."}, {"en": "It's so cheap", "ru": "Это так дешево."}, {"en": "He's so strange", "ru": "Он такой странный."}, {"en": "He's so clever (smart)", "ru": "Он такой умный."}, {"en": "He's so talented", "ru": "Он такой талантливый."}, {"en": "It's so effective", "ru": "Это так эффективно."}, {"en": "It's such an interesting story", "ru": "Это такая интересная история."}, {"en": "It's such an important meeting", "ru": "Это такая важная встреча."}, {"en": "It's such a popular song", "ru": "Это такая популярная песня."}, {"en": "It's such a difficult exam", "ru": "Это такой сложный экзамен."}, {"en": "It's such an easy test", "ru": "Это такой легкий тест."}, {"en": "She's such a beautiful girl", "ru": "Она такая красивая девушка."}, {"en": "It's such a useful video", "ru": "Это такое полезное видео."}, {"en": "It's such a bad situation", "ru": "Это такая плохая ситуация."}, {"en": "It's such a cheap thing", "ru": "Это такая дешевая вещь."}, {"en": "He's such a strange person", "ru": "Он такой странный человек."}, {"en": "He's such a clever man", "ru": "Он такой умный человек."}, {"en": "He's such a talented boy", "ru": "Он такой талантливый мальчик."}, {"en": "He's such a poor boy", "ru": "Он такой бедный мальчик."}, {"en": "It's such an effective method", "ru": "Это такой эффективный метод."}];
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id===b.dataset.tab));});
+let direction='eng';
+function setMode(mode){direction=mode;document.getElementById('modeEng').classList.toggle('active',mode==='eng');document.getElementById('modeRus').classList.toggle('active',mode==='rus');document.getElementById('instruction').textContent=mode==='eng'?'Прочитай английскую фразу и попробуй перевести её, затем открой перевод.':'Прочитай русскую фразу и попробуй перевести её на английский, затем открой ответ.';renderLists();}
+function renderLists(){let root=document.getElementById('phraseLists');root.innerHTML='';for(let start=0;start<data.length;start+=25){let chunk=data.slice(start,start+25),sec=document.createElement('div');sec.innerHTML=`<div class="section-title">Фразы ${start+1}–${start+chunk.length}</div><ul class="phrases"></ul>`;sec.querySelector('ul').innerHTML=chunk.map((q,i)=>direction==='eng'?`<li data-search="${esc((q.en+' '+q.ru).toLowerCase())}"><div class="en">${start+i+1}. ${esc(q.en)}</div><button class="toggle" onclick="toggle(this,'ru')">Показать перевод</button><div class="translation">— ${esc(q.ru)}</div></li>`:`<li data-search="${esc((q.en+' '+q.ru).toLowerCase())}"><div class="ru-prompt">${start+i+1}. ${esc(q.ru)}</div><button class="toggle" onclick="toggle(this,'en')">Показать ответ</button><div class="translation">${esc(q.en)}</div></li>`).join('');root.appendChild(sec);}filterList();}
+function toggle(btn){let el=btn.nextElementSibling,show=el.classList.toggle('show');btn.textContent=show?(direction==='eng'?'Скрыть перевод':'Скрыть ответ'):(direction==='eng'?'Показать перевод':'Показать ответ');}
+function filterList(){let q=document.getElementById('search').value.toLowerCase().trim();document.querySelectorAll('#phraseLists li').forEach(li=>li.classList.toggle('hidden',!li.dataset.search.includes(q)));}
+renderLists();
+let session=[],index=0,correct=0,wrong=[],checked=false,lastWrong=[];
+const $=id=>document.getElementById(id);
+function norm(s){return s.toLowerCase().trim().replace(/[.,!?;:'"“”‘’]/g,'').replace(/\s+/g,' ');}
+function chosen(){let r=$('range').value,a=data.map((x,i)=>({...x,id:i}));if(r!=='all'){let [st,en]=r.split('-').map(Number);a=a.slice(st-1,en);}let n=$('count').value;if(n!=='all')a=a.slice(0,+n);return a;}
+function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function begin(a){session=shuffle(a);index=0;correct=0;wrong=[];$('finish').hidden=true;$('exercise').hidden=false;renderQuestion();}
+function renderQuestion(){if(index>=session.length){finish();return;}checked=false;let q=session[index];$('counter').textContent=`Вопрос ${index+1} из ${session.length}`;$('score').textContent=`Верно: ${correct} · Ошибки: ${wrong.length}`;$('bar').style.width=`${index/session.length*100}%`;$('prompt').textContent=q.ru;$('answer').value='';$('answer').disabled=false;$('check').hidden=false;$('skip').hidden=false;$('next').hidden=true;$('accept').hidden=true;$('feedback').className='feedback';$('feedback').textContent='';$('answer').focus();}
+function check(){if(checked)return;let q=session[index],v=norm($('answer').value);if(!v)return;checked=true;$('answer').disabled=true;$('check').hidden=true;$('skip').hidden=true;$('next').hidden=false;$('accept').hidden=false;if(v===norm(q.en)){correct++;$('feedback').className='feedback good';$('feedback').innerHTML='Верно! <b>'+esc(q.en)+'</b>';$('accept').hidden=true;}else{wrong.push(q);$('feedback').className='feedback bad';$('feedback').innerHTML='Ошибка. Правильный ответ: <b>'+esc(q.en)+'</b>';}$('score').textContent=`Верно: ${correct} · Ошибки: ${wrong.length}`;}
+function advance(){index++;renderQuestion();}
+function finish(){lastWrong=[...wrong];$('exercise').hidden=true;$('finish').hidden=false;$('bar').style.width='100%';let n=session.length,p=n?Math.round(correct/n*100):0;$('stats').innerHTML=`<div class="stat"><b>${correct}/${n}</b>Верно</div><div class="stat"><b>${wrong.length}</b>Ошибки</div><div class="stat"><b>${p}%</b>Результат</div>`;$('retryWrong').disabled=!lastWrong.length;$('mistakes').disabled=!lastWrong.length;}
+$('start').onclick=()=>begin(chosen());$('check').onclick=check;$('next').onclick=advance;$('skip').onclick=()=>{wrong.push(session[index]);advance();};$('retry').onclick=()=>begin(chosen());$('retryWrong').onclick=()=>lastWrong.length&&begin(lastWrong);$('mistakes').onclick=()=>lastWrong.length&&begin(lastWrong);
+$('accept').onclick=()=>{let q=session[index];wrong=wrong.filter(x=>x.id!==q.id);correct++;$('feedback').className='feedback good';$('feedback').innerHTML='Принято, не считаем ошибкой. <b>'+esc(q.en)+'</b>';$('accept').hidden=true;$('score').textContent=`Верно: ${correct} · Ошибки: ${wrong.length}`;};
+$('answer').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();if(checked)advance();else check();}});
+</script></body></html>
