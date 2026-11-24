@@ -98,6 +98,7 @@ let questions = [];
 let current = 0;
 let correct = 0;
 let mistakes = [];
+let mistakeRecorded = false;
 let checked = false;
 let currentWasExact = false;
 
@@ -149,6 +150,7 @@ function showQuestion() {
   const q = questions[current];
   checked = false;
   currentWasExact = false;
+  mistakeRecorded = false;
   document.getElementById("progressText").textContent = `Фраза ${current + 1} из ${questions.length}`;
   document.getElementById("scoreText").textContent = `Верно: ${correct} · Ошибки: ${mistakes.length}`;
   document.getElementById("progressFill").style.width = `${current / questions.length * 100}%`;
@@ -160,53 +162,48 @@ function showQuestion() {
   document.getElementById("feedback").classList.add("hidden");
   document.getElementById("decisionActions").classList.add("hidden");
   document.getElementById("checkBtn").classList.remove("hidden");
+  document.getElementById("checkBtn").textContent = "Проверить";
   input.focus();
 }
 function checkAnswer() {
-  if (checked) return;
   const input = document.getElementById("answerInput");
+  const feedback = document.getElementById("feedback");
+  const actions = document.getElementById("decisionActions");
+
+  // Повторное нажатие: фиксируем ошибку (если она была) и переходим дальше.
+  if (checked) {
+    if (!currentWasExact && !mistakeRecorded) recordMistake();
+    nextQuestion();
+    return;
+  }
+
   const typed = input.value.trim();
   if (!typed) { input.focus(); return; }
+
   checked = true;
   input.disabled = true;
   const q = questions[current];
   currentWasExact = normalize(typed) === normalize(q.en);
-  const feedback = document.getElementById("feedback");
   feedback.classList.remove("hidden");
+  actions.classList.add("hidden");
+
   if (currentWasExact) {
     correct++;
-    feedback.innerHTML = `<div class="correct-text">✓ Верно!</div><div class="muted">Ответ совпадает с фразой из учебного набора.</div>`;
-    document.getElementById("checkBtn").classList.add("hidden");
-    showNextButton();
+    feedback.innerHTML = `<div class="correct-text">✓ Верно!</div>`;
   } else {
-    feedback.innerHTML = `<div class="wrong-text">Ответ отличается от исходной фразы.</div>
-      <div class="muted">Сравни свой вариант с фразой из файла:</div>
-      <div class="expected">${escapeHtml(q.en)}</div>
-      <div class="muted">Если отличие только в опечатке или допустимом варианте, можешь засчитать ответ вручную.</div>`;
-    document.getElementById("checkBtn").classList.add("hidden");
-    const actions = document.getElementById("decisionActions");
-    actions.classList.remove("hidden");
-    actions.innerHTML = `<button class="success" type="button" onclick="markTypoCorrect()">Засчитать: опечатка / вариант</button>
-      <button class="danger" type="button" onclick="markMistake()">Это ошибка</button>`;
+    feedback.innerHTML = `<div class="wrong-text">✗ Ошибка.</div>
+      <div class="muted">Правильный ответ:</div>
+      <div class="expected">${escapeHtml(q.en)}</div>`;
+    recordMistake();
   }
+
+  document.getElementById("checkBtn").textContent = "Следующая фраза →";
   document.getElementById("scoreText").textContent = `Верно: ${correct} · Ошибки: ${mistakes.length}`;
 }
-function showNextButton() {
-  const actions = document.getElementById("decisionActions");
-  actions.classList.remove("hidden");
-  actions.innerHTML = `<button class="primary" type="button" onclick="nextQuestion()">Следующая фраза →</button>`;
-}
-function markTypoCorrect() {
-  correct++;
-  document.getElementById("feedback").innerHTML = `<div class="correct-text">✓ Засчитано вручную.</div><div class="muted">Ответ принят как опечатка или допустимый вариант.</div>`;
-  document.getElementById("decisionActions").innerHTML = `<button class="primary" type="button" onclick="nextQuestion()">Следующая фраза →</button>`;
-  document.getElementById("scoreText").textContent = `Верно: ${correct} · Ошибки: ${mistakes.length}`;
-}
-function markMistake() {
+function recordMistake() {
   const q = questions[current];
   mistakes.push({...q, user: document.getElementById("answerInput").value.trim()});
-  document.getElementById("feedback").innerHTML = `<div class="wrong-text">Ошибка записана для повторения.</div><div class="expected">${escapeHtml(q.en)}</div>`;
-  document.getElementById("decisionActions").innerHTML = `<button class="primary" type="button" onclick="nextQuestion()">Следующая фраза →</button>`;
+  mistakeRecorded = true;
   document.getElementById("scoreText").textContent = `Верно: ${correct} · Ошибки: ${mistakes.length}`;
 }
 function nextQuestion() { current++; showQuestion(); }
@@ -248,8 +245,8 @@ function escapeHtml(value) {
 }
 document.getElementById("answerInput").addEventListener("keydown", e => {
   if (e.key === "Enter") {
-    if (!checked) checkAnswer();
-    else nextQuestion();
+    e.preventDefault();
+    checkAnswer();
   }
 });
 renderGroups();
