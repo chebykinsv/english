@@ -7,7 +7,9 @@
 <style>
 :root{--bg:#f4f7fb;--card:#fff;--text:#243247;--muted:#64748b;--blue:#2864c5;--blue2:#eaf2ff;--green:#16834b;--red:#c43d45;--border:#dce4ef;--shadow:0 8px 26px rgba(31,55,90,.08)}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
-header{background:linear-gradient(120deg,#173f7a,#3478d4);color:#fff;padding:28px 18px}
+header{background:linear-gradient(120deg,#173f7a,#3478d4);color:#fff;padding:18px}
+.back-link{display:inline-flex;align-items:center;gap:7px;color:#fff;text-decoration:none;border:1px solid rgba(255,255,255,.45);border-radius:9px;padding:7px 12px;margin-bottom:16px;font-weight:650}
+.back-link:hover{background:rgba(255,255,255,.12)}
 .wrap{max-width:1000px;margin:auto;padding:0 16px}h1{font-size:clamp(26px,4vw,36px);margin:0 0 6px}header p{margin:0;color:#e5efff}
 nav{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}
 .tab{border:1px solid var(--border);background:#fff;color:var(--text);padding:10px 15px;border-radius:10px;cursor:pointer;font-weight:650}
@@ -36,6 +38,7 @@ select{padding:9px 12px;border:1px solid var(--border);border-radius:9px;backgro
 </head>
 <body>
 <header><div class="wrap">
+<a class="back-link" href="index.html">← Назад к урокам</a>
 <h1>English Numbers</h1>
 <p>Изучай числа, запоминай закономерности и проверяй себя в тренажёре.</p>
 </div></header>
