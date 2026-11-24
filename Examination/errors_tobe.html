@@ -1,318 +1,400 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ошибки: To Be</title>
-    <style>
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 14px;
-            background-color: #f0f4f8;
-            color: #333;
-        }
-        .container { max-width: 900px; margin: 0 auto; }
-        h1 {
-            text-align: center;
-            color: #c53030;
-            margin: 0 0 16px;
-            font-size: 1.35em;
-            word-wrap: break-word;
-        }
-
-        .mode-switcher {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        .mode-btn {
-            background-color: #cbd5e0;
-            color: #4a5568;
-            border: none;
-            padding: 10px 30px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 1em;
-            font-weight: bold;
-            transition: background-color 0.2s, color 0.2s;
-            min-width: 100px;
-        }
-        .mode-btn.active { background-color: #3182ce; color: #fff; }
-
-        ul { list-style-type: none; padding-left: 0; margin: 0; }
-        li {
-            background: #fff;
-            margin-bottom: 10px;
-            padding: 16px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            display: flex;
-            flex-direction: column;
-            border-left: 5px solid #e53e3e;
-            word-wrap: break-word;
-            align-items: flex-start;
-        }
-        
-        /* ENG режим */
-        .en-text {
-            font-weight: bold;
-            font-size: 1.05em;
-            color: #2c3e50;
-            margin-bottom: 10px;
-            text-align: left;
-        }
-
-        /* RUS режим */
-        .ru-text {
-            font-size: 1.1em;
-            font-weight: bold;
-            color: #2c3e50;
-            text-align: left;
-            margin-bottom: 10px;
-        }
-
-        .error-note {
-            font-size: 0.85em;
-            color: #e53e3e;
-            margin-bottom: 10px;
-            font-style: italic;
-            text-align: left;
-            background: #fff5f5;
-            padding: 6px 10px;
-            border-radius: 4px;
-        }
-
-        .btn-toggle {
-            background-color: #3182ce;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.95em;
-            align-self: flex-start;
-            transition: background-color 0.2s;
-            min-height: 40px;
-        }
-        .btn-toggle:active { background-color: #2b6cb0; }
-
-        .answer {
-            display: none;
-            color: #2b6cb0;
-            font-size: 1.05em;
-            font-weight: bold;
-            text-align: left;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px dashed #e2e8f0;
-        }
-        .answer.show { display: block; }
-
-        .hidden-mode { display: none !important; }
-
-        @media (max-width: 360px) {
-            body { padding: 10px; }
-            h1 { font-size: 1.2em; }
-            .en-text, .ru-text { font-size: 1em; }
-            li { padding: 12px; }
-            .btn-toggle { padding: 8px 16px; font-size: 0.9em; }
-            .mode-switcher { flex-direction: row; gap: 10px; }
-            .mode-btn { padding: 8px 15px; font-size: 0.9em; min-width: 80px; }
-        }
-        
-        .back-nav-wrapper { text-align: center; margin: 30px auto 20px; padding: 0 14px; }
-        .back-nav-btn {
-            display: inline-block;
-            background-color: #718096;
-            color: #ffffff;
-            text-decoration: none;
-            padding: 12px 28px;
-            border-radius: 8px;
-            font-size: 1em;
-            font-weight: 600;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Все ошибки двух экзаменов To Be</title>
+<style>
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; margin: 0; padding: 14px; background-color: #f0f4f8; color: #333; }
+.container { max-width: 900px; margin: 0 auto; }
+h1 { text-align: center; color: #c53030; margin: 0 0 8px; font-size: 1.35em; word-wrap: break-word; }
+.subtitle { text-align: center; color: #718096; font-size: .9em; margin: 0 0 18px; }
+.mode-switcher { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; }
+.mode-btn { background-color: #cbd5e0; color: #4a5568; border: none; padding: 10px 30px; border-radius: 6px; cursor: pointer; font-size: 1em; font-weight: bold; transition: background-color .2s, color .2s; min-width: 100px; }
+.mode-btn.active { background-color: #3182ce; color: #fff; }
+.section-title { background-color: #dd6b20; color: #fff; padding: 8px 14px; border-radius: 6px; margin: 25px 0 15px; font-size: 1.1em; text-align: center; }
+ul { list-style-type: none; padding-left: 0; margin: 0; }
+li { background: #fff; margin-bottom: 10px; padding: 16px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,.05); display: flex; flex-direction: column; border-left: 5px solid #e53e3e; word-wrap: break-word; overflow-wrap: break-word; align-items: flex-start; }
+.en-text { font-weight: bold; font-size: 1.05em; color: #2c3e50; margin-bottom: 10px; text-align: left; }
+.ru-text { font-size: 1.1em; font-weight: bold; color: #2c3e50; text-align: left; margin-bottom: 10px; }
+.error-note { font-size: .85em; color: #e53e3e; margin-bottom: 10px; font-style: italic; text-align: left; }
+.btn-toggle { background-color: #3182ce; color: #fff; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: .95em; align-self: flex-start; transition: background-color .2s; min-height: 40px; }
+.btn-toggle:active { background-color: #2b6cb0; }
+.answer { display: none; color: #2b6cb0; font-size: 1.05em; font-weight: bold; text-align: left; margin-top: 15px; padding-top: 15px; border-top: 1px dashed #e2e8f0; }
+.answer.show { display: block; }
+.hidden-mode { display: none !important; }
+@media (max-width: 360px) {
+ body { padding: 10px; } h1 { font-size: 1.2em; } .en-text,.ru-text { font-size: 1em; }
+ li { padding: 12px; } .btn-toggle { padding: 8px 16px; font-size: .9em; }
+ .mode-switcher { flex-direction: row; gap: 10px; } .mode-btn { padding: 8px 15px; font-size: .9em; min-width: 80px; }
+}
+</style>
 </head>
 <body>
-
 <div class="container">
-    <h1>🚫 Работа над ошибками (To Be)</h1>
-    
-    <div class="mode-switcher">
-        <button id="btn-eng-rus" class="mode-btn active" onclick="setMode('eng-rus')">ENG</button>
-        <button id="btn-rus-eng" class="mode-btn" onclick="setMode('rus-eng')">RUS</button>
-    </div>
-
-    <ul id="list1">
-        <!-- Ошибка 1 -->
-        <li class="eng-mode">
-            <div class="en-text">It's a simple test</div>
-            <div class="error-note">(simple, а не present)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
-            <div class="answer">— Это простой тест.</div>
-        </li>
-        <li class="rus-mode hidden-mode">
-            <div class="ru-text">Это простой тест.</div>
-            <div class="error-note">(simple, а не present)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="answer">It's a simple test</div>
-        </li>
-
-        <!-- Ошибка 2 -->
-        <li class="eng-mode">
-            <div class="en-text">It's so cold</div>
-            <div class="error-note">(пропущено слово so)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
-            <div class="answer">— Так холодно.</div>
-        </li>
-        <li class="rus-mode hidden-mode">
-            <div class="ru-text">Так холодно.</div>
-            <div class="error-note">(пропущено слово so)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="answer">It's so cold</div>
-        </li>
-
-        <!-- Ошибка 3 -->
-        <li class="eng-mode">
-            <div class="en-text">It's a big mistake</div>
-            <div class="error-note">(лишнее so, артикль a перед прилагательным)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
-            <div class="answer">— Это большая ошибка.</div>
-        </li>
-        <li class="rus-mode hidden-mode">
-            <div class="ru-text">Это большая ошибка.</div>
-            <div class="error-note">(лишнее so, артикль a перед прилагательным)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="answer">It's a big mistake</div>
-        </li>
-
-        <!-- Ошибка 4 -->
-        <li class="eng-mode">
-            <div class="en-text">It's obvious</div>
-            <div class="error-note">(прилагательное obvious, а не наречие obviously)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
-            <div class="answer">— Это очевидно.</div>
-        </li>
-        <li class="rus-mode hidden-mode">
-            <div class="ru-text">Это очевидно.</div>
-            <div class="error-note">(прилагательное obvious, а не наречие obviously)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="answer">It's obvious</div>
-        </li>
-
-        <!-- Ошибка 5 -->
-        <li class="eng-mode">
-            <div class="en-text">It's very dark</div>
-            <div class="error-note">(без артикля a, так как нет существительного)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
-            <div class="answer">— Очень темно.</div>
-        </li>
-        <li class="rus-mode hidden-mode">
-            <div class="ru-text">Очень темно.</div>
-            <div class="error-note">(без артикля a, так как нет существительного)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="answer">It's very dark</div>
-        </li>
-
-        <!-- Ошибка 6 -->
-        <li class="eng-mode">
-            <div class="en-text">He's a young man</div>
-            <div class="error-note">(нужен артикль a перед man)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
-            <div class="answer">— Он молодой человек.</div>
-        </li>
-        <li class="rus-mode hidden-mode">
-            <div class="ru-text">Он молодой человек.</div>
-            <div class="error-note">(нужен артикль a перед man)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="answer">He's a young man</div>
-        </li>
-
-        <!-- Ошибка 7 -->
-        <li class="eng-mode">
-            <div class="en-text">It's possible</div>
-            <div class="error-note">(possible, а не maybe)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
-            <div class="answer">— Это возможно.</div>
-        </li>
-        <li class="rus-mode hidden-mode">
-            <div class="ru-text">Это возможно.</div>
-            <div class="error-note">(possible, а не maybe)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="answer">It's possible</div>
-        </li>
-
-        <!-- Ошибка 8 -->
-        <li class="eng-mode">
-            <div class="en-text">She's a very good doctor</div>
-            <div class="error-note">(пропущено слово very)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
-            <div class="answer">— Она очень хороший врач.</div>
-        </li>
-        <li class="rus-mode hidden-mode">
-            <div class="ru-text">Она очень хороший врач.</div>
-            <div class="error-note">(пропущено слово very)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="answer">She's a very good doctor</div>
-        </li>
-
-        <!-- Ошибка 9 -->
-        <li class="eng-mode">
-            <div class="en-text">You're a very good teacher</div>
-            <div class="error-note">(пропущено слово very)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
-            <div class="answer">— Ты очень хороший учитель.</div>
-        </li>
-        <li class="rus-mode hidden-mode">
-            <div class="ru-text">Ты очень хороший учитель.</div>
-            <div class="error-note">(пропущено слово very)</div>
-            <button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
-            <div class="answer">You're a very good teacher</div>
-        </li>
-    </ul>
+<h1>🚫 Ошибки двух экзаменов To Be</h1>
+<p class="subtitle">Всего 27 ошибок: 16 из экзамена To Be (90 фраз) и 11 из To Be Negative (86 фраз)</p>
+<div class="mode-switcher">
+<button id="btn-eng-rus" class="mode-btn active" onclick="setMode('eng-rus')">ENG</button>
+<button id="btn-rus-eng" class="mode-btn" onclick="setMode('rus-eng')">RUS</button>
 </div>
-
-<div class="back-nav-wrapper">
-    <a href="../index.html" class="back-nav-btn">← На главную</a>
+<ul id="errorList">
+<li class="section-title" style="border-left:0">Экзамен 1 — To Be (90 фраз): 16 ошибок · ENG</li>
+<li class="eng-mode">
+<div class="en-text">This businessman is very rich.</div>
+<div class="error-note">В твоём ответе был лишний артикль a перед rich. Перед прилагательным без существительного артикль здесь не ставится.</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+<div class="answer">— Этот бизнесмен очень богат.</div>
+</li>
+<li class="eng-mode">
+<div class="en-text">Our teacher is very hard-working.</div>
+<div class="error-note">Ты написал hard-worker. В этой фразе нужно прилагательное hard-working — «трудолюбивый».</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+<div class="answer">— Наш учитель очень трудолюбивый.</div>
+</li>
+<li class="eng-mode">
+<div class="en-text">Your results are excellent.</div>
+<div class="error-note">Ты использовал good («хорошие»), а в исходной фразе требуется excellent («отличные»).</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+<div class="answer">— Твои результаты отличные.</div>
+</li>
+<li class="eng-mode">
+<div class="en-text">This word is new for me.</div>
+<div class="error-note">Ты написал its вместо this. This указывает на предмет: «это слово». Its означает принадлежность: «его/её».</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+<div class="answer">— Это слово новое для меня.</div>
+</li>
+<li class="eng-mode">
+<div class="en-text">The test is easy.</div>
+<div class="error-note">Ты пропустил артикль the перед test. В этой фразе нужен вариант The test.</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+<div class="answer">— Тест лёгкий.</div>
+</li>
+<li class="eng-mode">
+<div class="en-text">My boss is very busy now.</div>
+<div class="error-note">В твоём ответе не хватало very — «очень».</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+<div class="answer">— Мой начальник сейчас очень занят.</div>
+</li>
+<li class="eng-mode">
+<div class="en-text">The men are here.</div>
+<div class="error-note">Ты использовал is. Men — множественное число, поэтому нужен глагол are.</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+<div class="answer">— Мужчины здесь.</div>
+</li>
+<li class="eng-mode">
+<div class="en-text">Those women are teachers.</div>
+<div class="error-note">Ты написал teacher в единственном числе. Так как women — множественное число, нужно teachers.</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+<div class="answer">— Те женщины — учителя.</div>
+</li>
+<li class="eng-mode">
+<div class="en-text">All your videos are so interesting.</div>
+<div class="error-note">Ты написал these вместо your («твои») и пропустил are. В этой конструкции нужен глагол to be: videos are.</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+<div class="answer">— Все твои видео такие интересные.</div>
+</li>
+<li class="eng-mode">
+<div class="en-text">That woman is a designer.</div>
+<div class="error-note">Ты пропустил is. В английском предложении-связке перед a designer нужен глагол to be.</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+<div class="answer">— Та женщина — дизайнер.</div>
+</li>
+<li class="eng-mode">
+<div class="en-text">The song is so popular.</div>
+<div class="error-note">Ты пропустил so — «такая». Без него предложение грамматически правильное, но исходный смысл передан не полностью.</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+<div class="answer">— Песня такая популярная.</div>
+</li>
+<li class="eng-mode">
+<div class="en-text">Our teacher is right.</div>
+<div class="error-note">Ты написал on the right («справа») вместо is right («прав») и пропустил глагол is.</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+<div class="answer">— Наш учитель прав.</div>
+</li>
+<li class="eng-mode">
+<div class="en-text">These lessons are so effective.</div>
+<div class="error-note">Ты использовал is. Lessons — множественное число, поэтому правильно are.</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+<div class="answer">— Эти уроки такие эффективные.</div>
+</li>
+<li class="eng-mode">
+<div class="en-text">Her boss is very busy at the moment.</div>
+<div class="error-note">Артикль a перед busy не нужен. Устойчивое выражение — at the moment, а не on the moment.</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+<div class="answer">— Её начальник очень занят в данный момент.</div>
+</li>
+<li class="eng-mode">
+<div class="en-text">These words are new for me.</div>
+<div class="error-note">Ты добавил a перед new. Артикль a не ставится перед прилагательным без существительного после него.</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+<div class="answer">— Эти слова новые для меня.</div>
+</li>
+<li class="eng-mode">
+<div class="en-text">Your examples are very good.</div>
+<div class="error-note">Ты написал example в единственном числе. Нужно examples; с ним используется are.</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+<div class="answer">— Твои примеры очень хорошие.</div>
+</li>
+<li class="section-title rus-mode hidden-mode" style="border-left:0">Экзамен 1 — To Be (90 фраз): 16 ошибок · RUS</li>
+<li class="rus-mode hidden-mode">
+<div class="ru-text">Этот бизнесмен очень богат.</div>
+<div class="error-note">В твоём ответе был лишний артикль a перед rich. Перед прилагательным без существительного артикль здесь не ставится.</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+<div class="answer">This businessman is very rich.</div>
+</li>
+<li class="rus-mode hidden-mode">
+<div class="ru-text">Наш учитель очень трудолюбивый.</div>
+<div class="error-note">Ты написал hard-worker. В этой фразе нужно прилагательное hard-working — «трудолюбивый».</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+<div class="answer">Our teacher is very hard-working.</div>
+</li>
+<li class="rus-mode hidden-mode">
+<div class="ru-text">Твои результаты отличные.</div>
+<div class="error-note">Ты использовал good («хорошие»), а в исходной фразе требуется excellent («отличные»).</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+<div class="answer">Your results are excellent.</div>
+</li>
+<li class="rus-mode hidden-mode">
+<div class="ru-text">Это слово новое для меня.</div>
+<div class="error-note">Ты написал its вместо this. This указывает на предмет: «это слово». Its означает принадлежность: «его/её».</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+<div class="answer">This word is new for me.</div>
+</li>
+<li class="rus-mode hidden-mode">
+<div class="ru-text">Тест лёгкий.</div>
+<div class="error-note">Ты пропустил артикль the перед test. В этой фразе нужен вариант The test.</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+<div class="answer">The test is easy.</div>
+</li>
+<li class="rus-mode hidden-mode">
+<div class="ru-text">Мой начальник сейчас очень занят.</div>
+<div class="error-note">В твоём ответе не хватало very — «очень».</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+<div class="answer">My boss is very busy now.</div>
+</li>
+<li class="rus-mode hidden-mode">
+<div class="ru-text">Мужчины здесь.</div>
+<div class="error-note">Ты использовал is. Men — множественное число, поэтому нужен глагол are.</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+<div class="answer">The men are here.</div>
+</li>
+<li class="rus-mode hidden-mode">
+<div class="ru-text">Те женщины — учителя.</div>
+<div class="error-note">Ты написал teacher в единственном числе. Так как women — множественное число, нужно teachers.</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+<div class="answer">Those women are teachers.</div>
+</li>
+<li class="rus-mode hidden-mode">
+<div class="ru-text">Все твои видео такие интересные.</div>
+<div class="error-note">Ты написал these вместо your («твои») и пропустил are. В этой конструкции нужен глагол to be: videos are.</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+<div class="answer">All your videos are so interesting.</div>
+</li>
+<li class="rus-mode hidden-mode">
+<div class="ru-text">Та женщина — дизайнер.</div>
+<div class="error-note">Ты пропустил is. В английском предложении-связке перед a designer нужен глагол to be.</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+<div class="answer">That woman is a designer.</div>
+</li>
+<li class="rus-mode hidden-mode">
+<div class="ru-text">Песня такая популярная.</div>
+<div class="error-note">Ты пропустил so — «такая». Без него предложение грамматически правильное, но исходный смысл передан не полностью.</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+<div class="answer">The song is so popular.</div>
+</li>
+<li class="rus-mode hidden-mode">
+<div class="ru-text">Наш учитель прав.</div>
+<div class="error-note">Ты написал on the right («справа») вместо is right («прав») и пропустил глагол is.</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+<div class="answer">Our teacher is right.</div>
+</li>
+<li class="rus-mode hidden-mode">
+<div class="ru-text">Эти уроки такие эффективные.</div>
+<div class="error-note">Ты использовал is. Lessons — множественное число, поэтому правильно are.</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+<div class="answer">These lessons are so effective.</div>
+</li>
+<li class="rus-mode hidden-mode">
+<div class="ru-text">Её начальник очень занят в данный момент.</div>
+<div class="error-note">Артикль a перед busy не нужен. Устойчивое выражение — at the moment, а не on the moment.</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+<div class="answer">Her boss is very busy at the moment.</div>
+</li>
+<li class="rus-mode hidden-mode">
+<div class="ru-text">Эти слова новые для меня.</div>
+<div class="error-note">Ты добавил a перед new. Артикль a не ставится перед прилагательным без существительного после него.</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+<div class="answer">These words are new for me.</div>
+</li>
+<li class="rus-mode hidden-mode">
+<div class="ru-text">Твои примеры очень хорошие.</div>
+<div class="error-note">Ты написал example в единственном числе. Нужно examples; с ним используется are.</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+<div class="answer">Your examples are very good.</div>
+</li>
+<li class="section-title" style="border-left:0">Экзамен 2 — To Be Negative (86 фраз): 11 ошибок · ENG</li>
+<li class="eng-mode">
+<div class="en-text">I&#x27;m not married. I&#x27;m single.</div>
+<div class="error-note">Пропущено слово married — женат.</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+<div class="answer">— Я не женат. Я холост.</div>
+</li>
+<li class="eng-mode">
+<div class="en-text">I&#x27;m not a student. I work.</div>
+<div class="error-note">Перед student нужен артикль a: a student.</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+<div class="answer">— Я не студент. Я работаю.</div>
+</li>
+<li class="eng-mode">
+<div class="en-text">We aren&#x27;t tired. We&#x27;re full of energy.</div>
+<div class="error-note">Устойчивое выражение full of energy; нужен предлог of.</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+<div class="answer">— Мы не устали. Мы полны энергии.</div>
+</li>
+<li class="eng-mode">
+<div class="en-text">They aren&#x27;t my colleagues.</div>
+<div class="error-note">Нужно colleagues — коллеги; collegium здесь не подходит.</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+<div class="answer">— Они не мои коллеги.</div>
+</li>
+<li class="eng-mode">
+<div class="en-text">He isn&#x27;t old. He&#x27;s very young.</div>
+<div class="error-note">Лишний артикль a: правильно very young.</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+<div class="answer">— Он не старый. Он очень молодой.</div>
+</li>
+<li class="eng-mode">
+<div class="en-text">He isn&#x27;t in the city. He&#x27;s in another place.</div>
+<div class="error-note">Нужен артикль the: in the city.</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+<div class="answer">— Он не в городе. Он в другом месте.</div>
+</li>
+<li class="eng-mode">
+<div class="en-text">She isn&#x27;t with him. She&#x27;s with her / them / us.</div>
+<div class="error-note">В первой части нужно with him — с ним, а не with us — с нами.</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+<div class="answer">— Она не с ним. Она с ней / ними / нами.</div>
+</li>
+<li class="eng-mode">
+<div class="en-text">I prefer these lessons.</div>
+<div class="error-note">Prefer — обычный глагол; перед ним не используется am.</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+<div class="answer">— Я предпочитаю эти уроки.</div>
+</li>
+<li class="eng-mode">
+<div class="en-text">I&#x27;m full of ideas.</div>
+<div class="error-note">Устойчивое выражение full of — полный чего-либо; нужен предлог of.</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+<div class="answer">— Я полон идей.</div>
+</li>
+<li class="eng-mode">
+<div class="en-text">It isn&#x27;t such an important meeting.</div>
+<div class="error-note">Перед important нужен an: such an important meeting.</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+<div class="answer">— Это не такое важное совещание.</div>
+</li>
+<li class="eng-mode">
+<div class="en-text">We aren&#x27;t colleagues.</div>
+<div class="error-note">Перед существительным во множественном числе colleagues артикль a не ставится.</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать перевод</button>
+<div class="answer">— Мы не коллеги.</div>
+</li>
+<li class="section-title rus-mode hidden-mode" style="border-left:0">Экзамен 2 — To Be Negative (86 фраз): 11 ошибок · RUS</li>
+<li class="rus-mode hidden-mode">
+<div class="ru-text">Я не женат. Я холост.</div>
+<div class="error-note">Пропущено слово married — женат.</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+<div class="answer">I&#x27;m not married. I&#x27;m single.</div>
+</li>
+<li class="rus-mode hidden-mode">
+<div class="ru-text">Я не студент. Я работаю.</div>
+<div class="error-note">Перед student нужен артикль a: a student.</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+<div class="answer">I&#x27;m not a student. I work.</div>
+</li>
+<li class="rus-mode hidden-mode">
+<div class="ru-text">Мы не устали. Мы полны энергии.</div>
+<div class="error-note">Устойчивое выражение full of energy; нужен предлог of.</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+<div class="answer">We aren&#x27;t tired. We&#x27;re full of energy.</div>
+</li>
+<li class="rus-mode hidden-mode">
+<div class="ru-text">Они не мои коллеги.</div>
+<div class="error-note">Нужно colleagues — коллеги; collegium здесь не подходит.</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+<div class="answer">They aren&#x27;t my colleagues.</div>
+</li>
+<li class="rus-mode hidden-mode">
+<div class="ru-text">Он не старый. Он очень молодой.</div>
+<div class="error-note">Лишний артикль a: правильно very young.</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+<div class="answer">He isn&#x27;t old. He&#x27;s very young.</div>
+</li>
+<li class="rus-mode hidden-mode">
+<div class="ru-text">Он не в городе. Он в другом месте.</div>
+<div class="error-note">Нужен артикль the: in the city.</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+<div class="answer">He isn&#x27;t in the city. He&#x27;s in another place.</div>
+</li>
+<li class="rus-mode hidden-mode">
+<div class="ru-text">Она не с ним. Она с ней / ними / нами.</div>
+<div class="error-note">В первой части нужно with him — с ним, а не with us — с нами.</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+<div class="answer">She isn&#x27;t with him. She&#x27;s with her / them / us.</div>
+</li>
+<li class="rus-mode hidden-mode">
+<div class="ru-text">Я предпочитаю эти уроки.</div>
+<div class="error-note">Prefer — обычный глагол; перед ним не используется am.</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+<div class="answer">I prefer these lessons.</div>
+</li>
+<li class="rus-mode hidden-mode">
+<div class="ru-text">Я полон идей.</div>
+<div class="error-note">Устойчивое выражение full of — полный чего-либо; нужен предлог of.</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+<div class="answer">I&#x27;m full of ideas.</div>
+</li>
+<li class="rus-mode hidden-mode">
+<div class="ru-text">Это не такое важное совещание.</div>
+<div class="error-note">Перед important нужен an: such an important meeting.</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+<div class="answer">It isn&#x27;t such an important meeting.</div>
+</li>
+<li class="rus-mode hidden-mode">
+<div class="ru-text">Мы не коллеги.</div>
+<div class="error-note">Перед существительным во множественном числе colleagues артикль a не ставится.</div>
+<button class="btn-toggle" onclick="toggleAnswer(this)">Показать ответ</button>
+<div class="answer">We aren&#x27;t colleagues.</div>
+</li>
+</ul>
 </div>
-
 <script>
-    function setMode(mode) {
-        document.getElementById('btn-eng-rus').classList.remove('active');
-        document.getElementById('btn-rus-eng').classList.remove('active');
-        document.getElementById('btn-' + mode).classList.add('active');
-
-        var engModeItems = document.querySelectorAll('.eng-mode');
-        var rusModeItems = document.querySelectorAll('.rus-mode');
-
-        if (mode === 'eng-rus') {
-            engModeItems.forEach(item => item.classList.remove('hidden-mode'));
-            rusModeItems.forEach(item => item.classList.add('hidden-mode'));
-        } else {
-            engModeItems.forEach(item => item.classList.add('hidden-mode'));
-            rusModeItems.forEach(item => item.classList.remove('hidden-mode'));
-        }
-    }
-
-    function toggleAnswer(button) {
-        var answer = button.nextElementSibling;
-
-        if (answer.classList.contains('show')) {
-            answer.classList.remove('show');
-            button.textContent = 'Показать перевод';
-            button.style.backgroundColor = '#3182ce';
-        } else {
-            answer.classList.add('show');
-            button.textContent = 'Скрыть перевод';
-            button.style.backgroundColor = '#718096';
-        }
-    }
+function setMode(mode) {
+ document.getElementById('btn-eng-rus').classList.remove('active');
+ document.getElementById('btn-rus-eng').classList.remove('active');
+ document.getElementById('btn-'+mode).classList.add('active');
+ document.querySelectorAll('.eng-mode').forEach(x => x.classList.toggle('hidden-mode', mode !== 'eng-rus'));
+ document.querySelectorAll('.rus-mode').forEach(x => x.classList.toggle('hidden-mode', mode !== 'rus-eng'));
+ document.querySelectorAll('.section-title').forEach((x, i) => {
+   const isRus = x.classList.contains('rus-mode');
+   x.classList.toggle('hidden-mode', mode === 'eng-rus' ? isRus : !isRus);
+ });
+}
+function toggleAnswer(button) {
+ const answer = button.nextElementSibling;
+ const isRus = button.closest('.rus-mode') !== null;
+ if (answer.classList.contains('show')) {
+  answer.classList.remove('show');
+  button.textContent = isRus ? 'Показать ответ' : 'Показать перевод';
+  button.style.backgroundColor = '#3182ce';
+ } else {
+  answer.classList.add('show');
+  button.textContent = 'Скрыть';
+  button.style.backgroundColor = '#718096';
+ }
+}
 </script>
-
 </body>
 </html>
