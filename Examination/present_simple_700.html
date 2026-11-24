@@ -42,6 +42,27 @@ button,.btn{border:0;border-radius:7px;padding:11px 17px;font-size:.96em;font-we
 .result-en{font-weight:700;color:#2b6cb0}
 .back{display:inline-block;color:#fff;background:#4a5568;padding:9px 15px;border-radius:7px;text-decoration:none;margin-bottom:10px}
 @media(max-width:480px){body{padding:10px}.card{padding:14px}.groups{grid-template-columns:1fr}.prompt{font-size:1.17em}button,.btn{padding:11px 13px}}
+
+.prep-toolbar{display:flex;gap:9px;flex-wrap:wrap;margin:12px 0}
+.prep-search{width:100%;padding:12px 14px;border:2px solid #cbd5e0;border-radius:8px;font-size:1em;outline:none;margin:4px 0 10px}
+.prep-search:focus{border-color:#3182ce}
+.prep-empty{color:#718096;text-align:center;padding:18px;display:none}
+.prep-group{border:1px solid #dbeafe;border-radius:9px;margin:10px 0;background:#f8fbff;overflow:hidden}
+.prep-group summary{cursor:pointer;list-style:none;padding:13px 15px;font-weight:700;color:#1e5a96;background:#ebf5ff;display:flex;justify-content:space-between;gap:10px}
+.prep-group summary::-webkit-details-marker{display:none}
+.prep-group summary:after{content:'＋';color:#3182ce}
+.prep-group[open] summary:after{content:'−'}
+.prep-list{padding:8px 12px}
+.prep-item{background:#fff;border:1px solid #e2e8f0;border-radius:7px;padding:10px 12px;margin:8px 0}
+.prep-ru{font-weight:600;margin-bottom:7px}
+.prep-en{display:none;color:#2b6cb0;font-weight:700;margin-top:8px;padding-top:8px;border-top:1px dashed #bfdbfe}
+.prep-en.show{display:block}
+.prep-toggle{background:#e2e8f0;color:#334155;padding:7px 11px;font-size:.88em}
+.prep-mode.active{background:#2b6cb0;color:#fff}
+.prep-question{font-weight:600;margin-bottom:7px}
+.prep-answer{display:none;color:#2b6cb0;font-weight:700;margin-top:8px;padding-top:8px;border-top:1px dashed #bfdbfe}
+.prep-answer.show{display:block}
+
 </style>
 </head>
 <body>
@@ -51,6 +72,7 @@ button,.btn{border:0;border-radius:7px;padding:11px 17px;font-size:.96em;font-we
 <p class="subtitle">Практика перевода фраз с русского на английский</p>
 
 <section id="setup" class="card">
+  <div class="actions" style="margin-top:0;margin-bottom:14px"><button class="primary" type="button" onclick="openPreparation()">Подготовка к экзамену</button></div>
   <div class="note">
     Выбери один или несколько блоков. В экзамене будет по одной русской фразе за раз — введи перевод на английском и нажми «Проверить». В исходных файлах найдено 673 уникальные фразы; точные повторы удалены, недостающие фразы не выдумывались.
     Регистр букв и знаки препинания при проверке не учитываются.
@@ -64,6 +86,26 @@ button,.btn{border:0;border-radius:7px;padding:11px 17px;font-size:.96em;font-we
   <p id="selectedCount" class="muted"></p>
   <div class="actions">
     <button class="primary" type="button" onclick="startExam()">Начать экзамен</button>
+  </div>
+</section>
+
+<section id="preparation" class="card hidden">
+  <h2>Подготовка к экзамену — Present Simple</h2>
+  <div class="note">Открой нужный блок, прочитай русскую фразу и попробуй перевести её самостоятельно. Нажми «Показать ответ», чтобы проверить себя. Блоки можно разворачивать и сворачивать.</div>
+  <div class="prep-toolbar">
+    <button id="prepRuEn" class="secondary prep-mode active" type="button" onclick="setPrepDirection('ru-en')">RU → ENG</button>
+    <button id="prepEnRu" class="secondary prep-mode" type="button" onclick="setPrepDirection('en-ru')">ENG → RU</button>
+  </div>
+  <input id="prepSearch" class="prep-search" type="search" placeholder="Поиск по русским и английским фразам..." oninput="filterPreparation()" autocomplete="off">
+  <div class="prep-empty" id="prepNoResults">Ничего не найдено. Попробуй изменить запрос.</div>
+  <div class="prep-toolbar">
+    <button class="secondary" type="button" onclick="togglePrepGroups(true)">Развернуть все блоки</button>
+    <button class="secondary" type="button" onclick="togglePrepGroups(false)">Свернуть все блоки</button>
+  </div>
+  <div id="preparationGroups"></div>
+  <div class="actions">
+    <button class="primary" type="button" onclick="backToSetupFromPrep()">Перейти к экзамену</button>
+    <button class="secondary" type="button" onclick="backToSetupFromPrep()">Назад</button>
   </div>
 </section>
 
@@ -279,6 +321,74 @@ document.getElementById("answerInput").addEventListener("keydown", e => {
     checkAnswer();
   }
 });
+
+function openPreparation() {
+  document.getElementById("setup").classList.add("hidden");
+  document.getElementById("preparation").classList.remove("hidden");
+  renderPreparationGroups();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function backToSetupFromPrep() {
+  document.getElementById("preparation").classList.add("hidden");
+  document.getElementById("setup").classList.remove("hidden");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function togglePrepGroups(open) {
+  document.querySelectorAll("#preparationGroups details").forEach(d => { if (d.style.display !== 'none') d.open = open; });
+}
+function filterPreparation() {
+  const query = document.getElementById('prepSearch').value.trim().toLocaleLowerCase();
+  let total = 0;
+  document.querySelectorAll('#preparationGroups details').forEach(group => {
+    let visible = 0;
+    group.querySelectorAll('.prep-item').forEach(item => {
+      const match = !query || item.dataset.ru.toLocaleLowerCase().includes(query) || item.dataset.en.toLocaleLowerCase().includes(query);
+      item.style.display = match ? '' : 'none';
+      if (match) visible++;
+    });
+    group.style.display = visible ? '' : 'none';
+    if (query && visible) group.open = true;
+    total += visible;
+  });
+  document.getElementById('prepNoResults').style.display = total ? 'none' : 'block';
+}
+let prepDirection = 'ru-en';
+function setPrepDirection(direction) {
+  prepDirection = direction;
+  document.getElementById('prepRuEn').classList.toggle('active', direction === 'ru-en');
+  document.getElementById('prepEnRu').classList.toggle('active', direction === 'en-ru');
+  document.querySelectorAll('#preparationGroups .prep-item').forEach(item => {
+    item.querySelector('.prep-question').textContent = direction === 'ru-en' ? item.dataset.ru : item.dataset.en;
+    item.querySelector('.prep-answer').textContent = direction === 'ru-en' ? item.dataset.en : item.dataset.ru;
+    item.querySelector('.prep-answer').classList.remove('show');
+    item.querySelector('.prep-toggle').textContent = 'Показать ответ';
+  });
+}
+function renderPreparationGroups() {
+  const root = document.getElementById("preparationGroups");
+  if (root.dataset.rendered === "1") return;
+  root.innerHTML = phraseGroups.map((group, gi) => `
+    <details class="prep-group">
+      <summary><span>Блок ${escapeHtml(group.label)}</span><span class="muted">${group.phrases.length} фраз</span></summary>
+      <div class="prep-list">
+        ${group.phrases.map((p, pi) => `
+          <div class="prep-item" data-ru="${escapeHtml(p.ru)}" data-en="${escapeHtml(p.en)}">
+            <div class="prep-question">${pi+1}. ${escapeHtml(p.ru)}</div>
+            <button class="prep-toggle" type="button" onclick="togglePrepAnswer(this)">Показать ответ</button>
+            <div class="prep-answer">${escapeHtml(p.en)}</div>
+          </div>`).join("")}
+      </div>
+    </details>`).join("");
+  root.dataset.rendered = "1";
+  setPrepDirection(prepDirection);
+  filterPreparation();
+}
+function togglePrepAnswer(button) {
+  const answer = button.nextElementSibling;
+  const shown = answer.classList.toggle("show");
+  button.textContent = shown ? "Скрыть ответ" : "Показать ответ";
+}
+
 renderGroups();
 </script>
 </body>
