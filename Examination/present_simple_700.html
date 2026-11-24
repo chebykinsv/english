@@ -104,8 +104,9 @@ let currentWasExact = false;
 
 function normalize(value) {
   return value.toLowerCase()
+    .normalize("NFC")
     .replace(/[’‘`]/g, "'")
-    .replace(/[.,!?;:()[\]{}"“”]/g, "")
+    .replace(/[\p{P}\p{S}]/gu, "")
     .replace(/\s+/g, " ")
     .trim();
 }
@@ -203,6 +204,8 @@ function checkAnswer() {
       <div class="muted">Правильный ответ:</div>
       <div class="expected">${escapeHtml(q.en)}</div>`;
     recordMistake();
+    actions.innerHTML = `<button class="success" type="button" onclick="acceptCurrentAnswer()">Не считать ошибкой</button>`;
+    actions.classList.remove("hidden");
   }
 
   document.getElementById("checkBtn").textContent = "Следующая фраза →";
@@ -212,6 +215,16 @@ function recordMistake() {
   const q = questions[current];
   mistakes.push({...q, user: document.getElementById("answerInput").value.trim()});
   mistakeRecorded = true;
+  document.getElementById("scoreText").textContent = `Верно: ${correct} · Ошибки: ${mistakes.length}`;
+}
+function acceptCurrentAnswer() {
+  if (!checked || currentWasExact || !mistakeRecorded) return;
+  mistakes.pop();
+  mistakeRecorded = false;
+  currentWasExact = true;
+  correct++;
+  document.getElementById("feedback").innerHTML = `<div class="correct-text">✓ Ответ засчитан. Опечатка или допустимый вариант.</div>`;
+  document.getElementById("decisionActions").classList.add("hidden");
   document.getElementById("scoreText").textContent = `Верно: ${correct} · Ошибки: ${mistakes.length}`;
 }
 function nextQuestion() { current++; showQuestion(); }
