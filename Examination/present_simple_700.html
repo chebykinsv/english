@@ -138,7 +138,15 @@ function selectAll(value) {
 function startExam() {
   const selected = selectedGroups();
   if (!selected.length) { alert("Выбери хотя бы один блок фраз."); return; }
-  questions = selected.flatMap(i => phraseGroups[i].phrases.map(p => ({...p, group: phraseGroups[i].label})));
+  // Перемешиваем фразы отдельно внутри каждого выбранного блока.
+  questions = selected.flatMap(i => {
+    const shuffled = phraseGroups[i].phrases.map(p => ({...p, group: phraseGroups[i].label}));
+    for (let n = shuffled.length - 1; n > 0; n--) {
+      const j = Math.floor(Math.random() * (n + 1));
+      [shuffled[n], shuffled[j]] = [shuffled[j], shuffled[n]];
+    }
+    return shuffled;
+  });
   current = 0; correct = 0; mistakes = []; checked = false;
   document.getElementById("setup").classList.add("hidden");
   document.getElementById("results").classList.add("hidden");
