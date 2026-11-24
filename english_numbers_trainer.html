@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>English Numbers — изучение и тренажёр</title>
+<style>
+:root{--bg:#f4f7fb;--card:#fff;--text:#243247;--muted:#64748b;--blue:#2864c5;--blue2:#eaf2ff;--green:#16834b;--red:#c43d45;--border:#dce4ef;--shadow:0 8px 26px rgba(31,55,90,.08)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+header{background:linear-gradient(120deg,#173f7a,#3478d4);color:#fff;padding:28px 18px}
+.wrap{max-width:1000px;margin:auto;padding:0 16px}h1{font-size:clamp(26px,4vw,36px);margin:0 0 6px}header p{margin:0;color:#e5efff}
+nav{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}
+.tab{border:1px solid var(--border);background:#fff;color:var(--text);padding:10px 15px;border-radius:10px;cursor:pointer;font-weight:650}
+.tab.active{background:var(--blue);border-color:var(--blue);color:#fff}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;margin:14px 0;box-shadow:var(--shadow)}
+h2{margin:0 0 12px;font-size:23px}h3{margin:18px 0 8px;font-size:18px}.muted{color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.num{border:1px solid var(--border);border-radius:11px;padding:10px 12px;background:#fbfdff}
+.num strong{display:block;color:var(--blue);font-size:19px}.num span{font-weight:600}
+table{border-collapse:collapse;width:100%;margin:10px 0}th,td{border-bottom:1px solid var(--border);padding:9px 10px;text-align:left}th{background:#f0f5fc}
+.rules{background:#f7faff;border-left:4px solid var(--blue);padding:12px 15px;border-radius:8px;margin:12px 0}
+.pill{display:inline-block;background:var(--blue2);color:#2458a5;padding:3px 9px;border-radius:20px;font-size:13px;font-weight:700}
+button,select,input{font:inherit}button.primary{background:var(--blue);color:#fff;border:0;border-radius:9px;padding:11px 17px;font-weight:700;cursor:pointer}
+button.secondary{background:#eef2f7;color:#243247;border:1px solid var(--border);border-radius:9px;padding:10px 14px;cursor:pointer}
+button:disabled{opacity:.5;cursor:not-allowed}
+input[type=text]{width:100%;max-width:540px;border:2px solid #cbd5e1;border-radius:9px;padding:12px;font-size:18px}
+input:focus{outline:0;border-color:var(--blue)}
+.controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:12px 0}
+select{padding:9px 12px;border:1px solid var(--border);border-radius:9px;background:white}
+.prompt{font-size:clamp(30px,6vw,44px);font-weight:800;letter-spacing:.3px;margin:12px 0}
+.feedback{font-weight:750;margin:12px 0;min-height:28px}.good{color:var(--green)}.bad{color:var(--red)}
+.hidden{display:none!important}.progress{height:8px;background:#e8edf4;border-radius:20px;overflow:hidden;margin:12px 0}.bar{height:100%;background:var(--blue);width:0}
+.small{font-size:14px}.example{font-size:18px;font-weight:700}
+@media(max-width:600px){.card{padding:15px}table{font-size:14px}th,td{padding:7px 6px}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<h1>English Numbers</h1>
+<p>Изучай числа, запоминай закономерности и проверяй себя в тренажёре.</p>
+</div></header>
+<main class="wrap">
+<nav>
+<button class="tab active" data-tab="learn">Изучение</button>
+<button class="tab" data-tab="practice">Тренажёр</button>
+<button class="tab" data-tab="rules">Как запоминать</button>
+</nav>
+
+<section id="learn">
+<div class="card">
+<h2>1–10 — сначала выучи наизусть</h2>
+<p class="muted">Это основа. Произноси каждое число вслух и закрывай правую колонку, чтобы проверить себя.</p>
+<div class="grid" id="basicGrid"></div>
+</div>
+<div class="card">
+<h2>11–19 — числа с окончанием -teen</h2>
+<p class="muted">У большинства чисел этого ряда есть характерное окончание <b>-teen</b>. Обрати внимание: thirteen, fifteen, eighteen пишутся не совсем так, как можно ожидать.</p>
+<div class="grid" id="teensGrid"></div>
+</div>
+<div class="card">
+<h2>Десятки: 20–100</h2>
+<p class="muted">У десятков обычно окончание <b>-ty</b>. Не путай -teen (13–19) и -ty (30, 40, 50…).</p>
+<div class="grid" id="tensGrid"></div>
+<div class="rules"><b>Сравни:</b> thirteen — 13, thirty — 30; fourteen — 14, forty — 40; fifteen — 15, fifty — 50.</div>
+</div>
+<div class="card">
+<h2>Числа между десятками: 21–99</h2>
+<p>Сначала десяток, затем единица. Между ними ставится дефис.</p>
+<div class="grid">
+<div class="num"><strong>21</strong><span>twenty-one</span></div>
+<div class="num"><strong>34</strong><span>thirty-four</span></div>
+<div class="num"><strong>48</strong><span>forty-eight</span></div>
+<div class="num"><strong>57</strong><span>fifty-seven</span></div>
+<div class="num"><strong>62</strong><span>sixty-two</span></div>
+<div class="num"><strong>99</strong><span>ninety-nine</span></div>
+</div>
+</div>
+<div class="card">
+<h2>Сотни: 100–1 000</h2>
+<p class="muted">Схема простая: число от 1 до 9 + <b>hundred</b>.</p>
+<div class="grid" id="hundredsGrid"></div>
+<div class="rules">
+<b>Примеры:</b><br>
+105 — one hundred and five (британский вариант) / one hundred five (американский вариант)<br>
+230 — two hundred and thirty<br>
+468 — four hundred and sixty-eight<br>
+999 — nine hundred and ninety-nine
+</div>
+</div>
+</section>
+
+<section id="practice" class="hidden">
+<div class="card">
+<h2>Тренажёр чисел</h2>
+<p class="muted">На экране появится число. Напиши его словами на английском. Сначала выбери диапазон.</p>
+<div class="controls">
+<label>Диапазон:
+<select id="range">
+<option value="1-10">1–10</option>
+<option value="1-20">1–20</option>
+<option value="10-100">10–100</option>
+<option value="100-1000">100–1 000</option>
+<option value="1-1000" selected>1–1 000</option>
+</select></label>
+<label>Количество:
+<select id="total"><option>10</option><option selected>20</option><option>30</option><option>50</option></select></label>
+<button class="primary" id="startBtn">Начать тренировку</button>
+</div>
+<div id="quiz" class="hidden">
+<div class="small muted" id="counter"></div>
+<div class="progress"><div class="bar" id="bar"></div></div>
+<div class="prompt" id="question"></div>
+<input type="text" id="answer" lang="en" spellcheck="true" autocomplete="off" placeholder="Напиши число словами по-английски">
+<div class="controls">
+<button class="primary" id="checkBtn">Проверить</button>
+<button class="secondary" id="nextBtn">Следующее</button>
+</div>
+<div class="feedback" id="feedback" aria-live="polite"></div>
+<div class="small muted" id="hint"></div>
+</div>
+<div id="result" class="hidden"></div>
+</div>
+</section>
+
+<section id="rules" class="hidden">
+<div class="card">
+<h2>Как лучше запоминать числа</h2>
+<h3>1. Учить не весь ряд сразу, а группами</h3>
+<p>Сначала 1–10. Затем 11–19. После этого десятки 20–100. Только когда эти группы узнаются быстро, переходи к составным числам и сотням.</p>
+<h3>2. Различай -teen и -ty на слух и письменно</h3>
+<div class="grid">
+<div class="num"><strong>13 — thirteen</strong><span>окончание -teen</span></div>
+<div class="num"><strong>30 — thirty</strong><span>окончание -ty</span></div>
+<div class="num"><strong>15 — fifteen</strong><span>окончание -teen</span></div>
+<div class="num"><strong>50 — fifty</strong><span>окончание -ty</span></div>
+</div>
+<h3>3. Проговаривай числа вслух</h3>
+<p>Например: 24 — twenty-four; 36 — thirty-six; 82 — eighty-two. Проговаривай сначала медленно, затем в обычном темпе.</p>
+<h3>4. Используй короткие повторения</h3>
+<p>Лучше заниматься по 5–10 минут каждый день, чем пытаться выучить все числа за один раз. Возвращайся к уже пройденным группам на следующий день, через 3 дня и через неделю.</p>
+<h3>5. Учись в обе стороны</h3>
+<p>Не только смотри на 47 и вспоминай forty-seven, но и читай forty-seven и быстро называй 47. В этом тренажёре пока основной режим — перевод цифр в английские слова.</p>
+</div>
+</section>
+</main>
+<script>
+const basics=["one","two","three","four","five","six","seven","eight","nine","ten"];
+const teens=["eleven","twelve","thirteen","fourteen","fifteen","sixteen","seventeen","eighteen","nineteen"];
+const tens={20:"twenty",30:"thirty",40:"forty",50:"fifty",60:"sixty",70:"seventy",80:"eighty",90:"ninety",100:"one hundred"};
+const ones=["","one","two","three","four","five","six","seven","eight","nine"];
+const tensWords=["","","twenty","thirty","forty","fifty","sixty","seventy","eighty","ninety"];
+function tile(n,w){return `<div class="num"><strong>${n}</strong><span>${w}</span></div>`}
+document.getElementById("basicGrid").innerHTML=basics.map((w,i)=>tile(i+1,w)).join("");
+document.getElementById("teensGrid").innerHTML=teens.map((w,i)=>tile(i+11,w)).join("");
+document.getElementById("tensGrid").innerHTML=Object.entries(tens).map(([n,w])=>tile(n,w)).join("");
+document.getElementById("hundredsGrid").innerHTML=Array.from({length:10},(_,i)=>tile(i===9?"1,000":(i+1)*100,(i===9?"one thousand":ones[i+1]+" hundred"))).join("");
+function numberWords(n,british=true){
+ if(n===1000)return "one thousand";
+ if(n<10)return ones[n];
+ if(n<20)return teens[n-11];
+ if(n<100){let t=Math.floor(n/10),o=n%10;return tensWords[t]+(o?"-"+ones[o]:"");}
+ let h=Math.floor(n/100),r=n%100;
+ if(!r)return ones[h]+" hundred";
+ return ones[h]+" hundred"+(british?" and ":" ")+numberWords(r,british);
+}
+function norm(s){return s.toLowerCase().trim().replace(/[’']/g,"").replace(/[-–—,.;:!?]/g," ").replace(/\band\b/g," ").replace(/\s+/g," ");}
+let questions=[],index=0,score=0,checked=false,missed=[];
+const $=id=>document.getElementById(id);
+document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>{
+ document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x===b));
+ ["learn","practice","rules"].forEach(id=>$(id).classList.toggle("hidden",id!==b.dataset.tab));
+}));
+function randInt(min,max){return Math.floor(Math.random()*(max-min+1))+min}
+$("startBtn").onclick=()=>{
+ let [min,max]=$("range").value.split("-").map(Number),total=Number($("total").value);
+ questions=Array.from({length:total},()=>{let n=randInt(min,max);return {n,answer:numberWords(n,true),us:numberWords(n,false)}});
+ index=0;score=0;checked=false;missed=[];
+ $("result").classList.add("hidden");$("quiz").classList.remove("hidden");showQuestion();
+};
+function showQuestion(){
+ checked=false;$("counter").textContent=`Вопрос ${index+1} из ${questions.length} · Верно: ${score}`;
+ $("bar").style.width=(index/questions.length*100)+"%";$("question").textContent=questions[index].n.toLocaleString("en-US");
+ $("answer").value="";$("answer").disabled=false;$("feedback").textContent="";$("feedback").className="feedback";$("hint").textContent="";
+ $("checkBtn").disabled=false;$("nextBtn").disabled=true;$("answer").focus();
+}
+function check(){
+ if(checked)return;
+ let q=questions[index],v=norm($("answer").value),a=norm(q.answer),us=norm(q.us);
+ if(!v){$("feedback").textContent="Напиши ответ перед проверкой.";return;}
+ checked=true;$("answer").disabled=true;$("checkBtn").disabled=true;$("nextBtn").disabled=false;
+ if(v===a||v===us){score++;$("feedback").textContent="✓ Верно!";$("feedback").className="feedback good";}
+ else{missed.push({n:q.n,answer:q.answer,user:$("answer").value});$("feedback").textContent="✗ Ошибка. Правильно: "+q.answer;$("feedback").className="feedback bad";}
+ $("counter").textContent=`Вопрос ${index+1} из ${questions.length} · Верно: ${score}`;
+}
+function next(){
+ if(!checked)return;
+ index++;
+ if(index>=questions.length){finish();return;}
+ showQuestion();
+}
+function finish(){
+ $("quiz").classList.add("hidden");$("result").classList.remove("hidden");$("bar").style.width="100%";
+ let pct=Math.round(score/questions.length*100);
+ $("result").innerHTML=`<h3>Тренировка завершена</h3><p class="example">Результат: ${score} из ${questions.length} (${pct}%)</p>`+
+ (missed.length?`<h3>Повтори эти числа</h3><table><tr><th>Число</th><th>Правильный ответ</th><th>Твой ответ</th></tr>${missed.map(m=>`<tr><td>${m.n}</td><td>${m.answer}</td><td>${m.user||"—"}</td></tr>`).join("")}</table>`:`<p class="good"><b>Отлично! Все ответы верные.</b></p>`)+
+ `<button class="primary" onclick="document.getElementById('startBtn').click()">Пройти ещё раз</button>`;
+}
+$("checkBtn").onclick=check;$("nextBtn").onclick=next;
+$("answer").addEventListener("keydown",e=>{if(e.key==="Enter"){if(!checked)check();else next();}});
+</script>
+</body>
+</html>
