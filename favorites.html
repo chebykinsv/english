@@ -37,11 +37,22 @@ h1{font-size:27px}
 <main>
 <h1>Избранные фразы ⭐</h1>
 <div id="count">Загрузка...</div>
-<div class="exam-launch">
- <p>Проверь, насколько хорошо помнишь сохранённые фразы. Экзамен откроется на отдельной странице.</p>
- <a href="/favorites_exam.html">📝 Начать экзамен по избранному</a>
-</div>
-<div id="list"></div>
+<nav class="tabs">
+ <button type="button" class="tab active" id="favoritesTab">⭐ Избранное</button>
+ <button type="button" class="tab" id="examTab">📝 Экзамен</button>
+</nav>
+<section id="favoritesPanel">
+ <div id="list"></div>
+</section>
+<section id="examPanel" hidden>
+ <div class="exam-intro">
+  <h2>Экзамен по избранным фразам</h2>
+  <p>Переводи фразы с русского на английский. Во время экзамена список избранного скрыт.</p>
+  <button class="primary" id="startExam" type="button">Начать экзамен</button>
+  <button class="secondary" id="retryErrors" type="button" hidden>Повторить ошибки</button>
+ </div>
+ <div id="examArea" aria-live="polite"></div>
+</section>
 </main>
 <script>
 const list=document.getElementById('list');
@@ -70,6 +81,7 @@ async function load(){
  try{
   const data=await request('/api/favorites');
   const items=data.favorites;
+  favoriteItems=items;
   count.textContent='Всего фраз: '+items.length;
   list.replaceChildren();
   if(!items.length){
@@ -109,6 +121,76 @@ async function load(){
   }
  }catch(e){count.textContent=e.message}
 }
+
+
+let favoriteItems=[];
+let examItems=[];
+let examIndex=0;
+let examCorrect=0;
+let examMistakes=[];
+let examAnswered=false;
+
+function showTab(tab){
+ const favoritesActive=tab==='favorites';
+ document.getElementById('favoritesPanel').hidden=!favoritesActive;
+ document.getElementById('examPanel').hidden=favoritesActive;
+ document.getElementById('favoritesTab').classList.toggle('active',favoritesActive);
+ document.getElementById('examTab').classList.toggle('active',!favoritesActive);
+}
+document.getElementById('favoritesTab').addEventListener('click',()=>showTab('favorites'));
+document.getElementById('examTab').addEventListener('click',()=>showTab('exam'));
+
+function normalizeAnswer(value){
+ return String(value||'').toLowerCase().trim().replace(/[’‘]/g,"'").replace(/[.,!?;:]+$/g,'').replace(/\s+/g,' ');
+}
+function startExam(items){
+ if(!items.length){alert('В избранном пока нет фраз.');return;}
+ examItems=[...items]; examIndex=0; examCorrect=0; examMistakes=[]; examAnswered=false;
+ showTab('exam');
+ renderExamQuestion();
+}
+function renderExamQuestion(){
+ const area=document.getElementById('examArea');
+ if(examIndex>=examItems.length){renderExamResult();return;}
+ const item=examItems[examIndex]; examAnswered=false; area.replaceChildren();
+ const card=document.createElement('div'); card.className='exam-card';
+ const progress=document.createElement('div'); progress.className='exam-progress'; progress.textContent=`Вопрос ${examIndex+1} из ${examItems.length}`;
+ const prompt=document.createElement('div'); prompt.className='exam-prompt'; prompt.textContent=item.translation;
+ const label=document.createElement('label'); label.htmlFor='examAnswer'; label.textContent='Напиши перевод на английском:';
+ const input=document.createElement('input'); input.className='exam-input'; input.id='examAnswer'; input.type='text'; input.autocomplete='off'; input.placeholder='Твой ответ на английском';
+ const feedback=document.createElement('div');
+ const actions=document.createElement('div'); actions.className='exam-actions';
+ const check=document.createElement('button'); check.className='primary'; check.textContent='Проверить';
+ const next=document.createElement('button'); next.className='primary'; next.textContent=examIndex===examItems.length-1?'Завершить':'Следующая фраза'; next.hidden=true;
+ check.addEventListener('click',()=>{
+  if(examAnswered)return;
+  if(!normalizeAnswer(input.value)){input.focus();return;}
+  examAnswered=true;
+  const correct=normalizeAnswer(input.value)===normalizeAnswer(item.phrase);
+  feedback.className='exam-feedback '+(correct?'good':'bad');
+  if(correct){examCorrect++;feedback.textContent='Верно! Отлично.';}
+  else{examMistakes.push(item);feedback.textContent='Ошибка. Правильный ответ: '+item.phrase;}
+  input.disabled=true;check.hidden=true;next.hidden=false;next.focus();
+ });
+ input.addEventListener('keydown',e=>{if(e.key==='Enter'){if(!examAnswered)check.click();else next.click();}});
+ next.addEventListener('click',()=>{examIndex++;renderExamQuestion();});
+ actions.append(check,next); card.append(progress,prompt,label,input,feedback,actions); area.append(card); input.focus();
+}
+function renderExamResult(){
+ const area=document.getElementById('examArea'); area.replaceChildren();
+ const result=document.createElement('div'); result.className='exam-result';
+ const title=document.createElement('h2'); title.textContent='Экзамен завершён';
+ const summary=document.createElement('p'); summary.textContent=`Результат: ${examCorrect} из ${examItems.length} · ${Math.round(examCorrect/examItems.length*100)}%`;
+ result.append(title,summary);
+ const retry=document.getElementById('retryErrors'); retry.hidden=!examMistakes.length; retry.textContent=`Повторить ошибки (${examMistakes.length})`;
+ if(examMistakes.length){
+  const heading=document.createElement('h3'); heading.textContent='Фразы для повторения:'; result.append(heading);
+  examMistakes.forEach(item=>{const line=document.createElement('div');line.className='exam-error';line.textContent=item.translation+' — '+item.phrase;result.append(line);});
+ }else{const success=document.createElement('p');success.textContent='Ошибок нет. Отличная работа!';result.append(success);}
+ const again=document.createElement('button');again.className='secondary';again.textContent='Пройти всё избранное ещё раз';again.addEventListener('click',()=>startExam(favoriteItems));result.append(again);area.append(result);
+}
+document.getElementById('startExam').addEventListener('click',()=>startExam(favoriteItems));
+document.getElementById('retryErrors').addEventListener('click',()=>startExam(examMistakes));
 
 document.getElementById('logout').addEventListener('click',async()=>{
  try{
