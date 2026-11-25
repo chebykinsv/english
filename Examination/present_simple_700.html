@@ -63,10 +63,20 @@ button,.btn{border:0;border-radius:7px;padding:11px 17px;font-size:.96em;font-we
 .prep-answer{display:none;color:#2b6cb0;font-weight:700;margin-top:8px;padding-top:8px;border-top:1px dashed #bfdbfe}
 .prep-answer.show{display:block}
 
+
+.fav-top{display:flex;justify-content:flex-end;margin:0 0 12px}
+.fav-link{display:inline-block;background:#fff;color:#2b6cb0;border:1px solid #bfdbfe;border-radius:7px;padding:9px 13px;text-decoration:none;font-weight:650}
+.fav-star{background:#fff7d6;color:#9a6700;border:1px solid #f4d06f;border-radius:7px;padding:6px 10px;font-size:1.05em;line-height:1;min-width:38px}
+.fav-star.saved{background:#fff0b3;color:#8a5700;border-color:#eab308}
+.prep-fav-row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.exam-fav-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:12px 0}
+.exam-fav-row .muted{margin:0}
+
 </style>
 </head>
 <body>
 <div class="container">
+<div class="fav-top"><a class="fav-link" href="/favorites.html">⭐ Избранное</a></div>
 <a class="back" href="../index.html">← Назад</a>
 <h1>Экзамен Present Simple</h1>
 <p class="subtitle">Практика перевода фраз с русского на английский</p>
@@ -113,7 +123,7 @@ button,.btn{border:0;border-radius:7px;padding:11px 17px;font-size:.96em;font-we
   <div class="counter"><span id="progressText">Фраза 1 из 100</span><span id="scoreText">Верно: 0 · Ошибки: 0</span></div>
   <div class="progress-line"><div id="progressFill" class="progress-fill"></div></div>
   <div class="muted" id="blockLabel"></div>
-  <div class="prompt" id="prompt"></div>
+  <div class="exam-fav-row"><div class="prompt" id="prompt" style="margin:0"></div><button id="examFavoriteBtn" class="fav-star" type="button" title="Добавить в избранное" aria-label="Добавить в избранное">☆</button></div>
   <input id="answerInput" class="answer-input" type="text" lang="en" spellcheck="true" autocomplete="off" autocapitalize="off" placeholder="Напиши перевод на английском">
   <div class="actions">
     <button id="checkBtn" class="primary" type="button" onclick="checkAnswer()">Проверить</button>
@@ -373,7 +383,10 @@ function renderPreparationGroups() {
       <div class="prep-list">
         ${group.phrases.map((p, pi) => `
           <div class="prep-item" data-ru="${escapeHtml(p.ru)}" data-en="${escapeHtml(p.en)}">
-            <div class="prep-question">${pi+1}. ${escapeHtml(p.ru)}</div>
+            <div class="prep-fav-row">
+              <div class="prep-question">${pi+1}. ${escapeHtml(p.ru)}</div>
+              <button class="fav-star" type="button" data-fav-en="${escapeHtml(p.en)}" data-fav-ru="${escapeHtml(p.ru)}" title="Добавить в избранное" aria-label="Добавить в избранное">☆</button>
+            </div>
             <button class="prep-toggle" type="button" onclick="togglePrepAnswer(this)">Показать ответ</button>
             <div class="prep-answer">${escapeHtml(p.en)}</div>
           </div>`).join("")}
@@ -389,7 +402,120 @@ function togglePrepAnswer(button) {
   button.textContent = shown ? "Скрыть ответ" : "Показать ответ";
 }
 
+
+// Серверное избранное: единая база для всех уроков.
+let serverFavorites = [];
+
+function favoriteKey(phrase, translation) {
+  return String(phrase) + "\u0000" + String(translation) + "\u0000" + location.pathname;
+}
+function isFavorite(phrase, translation) {
+  return serverFavorites.some(item =>
+    item.phrase === phrase &&
+    item.translation === translation &&
+    item.lesson_url === location.pathname
+  );
+}
+function updateFavoriteButtons() {
+  document.querySelectorAll(".prep-item .fav-star").forEach(button => {
+    const saved = isFavorite(button.dataset.favEn, button.dataset.favRu);
+    button.textContent = saved ? "★" : "☆";
+    button.classList.toggle("saved", saved);
+    button.title = saved ? "Удалить из избранного" : "Добавить в избранное";
+    button.setAttribute("aria-label", button.title);
+  });
+  const q = questions[current];
+  const button = document.getElementById("examFavoriteBtn");
+  if (button && q) {
+    const saved = isFavorite(q.en, q.ru);
+    button.textContent = saved ? "★" : "☆";
+    button.classList.toggle("saved", saved);
+    button.title = saved ? "Удалить из избранного" : "Добавить в избранное";
+    button.setAttribute("aria-label", button.title);
+  }
+}
+async function loadServerFavorites() {
+  try {
+    const response = await fetch("/api/favorites", {credentials:"same-origin"});
+    if (response.status === 401) { serverFavorites = []; updateFavoriteButtons(); return; }
+    if (!response.ok) throw new Error("Не удалось загрузить избранное");
+    const data = await response.json();
+    serverFavorites = Array.isArray(data) ? data : (data.favorites || []);
+    updateFavoriteButtons();
+  } catch (error) {
+    console.error("Favorites load:", error);
+  }
+}
+function redirectToLogin() {
+  const next = location.pathname + location.search + location.hash;
+  location.href = "/login.html?next=" + encodeURIComponent(next);
+}
+async function getFreshCsrfToken() {
+  const response = await fetch("/api/auth/csrf", {credentials:"same-origin"});
+  if (response.status === 401) { redirectToLogin(); throw new Error("Требуется вход"); }
+  if (!response.ok) throw new Error("Не удалось получить CSRF-токен");
+  const data = await response.json();
+  return data.csrf_token || data.token || data.csrf;
+}
+async function toggleServerFavorite(phrase, translation, button) {
+  if (button) button.disabled = true;
+  try {
+    // Проверяем сессию заново: вкладка могла остаться открытой после выхода.
+    const me = await fetch("/api/auth/me", {credentials:"same-origin"});
+    if (me.status === 401) { redirectToLogin(); return; }
+    if (!me.ok) throw new Error("Не удалось проверить авторизацию");
+
+    const existing = serverFavorites.find(item =>
+      item.phrase === phrase &&
+      item.translation === translation &&
+      item.lesson_url === location.pathname
+    );
+    const csrf = await getFreshCsrfToken();
+    let response;
+    if (existing) {
+      response = await fetch("/api/favorites/" + encodeURIComponent(existing.id), {
+        method:"DELETE",
+        credentials:"same-origin",
+        headers:{"X-CSRF-Token":csrf}
+      });
+    } else {
+      response = await fetch("/api/favorites", {
+        method:"POST",
+        credentials:"same-origin",
+        headers:{"Content-Type":"application/json","X-CSRF-Token":csrf},
+        body:JSON.stringify({
+          phrase,
+          translation,
+          lesson_title:document.title,
+          lesson_url:location.pathname
+        })
+      });
+    }
+    if (response.status === 401) { redirectToLogin(); return; }
+    if (!response.ok) {
+      const message = await response.text();
+      throw new Error(message || "Ошибка сохранения избранного");
+    }
+    await loadServerFavorites();
+  } catch (error) {
+    console.error("Favorites update:", error);
+    alert("Не удалось обновить избранное. " + (error.message || ""));
+  } finally {
+    if (button) button.disabled = false;
+  }
+}
+document.addEventListener("click", event => {
+  const button = event.target.closest(".prep-item .fav-star");
+  if (!button) return;
+  toggleServerFavorite(button.dataset.favEn, button.dataset.favRu, button);
+});
+document.getElementById("examFavoriteBtn").addEventListener("click", event => {
+  const q = questions[current];
+  if (q) toggleServerFavorite(q.en, q.ru, event.currentTarget);
+});
+
 renderGroups();
+loadServerFavorites();
 </script>
 </body>
 </html>
