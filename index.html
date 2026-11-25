@@ -27,6 +27,36 @@
             max-width: 950px;
             width: 100%;
         }
+        .account-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin: -4px 0 12px;
+        }
+        .account-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 9px 14px;
+            border-radius: 8px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.9em;
+            font-weight: 600;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+        .login-link { background: #2b6cb0; }
+        .logout-link { background: #c53030; border: 0; cursor: pointer; font-family: inherit; }
+        .logout-link:hover { background: #9b2c2c; }
+        .favorites-link { background: #4a5568; }
+        .account-link:hover { background: #718096; transform: translateY(-1px); }
+        .account-link[hidden] { display: none; }
+        .account-link:active { transform: translateY(1px); }
+        @media (max-width: 650px) {
+            .account-actions { margin-bottom: 10px; }
+            .account-link { flex: 1; padding: 10px 8px; }
+        }
+
         h1 {
             text-align: center;
             color: #63b3ed;
@@ -152,6 +182,11 @@
 <body>
 
 <div class="menu-container">
+    <div class="account-actions">
+        <a href="/login.html" class="account-link login-link" id="loginButton">🔐 Войти</a>
+        <button type="button" class="account-link logout-link" id="logoutButton" hidden>🚪 Выйти</button>
+        <a href="/favorites.html" class="account-link favorites-link">⭐ Избранное</a>
+    </div>
     <h1>📚 Мои уроки</h1>
 
     <div class="columns-wrapper">
@@ -316,6 +351,52 @@
 </div>
 
 <script>
+    // Показываем «Войти» или «Выйти» в зависимости от активной сессии.
+    (async function setupAccountButtons() {
+        const loginButton = document.getElementById("loginButton");
+        const logoutButton = document.getElementById("logoutButton");
+
+        try {
+            const response = await fetch("/api/auth/me", {
+                method: "GET",
+                credentials: "same-origin",
+                cache: "no-store"
+            });
+            const authenticated = response.ok;
+            loginButton.hidden = authenticated;
+            logoutButton.hidden = !authenticated;
+        } catch (error) {
+            loginButton.hidden = false;
+            logoutButton.hidden = true;
+        }
+
+        logoutButton.addEventListener("click", async function () {
+            logoutButton.disabled = true;
+            logoutButton.textContent = "Выходим…";
+            try {
+                const csrfResponse = await fetch("/api/auth/csrf", {
+                    method: "GET",
+                    credentials: "same-origin",
+                    cache: "no-store"
+                });
+                if (!csrfResponse.ok) throw new Error("CSRF request failed");
+                const csrfData = await csrfResponse.json();
+
+                const response = await fetch("/api/auth/logout", {
+                    method: "POST",
+                    credentials: "same-origin",
+                    headers: { "X-CSRF-Token": csrfData.csrf_token }
+                });
+                if (!response.ok) throw new Error("Logout failed");
+                location.reload();
+            } catch (error) {
+                alert("Не удалось выйти. Обновите страницу и попробуйте ещё раз.");
+                logoutButton.disabled = false;
+                logoutButton.textContent = "🚪 Выйти";
+            }
+        });
+    })();
+
     // Логика для аккордеонов
     var acc = document.getElementsByClassName("accordion-btn");
     var i;
