@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Present Simple — To Be: сложные вопросы</title>
+<link rel="icon" href="favicon-english.ico" sizes="any">
+<link rel="icon" type="image/png" href="favicon-english.png">
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:'Segoe UI',Tahoma,sans-serif;line-height:1.55;margin:0;padding:14px;background:#f0f4f8;color:#333}
+.container{max-width:900px;margin:auto}
+h1{text-align:center;color:#2c3e50;font-size:1.35em;margin:4px 0 18px}
+h2{color:#2b6cb0;border-bottom:2px solid #3182ce;padding-bottom:6px;font-size:1.12em}
+h3{color:#2b6cb0;margin:8px 0}
+.nav,.actions,.mode{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:14px 0}
+button,.tab{border:0;border-radius:8px;padding:10px 14px;font:inherit;cursor:pointer;min-height:40px}
+.tab{background:#dce7f3;color:#244766;font-weight:600}
+.tab.active,.primary{background:#3182ce;color:white}
+.secondary{background:#e2e8f0;color:#334155}
+.panel{display:none}.panel.active{display:block}
+.card{background:#fff;border-radius:10px;padding:14px;margin:10px 0;box-shadow:0 2px 6px #0000000c}
+.rule{border-left:5px solid #3182ce}
+.example{background:#f7faff;padding:10px;border-radius:7px;margin:8px 0}
+.search{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:8px;font:inherit;margin:8px 0 12px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+select,input[type=text]{padding:10px;border:1px solid #cbd5e1;border-radius:8px;font:inherit;max-width:100%}
+#answer{display:block;width:100%;min-width:0;min-height:48px;padding:12px 14px;margin:10px 0;font-size:1rem}
+.en{font-weight:700;color:#263b53}.ru{color:#2b6cb0;margin-top:8px}
+.hidden{display:none!important}.muted{color:#64748b;font-size:.92em}
+.stat{display:flex;gap:12px;flex-wrap:wrap;color:#475569;font-size:.94em}
+.progress{height:8px;background:#e2e8f0;border-radius:20px;overflow:hidden;margin:12px 0}
+.progress>div{height:100%;background:#3182ce;width:0}
+.exam-question{font-size:1.2em;font-weight:700;margin:18px 0}
+.feedback{padding:10px;border-radius:8px;margin-top:10px}
+.good{background:#dcfce7;color:#166534}.bad{background:#fee2e2;color:#991b1b}
+.back{text-align:center;margin:28px auto 12px}
+.back a{display:inline-block;background:#3182ce;color:#fff;text-decoration:none;padding:11px 25px;border-radius:8px;font-weight:600}
+@media(max-width:480px){body{padding:10px}.tab{flex:1;padding:9px 7px}.card{padding:12px}}
+
+/* Единое оформление как в странице To Be — общие вопросы */
+body{padding:14px;background:#f0f4f8;color:#333}
+.container{max-width:900px;margin:auto}
+h1{font-size:1.35em;color:#2c3e50;margin:4px 0 8px}
+.subtitle{color:#64748b;margin:0 0 16px}
+.nav,.mode,.actions{gap:8px;margin:14px 0}
+.tab,.mode-btn,button{border-radius:8px;padding:10px 14px;min-height:40px;font-weight:600}
+.tab{background:#dce7f3;color:#244766}
+.tab.active,.primary{background:#3182ce;color:#fff}
+.card,.rule-box{background:#fff;border-radius:10px;padding:14px;margin:10px 0;box-shadow:0 2px 6px #0000000c}
+.rule{border-left:5px solid #3182ce}
+h2{color:#2b6cb0;border-bottom:2px solid #3182ce;padding-bottom:6px;font-size:1.12em}
+h3{color:#2b6cb0;margin:8px 0}
+.example{background:#f7faff;padding:10px;border-radius:7px;margin:8px 0}
+.search{border:1px solid #cbd5e1;border-radius:8px}
+.en{font-weight:700;color:#263b53}
+.ru{color:#2b6cb0;margin-top:8px}
+.secondary{background:#e2e8f0;color:#334155}
+#answer{display:block;width:100%;min-width:0;min-height:46px;padding:12px 14px;margin:10px 0;font-size:1rem}
+.exam-question{font-size:1.2em;color:#263b53}
+.feedback{border-radius:8px}
+.back{text-align:center;margin:22px auto 10px}
+.back a{display:inline-block;background:#3182ce;color:#fff;text-decoration:none;padding:11px 25px;border-radius:8px;font-weight:600}
+.back-top-wrap{text-align:left;margin:0 0 10px}
+.back-top{display:inline-flex;align-items:center;gap:7px;background:#e2e8f0;color:#244766;text-decoration:none;padding:9px 14px;border-radius:8px;font-weight:600}
+.back-top:hover{background:#cbd5e1}
+@media(max-width:480px){body{padding:10px}.tab{flex:1;padding:9px 7px}.exam-question{font-size:1.1em}}
+
+
+/* Рамка для каждой фразы в тренажёре */
+#trainerList .card{
+  background:#fff;
+  border:1px solid #d7e2ef;
+  border-left:5px solid #3182ce;
+  border-radius:8px;
+  padding:12px 14px;
+  margin:0 0 10px;
+  box-shadow:0 2px 6px #0000000c;
+}
+#trainerList .en{display:block;margin-bottom:9px}
+#trainerList .reveal{border-radius:8px}
+
+ 
+/* Группы вопросов как в tobe_general_questions */
+.section-title{background:#3182ce;color:#fff;padding:8px 14px;border-radius:6px;margin:18px 0 12px;text-align:center;font-weight:700}
+#trainerList .card{background:#fff;border:1px solid #d7e2ef;border-left:5px solid #3182ce;border-radius:8px;padding:12px 14px;margin:0 0 10px;box-shadow:0 2px 6px #0000000c}
+
+</style>
+</head>
+<body><div class="container">
+<div class="back-top-wrap"><a class="back-top" href="index.html">← Назад</a></div>
+<h1>Present Simple — To Be: сложные вопросы</h1>
+<div class="nav">
+<button class="tab active" data-tab="theory">Теория</button>
+<button class="tab" data-tab="trainer">Тренажёр</button>
+<button class="tab" data-tab="exam">Экзамен</button>
+</div>
+
+<section id="theory" class="panel active">
+<h2>Теория</h2>
+<div class="card rule">
+<h3>Вопросы с глаголом To Be</h3>
+<p>В этом уроке отрабатываем вопросы в Present Simple с глаголом <b>to be</b>. В вопросе форма <b>am / are / is</b> ставится перед подлежащим.</p>
+<div class="example">
+<b>Am I ...?</b> — Я ...?<br>
+<b>Are we / you / they ...?</b> — Мы / ты, вы / они ...?<br>
+<b>Is he / she / it ...?</b> — Он / она / это ...?
+</div>
+</div>
+<div class="card rule">
+<h3>Как выбрать форму?</h3>
+<div class="example">
+<b>Am</b> — I<br>
+<b>Are</b> — we, you, they и существительные во множественном числе<br>
+<b>Is</b> — he, she, it и существительные в единственном числе
+</div>
+<p>С существительными ориентируйтесь на число: <b>the computer — is</b>, <b>the computers — are</b>.</p>
+</div>
+<div class="card rule">
+<h3>Порядок слов</h3>
+<p>Схема вопроса: <b>Am / Are / Is + подлежащее + остальная часть предложения?</b></p>
+<div class="example">
+<b>Is the game interesting?</b><br>
+<b>Are the computers old?</b><br>
+<b>Is your father at work?</b>
+</div>
+<p class="muted">В этих вопросах не используются do / does: вопрос образуется перестановкой глагола to be и подлежащего.</p>
+</div>
+<div class="card">
+<h3>Материал урока</h3>
+<p>В тренажёре и экзамене — 90 вопросов со скриншотов. Формулировки английских вопросов сохранены.</p>
+</div>
+</section>
+
+<section id="trainer" class="panel">
+<h2>Тренажёр</h2>
+<div class="mode"><button class="tab active" id="tEn">ENG → RU</button><button class="tab" id="tRu">RU → ENG</button></div>
+<input id="search" class="search" type="search" placeholder="Поиск по английским и русским фразам...">
+<div class="muted" id="count"></div>
+<div id="trainerList"></div>
+</section>
+
+<section id="exam" class="panel">
+<h2>Экзамен</h2>
+<div id="setup" class="card">
+<p>90 вопросов разделены на блоки по 10. Можно выбрать отдельный блок или весь набор. Вопросы идут по одному в случайном порядке.</p>
+<div class="row" style="margin-top:12px">
+<label for="examMode">Направление:</label>
+<select id="examMode"><option value="ru">RU → ENG</option><option value="en">ENG → RU</option></select>
+<label for="examRange">Блок вопросов:</label>
+<select id="examRange"><option value="all">Все 90 вопросов</option>
+<option value="1-10">1–10</option><option value="11-20">11–20</option><option value="21-30">21–30</option>
+<option value="31-40">31–40</option><option value="41-50">41–50</option><option value="51-60">51–60</option>
+<option value="61-70">61–70</option><option value="71-80">71–80</option><option value="81-90">81–90</option></select>
+<label for="amount">Количество:</label>
+<select id="amount"><option value="all">Все выбранные</option><option value="10">10</option><option value="20">20</option><option value="30">30</option></select>
+</div>
+<div class="actions"><button class="primary" id="start">Начать экзамен</button></div>
+</div>
+<div id="run" class="card hidden">
+<div class="stat"><span id="progressText"></span><span id="score"></span></div>
+<div class="progress"><div id="bar"></div></div>
+<div id="question" class="exam-question"></div>
+<input type="text" id="answer" lang="en" spellcheck="true" autocomplete="off" placeholder="Введите перевод...">
+<div class="actions"><button class="primary" id="check">Проверить</button><button class="secondary hidden" id="next">Следующий вопрос</button></div>
+<div id="feedback"></div>
+</div>
+<div id="done" class="card hidden">
+<h3>Экзамен завершён</h3><p id="result"></p>
+<div class="actions"><button class="primary" id="retry">Повторить ошибки</button><button class="secondary" id="again">Новый экзамен</button></div>
+</div>
+</section>
+<div class="back"><a href="index.html">← На главную</a></div>
+</div>
+<script>
+const phrases=[{"en": "Is the game interesting?", "ru": "Игра интересная?"}, {"en": "Is the news important?", "ru": "Новости важные?"}, {"en": "Is this business profitable?", "ru": "Этот бизнес прибыльный?"}, {"en": "Are the computers old?", "ru": "Компьютеры старые?"}, {"en": "Is the hotel expensive?", "ru": "Отель дорогой?"}, {"en": "Is the boy at home?", "ru": "Мальчик дома?"}, {"en": "Is this language difficult?", "ru": "Этот язык сложный?"}, {"en": "Is this story so funny?", "ru": "Эта история такая смешная?"}, {"en": "Is the book so interesting?", "ru": "Книга такая интересная?"}, {"en": "Is this thing so important?", "ru": "Эта вещь настолько важная?"}, {"en": "Is your father at work?", "ru": "Твой отец на работе?"}, {"en": "Are his parents abroad?", "ru": "Его родители за границей?"}, {"en": "Is this news important?", "ru": "Эта новость важная?"}, {"en": "Is your girlfriend nineteen?", "ru": "Твоей девушке девятнадцать лет?"}, {"en": "Is this test too difficult?", "ru": "Этот тест слишком сложный?"}, {"en": "Is this practice really useful?", "ru": "Эта практика действительно полезная?"}, {"en": "Is his computer new?", "ru": "Его компьютер новый?"}, {"en": "Is this woman very wise?", "ru": "Эта женщина очень мудрая?"}, {"en": "Is the result excellent?", "ru": "Результат отличный?"}, {"en": "Is the problem big?", "ru": "Проблема большая?"}, {"en": "Are the problems big?", "ru": "Проблемы большие?"}, {"en": "Is the dog in this room?", "ru": "Собака в этой комнате?"}, {"en": "Is your mother at school?", "ru": "Твоя мама в школе?"}, {"en": "Is the teacher right?", "ru": "Учитель прав?"}, {"en": "Are those exercises useless?", "ru": "Те упражнения бесполезные?"}, {"en": "Is this text simple?", "ru": "Этот текст простой?"}, {"en": "Is the meeting important?", "ru": "Встреча важная?"}, {"en": "Is his father a businessman?", "ru": "Его отец бизнесмен?"}, {"en": "Is his mother a doctor?", "ru": "Его мать врач?"}, {"en": "Is the university famous?", "ru": "Университет известный?"}, {"en": "Is the computer new?", "ru": "Компьютер новый?"}, {"en": "Is the article in English?", "ru": "Статья на английском языке?"}, {"en": "Are these words new for you?", "ru": "Эти слова новые для тебя?"}, {"en": "Are the lessons really useful?", "ru": "Уроки действительно полезные?"}, {"en": "Is the cat in that room?", "ru": "Кошка в той комнате?"}, {"en": "Is the food good?", "ru": "Еда хорошая?"}, {"en": "Is that thing really important?", "ru": "Та вещь действительно важная?"}, {"en": "Is the hotel so expensive?", "ru": "Отель настолько дорогой?"}, {"en": "Is the idea interesting?", "ru": "Идея интересная?"}, {"en": "Are the computers new?", "ru": "Компьютеры новые?"}, {"en": "Are the women at home?", "ru": "Женщины дома?"}, {"en": "Is the article about politics?", "ru": "Статья о политике?"}, {"en": "Are the problems so big?", "ru": "Проблемы настолько большие?"}, {"en": "Is the book boring?", "ru": "Книга скучная?"}, {"en": "Is the project so interesting?", "ru": "Проект такой интересный?"}, {"en": "Is money important?", "ru": "Деньги важны?"}, {"en": "Is the computer old?", "ru": "Компьютер старый?"}, {"en": "Are the men at work?", "ru": "Мужчины на работе?"}, {"en": "Is the idea brilliant?", "ru": "Идея блестящая?"}, {"en": "Is time money?", "ru": "Время — деньги?"}, {"en": "Is the lesson useful?", "ru": "Урок полезный?"}, {"en": "Is this test so simple?", "ru": "Этот тест настолько простой?"}, {"en": "Is knowledge power?", "ru": "Знание — сила?"}, {"en": "Is the result very good?", "ru": "Результат очень хороший?"}, {"en": "Are all these exercises very difficult?", "ru": "Все эти упражнения очень сложные?"}, {"en": "Is this decision better?", "ru": "Это решение лучше?"}, {"en": "Are your friends online?", "ru": "Твои друзья онлайн?"}, {"en": "Is this information enough?", "ru": "Этой информации достаточно?"}, {"en": "Is this knowledge enough?", "ru": "Этих знаний достаточно?"}, {"en": "Is this method really ineffective?", "ru": "Этот метод действительно неэффективный?"}, {"en": "Is this information really useful?", "ru": "Эта информация действительно полезная?"}, {"en": "Is the airport near?", "ru": "Аэропорт рядом?"}, {"en": "Is the information useful?", "ru": "Информация полезная?"}, {"en": "Is this money enough?", "ru": "Этих денег достаточно?"}, {"en": "Is this rule important?", "ru": "Это правило важное?"}, {"en": "Are these exercises so useful?", "ru": "Эти упражнения настолько полезные?"}, {"en": "Is the channel very popular?", "ru": "Канал очень популярный?"}, {"en": "Are the videos funny?", "ru": "Видео смешные?"}, {"en": "Is this news interesting?", "ru": "Эта новость интересная?"}, {"en": "Is that decision worse?", "ru": "То решение хуже?"}, {"en": "Is the channel really good?", "ru": "Канал действительно хороший?"}, {"en": "Is his video so funny?", "ru": "Его видео такое смешное?"}, {"en": "Is this word new for you?", "ru": "Это слово новое для тебя?"}, {"en": "Are the articles in Russian?", "ru": "Статьи на русском языке?"}, {"en": "Is this test too easy?", "ru": "Этот тест слишком лёгкий?"}, {"en": "Is this level enough?", "ru": "Этого уровня достаточно?"}, {"en": "Is this song very popular?", "ru": "Эта песня очень популярная?"}, {"en": "Is it a powerful computer?", "ru": "Это мощный компьютер?"}, {"en": "Is this computer powerful?", "ru": "Этот компьютер мощный?"}, {"en": "Is your boyfriend twenty-two?", "ru": "Твоему парню двадцать два года?"}, {"en": "Are the boys at school?", "ru": "Мальчики в школе?"}, {"en": "Is the meeting so important?", "ru": "Встреча настолько важная?"}, {"en": "Is his decision right?", "ru": "Его решение правильное?"}, {"en": "Are these things so important?", "ru": "Эти вещи настолько важные?"}, {"en": "Is the article very informative?", "ru": "Статья очень информативная?"}, {"en": "Is this singer popular?", "ru": "Этот певец популярный?"}, {"en": "Is the game boring?", "ru": "Игра скучная?"}, {"en": "Is your mother a designer?", "ru": "Твоя мама дизайнер?"}, {"en": "Is their father a businessman?", "ru": "Их отец бизнесмен?"}, {"en": "Is your brother at home?", "ru": "Твой брат дома?"}];
+const $=id=>document.getElementById(id);
+let trainerMode="en",queue=[],index=0,correct=0,errors=[],current=null,checked=false;
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function norm(s){return s.toLowerCase().replace(/[.,!?;:—–-]/g,"").replace(/\s+/g," ").trim()}
+document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{
+ document.querySelectorAll("[data-tab]").forEach(x=>x.classList.toggle("active",x===b));
+ document.querySelectorAll(".panel").forEach(x=>x.classList.toggle("active",x.id===b.dataset.tab));
+});
+function render(){
+ let q=norm($("search").value);
+ let found=phrases.map((p,i)=>({...p,num:i+1})).filter(p=>!q||norm(p.en).includes(q)||norm(p.ru).includes(q));
+ $("count").textContent="Найдено: "+found.length+" из "+phrases.length;
+ let groups=[];
+ for(let start=1;start<=phrases.length;start+=10){
+  let part=found.filter(p=>p.num>=start&&p.num<start+10);
+  if(part.length) groups.push(`<div class="section-title">Вопросы ${start}–${Math.min(start+9,phrases.length)}</div>${part.map(p=>`<div class="card"><div class="en">${p.num}. ${esc(trainerMode==="en"?p.en:p.ru)}</div><button class="secondary reveal">Показать ${trainerMode==="en"?"перевод":"ответ"}</button><div class="ru hidden">${esc(trainerMode==="en"?p.ru:p.en)}</div></div>`).join("")}`);
+ }
+ $("trainerList").innerHTML=groups.join("");
+ $("trainerList").querySelectorAll(".reveal").forEach(b=>b.onclick=()=>{
+  let r=b.nextElementSibling;r.classList.toggle("hidden");
+  b.textContent=r.classList.contains("hidden")?`Показать ${trainerMode==="en"?"перевод":"ответ"}`:"Скрыть";
+ });
+}
+$("tEn").onclick=()=>{trainerMode="en";$("tEn").classList.add("active");$("tRu").classList.remove("active");render()};
+$("tRu").onclick=()=>{trainerMode="ru";$("tRu").classList.add("active");$("tEn").classList.remove("active");render()};
+$("search").oninput=render;render();
+function start(list){
+ queue=[...list].sort(()=>Math.random()-.5);index=0;correct=0;errors=[];
+ $("setup").classList.add("hidden");$("done").classList.add("hidden");$("run").classList.remove("hidden");show();
+}
+$("start").onclick=()=>{
+ let list=phrases.map((p,i)=>({...p,num:i+1})),range=$("examRange").value,n=$("amount").value;
+ if(range!=="all"){let [a,b]=range.split("-").map(Number);list=list.filter(p=>p.num>=a&&p.num<=b);}
+ if(n!=="all")list=list.slice(0,Number(n));
+ start(list);
+};
+function show(){
+ if(index>=queue.length){finish();return}
+ current=queue[index];checked=false;
+ let mode=$("examMode").value;
+ $("question").textContent=mode==="ru"?current.ru:current.en;
+ $("answer").value="";$("answer").disabled=false;$("feedback").innerHTML="";
+ $("check").classList.remove("hidden");$("next").classList.add("hidden");
+ $("progressText").textContent=`Вопрос ${index+1} из ${queue.length}`;
+ $("score").textContent=`Верно: ${correct} · Ошибки: ${errors.length}`;
+ $("bar").style.width=`${index/queue.length*100}%`;$("answer").focus();
+}
+function updateScore(){$("score").textContent=`Верно: ${correct} · Ошибки: ${errors.length}`}
+function check(){
+ if(checked)return;
+ let mode=$("examMode").value,given=norm($("answer").value),expected=norm(mode==="ru"?current.en:current.ru);
+ if(!given){$("feedback").innerHTML='<div class="feedback bad">Введите ответ.</div>';return}
+ checked=true;$("answer").disabled=true;
+ if(given===expected){
+  correct++;$("feedback").innerHTML='<div class="feedback good">Верно!</div>';
+ }else{
+  errors.push(current);
+  $("feedback").innerHTML=`<div class="feedback bad">Ошибка. Правильный ответ: <b>${esc(mode==="ru"?current.en:current.ru)}</b><br><button class="secondary" id="accept">Не считать ошибкой</button></div>`;
+  $("accept").onclick=()=>{errors=errors.filter(x=>x!==current);correct++;$("feedback").innerHTML='<div class="feedback good">Ответ засчитан.</div>';updateScore()};
+ }
+ updateScore();$("check").classList.add("hidden");$("next").classList.remove("hidden");
+}
+$("check").onclick=check;
+function next(){index++;show()}
+$("next").onclick=next;
+$("answer").onkeydown=e=>{if(e.key==="Enter"){if(!checked)check();else next()}};
+function finish(){
+ $("run").classList.add("hidden");$("done").classList.remove("hidden");
+ $("result").textContent=`Результат: ${correct} из ${queue.length}. Ошибок: ${errors.length}.`;
+ $("retry").disabled=!errors.length;$("bar").style.width="100%";
+}
+$("retry").onclick=()=>{let retry=[...errors];start(retry)};
+$("again").onclick=()=>{$("done").classList.add("hidden");$("setup").classList.remove("hidden")};
+</script>
+</body></html>

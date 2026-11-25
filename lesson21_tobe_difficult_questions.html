@@ -205,9 +205,9 @@ function getSavedFavorite(p){
  );
 }
 async function getCsrfToken(){
- if(csrfToken)return csrfToken;
  const response=await fetch("/api/auth/csrf",{credentials:"same-origin"});
- if(!response.ok)throw new Error("Не удалось получить токен безопасности. Войдите в личный кабинет.");
+ if(response.status===401)throw new Error("AUTH_REQUIRED");
+ if(!response.ok)throw new Error("Не удалось получить токен безопасности.");
  const data=await response.json();
  if(!data.csrf_token)throw new Error("Сервер не вернул токен безопасности.");
  csrfToken=data.csrf_token;
@@ -227,13 +227,20 @@ async function loadFavorites(){
 }
 async function toggleFavorite(p,button){
  if(button.disabled)return;
- if(!favoritesAuthenticated){
-  const next=location.pathname+location.search+location.hash;
-  location.href="/login.html?next="+encodeURIComponent(next);
-  return;
- }
  button.disabled=true;
  try{
+  const auth=await fetch("/api/auth/me",{credentials:"same-origin"});
+  if(auth.status===401){
+   favoritesAuthenticated=false;
+   savedFavorites=[];
+   csrfToken="";
+   sessionStorage.removeItem("english_csrf");
+   const next=location.pathname+location.search+location.hash;
+   location.href="/login.html?next="+encodeURIComponent(next);
+   return;
+  }
+  if(!auth.ok)throw new Error("Не удалось проверить авторизацию.");
+  favoritesAuthenticated=true;
   const csrf=await getCsrfToken();
   const existing=getSavedFavorite(p);
   const response=existing

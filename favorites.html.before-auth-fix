@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Избранное — English</title>
+<link rel="icon" href="/favicon-english.ico">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f3f6fb;color:#243247;font-family:Arial,sans-serif}
+header{background:white;padding:18px max(20px,calc((100% - 900px)/2));display:flex;justify-content:space-between;align-items:center;gap:15px;box-shadow:0 2px 8px #24324710}
+header a{color:#2563eb;text-decoration:none}
+button{border:0;border-radius:7px;padding:10px 14px;cursor:pointer}
+.logout{background:#fee2e2;color:#991b1b}
+main{max-width:900px;margin:30px auto;padding:0 16px}
+h1{font-size:27px}
+#count{color:#718096}
+.item{background:white;border:1px solid #e0e7f0;border-left:4px solid #2563eb;border-radius:9px;padding:17px;margin:14px 0;box-shadow:0 2px 8px #24324708}
+.phrase{font-size:18px;font-weight:bold}
+.translation{margin-top:8px;color:#475569}
+.meta{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:15px;flex-wrap:wrap;font-size:13px;color:#718096}
+.meta a{color:#2563eb;text-decoration:none}
+.remove{background:#f1f5f9;color:#475569}
+.empty{background:white;padding:30px;border-radius:10px;color:#718096;text-align:center}
+</style>
+</head>
+<body>
+<header>
+<a href="/">← К урокам</a>
+<strong>Моё избранное</strong>
+<button class="logout" id="logout">Выйти</button>
+</header>
+<main>
+<h1>Избранные фразы ⭐</h1>
+<div id="count">Загрузка...</div>
+<div id="list"></div>
+</main>
+<script>
+const list=document.getElementById('list');
+const count=document.getElementById('count');
+const csrf=()=>sessionStorage.getItem('english_csrf')||'';
+
+async function request(url,options={}){
+ const response=await fetch(url,{credentials:'same-origin',...options});
+ if(response.status===401){location.href='/login.html';throw new Error('Требуется вход')}
+ if(!response.ok)throw new Error('Ошибка запроса: '+response.status);
+ return response.json();
+}
+
+async function load(){
+ try{
+  const data=await request('/api/favorites');
+  const items=data.favorites;
+  count.textContent='Всего фраз: '+items.length;
+  list.replaceChildren();
+  if(!items.length){
+   list.innerHTML='<div class="empty">Пока избранных фраз нет.<br>Добавляйте их с помощью ⭐ в уроках.</div>';
+   return;
+  }
+  for(const item of items){
+   const card=document.createElement('article');
+   card.className='item';
+   const phrase=document.createElement('div');
+   phrase.className='phrase';
+   phrase.textContent=item.phrase;
+   const translation=document.createElement('div');
+   translation.className='translation';
+   translation.textContent=item.translation;
+   const meta=document.createElement('div');
+   meta.className='meta';
+   const lesson=document.createElement('a');
+   lesson.href=item.lesson_url;
+   lesson.textContent='Урок: '+item.lesson_title;
+   const remove=document.createElement('button');
+   remove.className='remove';
+   remove.textContent='Убрать из избранного';
+   remove.addEventListener('click',async()=>{
+    if(!confirm('Удалить эту фразу из избранного?'))return;
+    try{
+     await request('/api/favorites/'+item.id,{
+      method:'DELETE',
+      headers:{'X-CSRF-Token':csrf()}
+     });
+     await load();
+    }catch(e){alert(e.message)}
+   });
+   meta.append(lesson,remove);
+   card.append(phrase,translation,meta);
+   list.append(card);
+  }
+ }catch(e){count.textContent=e.message}
+}
+
+document.getElementById('logout').addEventListener('click',async()=>{
+ try{
+  await request('/api/auth/logout',{
+   method:'POST',
+   headers:{'X-CSRF-Token':csrf()}
+  });
+ }catch(e){}
+ sessionStorage.removeItem('english_csrf');
+ location.href='/login.html';
+});
+load();
+</script>
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Притяжательные и объектные местоимения в вопросах</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 12px;
+            background-color: #f4f7f6;
+            color: #333;
+            -webkit-text-size-adjust: 100%;
+        }
+        
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 18px 16px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-top: 0;
+            margin-bottom: 16px;
+            font-size: 1.5rem;
+            line-height: 1.3;
+            word-break: break-word;
+        }
+        
+        h2 {
+            color: #2b6cb0;
+            margin-top: 24px;
+            margin-bottom: 10px;
+            border-left: 5px solid #3498db;
+            padding-left: 10px;
+            font-size: 1.25rem;
+            line-height: 1.3;
+        }
+        
+        p {
+            color: #4a5568;
+            font-size: 0.95rem;
+            margin: 10px 0;
+        }
+        
+        /* Таблица — адаптивная */
+        .table-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin-top: 16px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        table {
+            width: 100%;
+            min-width: 480px;
+            border-collapse: collapse;
+            background: #fff;
+            font-size: 0.85rem;
+        }
+        
+        th, td {
+            border: 1px solid #e2e8f0;
+            padding: 10px 8px;
+            text-align: left;
+            vertical-align: top;
+        }
+        
+        th {
+            background-color: #f7fafc;
+            color: #2d3748;
+            font-weight: bold;
+            font-size: 0.8rem;
+            white-space: nowrap;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #fcfcfc;
+        }
+        
+        tr:hover {
+            background-color: #f0f4f8;
+        }
+        
+        .highlight {
+            background-color: #fefcbf;
+            padding: 1px 3px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        
+        small {
+            font-size: 0.75rem;
+            color: #718096;
+            display: inline-block;
+            line-height: 1.4;
+        }
+        
+        /* Примеры */
+        .example-box {
+            background: #ebf8ff;
+            padding: 14px 12px;
+            border-radius: 8px;
+            margin-top: 16px;
+            border-left: 5px solid #4299e1;
+        }
+        
+        .example-box ul {
+            margin: 0;
+            padding-left: 18px;
+        }
+        
+        .example-box li {
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .example-box li:last-child {
+            margin-bottom: 0;
+        }
+        
+        .example-box b {
+            color: #2c5282;
+        }
+        
+        /* Блок "Как не запутаться" */
+        .tip-text {
+            font-size: 1rem !important;
+            line-height: 1.8;
+            background: #f7fafc;
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 4px solid #f6ad55;
+        }
+        
+        /* --- Медиа-запросы для мобильных --- */
+        @media (max-width: 600px) {
+            body {
+                padding: 8px;
+            }
+            
+            .container {
+                padding: 14px 12px;
+                border-radius: 8px;
+            }
+            
+            h1 {
+                font-size: 1.25rem;
+                padding-bottom: 8px;
+            }
+            
+            h2 {
+                font-size: 1.1rem;
+                margin-top: 20px;
+            }
+            
+            p {
+                font-size: 0.9rem;
+            }
+            
+            table {
+                min-width: 420px;
+                font-size: 0.78rem;
+            }
+            

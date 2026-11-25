@@ -1,0 +1,14 @@
+services:
+  english-api:
+    build: .
+    container_name: english-api
+    restart: unless-stopped
+    network_mode: host
+    env_file:
+      - .env
+    volumes:
+      - /opt/english-data:/data
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
