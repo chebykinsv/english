@@ -37,9 +37,53 @@ select,input[type=text]{padding:10px;border:1px solid #cbd5e1;border-radius:8px;
 .back{text-align:center;margin:28px auto 12px}
 .back a{display:inline-block;background:#3182ce;color:#fff;text-decoration:none;padding:11px 25px;border-radius:8px;font-weight:600}
 @media(max-width:480px){body{padding:10px}.tab{flex:1;padding:9px 7px}.card{padding:12px}}
+
+/* Единое оформление как в странице To Be — общие вопросы */
+body{padding:14px;background:#f0f4f8;color:#333}
+.container{max-width:900px;margin:auto}
+h1{font-size:1.35em;color:#2c3e50;margin:4px 0 8px}
+.subtitle{color:#64748b;margin:0 0 16px}
+.nav,.mode,.actions{gap:8px;margin:14px 0}
+.tab,.mode-btn,button{border-radius:8px;padding:10px 14px;min-height:40px;font-weight:600}
+.tab{background:#dce7f3;color:#244766}
+.tab.active,.primary{background:#3182ce;color:#fff}
+.card,.rule-box{background:#fff;border-radius:10px;padding:14px;margin:10px 0;box-shadow:0 2px 6px #0000000c}
+.rule{border-left:5px solid #3182ce}
+h2{color:#2b6cb0;border-bottom:2px solid #3182ce;padding-bottom:6px;font-size:1.12em}
+h3{color:#2b6cb0;margin:8px 0}
+.example{background:#f7faff;padding:10px;border-radius:7px;margin:8px 0}
+.search{border:1px solid #cbd5e1;border-radius:8px}
+.en{font-weight:700;color:#263b53}
+.ru{color:#2b6cb0;margin-top:8px}
+.secondary{background:#e2e8f0;color:#334155}
+#answer{display:block;width:100%;min-width:0;min-height:46px;padding:12px 14px;margin:10px 0;font-size:1rem}
+.exam-question{font-size:1.2em;color:#263b53}
+.feedback{border-radius:8px}
+.back{text-align:center;margin:22px auto 10px}
+.back a{display:inline-block;background:#3182ce;color:#fff;text-decoration:none;padding:11px 25px;border-radius:8px;font-weight:600}
+.back-top-wrap{text-align:left;margin:0 0 10px}
+.back-top{display:inline-flex;align-items:center;gap:7px;background:#e2e8f0;color:#244766;text-decoration:none;padding:9px 14px;border-radius:8px;font-weight:600}
+.back-top:hover{background:#cbd5e1}
+@media(max-width:480px){body{padding:10px}.tab{flex:1;padding:9px 7px}.exam-question{font-size:1.1em}}
+
+
+/* Рамка для каждой фразы в тренажёре */
+#trainerList .card{
+  background:#fff;
+  border:1px solid #d7e2ef;
+  border-left:5px solid #3182ce;
+  border-radius:8px;
+  padding:12px 14px;
+  margin:0 0 10px;
+  box-shadow:0 2px 6px #0000000c;
+}
+#trainerList .en{display:block;margin-bottom:9px}
+#trainerList .reveal{border-radius:8px}
+
 </style>
 </head>
 <body><div class="container">
+<div class="back-top-wrap"><a class="back-top" href="index.html">← Назад</a></div>
 <h1>Present Simple — To Be: сложные вопросы</h1>
 <div class="nav">
 <button class="tab active" data-tab="theory">Теория</button>
