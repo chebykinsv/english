@@ -6,26 +6,44 @@
 <title>Избранное — English</title>
 <link rel="icon" href="/favicon-english.ico">
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#f3f6fb;color:#243247;font-family:Arial,sans-serif}
-header{background:white;padding:18px max(20px,calc((100% - 900px)/2));display:flex;justify-content:space-between;align-items:center;gap:15px;box-shadow:0 2px 8px #24324710}
-header a{color:#2563eb;text-decoration:none}
-button{border:0;border-radius:7px;padding:10px 14px;cursor:pointer}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:'Segoe UI',Tahoma,sans-serif;line-height:1.55;margin:0;padding:16px;background:#f0f4f8;color:#333}
+header{background:#fff;padding:14px max(20px,calc((100% - 900px)/2));display:flex;justify-content:space-between;align-items:center;gap:15px;box-shadow:0 2px 8px #24324710;flex-wrap:wrap}
+header a{color:#3182ce;text-decoration:none}
+main{max-width:900px;margin:22px auto;padding:0 16px}
+h1{text-align:center;color:#2c3e50;margin:4px 0 8px;font-size:1.7em}
+#count{color:#687386}
+button{font:inherit;border:0;border-radius:7px;padding:10px 18px;cursor:pointer;font-weight:650}
 .logout{background:#fee2e2;color:#991b1b}
-main{max-width:900px;margin:30px auto;padding:0 16px}
-h1{font-size:27px}
-#count{color:#718096}
-.item{background:white;border:1px solid #e0e7f0;border-left:4px solid #2563eb;border-radius:9px;padding:17px;margin:14px 0;box-shadow:0 2px 8px #24324708}
-.phrase{font-size:18px;font-weight:bold}
+.tabs{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:18px 0}
+.tab{background:#cbd5e0;color:#4a5568}.tab.active,.primary{background:#3182ce;color:white}
+.card,.exam-intro,.exam-card,.exam-result{background:#fff;border-radius:10px;padding:17px;margin:15px 0;box-shadow:0 3px 8px #0000000a}
+.exam-intro{border-left:6px solid #3182ce}
+.exam-intro h2{margin:0 0 8px;color:#2b6cb0;font-size:1.1em}
+.exam-intro p{margin:7px 0 14px;color:#687386}
+.item{background:#fff;margin:0 0 12px;padding:15px 16px;border-radius:8px;box-shadow:0 2px 5px #0000000a;border-left:5px solid #38a169;overflow-wrap:anywhere}
+.phrase{font-size:18px;font-weight:700;color:#2c3e50}
 .translation{margin-top:8px;color:#475569}
-.meta{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:15px;flex-wrap:wrap;font-size:13px;color:#718096}
-.meta a{color:#2563eb;text-decoration:none}
-.remove{background:#f1f5f9;color:#475569}
-.empty{background:white;padding:30px;border-radius:10px;color:#718096;text-align:center}
-
-.exam-launch{background:#fff;border:1px solid #dbeafe;border-left:4px solid #2563eb;border-radius:9px;padding:16px;margin:18px 0}
-.exam-launch a{display:inline-block;background:#2563eb;color:#fff;text-decoration:none;font-weight:bold;padding:12px 16px;border-radius:8px}
-.exam-launch p{color:#64748b;margin:0 0 12px;line-height:1.5}
+.meta{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;color:#687386;font-size:14px}
+.meta a{color:#3182ce;text-decoration:none}
+.remove,.secondary{background:#e2e8f0;color:#34415a}
+.empty{background:#fff;padding:30px;border-radius:10px;color:#718096;text-align:center}
+.progress{height:9px;background:#e2e8f0;border-radius:20px;overflow:hidden;margin:13px 0}
+.bar{height:100%;width:0;background:#3182ce;transition:width .2s}
+.question{font-size:1.45em;font-weight:750;margin:16px 0;color:#2c3e50}
+.answer{width:100%;padding:13px;border:1px solid #cbd5e0;border-radius:8px;font:inherit;font-size:18px}
+.answer:focus{outline:2px solid #3182ce}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:13px}
+.feedback{display:none;padding:12px;border-radius:8px;margin-top:13px}
+.feedback.good{display:block;background:#e8f6ee;color:#12683a}
+.feedback.bad{display:block;background:#fff0f0;color:#9e282e}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}
+.stat{background:#f0f4f8;padding:10px 14px;border-radius:8px}
+.stat b{display:block;font-size:22px}
+.exam-error{padding:10px 0;border-bottom:1px solid #e2e8f0}
+.exam-error:last-child{border-bottom:0}
+#examPanel[hidden],#favoritesPanel[hidden]{display:none}
+@media(max-width:480px){body{padding:10px}.tab{flex:1;padding:10px 8px}.question{font-size:1.2em}}
 </style>
 </head>
 <body>
@@ -45,13 +63,32 @@ h1{font-size:27px}
  <div id="list"></div>
 </section>
 <section id="examPanel" hidden>
- <div class="exam-intro">
-  <h2>Экзамен по избранным фразам</h2>
-  <p>Переводи фразы с русского на английский. Во время экзамена список избранного скрыт.</p>
-  <button class="primary" id="startExam" type="button">Начать экзамен</button>
-  <button class="secondary" id="retryErrors" type="button" hidden>Повторить ошибки</button>
+ <div class="card exam-intro" id="examIntro">
+  <h2>Настройки экзамена</h2>
+  <p>Экзамен включает все фразы из избранного. Сам список фраз во время экзамена скрыт.</p>
+  <div class="actions"><button class="primary" id="startExam" type="button">Начать экзамен</button></div>
  </div>
- <div id="examArea" aria-live="polite"></div>
+ <div class="card" id="examExercise" hidden>
+  <div class="meta"><span id="examCounter"></span><span id="examScore"></span></div>
+  <div class="progress"><div class="bar" id="examBar"></div></div>
+  <div class="question" id="examPrompt"></div>
+  <input class="answer" id="examAnswer" type="text" lang="en" spellcheck="true" autocomplete="off" placeholder="Введи перевод на английском">
+  <div class="actions">
+   <button class="primary" id="examCheck">Проверить</button>
+   <button class="secondary" id="examSkip">Пропустить</button>
+   <button class="secondary" id="examNext" hidden>Следующий вопрос</button>
+  </div>
+  <div class="feedback" id="examFeedback" aria-live="polite"></div>
+ </div>
+ <div class="card" id="examFinish" hidden>
+  <h2>Экзамен завершён</h2>
+  <div class="stats" id="examStats"></div>
+  <div id="examMistakeList"></div>
+  <div class="actions">
+   <button class="primary" id="examRetry">Пройти ещё раз</button>
+   <button class="secondary" id="examRetryWrong">Повторить ошибки</button>
+  </div>
+ </div>
 </section>
 </main>
 <script>
@@ -123,6 +160,7 @@ async function load(){
 }
 
 
+
 let favoriteItems=[];
 let examItems=[];
 let examIndex=0;
@@ -147,50 +185,96 @@ function startExam(items){
  if(!items.length){alert('В избранном пока нет фраз.');return;}
  examItems=[...items]; examIndex=0; examCorrect=0; examMistakes=[]; examAnswered=false;
  showTab('exam');
+ document.getElementById('examIntro').hidden=true;
+ document.getElementById('examExercise').hidden=false;
+ document.getElementById('examFinish').hidden=true;
  renderExamQuestion();
 }
 function renderExamQuestion(){
- const area=document.getElementById('examArea');
+ const counter=document.getElementById('examCounter');
+ const score=document.getElementById('examScore');
+ const bar=document.getElementById('examBar');
+ const prompt=document.getElementById('examPrompt');
+ const input=document.getElementById('examAnswer');
+ const feedback=document.getElementById('examFeedback');
+ const check=document.getElementById('examCheck');
+ const skip=document.getElementById('examSkip');
+ const next=document.getElementById('examNext');
+ const area=document.getElementById('examExercise');
  if(examIndex>=examItems.length){renderExamResult();return;}
- const item=examItems[examIndex]; examAnswered=false; area.replaceChildren();
- const card=document.createElement('div'); card.className='exam-card';
- const progress=document.createElement('div'); progress.className='exam-progress'; progress.textContent=`Вопрос ${examIndex+1} из ${examItems.length}`;
- const prompt=document.createElement('div'); prompt.className='exam-prompt'; prompt.textContent=item.translation;
- const label=document.createElement('label'); label.htmlFor='examAnswer'; label.textContent='Напиши перевод на английском:';
- const input=document.createElement('input'); input.className='exam-input'; input.id='examAnswer'; input.type='text'; input.autocomplete='off'; input.placeholder='Твой ответ на английском';
- const feedback=document.createElement('div');
- const actions=document.createElement('div'); actions.className='exam-actions';
- const check=document.createElement('button'); check.className='primary'; check.textContent='Проверить';
- const next=document.createElement('button'); next.className='primary'; next.textContent=examIndex===examItems.length-1?'Завершить':'Следующая фраза'; next.hidden=true;
- check.addEventListener('click',()=>{
-  if(examAnswered)return;
-  if(!normalizeAnswer(input.value)){input.focus();return;}
-  examAnswered=true;
-  const correct=normalizeAnswer(input.value)===normalizeAnswer(item.phrase);
-  feedback.className='exam-feedback '+(correct?'good':'bad');
-  if(correct){examCorrect++;feedback.textContent='Верно! Отлично.';}
-  else{examMistakes.push(item);feedback.textContent='Ошибка. Правильный ответ: '+item.phrase;}
-  input.disabled=true;check.hidden=true;next.hidden=false;next.focus();
- });
- input.addEventListener('keydown',e=>{if(e.key==='Enter'){if(!examAnswered)check.click();else next.click();}});
- next.addEventListener('click',()=>{examIndex++;renderExamQuestion();});
- actions.append(check,next); card.append(progress,prompt,label,input,feedback,actions); area.append(card); input.focus();
+ const item=examItems[examIndex]; examAnswered=false;
+ counter.textContent=`Вопрос ${examIndex+1} из ${examItems.length}`;
+ score.textContent=`Верно: ${examCorrect} · Ошибки: ${examMistakes.length}`;
+ bar.style.width=`${examIndex/examItems.length*100}%`;
+ prompt.textContent=item.translation;
+ input.value=''; input.disabled=false;
+ check.hidden=false; skip.hidden=false; next.hidden=true;
+ feedback.className='feedback'; feedback.textContent='';
+ input.focus();
+}
+function checkExamAnswer(){
+ if(examAnswered)return;
+ const input=document.getElementById('examAnswer');
+ if(!normalizeAnswer(input.value)){input.focus();return;}
+ examAnswered=true;
+ const item=examItems[examIndex];
+ const correct=normalizeAnswer(input.value)===normalizeAnswer(item.phrase);
+ input.disabled=true;
+ document.getElementById('examCheck').hidden=true;
+ document.getElementById('examSkip').hidden=true;
+ document.getElementById('examNext').hidden=false;
+ const feedback=document.getElementById('examFeedback');
+ if(correct){
+  examCorrect++;
+  feedback.className='feedback good';
+  feedback.innerHTML='Верно! <b>'+escapeExamHtml(item.phrase)+'</b>';
+ }else{
+  examMistakes.push(item);
+  feedback.className='feedback bad';
+  feedback.innerHTML='Ошибка. Правильный ответ: <b>'+escapeExamHtml(item.phrase)+'</b>';
+ }
+ document.getElementById('examScore').textContent=`Верно: ${examCorrect} · Ошибки: ${examMistakes.length}`;
+ document.getElementById('examNext').focus();
+}
+function escapeExamHtml(value){
+ return String(value).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+}
+function advanceExam(){examIndex++;renderExamQuestion();}
+function skipExamQuestion(){
+ examMistakes.push(examItems[examIndex]);
+ advanceExam();
 }
 function renderExamResult(){
- const area=document.getElementById('examArea'); area.replaceChildren();
- const result=document.createElement('div'); result.className='exam-result';
- const title=document.createElement('h2'); title.textContent='Экзамен завершён';
- const summary=document.createElement('p'); summary.textContent=`Результат: ${examCorrect} из ${examItems.length} · ${Math.round(examCorrect/examItems.length*100)}%`;
- result.append(title,summary);
- const retry=document.getElementById('retryErrors'); retry.hidden=!examMistakes.length; retry.textContent=`Повторить ошибки (${examMistakes.length})`;
+ document.getElementById('examExercise').hidden=true;
+ document.getElementById('examFinish').hidden=false;
+ document.getElementById('examBar').style.width='100%';
+ const n=examItems.length;
+ const percent=n?Math.round(examCorrect/n*100):0;
+ document.getElementById('examStats').innerHTML=
+  `<div class="stat"><b>${examCorrect}/${n}</b>Верно</div><div class="stat"><b>${examMistakes.length}</b>Ошибки</div><div class="stat"><b>${percent}%</b>Результат</div>`;
+ const retryWrong=document.getElementById('examRetryWrong');
+ retryWrong.disabled=!examMistakes.length;
+ const mistakeList=document.getElementById('examMistakeList');
+ mistakeList.replaceChildren();
  if(examMistakes.length){
-  const heading=document.createElement('h3'); heading.textContent='Фразы для повторения:'; result.append(heading);
-  examMistakes.forEach(item=>{const line=document.createElement('div');line.className='exam-error';line.textContent=item.translation+' — '+item.phrase;result.append(line);});
- }else{const success=document.createElement('p');success.textContent='Ошибок нет. Отличная работа!';result.append(success);}
- const again=document.createElement('button');again.className='secondary';again.textContent='Пройти всё избранное ещё раз';again.addEventListener('click',()=>startExam(favoriteItems));result.append(again);area.append(result);
+  const heading=document.createElement('h3');heading.textContent='Фразы для повторения';mistakeList.append(heading);
+  examMistakes.forEach(item=>{
+   const row=document.createElement('div');row.className='exam-error';
+   row.textContent=item.translation+' — '+item.phrase;mistakeList.append(row);
+  });
+ }else{
+  const success=document.createElement('p');success.textContent='Ошибок нет. Отличная работа!';mistakeList.append(success);
+ }
 }
 document.getElementById('startExam').addEventListener('click',()=>startExam(favoriteItems));
-document.getElementById('retryErrors').addEventListener('click',()=>startExam(examMistakes));
+document.getElementById('examCheck').addEventListener('click',checkExamAnswer);
+document.getElementById('examNext').addEventListener('click',advanceExam);
+document.getElementById('examSkip').addEventListener('click',skipExamQuestion);
+document.getElementById('examAnswer').addEventListener('keydown',e=>{
+ if(e.key==='Enter'){e.preventDefault();if(examAnswered)advanceExam();else checkExamAnswer();}
+});
+document.getElementById('examRetry').addEventListener('click',()=>startExam(favoriteItems));
+document.getElementById('examRetryWrong').addEventListener('click',()=>examMistakes.length&&startExam(examMistakes));
 
 document.getElementById('logout').addEventListener('click',async()=>{
  try{
