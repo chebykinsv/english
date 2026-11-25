@@ -164,7 +164,6 @@ function renderFavorites(){
  for(const item of favoriteItems){
   const card=document.createElement('article');
   card.className='item';
-
   const checkbox=document.createElement('input');
   checkbox.type='checkbox';
   checkbox.className='favorite-check';
@@ -172,8 +171,6 @@ function renderFavorites(){
   checkbox.setAttribute('aria-label','Выбрать фразу');
   checkbox.addEventListener('change',updateBulkControls);
 
-  const phraseWrap=document.createElement('div');
-  phraseWrap.className='phrase-wrap';
   const phrase=document.createElement('div');
   phrase.className='phrase';
   const translation=document.createElement('div');
@@ -221,57 +218,12 @@ function renderFavorites(){
      method:'DELETE',
      headers:{'X-CSRF-Token':await csrf()}
     });
-    await 
-function selectedFavoriteIds(){
- return [...document.querySelectorAll('.favorite-check:checked')].map(x=>x.dataset.favoriteId);
-}
-function updateBulkControls(){
- const boxes=[...document.querySelectorAll('.favorite-check')];
- const selected=selectedFavoriteIds();
- const selectAll=document.getElementById('selectAllFavorites');
- selectAll.checked=boxes.length>0 && selected.length===boxes.length;
- selectAll.indeterminate=selected.length>0 && selected.length<boxes.length;
- document.getElementById('selectedCount').textContent='Выбрано: '+selected.length;
- document.getElementById('deleteSelected').disabled=selected.length===0;
-}
-document.getElementById('selectAllFavorites').addEventListener('change',e=>{
- document.querySelectorAll('.favorite-check').forEach(box=>box.checked=e.target.checked);
- updateBulkControls();
-});
-async function deleteFavoriteIds(ids){
- for(const id of ids){
-  const token=await csrf(); // fresh CSRF token for every mutation
-  await request('/api/favorites/'+encodeURIComponent(id),{
-   method:'DELETE',
-   headers:{'X-CSRF-Token':token}
-  });
- }
- await load();
-}
-document.getElementById('deleteSelected').addEventListener('click',async()=>{
- const ids=selectedFavoriteIds();
- if(!ids.length)return;
- if(!confirm('Удалить выбранные фразы из избранного ('+ids.length+')?'))return;
- const button=document.getElementById('deleteSelected');
- button.disabled=true;
- try{await deleteFavoriteIds(ids);}
- catch(e){alert('Не удалось удалить все выбранные фразы: '+e.message);updateBulkControls();}
-});
-document.getElementById('deleteAll').addEventListener('click',async()=>{
- const ids=favoriteItems.map(item=>String(item.id));
- if(!ids.length){alert('Избранное уже пустое.');return;}
- if(!confirm('Удалить ВСЕ фразы из избранного ('+ids.length+')? Это действие нельзя отменить.'))return;
- const button=document.getElementById('deleteAll');
- button.disabled=true;
- try{await deleteFavoriteIds(ids);}
- catch(e){alert('Не удалось удалить все фразы: '+e.message);}
- finally{button.disabled=false;}
-});
-
-load();
+    await load();
    }catch(e){alert(e.message)}
   });
   meta.append(lesson,remove);
+  const phraseWrap=document.createElement('div');
+  phraseWrap.className='phrase-wrap';
   phraseWrap.append(phrase,reveal,translation);
   const itemHead=document.createElement('div');
   itemHead.className='item-head';
@@ -426,6 +378,53 @@ document.getElementById('logout').addEventListener('click',async()=>{
   alert('Не удалось выполнить выход: '+e.message);
  }
 });
+
+function selectedFavoriteIds(){
+ return [...document.querySelectorAll('.favorite-check:checked')].map(x=>x.dataset.favoriteId);
+}
+function updateBulkControls(){
+ const boxes=[...document.querySelectorAll('.favorite-check')];
+ const selected=selectedFavoriteIds();
+ const selectAll=document.getElementById('selectAllFavorites');
+ selectAll.checked=boxes.length>0 && selected.length===boxes.length;
+ selectAll.indeterminate=selected.length>0 && selected.length<boxes.length;
+ document.getElementById('selectedCount').textContent='Выбрано: '+selected.length;
+ document.getElementById('deleteSelected').disabled=selected.length===0;
+}
+document.getElementById('selectAllFavorites').addEventListener('change',e=>{
+ document.querySelectorAll('.favorite-check').forEach(box=>box.checked=e.target.checked);
+ updateBulkControls();
+});
+async function deleteFavoriteIds(ids){
+ for(const id of ids){
+  const token=await csrf();
+  await request('/api/favorites/'+encodeURIComponent(id),{
+   method:'DELETE',
+   headers:{'X-CSRF-Token':token}
+  });
+ }
+ await load();
+}
+document.getElementById('deleteSelected').addEventListener('click',async()=>{
+ const ids=selectedFavoriteIds();
+ if(!ids.length)return;
+ if(!confirm('Удалить выбранные фразы из избранного ('+ids.length+')?'))return;
+ const button=document.getElementById('deleteSelected');
+ button.disabled=true;
+ try{await deleteFavoriteIds(ids);}
+ catch(e){alert('Не удалось удалить все выбранные фразы: '+e.message);updateBulkControls();}
+});
+document.getElementById('deleteAll').addEventListener('click',async()=>{
+ const ids=favoriteItems.map(item=>String(item.id));
+ if(!ids.length){alert('Избранное уже пустое.');return;}
+ if(!confirm('Удалить ВСЕ фразы из избранного ('+ids.length+')? Это действие нельзя отменить.'))return;
+ const button=document.getElementById('deleteAll');
+ button.disabled=true;
+ try{await deleteFavoriteIds(ids);}
+ catch(e){alert('Не удалось удалить все фразы: '+e.message);}
+ finally{button.disabled=false;}
+});
+
 load();
 </script>
 </body>
