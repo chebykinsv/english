@@ -27,6 +27,9 @@ button{font:inherit;border:0;border-radius:7px;padding:10px 18px;cursor:pointer;
 .meta{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;color:#687386;font-size:14px}
 .meta a{color:#3182ce;text-decoration:none}
 .remove,.secondary{background:#e2e8f0;color:#34415a}
+.translation-toggle{margin-top:10px;background:#e2e8f0;color:#34415a;padding:8px 13px;font-size:14px}
+.exam-mode{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:12px 0}
+.exam-mode select{font:inherit;padding:9px 12px;border:1px solid #cbd5e0;border-radius:7px;background:#fff;color:#334155}
 .empty{background:#fff;padding:30px;border-radius:10px;color:#718096;text-align:center}
 .progress{height:9px;background:#e2e8f0;border-radius:20px;overflow:hidden;margin:13px 0}
 .bar{height:100%;width:0;background:#3182ce;transition:width .2s}
@@ -66,6 +69,7 @@ button{font:inherit;border:0;border-radius:7px;padding:10px 18px;cursor:pointer;
  <div class="card exam-intro" id="examIntro">
   <h2>Настройки экзамена</h2>
   <p>Экзамен включает все фразы из избранного. Сам список фраз во время экзамена скрыт.</p>
+  <div class="exam-mode"><label for="examDirection">Направление:</label><select id="examDirection"><option value="ru-en">RU → ENG</option><option value="en-ru">ENG → RU</option></select></div>
   <div class="actions"><button class="primary" id="startExam" type="button">Начать экзамен</button></div>
  </div>
  <div class="card" id="examExercise" hidden>
@@ -134,6 +138,15 @@ async function load(){
    const translation=document.createElement('div');
    translation.className='translation';
    translation.textContent=item.translation;
+   translation.hidden=true;
+   const reveal=document.createElement('button');
+   reveal.type='button';
+   reveal.className='translation-toggle';
+   reveal.textContent='Показать перевод';
+   reveal.addEventListener('click',()=>{
+    translation.hidden=!translation.hidden;
+    reveal.textContent=translation.hidden?'Показать перевод':'Скрыть перевод';
+   });
    const meta=document.createElement('div');
    meta.className='meta';
    const lesson=document.createElement('a');
@@ -153,7 +166,7 @@ async function load(){
     }catch(e){alert(e.message)}
    });
    meta.append(lesson,remove);
-   card.append(phrase,translation,meta);
+   card.append(phrase,reveal,translation,meta);
    list.append(card);
   }
  }catch(e){count.textContent=e.message}
@@ -167,6 +180,7 @@ let examIndex=0;
 let examCorrect=0;
 let examMistakes=[];
 let examAnswered=false;
+let examDirection='ru-en';
 
 function showTab(tab){
  const favoritesActive=tab==='favorites';
@@ -184,6 +198,7 @@ function normalizeAnswer(value){
 function startExam(items){
  if(!items.length){alert('В избранном пока нет фраз.');return;}
  examItems=[...items]; examIndex=0; examCorrect=0; examMistakes=[]; examAnswered=false;
+ examDirection=document.getElementById('examDirection').value;
  showTab('exam');
  document.getElementById('examIntro').hidden=true;
  document.getElementById('examExercise').hidden=false;
@@ -206,8 +221,9 @@ function renderExamQuestion(){
  counter.textContent=`Вопрос ${examIndex+1} из ${examItems.length}`;
  score.textContent=`Верно: ${examCorrect} · Ошибки: ${examMistakes.length}`;
  bar.style.width=`${examIndex/examItems.length*100}%`;
- prompt.textContent=item.translation;
+ prompt.textContent=examDirection==='ru-en'?item.translation:item.phrase;
  input.value=''; input.disabled=false;
+ input.placeholder=examDirection==='ru-en'?'Введите перевод на английском':'Введите перевод на русском';
  check.hidden=false; skip.hidden=false; next.hidden=true;
  feedback.className='feedback'; feedback.textContent='';
  input.focus();
@@ -218,7 +234,8 @@ function checkExamAnswer(){
  if(!normalizeAnswer(input.value)){input.focus();return;}
  examAnswered=true;
  const item=examItems[examIndex];
- const correct=normalizeAnswer(input.value)===normalizeAnswer(item.phrase);
+ const expected=examDirection==='ru-en'?item.phrase:item.translation;
+ const correct=normalizeAnswer(input.value)===normalizeAnswer(expected);
  input.disabled=true;
  document.getElementById('examCheck').hidden=true;
  document.getElementById('examSkip').hidden=true;
@@ -227,11 +244,11 @@ function checkExamAnswer(){
  if(correct){
   examCorrect++;
   feedback.className='feedback good';
-  feedback.innerHTML='Верно! <b>'+escapeExamHtml(item.phrase)+'</b>';
+  feedback.innerHTML='Верно! <b>'+escapeExamHtml(expected)+'</b>';
  }else{
   examMistakes.push(item);
   feedback.className='feedback bad';
-  feedback.innerHTML='Ошибка. Правильный ответ: <b>'+escapeExamHtml(item.phrase)+'</b>';
+  feedback.innerHTML='Ошибка. Правильный ответ: <b>'+escapeExamHtml(expected)+'</b>';
  }
  document.getElementById('examScore').textContent=`Верно: ${examCorrect} · Ошибки: ${examMistakes.length}`;
  document.getElementById('examNext').focus();
