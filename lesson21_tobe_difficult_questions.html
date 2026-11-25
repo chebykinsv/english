@@ -80,6 +80,11 @@ h3{color:#2b6cb0;margin:8px 0}
 #trainerList .en{display:block;margin-bottom:9px}
 #trainerList .reveal{border-radius:8px}
 
+ 
+/* Группы вопросов как в tobe_general_questions */
+.section-title{background:#3182ce;color:#fff;padding:8px 14px;border-radius:6px;margin:18px 0 12px;text-align:center;font-weight:700}
+#trainerList .card{background:#fff;border:1px solid #d7e2ef;border-left:5px solid #3182ce;border-radius:8px;padding:12px 14px;margin:0 0 10px;box-shadow:0 2px 6px #0000000c}
+
 </style>
 </head>
 <body><div class="container">
@@ -123,7 +128,7 @@ h3{color:#2b6cb0;margin:8px 0}
 </div>
 <div class="card">
 <h3>Материал урока</h3>
-<p>В тренажёре и экзамене — 45 вопросов со скриншотов. Формулировки английских вопросов сохранены.</p>
+<p>В тренажёре и экзамене — 90 вопросов со скриншотов. Формулировки английских вопросов сохранены.</p>
 </div>
 </section>
 
@@ -138,12 +143,17 @@ h3{color:#2b6cb0;margin:8px 0}
 <section id="exam" class="panel">
 <h2>Экзамен</h2>
 <div id="setup" class="card">
-<p>Все 90 вопросов собраны в один экзаменационный набор. Вопросы идут по одному в случайном порядке.</p>
+<p>90 вопросов разделены на блоки по 10. Можно выбрать отдельный блок или весь набор. Вопросы идут по одному в случайном порядке.</p>
 <div class="row" style="margin-top:12px">
 <label for="examMode">Направление:</label>
 <select id="examMode"><option value="ru">RU → ENG</option><option value="en">ENG → RU</option></select>
+<label for="examRange">Блок вопросов:</label>
+<select id="examRange"><option value="all">Все 90 вопросов</option>
+<option value="1-10">1–10</option><option value="11-20">11–20</option><option value="21-30">21–30</option>
+<option value="31-40">31–40</option><option value="41-50">41–50</option><option value="51-60">51–60</option>
+<option value="61-70">61–70</option><option value="71-80">71–80</option><option value="81-90">81–90</option></select>
 <label for="amount">Количество:</label>
-<select id="amount"><option value="10">10</option><option value="20">20</option><option value="30">30</option><option value="all">Все (90)</option></select>
+<select id="amount"><option value="all">Все выбранные</option><option value="10">10</option><option value="20">20</option><option value="30">30</option></select>
 </div>
 <div class="actions"><button class="primary" id="start">Начать экзамен</button></div>
 </div>
@@ -174,12 +184,17 @@ document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{
 });
 function render(){
  let q=norm($("search").value);
- let found=phrases.filter(p=>!q||norm(p.en).includes(q)||norm(p.ru).includes(q));
+ let found=phrases.map((p,i)=>({...p,num:i+1})).filter(p=>!q||norm(p.en).includes(q)||norm(p.ru).includes(q));
  $("count").textContent="Найдено: "+found.length+" из "+phrases.length;
- $("trainerList").innerHTML=found.map(p=>`<div class="card"><div class="en">${esc(trainerMode==="en"?p.en:p.ru)}</div><button class="secondary reveal">Показать перевод</button><div class="ru hidden">${esc(trainerMode==="en"?p.ru:p.en)}</div></div>`).join("");
+ let groups=[];
+ for(let start=1;start<=phrases.length;start+=10){
+  let part=found.filter(p=>p.num>=start&&p.num<start+10);
+  if(part.length) groups.push(`<div class="section-title">Вопросы ${start}–${Math.min(start+9,phrases.length)}</div>${part.map(p=>`<div class="card"><div class="en">${p.num}. ${esc(trainerMode==="en"?p.en:p.ru)}</div><button class="secondary reveal">Показать ${trainerMode==="en"?"перевод":"ответ"}</button><div class="ru hidden">${esc(trainerMode==="en"?p.ru:p.en)}</div></div>`).join("")}`);
+ }
+ $("trainerList").innerHTML=groups.join("");
  $("trainerList").querySelectorAll(".reveal").forEach(b=>b.onclick=()=>{
   let r=b.nextElementSibling;r.classList.toggle("hidden");
-  b.textContent=r.classList.contains("hidden")?"Показать перевод":"Скрыть перевод";
+  b.textContent=r.classList.contains("hidden")?`Показать ${trainerMode==="en"?"перевод":"ответ"}`:"Скрыть";
  });
 }
 $("tEn").onclick=()=>{trainerMode="en";$("tEn").classList.add("active");$("tRu").classList.remove("active");render()};
@@ -190,7 +205,8 @@ function start(list){
  $("setup").classList.add("hidden");$("done").classList.add("hidden");$("run").classList.remove("hidden");show();
 }
 $("start").onclick=()=>{
- let list=[...phrases],n=$("amount").value;
+ let list=phrases.map((p,i)=>({...p,num:i+1})),range=$("examRange").value,n=$("amount").value;
+ if(range!=="all"){let [a,b]=range.split("-").map(Number);list=list.filter(p=>p.num>=a&&p.num<=b);}
  if(n!=="all")list=list.slice(0,Number(n));
  start(list);
 };
