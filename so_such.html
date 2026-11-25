@@ -5,7 +5,7 @@
 :root{--primary:#3182ce;--dark:#2b6cb0;--bg:#f0f4f8;--ink:#2d3748;--muted:#687386;--line:#e2e8f0}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.55;margin:0;padding:14px;background:var(--bg);color:var(--ink)}
 .container{max-width:900px;margin:auto}h1{text-align:center;font-size:1.55em;margin:8px 0 5px}.subtitle{text-align:center;color:var(--muted);margin:0 0 16px}
-.home-row{text-align:left;margin:0 0 16px}.home-btn{display:inline-block;background:var(--primary);color:white;text-decoration:none;padding:10px 17px;border-radius:8px;font-weight:700}
+.home-row{text-align:left;margin:0 0 16px}.home-btn{display:inline-block;background:var(--primary);color:white;text-decoration:none;padding:10px 17px;border-radius:8px;font-weight:700}.favorites-btn{display:inline-block;background:#fff8db;color:#805b00;border:1px solid #f0d98a;text-decoration:none;padding:10px 17px;border-radius:8px;font-weight:700;margin-left:8px}.favorite-star{position:absolute;right:13px;top:10px;border:0;background:#f1f5f9;color:#64748b;border-radius:8px;width:36px;height:34px;font-size:23px;line-height:1;cursor:pointer;padding:0}.favorite-star.active{color:#d69e00;background:#fff8db}.favorite-star:disabled{opacity:.55;cursor:wait}ul.phrases li{position:relative;padding-right:58px}
 .tabs{display:flex;gap:9px;justify-content:center;margin:18px 0;flex-wrap:wrap}.tab{border:0;border-radius:8px;padding:11px 22px;background:#cbd5e0;color:#4a5568;font-weight:700;font-size:1em;cursor:pointer}.tab.active{background:var(--dark);color:#fff}
 .panel{display:none}.panel.active{display:block}.rule-box{background:white;border-left:5px solid var(--primary);border-radius:9px;padding:16px;margin:12px 0;box-shadow:0 3px 8px #00000008}
 .controls{display:flex;gap:9px;margin:12px 0}.mode{flex:1;border:0;border-radius:8px;padding:11px;background:#cbd5e0;color:#4a5568;font-weight:700;cursor:pointer}.mode.active{background:var(--primary);color:white}
@@ -44,7 +44,7 @@ button.primary{background:var(--primary);color:white;border:0;border-radius:8px;
 #theory .section-title{background:#3182ce;color:#fff;padding:10px 16px;border-radius:8px;margin:30px 0 15px;font-size:1.1em;font-weight:700;text-align:center}
 
 </style></head><body><main class="container">
-<div class="home-row"><a class="home-btn" href="index.html">← На главную</a></div>
+<div class="home-row"><a class="home-btn" href="index.html">← На главную</a><a class="favorites-btn" href="/favorites.html">⭐ Перейти в избранное</a></div>
 <h1>So / Such — теория и практика</h1><p class="subtitle">27 фраз · теория, тренажёр и экзамен</p>
 <div class="tabs"><button class="tab active" data-tab="theory">Теория</button><button class="tab" data-tab="trainer">Тренажёр</button><button class="tab" data-tab="exam">Экзамен</button></div>
 <section class="panel active" id="theory"><div class="rules-grid">
@@ -86,11 +86,78 @@ const data=[{"en": "It's so interesting", "ru": "Это так интересн�
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id===b.dataset.tab));});
 let direction='eng';
-function setMode(mode){direction=mode;document.getElementById('modeEng').classList.toggle('active',mode==='eng');document.getElementById('modeRus').classList.toggle('active',mode==='rus');document.getElementById('instruction').textContent=mode==='eng'?'Прочитай английскую фразу и попробуй перевести её, затем открой перевод.':'Прочитай русскую фразу и попробуй перевести её на английский, затем открой ответ.';renderLists();}
-function renderLists(){let root=document.getElementById('phraseLists');root.innerHTML='';for(let start=0;start<data.length;start+=25){let chunk=data.slice(start,start+25),sec=document.createElement('div');sec.innerHTML=`<div class="section-title">Фразы ${start+1}–${start+chunk.length}</div><ul class="phrases"></ul>`;sec.querySelector('ul').innerHTML=chunk.map((q,i)=>direction==='eng'?`<li data-search="${esc((q.en+' '+q.ru).toLowerCase())}"><div class="en">${start+i+1}. ${esc(q.en)}</div><button class="toggle" onclick="toggle(this,'ru')">Показать перевод</button><div class="translation">— ${esc(q.ru)}</div></li>`:`<li data-search="${esc((q.en+' '+q.ru).toLowerCase())}"><div class="ru-prompt">${start+i+1}. ${esc(q.ru)}</div><button class="toggle" onclick="toggle(this,'en')">Показать ответ</button><div class="translation">${esc(q.en)}</div></li>`).join('');root.appendChild(sec);}filterList();}
+function setMode(mode){direction=mode;document.getElementById('modeEng').classList.toggle('active',mode==='eng');document.getElementById('modeRus').classList.toggle('active',mode==='rus');document.getElementById('instruction').textContent=mode==='eng'?'Прочитай английскую фразу и попробуй перевести её, затем открой перевод.':'Прочитай русскую фразу и попробуй перевести её на английский, затем открой ответ.';renderLists();updateFavoriteButtons();}
+function renderLists(){let root=document.getElementById('phraseLists');root.innerHTML='';for(let start=0;start<data.length;start+=25){let chunk=data.slice(start,start+25),sec=document.createElement('div');sec.innerHTML=`<div class="section-title">Фразы ${start+1}–${start+chunk.length}</div><ul class="phrases"></ul>`;sec.querySelector('ul').innerHTML=chunk.map((q,i)=>direction==='eng'?`<li data-search="${esc((q.en+' '+q.ru).toLowerCase())}"><div class="en">${start+i+1}. ${esc(q.en)}</div><button class="favorite-star" type="button" data-favorite-index="${start+i}" title="Добавить в избранное" aria-label="Добавить в избранное" onclick="toggleFavorite(data[${start+i}],this)">☆</button><button class="toggle" onclick="toggle(this,'ru')">Показать перевод</button><div class="translation">— ${esc(q.ru)}</div></li>`:`<li data-search="${esc((q.en+' '+q.ru).toLowerCase())}"><div class="ru-prompt">${start+i+1}. ${esc(q.ru)}</div><button class="favorite-star" type="button" data-favorite-index="${start+i}" title="Добавить в избранное" aria-label="Добавить в избранное" onclick="toggleFavorite(data[${start+i}],this)">☆</button><button class="toggle" onclick="toggle(this,'en')">Показать ответ</button><div class="translation">${esc(q.en)}</div></li>`).join('');root.appendChild(sec);}filterList();}
 function toggle(btn){let el=btn.nextElementSibling,show=el.classList.toggle('show');btn.textContent=show?(direction==='eng'?'Скрыть перевод':'Скрыть ответ'):(direction==='eng'?'Показать перевод':'Показать ответ');}
 function filterList(){let q=document.getElementById('search').value.toLowerCase().trim();document.querySelectorAll('#phraseLists li').forEach(li=>li.classList.toggle('hidden',!li.dataset.search.includes(q)));}
 renderLists();
+
+let savedFavorites=[];
+function getSavedFavorite(p){
+ return savedFavorites.find(x=>x.phrase===p.en&&x.translation===p.ru&&x.lesson_url===location.pathname);
+}
+function updateFavoriteButtons(){
+ document.querySelectorAll('.favorite-star').forEach(button=>{
+  const p=data[Number(button.dataset.favoriteIndex)];
+  const saved=p&&getSavedFavorite(p);
+  button.classList.toggle('active',!!saved);
+  button.textContent=saved?'★':'☆';
+  button.title=saved?'Убрать из избранного':'Добавить в избранное';
+  button.setAttribute('aria-label',button.title);
+ });
+}
+async function getCsrfToken(){
+ const response=await fetch('/api/auth/csrf',{credentials:'same-origin'});
+ if(response.status===401)throw new Error('AUTH_REQUIRED');
+ if(!response.ok)throw new Error('Не удалось получить CSRF-токен.');
+ const result=await response.json();
+ const token=result.csrf_token||result.csrfToken||result.token;
+ if(!token)throw new Error('Сервер не вернул CSRF-токен.');
+ return token;
+}
+function goToLogin(){
+ const next=location.pathname+location.search+location.hash;
+ location.href='/login.html?next='+encodeURIComponent(next);
+}
+async function loadFavorites(){
+ try{
+  const response=await fetch('/api/favorites',{credentials:'same-origin'});
+  if(response.status===401){savedFavorites=[];updateFavoriteButtons();return;}
+  if(!response.ok)throw new Error('Не удалось загрузить избранное.');
+  const result=await response.json();
+  savedFavorites=Array.isArray(result)?result:(Array.isArray(result.favorites)?result.favorites:[]);
+  updateFavoriteButtons();
+ }catch(error){console.error('Favorites:',error);}
+}
+async function toggleFavorite(p,button){
+ if(button.disabled)return;
+ button.disabled=true;
+ try{
+  const auth=await fetch('/api/auth/me',{credentials:'same-origin'});
+  if(auth.status===401){savedFavorites=[];goToLogin();return;}
+  if(!auth.ok)throw new Error('Не удалось проверить авторизацию.');
+  const csrf=await getCsrfToken();
+  const existing=getSavedFavorite(p);
+  const response=existing
+   ?await fetch('/api/favorites/'+encodeURIComponent(existing.id),{
+      method:'DELETE',credentials:'same-origin',headers:{'X-CSRF-Token':csrf}
+     })
+   :await fetch('/api/favorites',{
+      method:'POST',credentials:'same-origin',
+      headers:{'Content-Type':'application/json','X-CSRF-Token':csrf},
+      body:JSON.stringify({phrase:p.en,translation:p.ru,lesson_title:document.title,lesson_url:location.pathname})
+     });
+  if(response.status===401){savedFavorites=[];goToLogin();return;}
+  if(!response.ok)throw new Error((await response.text())||'Не удалось изменить избранное.');
+  await loadFavorites();
+ }catch(error){
+  if(error.message==='AUTH_REQUIRED'){goToLogin();return;}
+  console.error('Favorites:',error);
+  alert('Не удалось изменить избранное. '+error.message);
+ }finally{button.disabled=false;}
+}
+
+loadFavorites();
 let session=[],index=0,correct=0,wrong=[],checked=false,lastWrong=[];
 const $=id=>document.getElementById(id);
 function norm(s){return s.toLowerCase().trim().replace(/[.,!?;:'"“”‘’]/g,'').replace(/\s+/g,' ');}
