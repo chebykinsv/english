@@ -61,9 +61,11 @@ h3{color:#2b6cb0;margin:8px 0}
 .feedback{border-radius:8px}
 .back{text-align:center;margin:22px auto 10px}
 .back a{display:inline-block;background:#3182ce;color:#fff;text-decoration:none;padding:11px 25px;border-radius:8px;font-weight:600}
-.back-top-wrap{text-align:left;margin:0 0 10px}
+.back-top-wrap{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:0 0 10px}
 .back-top{display:inline-flex;align-items:center;gap:7px;background:#e2e8f0;color:#244766;text-decoration:none;padding:9px 14px;border-radius:8px;font-weight:600}
 .back-top:hover{background:#cbd5e1}
+.favorites-top{display:inline-flex;align-items:center;gap:7px;background:#3182ce;color:#fff;text-decoration:none;padding:9px 16px;border-radius:8px;font-weight:700}
+.favorites-top:hover{background:#2563a8}
 @media(max-width:480px){body{padding:10px}.tab{flex:1;padding:9px 7px}.exam-question{font-size:1.1em}}
 
 
@@ -96,7 +98,7 @@ h3{color:#2b6cb0;margin:8px 0}
 </style>
 </head>
 <body><div class="container">
-<div class="back-top-wrap"><a class="back-top" href="index.html">← Назад</a></div>
+<div class="back-top-wrap"><a class="back-top" href="index.html">← Назад</a><a class="favorites-top" href="/favorites.html">★ Избранное</a></div>
 <h1>Present Simple — To Be: сложные вопросы</h1>
 <div class="nav">
 <button class="tab active" data-tab="theory">Теория</button>
@@ -205,9 +207,9 @@ function getSavedFavorite(p){
  );
 }
 async function getCsrfToken(){
+ if(csrfToken)return csrfToken;
  const response=await fetch("/api/auth/csrf",{credentials:"same-origin"});
- if(response.status===401)throw new Error("AUTH_REQUIRED");
- if(!response.ok)throw new Error("Не удалось получить токен безопасности.");
+ if(!response.ok)throw new Error("Не удалось получить токен безопасности. Войдите в личный кабинет.");
  const data=await response.json();
  if(!data.csrf_token)throw new Error("Сервер не вернул токен безопасности.");
  csrfToken=data.csrf_token;
@@ -227,20 +229,13 @@ async function loadFavorites(){
 }
 async function toggleFavorite(p,button){
  if(button.disabled)return;
+ if(!favoritesAuthenticated){
+  const next=location.pathname+location.search+location.hash;
+  location.href="/login.html?next="+encodeURIComponent(next);
+  return;
+ }
  button.disabled=true;
  try{
-  const auth=await fetch("/api/auth/me",{credentials:"same-origin"});
-  if(auth.status===401){
-   favoritesAuthenticated=false;
-   savedFavorites=[];
-   csrfToken="";
-   sessionStorage.removeItem("english_csrf");
-   const next=location.pathname+location.search+location.hash;
-   location.href="/login.html?next="+encodeURIComponent(next);
-   return;
-  }
-  if(!auth.ok)throw new Error("Не удалось проверить авторизацию.");
-  favoritesAuthenticated=true;
   const csrf=await getCsrfToken();
   const existing=getSavedFavorite(p);
   const response=existing
