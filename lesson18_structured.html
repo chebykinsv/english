@@ -43,10 +43,18 @@ summary{font-weight:700;color:#2b6cb0;cursor:pointer}
 .back{text-align:center;margin:28px auto 12px}
 .back a{display:inline-block;background:#3182ce;color:white;text-decoration:none;padding:11px 25px;border-radius:8px;font-weight:600}
 @media(max-width:480px){body{padding:10px}.tab{flex:1;padding:9px 7px}.card{padding:12px}}
+
+.fav-top{display:flex;justify-content:center;margin:8px 0 14px}
+.fav-link{display:inline-block;background:#e2e8f0;color:#244766;text-decoration:none;padding:8px 15px;border-radius:8px;font-weight:600}
+.fav-star{border:0;border-radius:7px;background:#edf2f7;color:#64748b;cursor:pointer;font-size:22px;line-height:1;min-width:38px;min-height:36px;padding:4px 8px;vertical-align:middle}
+.fav-star.saved{color:#d69e00;background:#fff8db}
+.fav-star:disabled{opacity:.5;cursor:wait}
+
 </style>
 </head>
 <body>
 <div class="container">
+<div class="fav-top"><a class="fav-link" href="/favorites.html">★ Избранное</a></div>
 <h1>Урок 18: Вопросы в Present Simple</h1>
 <div class="nav">
 <button class="tab active" data-tab="theory">Теория</button>
@@ -117,7 +125,7 @@ summary{font-weight:700;color:#2b6cb0;cursor:pointer}
 <div id="examRun" class="card hidden">
 <div class="stat"><span id="examProgressText">Вопрос 1</span><span id="examScore">Верно: 0 · Ошибки: 0</span></div>
 <div class="progress"><div id="progressBar"></div></div>
-<div class="exam-question" id="questionText"></div>
+<div class="row" style="justify-content:space-between"><div class="exam-question" id="questionText"></div><span id="examFavoriteSlot"></span></div>
 <input type="text" id="answerInput" lang="en" spellcheck="true" autocomplete="off" placeholder="Введите перевод...">
 <div class="actions">
 <button class="primary" id="checkAnswer">Проверить</button>
@@ -137,6 +145,85 @@ summary{font-weight:700;color:#2b6cb0;cursor:pointer}
 <script>
 const phrases = [{"group": "do", "en": "What do you want to say?", "ru": "Что ты хочешь сказать?"}, {"group": "do", "en": "What do you know?", "ru": "Что ты знаешь?"}, {"group": "do", "en": "What do you want to do?", "ru": "Что ты хочешь сделать?"}, {"group": "do", "en": "What do you need to do?", "ru": "Что тебе нужно сделать?"}, {"group": "do", "en": "What do you think about it?", "ru": "Что ты думаешь об этом?"}, {"group": "do", "en": "What do you like here?", "ru": "Что тебе здесь нравится?"}, {"group": "do", "en": "What kind of computer games do you play?", "ru": "В какие компьютерные игры ты играешь?"}, {"group": "do", "en": "What English books do you read?", "ru": "Какие английские книги ты читаешь?"}, {"group": "do", "en": "What time do you go to bed?", "ru": "Во сколько ты ложишься спать?"}, {"group": "do", "en": "What time do you usually get up?", "ru": "Во сколько ты обычно встаешь?"}, {"group": "do", "en": "Where do you live?", "ru": "Где ты живёшь?"}, {"group": "do", "en": "Where do you work?", "ru": "Где ты работаешь?"}, {"group": "do", "en": "Where do you go?", "ru": "Куда ты ходишь?"}, {"group": "do", "en": "Where do they spend time together?", "ru": "Где они проводят время вместе?"}, {"group": "do", "en": "When do you go to work?", "ru": "Когда ты ходишь на работу?"}, {"group": "do", "en": "When do you have free time?", "ru": "Когда у тебя есть свободное время?"}, {"group": "do", "en": "When do you feel happy?", "ru": "Когда ты чувствуешь себя счастливым?"}, {"group": "do", "en": "Why do you think so?", "ru": "Почему ты так думаешь?"}, {"group": "do", "en": "Why do you agree with him?", "ru": "Почему ты согласен с ним?"}, {"group": "do", "en": "Why do they depend on you?", "ru": "Почему они зависят от тебя?"}, {"group": "do", "en": "Why do you want to know English very well?", "ru": "Почему ты хочешь знать английский очень хорошо?"}, {"group": "do", "en": "Why do you like this channel?", "ru": "Почему тебе нравится этот канал?"}, {"group": "do", "en": "How do you find this idea?", "ru": "Как ты находишь эту идею?"}, {"group": "do", "en": "How do you get to work?", "ru": "Как ты добираешься до работы?"}, {"group": "do", "en": "How do you spend your free time?", "ru": "Как ты проводишь свободное время?"}, {"group": "do", "en": "How often do you use the Internet?", "ru": "Как часто ты пользуешься интернетом?"}, {"group": "do", "en": "How often do you think about it?", "ru": "Как часто ты думаешь об этом?"}, {"group": "do", "en": "How often do you watch TV?", "ru": "Как часто ты смотришь телевизор?"}, {"group": "do", "en": "How often do you go to the gym?", "ru": "Как часто ты ходишь в спортзал?"}, {"group": "do", "en": "How many English words do you know?", "ru": "Сколько английских слов ты знаешь?"}, {"group": "do", "en": "How many mistakes do you usually make?", "ru": "Сколько ошибок ты обычно делаешь?"}, {"group": "do", "en": "How many friends do you have?", "ru": "Сколько у тебя друзей?"}, {"group": "do", "en": "How much money do you have?", "ru": "Сколько у тебя денег?"}, {"group": "do", "en": "How much free time do you have?", "ru": "Сколько у тебя свободного времени?"}, {"group": "do", "en": "How long do you work?", "ru": "Как долго ты работаешь?"}, {"group": "do", "en": "How far do you live?", "ru": "Как далеко ты живёшь?"}, {"group": "do", "en": "Whose phone do you use?", "ru": "Чьим телефоном ты пользуешься?"}, {"group": "do", "en": "Which book do you prefer?", "ru": "Какую книгу ты предпочитаешь?"}, {"group": "do", "en": "How do you get there?", "ru": "Как ты добираешься туда?"}, {"group": "do", "en": "How do you get home?", "ru": "Как ты добираешься домой?"}, {"group": "do", "en": "How do you get to this place?", "ru": "Как ты добираешься до этого места?"}, {"group": "do", "en": "How do you usually spend your free time?", "ru": "Как ты обычно проводишь свободное время?"}, {"group": "does", "en": "What does she say?", "ru": "Что она говорит?"}, {"group": "does", "en": "What does she tell him?", "ru": "Что она говорит ему?"}, {"group": "does", "en": "What does he want to add?", "ru": "Что он хочет добавить?"}, {"group": "does", "en": "What does she try to do?", "ru": "Что она пытается сделать?"}, {"group": "does", "en": "What does he need to change?", "ru": "Что ему нужно изменить?"}, {"group": "does", "en": "Why does he complain so often?", "ru": "Почему он так часто жалуется?"}, {"group": "does", "en": "Why does she refuse to pay?", "ru": "Почему она отказывается платить?"}, {"group": "does", "en": "Why does it happen again and again?", "ru": "Почему это происходит снова и снова?"}, {"group": "does", "en": "Who does she love?", "ru": "Кого она любит?"}, {"group": "does", "en": "Who does he support?", "ru": "Кого он поддерживает?"}, {"group": "does", "en": "Who does it motivate?", "ru": "Кого это мотивирует?"}, {"group": "does", "en": "Where does she work?", "ru": "Где она работает?"}, {"group": "does", "en": "How does she do it?", "ru": "Как она это делает?"}, {"group": "does", "en": "What English books does he have?", "ru": "Какие английские книги у него есть?"}, {"group": "does", "en": "What channels does he watch?", "ru": "Какие каналы он смотрит?"}, {"group": "does", "en": "What kind of movies does she watch?", "ru": "Какие фильмы она смотрит?"}, {"group": "does", "en": "What books does she prefer to read?", "ru": "Какие книги она предпочитает читать?"}, {"group": "does", "en": "Which channel does he usually watch?", "ru": "Какой канал он обычно смотрит?"}, {"group": "does", "en": "Which drink does she prefer: tea or coffee?", "ru": "Какой напиток она предпочитает: чай или кофе?"}, {"group": "does", "en": "What drinks does she prefer?", "ru": "Какие напитки она предпочитает?"}, {"group": "does", "en": "What time does he come to work?", "ru": "Во сколько он приходит на работу?"}, {"group": "does", "en": "What time does she leave home?", "ru": "Во сколько она уходит из дома?"}, {"group": "does", "en": "How much money does she pay?", "ru": "Сколько денег она платит?"}, {"group": "does", "en": "How many dollars does he have?", "ru": "Сколько долларов у него есть?"}, {"group": "does", "en": "How often does she go to the cinema?", "ru": "Как часто она ходит в кино?"}, {"group": "does", "en": "How often does he go to the zoo?", "ru": "Как часто он ходит в зоопарк?"}, {"group": "does", "en": "How regularly does he do these exercises?", "ru": "Как регулярно он делает эти упражнения?"}, {"group": "does", "en": "How long does it take you to get to work?", "ru": "Сколько времени у тебя занимает добраться до работы?"}, {"group": "does", "en": "How long does it take him/her to get to this place?", "ru": "Сколько времени у него/неё занимает добраться до этого места?"}, {"group": "who", "en": "Who knows it?", "ru": "Кто это знает?"}, {"group": "who", "en": "Who supports you?", "ru": "Кто тебя поддерживает?"}, {"group": "who", "en": "Who motivates you?", "ru": "Кто тебя мотивирует?"}, {"group": "who", "en": "Who loves her?", "ru": "Кто её любит?"}, {"group": "who", "en": "Who controls it?", "ru": "Кто это контролирует?"}, {"group": "who", "en": "Who checks all this information?", "ru": "Кто проверяет всю эту информацию?"}, {"group": "who", "en": "Who usually checks it?", "ru": "Кто обычно проверяет это?"}, {"group": "who", "en": "Who corrects your mistakes?", "ru": "Кто исправляет твои ошибки?"}, {"group": "who", "en": "What helps you?", "ru": "Что тебе помогает?"}, {"group": "who", "en": "What really helps you?", "ru": "Что тебе реально помогает?"}, {"group": "who", "en": "What seems strange?", "ru": "Что кажется странным?"}, {"group": "who", "en": "What seems important?", "ru": "Что кажется важным?"}, {"group": "who", "en": "What seems unimportant?", "ru": "Что кажется неважным?"}, {"group": "who", "en": "What seems useless?", "ru": "Что кажется бесполезным?"}, {"group": "who", "en": "What looks strange?", "ru": "Что выглядит странным?"}, {"group": "who", "en": "What interests you?", "ru": "Что тебя интересует?"}, {"group": "who", "en": "What worries you?", "ru": "Что тебя беспокоит?"}];
 const groupNames={do:"DO",does:"DOES",who:"WHO / WHAT"};
+
+const FAVORITES_API = '/api';
+let serverFavorites = [];
+function favoriteRedirect() {
+  const next = location.pathname + location.search + location.hash;
+  location.href = '/login.html?next=' + encodeURIComponent(next);
+}
+async function favoriteAuthCheck() {
+  const r = await fetch(FAVORITES_API + '/auth/me', {credentials:'same-origin'});
+  if (r.status === 401) { favoriteRedirect(); return false; }
+  if (!r.ok) throw new Error('Не удалось проверить авторизацию');
+  return true;
+}
+async function favoriteFreshCsrf() {
+  const r = await fetch(FAVORITES_API + '/auth/csrf', {credentials:'same-origin'});
+  if (r.status === 401) { favoriteRedirect(); return null; }
+  if (!r.ok) throw new Error('Не удалось получить CSRF-токен');
+  const d = await r.json();
+  const token = d.csrf_token || d.token || d.csrf;
+  if (!token) throw new Error('В ответе API нет CSRF-токена');
+  return token;
+}
+function favoriteList(data) {
+  return Array.isArray(data) ? data : (data.favorites || []);
+}
+async function loadServerFavorites() {
+  try {
+    const r = await fetch(FAVORITES_API + '/favorites', {credentials:'same-origin'});
+    if (r.status === 401) { serverFavorites=[]; updateFavoriteButtons(); return; }
+    if (!r.ok) throw new Error('Не удалось загрузить избранное');
+    serverFavorites = favoriteList(await r.json());
+    updateFavoriteButtons();
+  } catch(e) { console.error('Избранное:', e); }
+}
+function isServerFavorite(en, ru) {
+  return serverFavorites.some(x => x.phrase === en && x.translation === ru && x.lesson_url === location.pathname);
+}
+function updateFavoriteButtons() {
+  document.querySelectorAll('[data-fav-en]').forEach(b => {
+    const saved = isServerFavorite(b.dataset.favEn, b.dataset.favRu);
+    b.classList.toggle('saved', saved);
+    b.textContent = saved ? '★' : '☆';
+    b.title = saved ? 'Убрать из избранного' : 'Добавить в избранное';
+    b.setAttribute('aria-label', b.title);
+  });
+}
+async function toggleServerFavorite(button, en, ru) {
+  if (button.disabled) return;
+  button.disabled = true;
+  try {
+    if (!await favoriteAuthCheck()) return;
+    const existing = serverFavorites.find(x => x.phrase === en && x.translation === ru && x.lesson_url === location.pathname);
+    const token = await favoriteFreshCsrf();
+    if (!token) return;
+    const url = existing ? FAVORITES_API + '/favorites/' + existing.id : FAVORITES_API + '/favorites';
+    const options = existing
+      ? {method:'DELETE', credentials:'same-origin', headers:{'X-CSRF-Token':token}}
+      : {method:'POST', credentials:'same-origin', headers:{'Content-Type':'application/json','X-CSRF-Token':token},
+         body:JSON.stringify({phrase:en, translation:ru, lesson_title:document.title, lesson_url:location.pathname})};
+    const r = await fetch(url, options);
+    if (r.status === 401) { favoriteRedirect(); return; }
+    if (!r.ok) {
+      const msg = await r.text();
+      throw new Error(msg || 'Ошибка сохранения');
+    }
+    await loadServerFavorites();
+  } catch(e) {
+    console.error(e);
+    alert('Не удалось изменить избранное. ' + (e.message || ''));
+  } finally { button.disabled = false; }
+}
+function favoriteButton(en, ru, extra='') {
+  return `<button type="button" class="fav-star ${extra}" data-fav-en="${esc(en)}" data-fav-ru="${esc(ru)}" title="Добавить в избранное" aria-label="Добавить в избранное">☆</button>`;
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-fav-en]');
+  if (b) toggleServerFavorite(b, b.dataset.favEn, b.dataset.favRu);
+});
+
 let trainerMode="en", examQueue=[], examIndex=0, correct=0, errors=[], current=null, checked=false;
 const $=id=>document.getElementById(id);
 document.querySelectorAll(".tab[data-tab]").forEach(b=>b.addEventListener("click",()=>{
@@ -148,14 +235,14 @@ function renderTrainer(){
  const q=norm($("trainerSearch").value), g=$("trainerGroup").value;
  const list=phrases.filter(p=>(g==="all"||p.group===g)&&(!q||norm(p.en).includes(q)||norm(p.ru).includes(q)));
  $("trainerCount").textContent=`Найдено: ${list.length}`;
- $("trainerList").innerHTML=list.map((p,i)=>`<div class="card phrase"><div class="en">${esc(trainerMode==="en"?p.en:p.ru)}</div><button class="secondary reveal">Показать перевод</button><div class="ru hidden">${esc(trainerMode==="en"?p.ru:p.en)}</div></div>`).join("");
+ $("trainerList").innerHTML=list.map((p,i)=>`<div class="card phrase"><div class="row" style="justify-content:space-between"><div class="en">${esc(trainerMode==="en"?p.en:p.ru)}</div>${favoriteButton(p.en,p.ru)}</div><button class="secondary reveal">Показать перевод</button><div class="ru hidden">${esc(trainerMode==="en"?p.ru:p.en)}</div></div>`).join(""); updateFavoriteButtons();
  $("trainerList").querySelectorAll(".reveal").forEach(b=>b.addEventListener("click",()=>{const r=b.nextElementSibling;r.classList.toggle("hidden");b.textContent=r.classList.contains("hidden")?"Показать перевод":"Скрыть перевод"}));
 }
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 $("trEnRu").onclick=()=>{trainerMode="en";$("trEnRu").classList.add("active");$("trRuEn").classList.remove("active");renderTrainer()};
 $("trRuEn").onclick=()=>{trainerMode="ru";$("trRuEn").classList.add("active");$("trEnRu").classList.remove("active");renderTrainer()};
 $("trainerSearch").addEventListener("input",renderTrainer);$("trainerGroup").addEventListener("change",renderTrainer);
-renderTrainer();
+renderTrainer(); loadServerFavorites();
 
 function start(list){
  examQueue=[...list].sort(()=>Math.random()-.5);examIndex=0;correct=0;errors=[]; $("examSetup").classList.add("hidden");$("examDone").classList.add("hidden");$("examRun").classList.remove("hidden");showQuestion();
@@ -171,7 +258,7 @@ function showQuestion(){
  if(examIndex>=examQueue.length){finish();return}
  current=examQueue[examIndex];checked=false;
  const mode=$("examMode").value;
- $("questionText").textContent=mode==="ru"?current.ru:current.en;
+ $("questionText").textContent=mode==="ru"?current.ru:current.en;$("examFavoriteSlot").innerHTML=favoriteButton(current.en,current.ru);updateFavoriteButtons();
  $("answerInput").value="";$("answerInput").disabled=false;$("answerInput").focus();
  $("feedback").innerHTML="";$("checkAnswer").classList.remove("hidden");$("nextQuestion").classList.add("hidden");
  $("examProgressText").textContent=`Вопрос ${examIndex+1} из ${examQueue.length}`;

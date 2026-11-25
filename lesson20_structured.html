@@ -12,7 +12,15 @@ h1{text-align:center;color:#2c3e50;font-size:1.35em;margin:4px 0 18px}h2{color:#
 .badge{font-size:.82em;color:#52657a;margin-bottom:5px}.stat{display:flex;gap:12px;flex-wrap:wrap;color:#475569;font-size:.94em}.progress{height:8px;background:#e2e8f0;border-radius:20px;overflow:hidden;margin:12px 0}.progress>div{height:100%;background:#3182ce;width:0}
 .exam-question{font-size:1.2em;font-weight:700;margin:18px 0}.feedback{padding:10px;border-radius:8px;margin-top:10px}.good{background:#dcfce7;color:#166534}.bad{background:#fee2e2;color:#991b1b}.back{text-align:center;margin:28px auto 12px}.back a{display:inline-block;background:#3182ce;color:#fff;text-decoration:none;padding:11px 25px;border-radius:8px;font-weight:600}
 @media(max-width:480px){body{padding:10px}.tab{flex:1;padding:9px 7px}.card{padding:12px}}
+
+.fav-top{display:flex;justify-content:center;margin:8px 0 14px}
+.fav-link{display:inline-block;background:#e2e8f0;color:#244766;text-decoration:none;padding:8px 15px;border-radius:8px;font-weight:600}
+.fav-star{border:0;border-radius:7px;background:#edf2f7;color:#64748b;cursor:pointer;font-size:22px;line-height:1;min-width:38px;min-height:36px;padding:4px 8px;vertical-align:middle}
+.fav-star.saved{color:#d69e00;background:#fff8db}
+.fav-star:disabled{opacity:.5;cursor:wait}
+
 </style></head><body><div class="container">
+<div class="fav-top"><a class="fav-link" href="/favorites.html">★ Избранное</a></div>
 <h1>Урок 20: Вопросы в Present Simple</h1>
 <div class="nav"><button class="tab active" data-tab="theory">Теория</button><button class="tab" data-tab="trainer">Тренажёр</button><button class="tab" data-tab="exam">Экзамен</button></div>
 
@@ -42,7 +50,7 @@ h1{text-align:center;color:#2c3e50;font-size:1.35em;margin:4px 0 18px}h2{color:#
 <label for="amount">Количество:</label><select id="amount"><option value="10">10</option><option value="20">20</option><option value="30">30</option><option value="all">Все (34)</option></select></div>
 <div class="actions"><button class="primary" id="start">Начать экзамен</button></div></div>
 <div id="run" class="card hidden"><div class="stat"><span id="progressText"></span><span id="score"></span></div><div class="progress"><div id="bar"></div></div>
-<div id="question" class="exam-question"></div><input type="text" id="answer" lang="en" spellcheck="true" autocomplete="off" placeholder="Введите перевод...">
+<div class="row" style="justify-content:space-between"><div id="question" class="exam-question"></div><span id="examFavoriteSlot"></span></div><input type="text" id="answer" lang="en" spellcheck="true" autocomplete="off" placeholder="Введите перевод...">
 <div class="actions"><button class="primary" id="check">Проверить</button><button class="secondary hidden" id="next">Следующий вопрос</button></div><div id="feedback"></div></div>
 <div id="done" class="card hidden"><h3>Экзамен завершён</h3><p id="result"></p><div class="actions"><button class="primary" id="retry">Повторить ошибки</button><button class="secondary" id="again">Новый экзамен</button></div></div>
 </section>
@@ -50,19 +58,99 @@ h1{text-align:center;color:#2c3e50;font-size:1.35em;margin:4px 0 18px}h2{color:#
 
 <script>
 const phrases=[{"en": "How many English words does your friend want to know?", "ru": "Сколько английских слов хочет знать твой друг?", "group": "problem"}, {"en": "How much free time does your business partner have?", "ru": "Сколько свободного времени у твоего бизнес-партнера?", "group": "problem"}, {"en": "Why does your friend want to look for a new job?", "ru": "Почему твой друг хочет искать новую работу?", "group": "problem"}, {"en": "How long does it take his son to get to work?", "ru": "Сколько времени у его сына занимает добраться до работы?", "group": "problem"}, {"en": "When do these things happen?", "ru": "Когда происходят эти вещи? (мн.ч.)", "group": "problem"}, {"en": "How regularly does your boss check it?", "ru": "Как регулярно твой босс проверяет это?", "group": "problem"}, {"en": "How does he solve these problems?", "ru": "Как он решает эти проблемы?", "group": "new"}, {"en": "Why do you need to do it?", "ru": "Почему тебе нужно сделать это?", "group": "new"}, {"en": "How much money do you have with you?", "ru": "Сколько у тебя с собой денег?", "group": "new"}, {"en": "Who knows?", "ru": "Кто знает? (ловушка: без does, глагол с -s)", "group": "new"}, {"en": "Why does he always complain about it?", "ru": "Почему он всегда жалуется на это?", "group": "new"}, {"en": "What channels does he usually watch?", "ru": "Какие каналы он обычно смотрит?", "group": "new"}, {"en": "Where does your father work?", "ru": "Где работает твой отец?", "group": "regular"}, {"en": "Where do your parents live?", "ru": "Где живут твои родители?", "group": "regular"}, {"en": "Why does your boss criticize it?", "ru": "Почему твой босс критикует это?", "group": "regular"}, {"en": "Why does your mother think so?", "ru": "Почему твоя мама так думает?", "group": "regular"}, {"en": "Why do your friends disagree with you?", "ru": "Почему твои друзья не согласны с тобой?", "group": "regular"}, {"en": "How does your sister feel?", "ru": "Как себя чувствует твоя сестра?", "group": "regular"}, {"en": "How does your brother control it?", "ru": "Как твой брат контролирует это?", "group": "regular"}, {"en": "When does your father leave home?", "ru": "Когда твой отец уходит из дома?", "group": "regular"}, {"en": "When does this thing happen?", "ru": "Когда происходит эта вещь? (ед.ч.)", "group": "regular"}, {"en": "What do your friends usually order?", "ru": "Что твои друзья обычно заказывают?", "group": "regular"}, {"en": "What does your boss usually promise?", "ru": "Что твой босс обычно обещает?", "group": "regular"}, {"en": "What advice does your teacher give you?", "ru": "Какой совет дает тебе твой учитель?", "group": "regular"}, {"en": "What advice do your teachers give you?", "ru": "Какой совет дают тебе твои учителя?", "group": "regular"}, {"en": "What kind of examples does his teacher give?", "ru": "Какие примеры дает его учитель?", "group": "regular"}, {"en": "How long does it take his daughter to get to school?", "ru": "Сколько времени у его дочери занимает добраться до школы?", "group": "regular"}, {"en": "How often do you listen to the radio?", "ru": "Как часто ты слушаешь радио?", "group": "regular"}, {"en": "What does she usually say?", "ru": "Что она обычно говорит?", "group": "regular"}, {"en": "What time does she leave home?", "ru": "Во сколько она уходит из дома?", "group": "regular"}, {"en": "What kind of computer games do they play?", "ru": "В какие компьютерные игры они играют?", "group": "regular"}, {"en": "Why does this idea seem so interesting?", "ru": "Почему эта идея кажется такой интересной?", "group": "regular"}, {"en": "How regularly does your teacher say it?", "ru": "Как регулярно твой учитель говорит это?", "group": "regular"}, {"en": "How regularly do your teachers tell you these things?", "ru": "Как регулярно твои учителя говорят тебе эти вещи?", "group": "regular"}], groupLabels={problem:"Проблемная фраза",new:"Новая фраза",regular:"Обычная фраза"};
-const $=id=>document.getElementById(id);let trainerMode="en",queue=[],index=0,correct=0,errors=[],current=null,checked=false;
+const $=id=>document.getElementById(id);
+
+const FAVORITES_API = '/api';
+let serverFavorites = [];
+function favoriteRedirect() {
+  const next = location.pathname + location.search + location.hash;
+  location.href = '/login.html?next=' + encodeURIComponent(next);
+}
+async function favoriteAuthCheck() {
+  const r = await fetch(FAVORITES_API + '/auth/me', {credentials:'same-origin'});
+  if (r.status === 401) { favoriteRedirect(); return false; }
+  if (!r.ok) throw new Error('Не удалось проверить авторизацию');
+  return true;
+}
+async function favoriteFreshCsrf() {
+  const r = await fetch(FAVORITES_API + '/auth/csrf', {credentials:'same-origin'});
+  if (r.status === 401) { favoriteRedirect(); return null; }
+  if (!r.ok) throw new Error('Не удалось получить CSRF-токен');
+  const d = await r.json();
+  const token = d.csrf_token || d.token || d.csrf;
+  if (!token) throw new Error('В ответе API нет CSRF-токена');
+  return token;
+}
+function favoriteList(data) {
+  return Array.isArray(data) ? data : (data.favorites || []);
+}
+async function loadServerFavorites() {
+  try {
+    const r = await fetch(FAVORITES_API + '/favorites', {credentials:'same-origin'});
+    if (r.status === 401) { serverFavorites=[]; updateFavoriteButtons(); return; }
+    if (!r.ok) throw new Error('Не удалось загрузить избранное');
+    serverFavorites = favoriteList(await r.json());
+    updateFavoriteButtons();
+  } catch(e) { console.error('Избранное:', e); }
+}
+function isServerFavorite(en, ru) {
+  return serverFavorites.some(x => x.phrase === en && x.translation === ru && x.lesson_url === location.pathname);
+}
+function updateFavoriteButtons() {
+  document.querySelectorAll('[data-fav-en]').forEach(b => {
+    const saved = isServerFavorite(b.dataset.favEn, b.dataset.favRu);
+    b.classList.toggle('saved', saved);
+    b.textContent = saved ? '★' : '☆';
+    b.title = saved ? 'Убрать из избранного' : 'Добавить в избранное';
+    b.setAttribute('aria-label', b.title);
+  });
+}
+async function toggleServerFavorite(button, en, ru) {
+  if (button.disabled) return;
+  button.disabled = true;
+  try {
+    if (!await favoriteAuthCheck()) return;
+    const existing = serverFavorites.find(x => x.phrase === en && x.translation === ru && x.lesson_url === location.pathname);
+    const token = await favoriteFreshCsrf();
+    if (!token) return;
+    const url = existing ? FAVORITES_API + '/favorites/' + existing.id : FAVORITES_API + '/favorites';
+    const options = existing
+      ? {method:'DELETE', credentials:'same-origin', headers:{'X-CSRF-Token':token}}
+      : {method:'POST', credentials:'same-origin', headers:{'Content-Type':'application/json','X-CSRF-Token':token},
+         body:JSON.stringify({phrase:en, translation:ru, lesson_title:document.title, lesson_url:location.pathname})};
+    const r = await fetch(url, options);
+    if (r.status === 401) { favoriteRedirect(); return; }
+    if (!r.ok) {
+      const msg = await r.text();
+      throw new Error(msg || 'Ошибка сохранения');
+    }
+    await loadServerFavorites();
+  } catch(e) {
+    console.error(e);
+    alert('Не удалось изменить избранное. ' + (e.message || ''));
+  } finally { button.disabled = false; }
+}
+function favoriteButton(en, ru, extra='') {
+  return `<button type="button" class="fav-star ${extra}" data-fav-en="${esc(en)}" data-fav-ru="${esc(ru)}" title="Добавить в избранное" aria-label="Добавить в избранное">☆</button>`;
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-fav-en]');
+  if (b) toggleServerFavorite(b, b.dataset.favEn, b.dataset.favRu);
+});
+
+let trainerMode="en",queue=[],index=0,correct=0,errors=[],current=null,checked=false;
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function norm(s){return s.toLowerCase().replace(/[.,!?;:—–-]/g,"").replace(/\s+/g," ").trim()}
 document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{document.querySelectorAll("[data-tab]").forEach(x=>x.classList.toggle("active",x===b));document.querySelectorAll(".panel").forEach(x=>x.classList.toggle("active",x.id===b.dataset.tab))});
 function render(){let q=norm($("search").value);let found=phrases.filter(p=>(!q||norm(p.en).includes(q)||norm(p.ru).includes(q)));$("count").textContent="Найдено: "+found.length;
-$("trainerList").innerHTML=found.map(p=>`<div class="card"><div class="en">${esc(trainerMode==="en"?p.en:p.ru)}</div><button class="secondary reveal">Показать перевод</button><div class="ru hidden">${esc(trainerMode==="en"?p.ru:p.en)}</div></div>`).join("");
+$("trainerList").innerHTML=found.map(p=>`<div class="card"><div class="row" style="justify-content:space-between"><div class="en">${esc(trainerMode==="en"?p.en:p.ru)}</div>${favoriteButton(p.en,p.ru)}</div><button class="secondary reveal">Показать перевод</button><div class="ru hidden">${esc(trainerMode==="en"?p.ru:p.en)}</div></div>`).join("");updateFavoriteButtons();
 $("trainerList").querySelectorAll(".reveal").forEach(b=>b.onclick=()=>{let r=b.nextElementSibling;r.classList.toggle("hidden");b.textContent=r.classList.contains("hidden")?"Показать перевод":"Скрыть перевод"})}
 $("tEn").onclick=()=>{trainerMode="en";$("tEn").classList.add("active");$("tRu").classList.remove("active");render()};
 $("tRu").onclick=()=>{trainerMode="ru";$("tRu").classList.add("active");$("tEn").classList.remove("active");render()};
-$("search").oninput=render;render();
+$("search").oninput=render;render();loadServerFavorites();
 function start(list){queue=[...list].sort(()=>Math.random()-.5);index=0;correct=0;errors=[];$("setup").classList.add("hidden");$("done").classList.add("hidden");$("run").classList.remove("hidden");show()}
 $("start").onclick=()=>{let list=[...phrases];let n=$("amount").value;if(n!=="all")list=list.slice(0,Number(n));start(list)};
-function show(){if(index>=queue.length){finish();return}current=queue[index];checked=false;let mode=$("examMode").value;$("question").textContent=mode==="ru"?current.ru:current.en;$("answer").value="";$("answer").disabled=false;$("feedback").innerHTML="";$("check").classList.remove("hidden");$("next").classList.add("hidden");$("progressText").textContent=`Вопрос ${index+1} из ${queue.length}`;$("score").textContent=`Верно: ${correct} · Ошибки: ${errors.length}`;$("bar").style.width=`${index/queue.length*100}%`;$("answer").focus()}
+function show(){if(index>=queue.length){finish();return}current=queue[index];checked=false;let mode=$("examMode").value;$("question").textContent=mode==="ru"?current.ru:current.en;$("examFavoriteSlot").innerHTML=favoriteButton(current.en,current.ru);updateFavoriteButtons();$("answer").value="";$("answer").disabled=false;$("feedback").innerHTML="";$("check").classList.remove("hidden");$("next").classList.add("hidden");$("progressText").textContent=`Вопрос ${index+1} из ${queue.length}`;$("score").textContent=`Верно: ${correct} · Ошибки: ${errors.length}`;$("bar").style.width=`${index/queue.length*100}%`;$("answer").focus()}
 function check(){if(checked)return;let mode=$("examMode").value,given=norm($("answer").value),expected=norm(mode==="ru"?current.en:current.ru);if(!given){$("feedback").innerHTML='<div class="feedback bad">Введите ответ.</div>';return}checked=true;$("answer").disabled=true;if(given===expected){correct++;$("feedback").innerHTML='<div class="feedback good">Верно!</div>'}else{errors.push(current);$("feedback").innerHTML=`<div class="feedback bad">Ошибка. Правильный ответ: <b>${esc(mode==="ru"?current.en:current.ru)}</b><br><button class="secondary" id="accept">Не считать ошибкой</button></div>`;$("accept").onclick=()=>{errors=errors.filter(x=>x!==current);correct++;$("feedback").innerHTML='<div class="feedback good">Ответ засчитан.</div>';updateScore()}}updateScore();$("check").classList.add("hidden");$("next").classList.remove("hidden")}
 function updateScore(){$("score").textContent=`Верно: ${correct} · Ошибки: ${errors.length}`}
 $("check").onclick=check;function next(){index++;show()}$("next").onclick=next;$("answer").onkeydown=e=>{if(e.key==="Enter"){if(!checked)check();else next()}};

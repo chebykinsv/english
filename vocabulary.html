@@ -120,11 +120,19 @@
             -webkit-tap-highlight-color: transparent;
         }
         @media (max-width: 360px) { .back-nav-btn { padding: 10px 22px; font-size: 0.95em; } }
-    </style>
+    
+.fav-top{display:flex;justify-content:center;margin:8px 0 14px}
+.fav-link{display:inline-block;background:#e2e8f0;color:#244766;text-decoration:none;padding:8px 15px;border-radius:8px;font-weight:600}
+.fav-star{border:0;border-radius:7px;background:#edf2f7;color:#64748b;cursor:pointer;font-size:22px;line-height:1;min-width:38px;min-height:36px;padding:4px 8px;vertical-align:middle}
+.fav-star.saved{color:#d69e00;background:#fff8db}
+.fav-star:disabled{opacity:.5;cursor:wait}
+
+</style>
 </head>
 <body>
 
 <div class="container">
+<div class="fav-top"><a class="fav-link" href="/favorites.html">★ Избранное</a></div>
     <h1>Тренажер: Лексика</h1>
 
     <div class="rule-box">
@@ -137,60 +145,70 @@
         
         <li>
             <span class="en">Let's make a decision.</span>
+<button type="button" class="fav-star" data-fav-en="Let's make a decision." data-fav-ru="Давай примем решение." title="Добавить в избранное" aria-label="Добавить в избранное">☆</button>
             <div class="vocab-note">(make a decision — принять решение)</div>
             <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
             <span class="ru">— Давай примем решение.</span>
         </li>
         <li>
             <span class="en">Please, share your point of view.</span>
+<button type="button" class="fav-star" data-fav-en="Please, share your point of view." data-fav-ru="Пожалуйста, поделись своей точкой зрения." title="Добавить в избранное" aria-label="Добавить в избранное">☆</button>
             <div class="vocab-note">(share your point of view — поделиться своей точкой зрения)</div>
             <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
             <span class="ru">— Пожалуйста, поделись своей точкой зрения.</span>
         </li>
         <li>
             <span class="en">Tell me all the truth.</span>
+<button type="button" class="fav-star" data-fav-en="Tell me all the truth." data-fav-ru="Скажи мне всю правду." title="Добавить в избранное" aria-label="Добавить в избранное">☆</button>
             <div class="vocab-note">(all the truth — всю правду)</div>
             <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
             <span class="ru">— Скажи мне всю правду.</span>
         </li>
         <li>
             <span class="en">I need much more time.</span>
+<button type="button" class="fav-star" data-fav-en="I need much more time." data-fav-ru="Мне нужно намного больше времени." title="Добавить в избранное" aria-label="Добавить в избранное">☆</button>
             <div class="vocab-note">(much more — намного больше)</div>
             <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
             <span class="ru">— Мне нужно намного больше времени.</span>
         </li>
         <li>
             <span class="en">You always promise, but you never do it.</span>
+<button type="button" class="fav-star" data-fav-en="You always promise, but you never do it." data-fav-ru="Ты всегда обещаешь, но никогда этого не делаешь." title="Добавить в избранное" aria-label="Добавить в избранное">☆</button>
             <div class="vocab-note">(promise — обещать)</div>
             <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
             <span class="ru">— Ты всегда обещаешь, но никогда этого не делаешь.</span>
         </li>
         <li>
             <span class="en">Let's discuss it.</span>
+<button type="button" class="fav-star" data-fav-en="Let's discuss it." data-fav-ru="Давай обсудим это." title="Добавить в избранное" aria-label="Добавить в избранное">☆</button>
             <div class="vocab-note">(discuss — обсуждать, без предлога about)</div>
             <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
             <span class="ru">— Давай обсудим это.</span>
         </li>
         <li>
             <span class="en">Let's talk about it.</span>
+<button type="button" class="fav-star" data-fav-en="Let's talk about it." data-fav-ru="Давай поговорим об этом." title="Добавить в избранное" aria-label="Добавить в избранное">☆</button>
             <div class="vocab-note">(talk about — поговорить о чем-то)</div>
             <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
             <span class="ru">— Давай поговорим об этом.</span>
         </li>
         <li>
             <span class="en">I want to look for a new job.</span>
+<button type="button" class="fav-star" data-fav-en="I want to look for a new job." data-fav-ru="Я хочу искать новую работу." title="Добавить в избранное" aria-label="Добавить в избранное">☆</button>
             <div class="vocab-note">(look for — искать)</div>
             <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
             <span class="ru">— Я хочу искать новую работу.</span>
         </li>
         <li>
             <span class="en">She wants to find a good job.</span>
+<button type="button" class="fav-star" data-fav-en="She wants to find a good job." data-fav-ru="Она хочет найти хорошую работу." title="Добавить в избранное" aria-label="Добавить в избранное">☆</button>
             <div class="vocab-note">(find — найти)</div>
             <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
             <span class="ru">— Она хочет найти хорошую работу.</span>
         </li>
         <li>
             <span class="en">Why does he always complain about it?</span>
+<button type="button" class="fav-star" data-fav-en="Why does he always complain about it?" data-fav-ru="Почему он всегда жалуется на это?" title="Добавить в избранное" aria-label="Добавить в избранное">☆</button>
             <div class="vocab-note">(complain about — жаловаться на)</div>
             <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
             <span class="ru">— Почему он всегда жалуется на это?</span>
@@ -199,24 +217,28 @@
         <!-- НОВЫЕ СЛОВА (ФИОЛЕТОВЫЕ) -->
         <li class="new-vocab">
             <span class="en">I will help you with great pleasure.</span>
+<button type="button" class="fav-star" data-fav-en="I will help you with great pleasure." data-fav-ru="Я помогу тебе с большим удовольствием." title="Добавить в избранное" aria-label="Добавить в избранное">☆</button>
             <div class="vocab-note">(with great pleasure — с большим удовольствием)</div>
             <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
             <span class="ru">— Я помогу тебе с большим удовольствием.</span>
         </li>
         <li class="new-vocab">
             <span class="en">This idea inspires me.</span>
+<button type="button" class="fav-star" data-fav-en="This idea inspires me." data-fav-ru="Эта идея вдохновляет меня." title="Добавить в избранное" aria-label="Добавить в избранное">☆</button>
             <div class="vocab-note">(inspire — вдохновлять)</div>
             <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
             <span class="ru">— Эта идея вдохновляет меня.</span>
         </li>
         <li class="new-vocab">
             <span class="en">What do you prefer: tea or coffee?</span>
+<button type="button" class="fav-star" data-fav-en="What do you prefer: tea or coffee?" data-fav-ru="Что ты предпочитаешь: чай или кофе?" title="Добавить в избранное" aria-label="Добавить в избранное">☆</button>
             <div class="vocab-note">(prefer — предпочитать)</div>
             <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
             <span class="ru">— Что ты предпочитаешь: чай или кофе?</span>
         </li>
         <li class="new-vocab">
             <span class="en">I prefer to work in the morning.</span>
+<button type="button" class="fav-star" data-fav-en="I prefer to work in the morning." data-fav-ru="Я предпочитаю работать утром." title="Добавить в избранное" aria-label="Добавить в избранное">☆</button>
             <div class="vocab-note">(prefer to do something — предпочитать делать что-то)</div>
             <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
             <span class="ru">— Я предпочитаю работать утром.</span>
@@ -225,18 +247,21 @@
         <!-- ЕЩЕ НОВЫЕ (ДОБАВЛЕННЫЕ СЕЙЧАС) -->
         <li class="new-vocab">
             <span class="en">I do it with great pleasure.</span>
+<button type="button" class="fav-star" data-fav-en="I do it with great pleasure." data-fav-ru="Я делаю это с большим удовольствием." title="Добавить в избранное" aria-label="Добавить в избранное">☆</button>
             <div class="vocab-note">(do it — делать это; with great pleasure — с большим удовольствием)</div>
             <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
             <span class="ru">— Я делаю это с большим удовольствием.</span>
         </li>
         <li class="new-vocab">
             <span class="en">He does it with great pleasure.</span>
+<button type="button" class="fav-star" data-fav-en="He does it with great pleasure." data-fav-ru="Он делает это с большим удовольствием." title="Добавить в избранное" aria-label="Добавить в избранное">☆</button>
             <div class="vocab-note">(does — для he, с -es)</div>
             <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
             <span class="ru">— Он делает это с большим удовольствием.</span>
         </li>
         <li class="new-vocab">
             <span class="en">She helps me with great pleasure.</span>
+<button type="button" class="fav-star" data-fav-en="She helps me with great pleasure." data-fav-ru="Она помогает мне с большим удовольствием." title="Добавить в избранное" aria-label="Добавить в избранное">☆</button>
             <div class="vocab-note">(helps — для she, с -s)</div>
             <button class="btn-toggle" onclick="toggleTranslation(this)">Показать перевод</button>
             <span class="ru">— Она помогает мне с большим удовольствием.</span>
@@ -249,6 +274,87 @@
 </div>
 
 <script>
+
+const FAVORITES_API = '/api';
+let serverFavorites = [];
+function favoriteRedirect() {
+  const next = location.pathname + location.search + location.hash;
+  location.href = '/login.html?next=' + encodeURIComponent(next);
+}
+async function favoriteAuthCheck() {
+  const r = await fetch(FAVORITES_API + '/auth/me', {credentials:'same-origin'});
+  if (r.status === 401) { favoriteRedirect(); return false; }
+  if (!r.ok) throw new Error('Не удалось проверить авторизацию');
+  return true;
+}
+async function favoriteFreshCsrf() {
+  const r = await fetch(FAVORITES_API + '/auth/csrf', {credentials:'same-origin'});
+  if (r.status === 401) { favoriteRedirect(); return null; }
+  if (!r.ok) throw new Error('Не удалось получить CSRF-токен');
+  const d = await r.json();
+  const token = d.csrf_token || d.token || d.csrf;
+  if (!token) throw new Error('В ответе API нет CSRF-токена');
+  return token;
+}
+function favoriteList(data) {
+  return Array.isArray(data) ? data : (data.favorites || []);
+}
+async function loadServerFavorites() {
+  try {
+    const r = await fetch(FAVORITES_API + '/favorites', {credentials:'same-origin'});
+    if (r.status === 401) { serverFavorites=[]; updateFavoriteButtons(); return; }
+    if (!r.ok) throw new Error('Не удалось загрузить избранное');
+    serverFavorites = favoriteList(await r.json());
+    updateFavoriteButtons();
+  } catch(e) { console.error('Избранное:', e); }
+}
+function isServerFavorite(en, ru) {
+  return serverFavorites.some(x => x.phrase === en && x.translation === ru && x.lesson_url === location.pathname);
+}
+function updateFavoriteButtons() {
+  document.querySelectorAll('[data-fav-en]').forEach(b => {
+    const saved = isServerFavorite(b.dataset.favEn, b.dataset.favRu);
+    b.classList.toggle('saved', saved);
+    b.textContent = saved ? '★' : '☆';
+    b.title = saved ? 'Убрать из избранного' : 'Добавить в избранное';
+    b.setAttribute('aria-label', b.title);
+  });
+}
+async function toggleServerFavorite(button, en, ru) {
+  if (button.disabled) return;
+  button.disabled = true;
+  try {
+    if (!await favoriteAuthCheck()) return;
+    const existing = serverFavorites.find(x => x.phrase === en && x.translation === ru && x.lesson_url === location.pathname);
+    const token = await favoriteFreshCsrf();
+    if (!token) return;
+    const url = existing ? FAVORITES_API + '/favorites/' + existing.id : FAVORITES_API + '/favorites';
+    const options = existing
+      ? {method:'DELETE', credentials:'same-origin', headers:{'X-CSRF-Token':token}}
+      : {method:'POST', credentials:'same-origin', headers:{'Content-Type':'application/json','X-CSRF-Token':token},
+         body:JSON.stringify({phrase:en, translation:ru, lesson_title:document.title, lesson_url:location.pathname})};
+    const r = await fetch(url, options);
+    if (r.status === 401) { favoriteRedirect(); return; }
+    if (!r.ok) {
+      const msg = await r.text();
+      throw new Error(msg || 'Ошибка сохранения');
+    }
+    await loadServerFavorites();
+  } catch(e) {
+    console.error(e);
+    alert('Не удалось изменить избранное. ' + (e.message || ''));
+  } finally { button.disabled = false; }
+}
+function esc(s){return String(s).replace(/[&<>\"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'\"':"&quot;","'":"&#39;"}[c]))}
+function favoriteButton(en, ru, extra='') {
+  return `<button type="button" class="fav-star ${extra}" data-fav-en="${esc(en)}" data-fav-ru="${esc(ru)}" title="Добавить в избранное" aria-label="Добавить в избранное">☆</button>`;
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-fav-en]');
+  if (b) toggleServerFavorite(b, b.dataset.favEn, b.dataset.favRu);
+});
+
+
     function toggleTranslation(button) {
         var translation = button.nextElementSibling;
 
@@ -262,6 +368,8 @@
             button.style.backgroundColor = '#cbd5e0';
         }
     }
+
+loadServerFavorites();
 </script>
 
 </body>
