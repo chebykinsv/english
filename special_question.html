@@ -25,6 +25,7 @@ button:disabled{opacity:.45;cursor:not-allowed}
 .trainer-card{border-left:5px solid #3182ce;background:#f8fbff}
 .example{background:#f7faff;padding:10px;border-radius:7px;margin:8px 0;overflow-wrap:anywhere}
 .search{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:8px;font:inherit;margin:8px 0 12px}
+.block-select{width:100%;padding:11px;border:1px solid #cbd5e1;border-radius:8px;font:inherit;margin:6px 0 10px;background:#fff}
 .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 select,input[type=text]{padding:10px;border:1px solid #cbd5e1;border-radius:8px;font:inherit;max-width:100%}
 #answer{display:block;width:100%;min-width:0;min-height:48px;padding:12px 14px;margin:10px 0;font-size:1rem}
@@ -36,7 +37,7 @@ select,input[type=text]{padding:10px;border:1px solid #cbd5e1;border-radius:8px;
 .exam-question{font-size:1.2em;font-weight:700;margin:18px 0}
 .feedback{padding:10px;border-radius:8px;margin-top:10px}
 .good{background:#dcfce7;color:#166534}.bad{background:#fee2e2;color:#991b1b}
-
+.section-title{background:#3182ce;color:#fff;padding:9px 14px;border-radius:7px;margin:18px 0 12px;text-align:center;font-weight:700}
 .top-nav{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:0 0 14px}
 .top-nav a{display:inline-flex;align-items:center;justify-content:center;background:#e2e8f0;color:#244766;text-decoration:none;padding:9px 14px;border-radius:8px;font-weight:600}
 .top-nav a:hover{background:#cbd5e1}
@@ -116,6 +117,8 @@ select,input[type=text]{padding:10px;border:1px solid #cbd5e1;border-radius:8px;
 <section id="trainer" class="panel">
 <h2>Тренажёр</h2>
 <div class="mode"><button class="tab active" id="tEn">ENG → RU</button><button class="tab" id="tRu">RU → ENG</button></div>
+<label for="trainerGroup"><b>Блок фраз:</b></label>
+<select id="trainerGroup" class="block-select"><option value="all">Все блоки (1–58)</option></select>
 <input id="search" class="search" type="search" placeholder="Поиск по английским и русским фразам...">
 <div class="muted" id="count"></div>
 <div id="trainerList"></div>
@@ -128,8 +131,10 @@ select,input[type=text]{padding:10px;border:1px solid #cbd5e1;border-radius:8px;
 <div class="row" style="margin-top:12px">
 <label for="examMode">Направление:</label>
 <select id="examMode"><option value="ru">RU → ENG</option><option value="en">ENG → RU</option></select>
+<label for="examGroup">Блок:</label>
+<select id="examGroup"><option value="all">Все блоки (1–58)</option></select>
 <label for="amount">Количество:</label>
-<select id="amount"><option value="10">10</option><option value="20">20</option><option value="30">30</option><option value="all">Все (58)</option></select>
+<select id="amount"><option value="10">10</option><option value="20">20</option><option value="30">30</option><option value="all">Все в блоке</option></select>
 </div>
 <div class="actions"><button class="primary" id="start">Начать экзамен</button></div>
 </div>
@@ -146,7 +151,7 @@ select,input[type=text]{padding:10px;border:1px solid #cbd5e1;border-radius:8px;
 <div class="actions"><button class="primary" id="retry">Повторить ошибки</button><button class="secondary" id="again">Новый экзамен</button></div>
 </div>
 </section>
-<div class="back"><a href="index.html">← На главную</a></div>
+
 </div>
 <script>
 const phrases = [
@@ -210,13 +215,23 @@ const phrases = [
 {en:"What's the time?",ru:"Который час?"}
 ];
 const $=id=>document.getElementById(id);
+phrases.forEach((p,i)=>{p.number=i+1;p.group=Math.floor(i/10)+1;});
+function blockLabel(group){
+ const first=(group-1)*10+1, last=Math.min(group*10,phrases.length);
+ return `Блок ${first}–${last}`;
+}
+function fillBlockSelectors(){
+ const groups=[...new Set(phrases.map(p=>p.group))];
+ groups.forEach(g=>{
+   const first=(g-1)*10+1,last=Math.min(g*10,phrases.length);
+   const label=`${blockLabel(g)} (${last-first+1} фраз)`;
+   $("trainerGroup").add(new Option(label,String(g)));
+   $("examGroup").add(new Option(label,String(g)));
+ });
+}
+fillBlockSelectors();
 let trainerMode="en",queue=[],index=0,correct=0,errors=[],current=null,checked=false;
-function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
-function norm(s){return s.toLowerCase().replace(/[.,!?;:—–-]/g,"").replace(/\s+/g," ").trim().replace(/[’‘]/g,"'")}
-document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{
- document.querySelectorAll("[data-tab]").forEach(x=>x.classList.toggle("active",x===b));
- document.querySelectorAll(".panel").forEach(x=>x.classList.toggle("active",x.id===b.dataset.tab));
-});
+
 const lessonUrl=location.pathname;
 let savedFavorites=[];
 let favoritesAuthenticated=false;
@@ -280,11 +295,21 @@ async function toggleFavorite(p,button){
  }catch(error){alert(error.message||"Ошибка при работе с избранным.");}
  finally{button.disabled=false;}
 }
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function norm(s){return s.toLowerCase().replace(/[.,!?;:—–-]/g,"").replace(/\s+/g," ").trim().replace(/[’‘]/g,"'")}
+function blockLabel(group){
+ const first=(group-1)*10+1, last=Math.min(group*10,phrases.length);
+ return `Вопросы ${first}–${last}`;
+}
+document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{
+ document.querySelectorAll("[data-tab]").forEach(x=>x.classList.toggle("active",x===b));
+ document.querySelectorAll(".panel").forEach(x=>x.classList.toggle("active",x.id===b.dataset.tab));
+});
 function render(){
- let q=norm($("search").value);
- let found=phrases.map((p,i)=>({...p,_i:i})).filter(p=>!q||norm(p.en).includes(q)||norm(p.ru).includes(q));
+ let q=norm($("search").value),group=$("trainerGroup").value;
+ let found=phrases.filter(p=>(group==="all"||String(p.group)===group)&&(!q||norm(p.en).includes(q)||norm(p.ru).includes(q)));
  $("count").textContent="Найдено: "+found.length+" из "+phrases.length;
- $("trainerList").innerHTML=found.map(p=>`<div class="card trainer-card"><div class="phrase-head"><div class="en">${esc(trainerMode==="en"?p.en:p.ru)}</div><button type="button" class="favorite-star" data-fav-index="${p._i}" aria-label="Добавить в избранное" title="Добавить в избранное">☆</button></div><button class="secondary reveal">Показать ${trainerMode==="en"?"перевод":"ответ"}</button><div class="ru hidden">${esc(trainerMode==="en"?p.ru:p.en)}</div></div>`).join("");
+ $("trainerList").innerHTML=found.map((p,idx)=>`${idx===0||p.group!==found[idx-1].group?`<div class="section-title">${blockLabel(p.group)}</div>`:""}<div class="card trainer-card"><div class="phrase-head"><div><div class="muted">№${p.number}</div><div class="en">${esc(trainerMode==="en"?p.en:p.ru)}</div></div><button type="button" class="favorite-star" data-fav-index="${p.number-1}" aria-label="Добавить в избранное" title="Добавить в избранное">☆</button></div><button class="secondary reveal">Показать ${trainerMode==="en"?"перевод":"ответ"}</button><div class="ru hidden">${esc(trainerMode==="en"?p.ru:p.en)}</div></div>`).join("");
  $("trainerList").querySelectorAll(".reveal").forEach(b=>{b.onclick=()=>{let r=b.nextElementSibling;r.classList.toggle("hidden");b.textContent=r.classList.contains("hidden")?`Показать ${trainerMode==="en"?"перевод":"ответ"}`:"Скрыть";};});
  $("trainerList").querySelectorAll(".favorite-star").forEach(b=>{
   const p=phrases[Number(b.dataset.favIndex)];
@@ -298,16 +323,19 @@ function render(){
 }
 $("tEn").onclick=()=>{trainerMode="en";$("tEn").classList.add("active");$("tRu").classList.remove("active");render()};
 $("tRu").onclick=()=>{trainerMode="ru";$("tRu").classList.add("active");$("tEn").classList.remove("active");render()};
-$("search").oninput=render;render();loadFavorites();
+$("search").oninput=render;
+$("trainerGroup").onchange=render;
+render();
+loadFavorites();
 function start(list){queue=[...list].sort(()=>Math.random()-.5);index=0;correct=0;errors=[];$("setup").classList.add("hidden");$("done").classList.add("hidden");$("run").classList.remove("hidden");show()}
-$("start").onclick=()=>{let list=[...phrases],n=$("amount").value;if(n!=="all")list=list.slice(0,Number(n));start(list)};
+$("start").onclick=()=>{let g=$("examGroup").value;let list=phrases.filter(p=>g==="all"||String(p.group)===g);let n=$("amount").value;if(n!=="all")list=list.slice(0,Number(n));start(list)};
 function show(){
  if(index>=queue.length){finish();return}
  current=queue[index];checked=false;let mode=$("examMode").value;
  $("question").textContent=mode==="ru"?current.ru:current.en;
  $("answer").value="";$("answer").disabled=false;$("feedback").innerHTML="";
  $("check").classList.remove("hidden");$("next").classList.add("hidden");
- $("progressText").textContent=`Вопрос ${index+1} из ${queue.length}`;
+ $("progressText").textContent=`Вопрос ${index+1} из ${queue.length} · фраза №${current.number} · ${blockLabel(current.group)}`;
  updateScore();$("bar").style.width=`${index/queue.length*100}%`;$("answer").focus();
 }
 function updateScore(){$("score").textContent=`Верно: ${correct} · Ошибки: ${errors.length}`}
