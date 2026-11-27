@@ -7,7 +7,7 @@
 <style>
 :root{--bg:#f4f6fb;--card:#fff;--text:#172033;--muted:#68738a;--line:#e3e8f1;--accent:#3867e8;--accent2:#244fc4;--good:#16834b;--bad:#c43e48;--soft:#eef2ff;--shadow:0 8px 28px rgba(25,40,75,.07)}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
-.wrap{max-width:980px;margin:0 auto;padding:28px 18px 60px}.top{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:22px}.top h1{font-size:28px;margin:0}.sub{color:var(--muted);margin-top:3px}.stats{display:flex;gap:10px;flex-wrap:wrap}.stat{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:9px 14px;min-width:100px}.stat b{display:block;font-size:21px}.stat span{color:var(--muted);font-size:12px}
+.wrap{max-width:980px;margin:0 auto;padding:28px 18px 60px}.top{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:22px}.top h1{font-size:28px;margin:0}.sub{color:var(--muted);margin-top:3px}.top-nav{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.top-nav a{display:inline-flex;align-items:center;text-decoration:none;border-radius:10px;padding:8px 12px;font-weight:650;background:#eef2f8;color:#34415a}.top-nav a:hover{background:#e1e7f1;color:#244fc4}.stats{display:flex;gap:10px;flex-wrap:wrap}.stat{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:9px 14px;min-width:100px}.stat b{display:block;font-size:21px}.stat span{color:var(--muted);font-size:12px}
 .tabs{display:flex;gap:8px;background:#e9edf6;padding:5px;border-radius:13px;margin-bottom:18px}.tab{border:0;background:transparent;padding:10px 16px;border-radius:9px;font-weight:650;color:#58647b;cursor:pointer}.tab.active{background:#fff;color:var(--accent);box-shadow:0 2px 8px #18284a12}
 .panel{display:none}.panel.active{display:block}.card{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:20px;box-shadow:var(--shadow);margin-bottom:16px}.card h2{font-size:19px;margin:0 0 14px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:6px}.field label{font-size:13px;font-weight:650;color:#526078}input,textarea,select{width:100%;border:1px solid #d6ddeb;border-radius:10px;padding:11px 12px;font:inherit;color:var(--text);background:#fff;outline:none}input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px #3867e81a}
 button{font:inherit;cursor:pointer}.btn{border:0;border-radius:10px;padding:10px 15px;font-weight:650;background:var(--accent);color:#fff}.btn:hover{background:var(--accent2)}.btn.secondary{background:#eef2f8;color:#34415a}.btn.secondary:hover{background:#e1e7f1}.btn.danger{background:#fff0f0;color:var(--bad)}.btn.ghost{background:#fff;color:var(--accent);border:1px solid #d8e1ff}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px}.toolbar input{flex:1;min-width:190px}.seg{display:flex;background:#eef1f7;padding:4px;border-radius:10px;gap:4px}.seg button{border:0;background:transparent;padding:7px 11px;border-radius:7px;color:#58647b;font-weight:650}.seg button.active{background:#fff;color:var(--accent);box-shadow:0 1px 5px #00000012}
@@ -20,6 +20,10 @@ button{font:inherit;cursor:pointer}.btn{border:0;border-radius:10px;padding:10px
 <div class="wrap">
   <header class="top">
     <div><h1>Мои заметки</h1><div class="sub">Личный словарь английских слов и фраз</div></div>
+    <nav class="top-nav" aria-label="Навигация">
+      <a href="/">← На главную</a>
+      <a href="/favorites.html">⭐ Избранное</a>
+    </nav>
     <div class="stats">
       <div class="stat"><b id="totalCount">0</b><span>Всего записей</span></div>
       <div class="stat"><b id="learnedCount">0</b><span>Выучено</span></div>
