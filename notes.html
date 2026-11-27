@@ -147,12 +147,13 @@ button{font:inherit;cursor:pointer}.btn{border:0;border-radius:10px;padding:10px
   if(!list.length){$('notesList').innerHTML='<div class="empty">'+(notes.length?'Ничего не найдено.':'Пока нет заметок. Добавь первую запись выше.')+'</div>';return}
   $('notesList').innerHTML=list.map(n=>{
    const front=direction==='ru-eng'?n.ru:n.eng, back=direction==='ru-eng'?n.eng:n.ru;
-   return `<article class="note" data-id="${esc(n.id)}"><div class="note-main">${esc(front)}</div><div class="translation hidden" id="tr-${esc(n.id)}">${esc(back)}</div><div class="note-meta"><span class="pill ${n.learned?'good':''}">${n.learned?'Выучено':'Не выучено'}</span><div class="note-actions"><button class="btn ghost" data-action="reveal" data-id="${esc(n.id)}">Показать перевод</button><button class="btn secondary" data-action="edit" data-id="${esc(n.id)}">Изменить</button><button class="btn danger" data-action="delete" data-id="${esc(n.id)}">Удалить</button></div></div></article>`;
+   return `<article class="note" data-id="${esc(n.id)}"><div class="note-main">${esc(front)}</div><div class="translation hidden" id="tr-${esc(n.id)}">${esc(back)}</div><div class="note-meta"><span class="pill ${n.learned?'good':''}">${n.learned?'Выучено':'Не выучено'}</span><div class="note-actions"><button class="btn ghost" data-action="reveal" data-id="${esc(n.id)}">Показать перевод</button><button class="btn ${n.learned?'secondary':'ghost'}" data-action="toggle-learned" data-id="${esc(n.id)}">${n.learned?'Снять отметку «Выучено»':'Отметить не выучено'}</button><button class="btn secondary" data-action="edit" data-id="${esc(n.id)}">Изменить</button><button class="btn danger" data-action="delete" data-id="${esc(n.id)}">Удалить</button></div></div></article>`;
   }).join('');
  }
  $('notesList').addEventListener('click',e=>{
   const b=e.target.closest('button[data-action]');if(!b)return;const n=notes.find(x=>x.id===b.dataset.id);if(!n)return;
   if(b.dataset.action==='reveal'){const el=$('tr-'+n.id);const hidden=el.classList.toggle('hidden');b.textContent=hidden?'Показать перевод':'Скрыть перевод'}
+  if(b.dataset.action==='toggle-learned'){n.learned=!n.learned;save()}
   if(b.dataset.action==='edit'){editingId=n.id;$('engInput').value=n.eng;$('ruInput').value=n.ru;$('formTitle').textContent='Редактировать заметку';$('saveNote').textContent='Сохранить изменения';$('cancelEdit').classList.remove('hidden');window.scrollTo({top:0,behavior:'smooth'})}
   if(b.dataset.action==='delete'&&confirm('Удалить эту заметку?')){notes=notes.filter(x=>x.id!==n.id);save()}
  });
