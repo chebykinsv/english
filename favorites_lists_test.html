@@ -119,6 +119,7 @@ function renderLists(){
 }
 function selectList(id){
  const list=namedLists.find(x=>x.id===id);if(!list)return;selectedId=id;
+ $('selectedPhrases').classList.remove('hidden');
  $('selectedTitle').textContent=list.name;$('selectedMeta').textContent='Фраз: '+list.items.length;
  $('startExam').disabled=!list.items.length;
  const host=$('selectedPhrases');host.replaceChildren();
@@ -190,6 +191,7 @@ $('importFile').addEventListener('change',async e=>{
 function norm(s){return String(s||'').toLowerCase().trim().replace(/[’‘]/g,"'").replace(/[.,!?;:]+$/g,'').replace(/\s+/g,' ')}
 function startExam(){
  const l=namedLists.find(x=>x.id===selectedId);if(!l||!l.items.length)return;
+ $('selectedPhrases').classList.add('hidden');
  examItems=[...l.items];examIndex=0;examMistakes=[];examCorrect=0;examDirection=$('direction').value;renderQuestion();
 }
 $('startExam').addEventListener('click',startExam);
@@ -209,6 +211,7 @@ function renderQuestion(){
  actions.append(check,next);area.append(progress,prompt,input,feedback,actions);input.focus();
 }
 function renderResult(){
+ $('selectedPhrases').classList.remove('hidden');
  const area=$('examArea');area.replaceChildren();const box=document.createElement('div');const h=document.createElement('h3');h.textContent='Экзамен завершён';const p=document.createElement('p');p.textContent=`Результат: ${examCorrect} из ${examItems.length} · ${Math.round(examCorrect/examItems.length*100)}%`;box.append(h,p);
  if(examMistakes.length){const t=document.createElement('p');t.textContent='Ошибок: '+examMistakes.length;box.append(t);examMistakes.forEach(x=>{const d=document.createElement('div');d.className='item';d.textContent=x.translation+' — '+x.phrase;box.append(d)});
  const saveErr=document.createElement('button');saveErr.textContent='Сохранить ошибки отдельным списком';saveErr.onclick=async()=>{const name=prompt('Как назвать список ошибок?',(namedLists.find(x=>x.id===selectedId)?.name||'Ошибки')+' — ошибки');if(!name||!name.trim())return;try{const token=await getCsrf();const result=await api('/api/favorite-lists',{method:'POST',headers:{'Content-Type':'application/json','X-CSRF-Token':token},body:JSON.stringify({name:name.trim().slice(0,80),items:examMistakes.map(x=>({phrase:x.phrase,translation:x.translation,lesson_title:x.lesson_title||'Ошибки',lesson_url:x.lesson_url||'/'}))})});await loadNamed();alert('Список ошибок сохранён на сервере.');}catch(e){alert(e.message)}};box.append(saveErr);
