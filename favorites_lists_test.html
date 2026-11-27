@@ -104,10 +104,12 @@ function renderLists(){
   const meta=document.createElement('span');meta.className='tag';meta.textContent=(list.items||[]).length+' фраз';info.append(title,meta);
   const actions=document.createElement('div');actions.className='list-actions';
   const choose=document.createElement('button');choose.textContent='Открыть / экзамен';choose.addEventListener('click',()=>selectList(list.id));
+  const addToCurrent=document.createElement('button');addToCurrent.className='secondary';addToCurrent.textContent='Добавить в избранное';addToCurrent.addEventListener('click',()=>restoreListToCurrent(list.id,false));
+  const replaceCurrent=document.createElement('button');replaceCurrent.className='secondary';replaceCurrent.textContent='Заменить избранное';replaceCurrent.addEventListener('click',()=>restoreListToCurrent(list.id,true));
   const exportBtn=document.createElement('button');exportBtn.className='secondary';exportBtn.textContent='Экспорт';exportBtn.addEventListener('click',()=>download(safeName(list.name)+'.json',{format:'english-favorites-list-v1',name:list.name,items:list.items||[]}));
   const rename=document.createElement('button');rename.className='secondary';rename.textContent='Переименовать';rename.addEventListener('click',()=>{const n=prompt('Новое название списка:',list.name);if(n&&n.trim()){list.name=n.trim().slice(0,80);persist();if(selectedId===list.id)selectList(list.id)}});
   const del=document.createElement('button');del.className='danger';del.textContent='Удалить';del.addEventListener('click',()=>{if(!confirm('Удалить сохранённый список «'+list.name+'»?'))return;namedLists=namedLists.filter(x=>x.id!==list.id);if(selectedId===list.id){selectedId=null;$('selectedTitle').textContent='Выбранный список';$('selectedMeta').textContent='Выбери список выше.';$('selectedPhrases').replaceChildren();$('startExam').disabled=true}$('examArea').replaceChildren();persist()});
-  actions.append(choose,exportBtn,rename,del);card.append(info,actions);host.append(card);
+  actions.append(choose,addToCurrent,replaceCurrent,exportBtn,rename,del);card.append(info,actions);host.append(card);
  });
 }
 function selectList(id){
@@ -117,6 +119,35 @@ function selectList(id){
  const host=$('selectedPhrases');host.replaceChildren();
  list.items.forEach((item,i)=>{const line=document.createElement('div');line.className='item';line.textContent=(i+1)+'. '+item.translation+' — '+item.phrase;host.append(line)});
  $('examArea').replaceChildren();
+}
+async function restoreListToCurrent(id,replace){
+ const list=namedLists.find(x=>x.id===id);if(!list)return;
+ const items=normalizeItems(list.items);
+ if(!items.length){alert('В этом списке нет фраз.');return}
+ const action=replace?'заменить текущее избранное выбранным списком':'добавить фразы в текущее избранное';
+ if(!confirm(`Подтвердить: ${action} «${list.name}» (${items.length} фраз)?`))return;
+ try{
+  const token=await getCsrf();
+  if(replace){
+   for(const current of currentFavorites){
+    if(current.id==null)continue;
+    await api('/api/favorites/'+encodeURIComponent(current.id),{method:'DELETE',headers:{'X-CSRF-Token':token}});
+   }
+  }
+  const existing=new Set((replace?[]:currentFavorites).map(x=>String(x.id)));
+  let added=0,skipped=0;
+  for(const item of items){
+   if(item.id==null){skipped++;continue}
+   if(existing.has(String(item.id))){skipped++;continue}
+   await api('/api/favorites',{method:'POST',headers:{'Content-Type':'application/json','X-CSRF-Token':token},body:JSON.stringify({phrase_id:item.id})});
+   existing.add(String(item.id));added++;
+  }
+  await loadCurrent();
+  alert(`Готово. Добавлено фраз: ${added}.${skipped?` Пропущено (уже есть или нет ID): ${skipped}.`:''}`);
+ }catch(e){
+  await loadCurrent().catch(()=>{});
+  alert('Не удалось полностью загрузить список в избранное: '+e.message);
+ }
 }
 $('saveCurrent').addEventListener('click',()=>{
  const name=$('newListName').value.trim();if(!name){alert('Введи название списка.');$('newListName').focus();return}
