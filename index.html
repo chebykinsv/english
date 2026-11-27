@@ -185,7 +185,8 @@
     <div class="account-actions">
         <a href="/login.html" class="account-link login-link" id="loginButton">🔐 Войти</a>
         <button type="button" class="account-link logout-link" id="logoutButton" hidden>🚪 Выйти</button>
-        <a href="/favorites.html" class="account-link favorites-link">⭐ Избранное</a>
+        <a href="/favorites.html" class="account-link favorites-link" id="favoritesButton" hidden>⭐ Избранное</a>
+        <a href="/notes.html" class="account-link favorites-link" id="notesButton">📝 Заметки</a>
     </div>
     <h1>📚 Мои уроки</h1>
 
@@ -359,6 +360,8 @@
     (async function setupAccountButtons() {
         const loginButton = document.getElementById("loginButton");
         const logoutButton = document.getElementById("logoutButton");
+        const favoritesButton = document.getElementById("favoritesButton");
+        const notesButton = document.getElementById("notesButton");
 
         try {
             const response = await fetch("/api/auth/me", {
@@ -369,9 +372,13 @@
             const authenticated = response.ok;
             loginButton.hidden = authenticated;
             logoutButton.hidden = !authenticated;
+            if (favoritesButton) favoritesButton.hidden = !authenticated;
+            if (notesButton) notesButton.hidden = !authenticated;
         } catch (error) {
             loginButton.hidden = false;
             logoutButton.hidden = true;
+            if (favoritesButton) favoritesButton.hidden = true;
+            if (notesButton) notesButton.hidden = true;
         }
 
         logoutButton.addEventListener("click", async function () {
