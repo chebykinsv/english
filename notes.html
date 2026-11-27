@@ -94,7 +94,13 @@ button{font:inherit;cursor:pointer}.btn{border:0;border-radius:10px;padding:10px
       <div class="exam-question">
         <div class="muted small">Переведи:</div>
         <div class="prompt" id="examPrompt"></div>
-        <input id="examAnswer" placeholder="Твой ответ..." autocomplete="off">
+        <input
+  id="examAnswer"
+  placeholder="Твой ответ..."
+  autocomplete="off"
+  lang="en"
+  spellcheck="true"
+>
         <div class="actions" style="justify-content:center"><button class="btn" id="checkAnswer">Проверить</button><button class="btn hidden" id="nextQuestion">Следующий вопрос</button></div>
         <div id="examFeedback" class="hidden"></div>
       </div>
