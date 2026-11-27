@@ -138,9 +138,11 @@ button,.btn{border:0;border-radius:7px;padding:11px 17px;font-size:.96em;font-we
   <div id="resultSummary"></div>
   <div id="mistakes"></div>
   <div class="actions">
+    <button id="addMistakesToFavoritesBtn" class="success hidden" type="button" onclick="addMistakesToFavorites()">⭐ Добавить все ошибки в избранное</button>
     <button id="mistakeReviewBtn" class="primary" type="button" onclick="repeatMistakes()">Провести работу над ошибками</button>
     <button class="secondary" type="button" onclick="backToSetup()">К выбору блоков</button>
   </div>
+  <p id="favoritesSaveStatus" class="muted" aria-live="polite"></p>
 </section>
 </div>
 
@@ -292,13 +294,76 @@ function finishExam() {
 function renderMistakes() {
   const root = document.getElementById("mistakes");
   const reviewButton = document.getElementById("mistakeReviewBtn");
+  const favoriteButton = document.getElementById("addMistakesToFavoritesBtn");
   reviewButton.classList.toggle("hidden", mistakes.length === 0);
+  favoriteButton.classList.toggle("hidden", mistakes.length === 0);
+  favoriteButton.disabled = false;
+  favoriteButton.textContent = "⭐ Добавить все ошибки в избранное (" + mistakes.length + ")";
+  document.getElementById("favoritesSaveStatus").textContent = "";
   if (!mistakes.length) { root.innerHTML = `<p class="correct-text">Отлично! Ошибок нет.</p>`; return; }
   root.innerHTML = `<h2 style="margin-top:18px">Фразы для повторения</h2>` + mistakes.map((m,i) =>
     `<div class="result-item"><div><strong>${i+1}. ${escapeHtml(m.ru)}</strong></div>
      <div class="result-en">${escapeHtml(m.en)}</div>
      <div class="muted">Твой ответ: ${escapeHtml(m.user || "—")}</div></div>`).join("");
 }
+async function addMistakesToFavorites() {
+  const button = document.getElementById("addMistakesToFavoritesBtn");
+  const status = document.getElementById("favoritesSaveStatus");
+  if (!mistakes.length || button.disabled) return;
+
+  button.disabled = true;
+  status.textContent = "Сохраняю фразы…";
+  try {
+    const me = await fetch("/api/auth/me", {credentials:"same-origin"});
+    if (me.status === 401) { redirectToLogin(); return; }
+    if (!me.ok) throw new Error("Не удалось проверить авторизацию");
+
+    await loadServerFavorites();
+    const csrf = await getFreshCsrfToken();
+    let added = 0;
+    let alreadySaved = 0;
+
+    // Сохраняем только фразы с ошибками; уже добавленные не дублируем.
+    const uniqueMistakes = [...new Map(mistakes.map(m => [m.en + "\\n" + m.ru, m])).values()];
+    for (const phrase of uniqueMistakes) {
+      // Не добавляем фразу повторно, даже если она была сохранена
+      // в избранное из другого урока. Сравниваем английскую фразу
+      // без учёта регистра и лишних пробелов.
+      const normalizePhrase = value => String(value || "")
+        .trim()
+        .replace(/\\s+/g, " ")
+        .toLocaleLowerCase();
+      const exists = serverFavorites.some(item =>
+        normalizePhrase(item.phrase) === normalizePhrase(phrase.en)
+      );
+      if (exists) { alreadySaved++; continue; }
+
+      const response = await fetch("/api/favorites", {
+        method:"POST",
+        credentials:"same-origin",
+        headers:{"Content-Type":"application/json","X-CSRF-Token":csrf},
+        body:JSON.stringify({
+          phrase:phrase.en,
+          translation:phrase.ru,
+          lesson_title:document.title,
+          lesson_url:location.pathname
+        })
+      });
+      if (response.status === 401) { redirectToLogin(); return; }
+      if (!response.ok) throw new Error(await response.text() || "Ошибка сохранения избранного");
+      added++;
+    }
+
+    await loadServerFavorites();
+    status.textContent = `Готово! Добавлено: ${added}. Уже было в избранном: ${alreadySaved}.`;
+    button.textContent = "✓ Ошибки добавлены в избранное";
+  } catch (error) {
+    console.error("Bulk favorites save:", error);
+    status.textContent = "Не удалось сохранить все фразы: " + (error.message || "ошибка");
+    button.disabled = false;
+  }
+}
+
 function repeatMistakes() {
   if (!mistakes.length) return;
   // Создаём отдельный короткий экзамен только из фраз, допущенных с ошибками.
