@@ -42,7 +42,7 @@ button{font:inherit;cursor:pointer}.btn{border:0;border-radius:10px;padding:10px
     <div class="card">
       <h2 id="formTitle">Добавить заметку</h2>
       <div class="grid">
-        <div class="field"><label for="engInput">English</label><input id="engInput" placeholder="Например: I am looking for a job." autocomplete="off"></div>
+        <div class="field"><label for="engInput">English</label><input id="engInput" placeholder="Например: I am looking for a job." autocomplete="off" lang="en" spellcheck="true"></div>
         <div class="field"><label for="ruInput">Русский перевод</label><input id="ruInput" placeholder="Например: Я ищу работу." autocomplete="off"></div>
       </div>
       <div class="actions">
@@ -95,11 +95,12 @@ button{font:inherit;cursor:pointer}.btn{border:0;border-radius:10px;padding:10px
         <div class="muted small">Переведи:</div>
         <div class="prompt" id="examPrompt"></div>
         <input
-  id="examAnswer"
-  placeholder="Твой ответ..."
-  autocomplete="off"
-  lang="en"
-  spellcheck="true"
+          id="examAnswer"
+          type="text"
+          placeholder="Твой ответ..."
+          autocomplete="off"
+          lang="en"
+          spellcheck="true"
 >
         <div class="actions" style="justify-content:center"><button class="btn" id="checkAnswer">Проверить</button><button class="btn hidden" id="nextQuestion">Следующий вопрос</button></div>
         <div id="examFeedback" class="hidden"></div>
