@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Special Questions — More Difficult</title>
+<link rel="icon" href="favicon-english.ico" sizes="any">
+<link rel="icon" type="image/png" href="favicon-english.png">
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:'Segoe UI',Tahoma,sans-serif;line-height:1.55;margin:0;padding:14px;background:#f0f4f8;color:#333}
+.container{max-width:900px;margin:auto}
+h1{text-align:center;color:#2c3e50;font-size:1.35em;margin:4px 0 18px}
+h2{color:#2b6cb0;border-bottom:2px solid #3182ce;padding-bottom:6px;font-size:1.12em}
+h3{color:#2b6cb0;margin:8px 0}
+.nav,.actions,.mode{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:14px 0}
+button,.tab{border:0;border-radius:8px;padding:10px 14px;font:inherit;cursor:pointer;min-height:40px}
+button:disabled{opacity:.45;cursor:not-allowed}
+.tab{background:#dce7f3;color:#244766;font-weight:600}
+.tab.active,.primary{background:#3182ce;color:white}
+.secondary{background:#e2e8f0;color:#334155}
+.panel{display:none}.panel.active{display:block}
+.card{background:#fff;border-radius:10px;padding:14px;margin:10px 0;box-shadow:0 2px 6px #0000000c}
+.rule{border-left:5px solid #3182ce}
+.trainer-card{border-left:5px solid #3182ce;background:#f8fbff}
+.example{background:#f7faff;padding:10px;border-radius:7px;margin:8px 0;overflow-wrap:anywhere}
+.search{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:8px;font:inherit;margin:8px 0 12px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+select,input[type=text]{padding:10px;border:1px solid #cbd5e1;border-radius:8px;font:inherit;max-width:100%}
+#answer{display:block;width:100%;min-width:0;min-height:48px;padding:12px 14px;margin:10px 0;font-size:1rem}
+.en{font-weight:700;color:#263b53}.ru{color:#2b6cb0;margin-top:8px}
+.hidden{display:none!important}.muted{color:#64748b;font-size:.92em}
+.stat{display:flex;gap:12px;flex-wrap:wrap;color:#475569;font-size:.94em}
+.progress{height:8px;background:#e2e8f0;border-radius:20px;overflow:hidden;margin:12px 0}
+.progress>div{height:100%;background:#3182ce;width:0;transition:width .2s}
+.exam-question{font-size:1.2em;font-weight:700;margin:18px 0}
+.feedback{padding:10px;border-radius:8px;margin-top:10px}
+.good{background:#dcfce7;color:#166534}.bad{background:#fee2e2;color:#991b1b}
+
+.section-title{background:#3182ce;color:#fff;padding:9px 14px;border-radius:7px;margin:18px 0 12px;text-align:center;font-weight:700}\n.top-nav{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:0 0 14px}
+.top-nav a{display:inline-flex;align-items:center;justify-content:center;background:#e2e8f0;color:#244766;text-decoration:none;padding:9px 14px;border-radius:8px;font-weight:600}
+.top-nav a:hover{background:#cbd5e1}
+#trainerList .phrase-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+#trainerList .phrase-head .en{flex:1;min-width:0}
+#trainerList .favorite-star{flex:0 0 40px;width:40px;height:40px;min-height:40px;margin:-5px -4px 0 0;padding:0;border:1px solid #d7e2ef;border-radius:10px;background:#fff;color:#64748b;font-size:26px;line-height:1;cursor:pointer}
+#trainerList .favorite-star.active{color:#e5a000;background:#fff9e6;border-color:#f4d58a}
+#trainerList .favorite-star:disabled{opacity:.55;cursor:wait}
+.back{text-align:center;margin:28px auto 12px}
+.back a{display:inline-block;background:#3182ce;color:#fff;text-decoration:none;padding:11px 25px;border-radius:8px;font-weight:600}
+@media(max-width:480px){body{padding:10px}.tab{flex:1;padding:9px 7px}.card{padding:12px}select{flex:1}}
+</style>
+</head>
+<body><div class="container">
+<div class="top-nav">
+<a href="favorites.html">⭐ Избранное</a>
+<a href="index.html">← На главную</a>
+</div>
+<h1>Special Questions — More Difficult</h1>
+<div class="nav">
+<button class="tab active" data-tab="theory">Теория</button>
+<button class="tab" data-tab="trainer">Тренажёр</button>
+<button class="tab" data-tab="exam">Экзамен</button>
+</div>
+
+<section id="theory" class="panel active">
+<h2>Теория</h2>
+<div class="card rule">
+<h3>Что такое специальные вопросы?</h3>
+<p>Специальный вопрос начинается с вопросительного слова. Он помогает узнать конкретную информацию: где, когда, почему, кто, что, насколько и так далее. В этом уроке тренируем более сложные специальные вопросы с глаголом <b>to be</b>: с притяжательными словами, множественным числом и вопросами о цене, возрасте, качестве и причинах.</p>
+<div class="example">
+<b>Where</b> — где / куда<br>
+<b>Why</b> — почему<br>
+<b>What</b> — что / какой<br>
+<b>Who</b> — кто<br>
+<b>When</b> — когда<br>
+<b>How</b> — как / насколько<br>
+<b>How old</b> — сколько лет<br>
+<b>How much</b> — сколько стоит / сколько<br>
+<b>What time</b> — который час
+</div>
+</div>
+<div class="card rule">
+<h3>Основная схема</h3>
+<p>Для специальных вопросов с <b>to be</b> используем порядок:</p>
+<div class="example"><b>Вопросительное слово + am / is / are + подлежащее + остальная часть?</b><br><br>
+<b>Where is she?</b> — Где она?<br>
+<b>Why are you here?</b> — Почему ты здесь?<br>
+<b>How old is he?</b> — Сколько ему лет?<br>
+<b>What is it?</b> — Что это?</div>
+<p>Форму <b>am / is / are</b> выбираем по подлежащему: <b>am</b> — I; <b>is</b> — he / she / it и единственное число; <b>are</b> — you / we / they и множественное число.</p>
+</div>
+<div class="card rule">
+<h3>Вопросы с Who</h3>
+<p>Когда <b>who</b> само является подлежащим (мы спрашиваем, кто выполняет роль или находится где-либо), после него сразу ставим <b>is</b> или <b>are</b>:</p>
+<div class="example"><b>Who is here?</b> — Кто здесь?<br><b>Who is next?</b> — Кто следующий?<br><b>Who is in the park?</b> — Кто в парке?</div>
+<p>Если спрашиваем «кто он / она?», используем обычную схему:</p>
+<div class="example"><b>Who is he?</b> — Кто он?<br><b>Who is she?</b> — Кто она?</div>
+</div>
+<div class="card rule">
+<h3>Вопросы с How + прилагательное</h3>
+<p><b>How</b> может стоять перед прилагательным и означать «насколько»:</p>
+<div class="example"><b>How expensive is it?</b> — Насколько это дорого?<br><b>How difficult is it?</b> — Насколько это сложно?<br><b>How interesting is it?</b> — Насколько это интересно?<br><b>How old are you?</b> — Сколько тебе лет?</div>
+</div>
+<div class="card rule">
+<h3>Сокращения</h3>
+<div class="example"><b>What's</b> = <b>What is</b><br><b>Who's</b> = <b>Who is</b></div>
+<p class="muted">В разговорной речи сокращённые формы очень распространены: What's in your bag? / Who's next?</p>
+</div>
+<div class="card">
+<h3>Важно запомнить</h3>
+<p>В вопросах с <b>to be</b> не используем <b>do / does</b>. Сначала вопросительное слово, затем форма <b>am / is / are</b> (по схеме конкретного вопроса).</p>
+<p class="muted">Материал тренажёра и экзамена основан на 90 вопросах со скриншотов. Повторяющиеся фразы сохранены, потому что они присутствуют в исходном материале.</p>
+</div>
+</section>
+
+<section id="trainer" class="panel">
+<h2>Тренажёр</h2>
+<div class="mode"><button class="tab active" id="tEn">ENG → RU</button><button class="tab" id="tRu">RU → ENG</button></div>
+<input id="search" class="search" type="search" placeholder="Поиск по английским и русским фразам...">
+<div class="muted" id="count"></div>
+<div id="trainerList"></div>
+</section>
+
+<section id="exam" class="panel">
+<h2>Экзамен</h2>
+<div id="setup" class="card">
+<p>90 вопросов. Можно выбрать длину экзамена. Вопросы идут по одному в случайном порядке.</p>
+<div class="row" style="margin-top:12px">
+<label for="examMode">Направление:</label>
+<select id="examMode"><option value="ru">RU → ENG</option><option value="en">ENG → RU</option></select>
+<label for="amount">Количество:</label>
+<select id="amount"><option value="10">10</option><option value="20">20</option><option value="30">30</option><option value="all">Все (90)</option></select>
+</div>
+<div class="actions"><button class="primary" id="start">Начать экзамен</button></div>
+</div>
+<div id="run" class="card hidden">
+<div class="stat"><span id="progressText"></span><span id="score"></span></div>
+<div class="progress"><div id="bar"></div></div>
+<div id="question" class="exam-question"></div>
+<input type="text" id="answer" lang="en" spellcheck="true" autocomplete="off" placeholder="Введите перевод...">
+<div class="actions"><button class="primary" id="check">Проверить</button><button class="secondary hidden" id="next">Следующий вопрос</button></div>
+<div id="feedback"></div>
+</div>
+<div id="done" class="card hidden">
+<h3>Экзамен завершён</h3><p id="result"></p>
+<div class="actions"><button class="primary" id="retry">Повторить ошибки</button><button class="secondary" id="again">Новый экзамен</button></div>
+</div>
+</section>
+<div class="back"><a href="index.html">← На главную</a></div>
+</div>
+<script>
+const phrases = [
+{en:"How old is your sister?",ru:"Сколько лет твоей сестре?"},
+{en:"Where is your car?",ru:"Где твоя машина?"},
+{en:"How is the party?",ru:"Как проходит вечеринка?"},
+{en:"Why is your boss right?",ru:"Почему твой начальник прав?"},
+{en:"Why is the student there?",ru:"Почему студент там?"},
+{en:"How much is this car?",ru:"Сколько стоит эта машина?"},
+{en:"How much is this dress?",ru:"Сколько стоит это платье?"},
+{en:"Why is this problem so big?",ru:"Почему эта проблема такая большая?"},
+{en:"How old is your father?",ru:"Сколько лет твоему отцу?"},
+{en:"How interesting is the magazine?",ru:"Насколько интересен этот журнал?"},
+{en:"How effective is the lesson?",ru:"Насколько эффективен этот урок?"},
+{en:"How much is this dress?",ru:"Сколько стоит это платье?"},
+{en:"Why are these rules so important?",ru:"Почему эти правила такие важные?"},
+{en:"How much is this pair of trousers?",ru:"Сколько стоит эта пара брюк?"},
+{en:"Where is the boy?",ru:"Где мальчик?"},
+{en:"Who's that man?",ru:"Кто этот мужчина?"},
+{en:"How good is his offer?",ru:"Насколько хорошее у него предложение?"},
+{en:"Where is your room?",ru:"Где твоя комната?"},
+{en:"Where is the girl?",ru:"Где девочка?"},
+{en:"How much is this pair of jeans?",ru:"Сколько стоит эта пара джинсов?"},
+{en:"Who are those people?",ru:"Кто те люди?"},
+{en:"What's his name?",ru:"Как его зовут?"},
+{en:"How are these exercises?",ru:"Какие эти упражнения?"},
+{en:"What's your name?",ru:"Как тебя зовут?"},
+{en:"What's your friend's name?",ru:"Как зовут твоего друга?"},
+{en:"Where is your wife?",ru:"Где твоя жена?"},
+{en:"Why is this video so interesting?",ru:"Почему это видео такое интересное?"},
+{en:"What's her name?",ru:"Как её зовут?"},
+{en:"Who are these people?",ru:"Кто эти люди?"},
+{en:"Where is our teacher?",ru:"Где наш преподаватель?"},
+{en:"How effective are the lessons?",ru:"Насколько эффективны эти уроки?"},
+{en:"How is this test?",ru:"Как этот тест?"},
+{en:"Where is this place?",ru:"Где это место?"},
+{en:"How much is the computer?",ru:"Сколько стоит компьютер?"},
+{en:"What's your boyfriend's name?",ru:"Как зовут твоего парня?"},
+{en:"How much is this book?",ru:"Сколько стоит эта книга?"},
+{en:"How much are these trousers?",ru:"Сколько стоят эти брюки?"},
+{en:"What's your best friend's name?",ru:"Как зовут твоего лучшего друга?"},
+{en:"What's your sister's name?",ru:"Как зовут твою сестру?"},
+{en:"Why is that method so ineffective?",ru:"Почему этот метод такой неэффективный?"},
+{en:"How is the movie?",ru:"Как фильм?"},
+{en:"What's your brother's name?",ru:"Как зовут твоего брата?"},
+{en:"What's your girlfriend's name?",ru:"Как зовут твою девушку?"},
+{en:"What's your mother's job?",ru:"Кем работает твоя мама?"},
+{en:"How old is your brother?",ru:"Сколько лет твоему брату?"},
+{en:"Where is your husband?",ru:"Где твой муж?"},
+{en:"What's her job?",ru:"Кем она работает?"},
+{en:"Why is this channel so popular?",ru:"Почему этот канал такой популярный?"},
+{en:"Who is that woman?",ru:"Кто та женщина?"},
+{en:"Why is this rule so important?",ru:"Почему это правило такое важное?"},
+{en:"How is this exercise?",ru:"Как это упражнение?"},
+{en:"How old is your mother?",ru:"Сколько лет твоей маме?"},
+{en:"How old is his son?",ru:"Сколько лет его сыну?"},
+{en:"What's your brother's name?",ru:"Как зовут твоего брата?"},
+{en:"What's wrong?",ru:"Что не так?"},
+{en:"What's her name?",ru:"Как её зовут?"},
+{en:"What's her father's job?",ru:"Кем работает её отец?"},
+{en:"How expensive is this house?",ru:"Насколько дорогой этот дом?"},
+{en:"How is this playlist?",ru:"Как тебе этот плейлист?"},
+{en:"What's your wife's job?",ru:"Кем работает твоя жена?"},
+{en:"How is this result?",ru:"Как этот результат?"},
+{en:"How much is one English lesson?",ru:"Сколько стоит один урок английского?"},
+{en:"How good is the lesson?",ru:"Насколько хорош этот урок?"},
+{en:"How difficult are these exercises?",ru:"Насколько сложны эти упражнения?"},
+{en:"How interesting is this magazine?",ru:"Насколько интересен этот журнал?"},
+{en:"Where is the nearest supermarket?",ru:"Где ближайший супермаркет?"},
+{en:"Why are those lessons so ineffective?",ru:"Почему те уроки такие неэффективные?"},
+{en:"What's his name?",ru:"Как его зовут?"},
+{en:"Where are our teachers?",ru:"Где наши преподаватели?"},
+{en:"How much is the dress?",ru:"Сколько стоит платье?"},
+{en:"What's your husband's job?",ru:"Кем работает твой муж?"},
+{en:"How effective is the lesson?",ru:"Насколько эффективен этот урок?"},
+{en:"Why are these exercises so difficult?",ru:"Почему эти упражнения такие сложные?"},
+{en:"How useful is the lesson?",ru:"Насколько полезен этот урок?"},
+{en:"How much is the book?",ru:"Сколько стоит книга?"},
+{en:"How much is this computer?",ru:"Сколько стоит этот компьютер?"},
+{en:"Who is that person?",ru:"Кто этот человек?"},
+{en:"How much are these jeans?",ru:"Сколько стоят эти джинсы?"},
+{en:"What's his job?",ru:"Кем он работает?"},
+{en:"How difficult is this exercise?",ru:"Насколько сложно это упражнение?"},
+{en:"How interesting is the offer?",ru:"Насколько интересно это предложение?"},
+{en:"Where are the children?",ru:"Где дети?"},
+{en:"Why are her lessons so ineffective?",ru:"Почему её уроки такие неэффективные?"},
+{en:"What's your job?",ru:"Кем ты работаешь?"},
+{en:"How difficult is the test?",ru:"Насколько сложный этот тест?"},
+{en:"What's your sister's name?",ru:"Как зовут твою сестру?"},
+{en:"What's your friend's name?",ru:"Как зовут твоего друга?"},
+{en:"Why are these exercises so difficult?",ru:"Почему эти упражнения такие сложные?"},
+{en:"Why are the students there?",ru:"Почему студенты там?"},
+{en:"How is the channel?",ru:"Как тебе канал?"}
+];
+const $=id=>document.getElementById(id);
+let trainerMode="en",queue=[],index=0,correct=0,errors=[],current=null,checked=false;
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function norm(s){return s.toLowerCase().replace(/[.,!?;:—–-]/g,"").replace(/\s+/g," ").trim().replace(/[’‘]/g,"'")}
+document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{
+ document.querySelectorAll("[data-tab]").forEach(x=>x.classList.toggle("active",x===b));
+ document.querySelectorAll(".panel").forEach(x=>x.classList.toggle("active",x.id===b.dataset.tab));
+});
+const lessonUrl=location.pathname;
+let savedFavorites=[];
+let favoritesAuthenticated=false;
+let csrfToken=sessionStorage.getItem("english_csrf")||"";
+
+function getSavedFavorite(p){
+ return savedFavorites.find(f=>f.phrase===p.en && f.translation===p.ru && f.lesson_url===lessonUrl);
+}
+async function getCsrfToken(){
+ if(csrfToken)return csrfToken;
+ const response=await fetch("/api/auth/csrf",{credentials:"same-origin"});
+ if(!response.ok)throw new Error("Не удалось получить токен безопасности. Войдите в личный кабинет.");
+ const data=await response.json();
+ if(!data.csrf_token)throw new Error("Сервер не вернул токен безопасности.");
+ csrfToken=data.csrf_token;
+ sessionStorage.setItem("english_csrf",csrfToken);
+ return csrfToken;
+}
+async function loadFavorites(){
+ try{
+  const response=await fetch("/api/favorites",{credentials:"same-origin"});
+  if(response.status===401){favoritesAuthenticated=false;savedFavorites=[];render();return;}
+  if(!response.ok)throw new Error("HTTP "+response.status);
+  const data=await response.json();
+  savedFavorites=Array.isArray(data.favorites)?data.favorites:[];
+  favoritesAuthenticated=true;
+  render();
+ }catch(error){console.error("Ошибка загрузки избранного:",error);}
+}
+async function toggleFavorite(p,button){
+ if(button.disabled)return;
+ if(!favoritesAuthenticated){
+  const next=location.pathname+location.search+location.hash;
+  location.href="/login.html?next="+encodeURIComponent(next);
+  return;
+ }
+ button.disabled=true;
+ try{
+  const csrf=await getCsrfToken();
+  const existing=getSavedFavorite(p);
+  const response=existing
+   ?await fetch("/api/favorites/"+encodeURIComponent(existing.id),{
+      method:"DELETE",credentials:"same-origin",headers:{"X-CSRF-Token":csrf}
+    })
+   :await fetch("/api/favorites",{
+      method:"POST",credentials:"same-origin",
+      headers:{"Content-Type":"application/json","X-CSRF-Token":csrf},
+      body:JSON.stringify({phrase:p.en,translation:p.ru,lesson_title:document.title,lesson_url:lessonUrl})
+    });
+  if(response.status===401){
+   favoritesAuthenticated=false;sessionStorage.removeItem("english_csrf");csrfToken="";
+   const next=location.pathname+location.search+location.hash;
+   location.href="/login.html?next="+encodeURIComponent(next);
+   return;
+  }
+  if(!response.ok){
+   const data=await response.json().catch(()=>({}));
+   throw new Error(data.detail||"Не удалось изменить избранное (HTTP "+response.status+").");
+  }
+  await loadFavorites();
+ }catch(error){alert(error.message||"Ошибка при работе с избранным.");}
+ finally{button.disabled=false;}
+}
+function render(){
+ let q=norm($("search").value);
+ let found=phrases.map((p,i)=>({...p,_i:i})).filter(p=>!q||norm(p.en).includes(q)||norm(p.ru).includes(q));
+ $("count").textContent="Найдено: "+found.length+" из "+phrases.length;
+ $("trainerList").innerHTML=found.map((p,idx)=>`${idx===0||Math.floor(p._i/10)!==Math.floor(found[idx-1]._i/10)?`<div class="section-title">Вопросы ${Math.floor(p._i/10)*10+1}–${Math.min(Math.floor(p._i/10)*10+10,phrases.length)}</div>`:""}<div class="card trainer-card"><div class="phrase-head"><div class="en">${esc(trainerMode==="en"?p.en:p.ru)}</div><button type="button" class="favorite-star" data-fav-index="${p._i}" aria-label="Добавить в избранное" title="Добавить в избранное">☆</button></div><button class="secondary reveal">Показать ${trainerMode==="en"?"перевод":"ответ"}</button><div class="ru hidden">${esc(trainerMode==="en"?p.ru:p.en)}</div></div>`).join("");
+ $("trainerList").querySelectorAll(".reveal").forEach(b=>{b.onclick=()=>{let r=b.nextElementSibling;r.classList.toggle("hidden");b.textContent=r.classList.contains("hidden")?`Показать ${trainerMode==="en"?"перевод":"ответ"}`:"Скрыть";};});
+ $("trainerList").querySelectorAll(".favorite-star").forEach(b=>{
+  const p=phrases[Number(b.dataset.favIndex)];
+  const saved=getSavedFavorite(p);
+  b.textContent=saved?"★":"☆";
+  b.classList.toggle("active",!!saved);
+  b.title=saved?"Удалить из избранного":"Добавить в избранное";
+  b.setAttribute("aria-label",b.title);
+  b.onclick=()=>toggleFavorite(p,b);
+ });
+}
+$("tEn").onclick=()=>{trainerMode="en";$("tEn").classList.add("active");$("tRu").classList.remove("active");render()};
+$("tRu").onclick=()=>{trainerMode="ru";$("tRu").classList.add("active");$("tEn").classList.remove("active");render()};
+$("search").oninput=render;render();loadFavorites();
+function start(list){queue=[...list].sort(()=>Math.random()-.5);index=0;correct=0;errors=[];$("setup").classList.add("hidden");$("done").classList.add("hidden");$("run").classList.remove("hidden");show()}
+$("start").onclick=()=>{let list=[...phrases],n=$("amount").value;if(n!=="all")list=list.slice(0,Number(n));start(list)};
+function show(){
+ if(index>=queue.length){finish();return}
+ current=queue[index];checked=false;let mode=$("examMode").value;
+ $("question").textContent=mode==="ru"?current.ru:current.en;
+ $("answer").value="";$("answer").disabled=false;$("feedback").innerHTML="";
+ $("check").classList.remove("hidden");$("next").classList.add("hidden");
+ $("progressText").textContent=`Вопрос ${index+1} из ${queue.length}`;
+ updateScore();$("bar").style.width=`${index/queue.length*100}%`;$("answer").focus();
+}
+function updateScore(){$("score").textContent=`Верно: ${correct} · Ошибки: ${errors.length}`}
+function check(){
+ if(checked)return;let mode=$("examMode").value,given=norm($("answer").value),expected=norm(mode==="ru"?current.en:current.ru);
+ if(!given){$("feedback").innerHTML='<div class="feedback bad">Введите ответ.</div>';return}
+ checked=true;$("answer").disabled=true;
+ if(given===expected){correct++;$("feedback").innerHTML='<div class="feedback good">Верно!</div>'}
+ else{errors.push(current);$("feedback").innerHTML=`<div class="feedback bad">Правильный ответ: <b>${esc(mode==="ru"?current.en:current.ru)}</b><br><button class="secondary" id="accept">Не считать ошибкой</button></div>`;$("accept").onclick=()=>{errors=errors.filter(x=>x!==current);correct++;$("feedback").innerHTML='<div class="feedback good">Ответ засчитан.</div>';updateScore()}}
+ updateScore();$("check").classList.add("hidden");$("next").classList.remove("hidden");
+}
+$("check").onclick=check;function next(){index++;show()}$("next").onclick=next;
+$("answer").onkeydown=e=>{if(e.key==="Enter"){if(!checked)check();else next()}};
+function finish(){$("run").classList.add("hidden");$("done").classList.remove("hidden");$("result").textContent=`Результат: ${correct} из ${queue.length}. Ошибок: ${errors.length}.`;$("retry").disabled=!errors.length;$("bar").style.width="100%"}
+$("retry").onclick=()=>start([...errors]);$("again").onclick=()=>{$("done").classList.add("hidden");$("setup").classList.remove("hidden")};
+</script>
+</body></html>
