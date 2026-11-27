@@ -200,7 +200,7 @@ function renderQuestion(){
  answered=false;const item=examItems[examIndex];const q=examDirection==='ru-en'?item.translation:item.phrase;const expected=examDirection==='ru-en'?item.phrase:item.translation;
  const progress=document.createElement('div');progress.className='muted';progress.textContent=`Вопрос ${examIndex+1} из ${examItems.length}`;
  const prompt=document.createElement('div');prompt.className='question';prompt.textContent=q;
- const input=document.createElement('input');input.type='text';input.placeholder=examDirection==='ru-en'?'Перевод на английский':'Перевод на русский';input.style.width='100%';input.autocomplete='off';
+ const input=document.createElement('input');input.type='text';input.lang=examDirection==='ru-en'?'en':'ru';input.spellcheck=true;input.placeholder=examDirection==='ru-en'?'Перевод на английский':'Перевод на русский';input.style.width='100%';input.autocomplete='off';
  const feedback=document.createElement('div');
  const actions=document.createElement('div');actions.className='row';
  const check=document.createElement('button');check.textContent='Проверить';
