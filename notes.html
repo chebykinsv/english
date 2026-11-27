@@ -19,7 +19,7 @@ button{font:inherit;cursor:pointer}.btn{border:0;border-radius:10px;padding:10px
 <body>
 <div class="wrap">
   <header class="top">
-    <div><h1>Мои заметки</h1><div class="sub">Личный словарь английских слов и фраз</div></div>
+    <div><h1>Мои заметки</h1><div class="sub">Личный словарь английских слов и фраз · синхронизация через сервер</div></div>
     <nav class="top-nav" aria-label="Навигация">
       <a href="/">← На главную</a>
       <a href="/favorites.html">⭐ Избранное</a>
@@ -131,14 +131,32 @@ button{font:inherit;cursor:pointer}.btn{border:0;border-radius:10px;padding:10px
   </main>`;
   return;
  }
- const STORAGE_KEY='english_personal_notes_v1';
  let notes=[], editingId=null, direction='ru-eng', studyDirection='ru-eng', studyQueue=[], studyIndex=0;
  let examQueue=[], examIndex=0, examCorrect=0, examMistakes=[], currentExamMode='normal', lastWrongIds=[];
  const $=id=>document.getElementById(id);
  const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
- function load(){try{notes=JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');if(!Array.isArray(notes))notes=[];}catch{notes=[]}}
- function save(){localStorage.setItem(STORAGE_KEY,JSON.stringify(notes));renderAll()}
+ async function getCsrf(){
+  const r=await fetch('/api/auth/csrf',{credentials:'same-origin',cache:'no-store'});
+  if(!r.ok)throw new Error('Не удалось получить CSRF-токен');
+  const d=await r.json();return d.csrf_token;
+ }
+ async function api(url,options={}){
+  const r=await fetch(url,{credentials:'same-origin',cache:'no-store',...options});
+  if(!r.ok){let msg='Ошибка сервера: '+r.status;try{const d=await r.json();if(d.detail)msg=d.detail}catch{}throw new Error(msg)}
+  return r.json();
+ }
+ async function load(){
+  const data=await api('/api/notes');
+  notes=Array.isArray(data.notes)?data.notes:[];
+ }
+ async function save(){
+  try{
+   const token=await getCsrf();
+   await api('/api/notes',{method:'PUT',headers:{'Content-Type':'application/json','X-CSRF-Token':token},body:JSON.stringify({notes})});
+   renderAll();
+  }catch(error){alert('Не удалось сохранить заметки на сервере: '+error.message)}
+ }
  function counts(){$('totalCount').textContent=notes.length;$('learnedCount').textContent=notes.filter(n=>n.learned).length;$('mistakeCount').textContent=notes.filter(n=>n.mistakes>0).length}
  function switchTab(name){document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===name));document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id==='panel-'+name));if(name==='study')startStudy();if(name==='mistakes')renderMistakes()}
  document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));
@@ -217,7 +235,8 @@ button{font:inherit;cursor:pointer}.btn{border:0;border-radius:10px;padding:10px
  }
  $('mistakesList').addEventListener('click',e=>{const b=e.target.closest('[data-reset]');if(!b)return;const n=notes.find(x=>x.id===b.dataset.reset);if(n)n.mistakes=0;save()});
  $('clearMistakes').onclick=()=>{notes.forEach(n=>n.mistakes=0);save()};
- load();renderAll();
+ try{await load();renderAll()}
+ catch(error){$('notesList').innerHTML='<div class="empty">Не удалось загрузить заметки с сервера: '+esc(error.message)+'</div>';console.error(error)}
 })();
 </script>
 </body>

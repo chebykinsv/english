@@ -68,27 +68,31 @@ button.secondary{background:#eaf0f8;color:#34415a}button.danger{background:#fee2
   <div id="selectedPhrases"></div>
   <div id="examArea"></div>
  </section>
- <p class="muted small">Тестовая версия: сохранённые наборы и их названия хранятся в этом браузере (LocalStorage). Текущее избранное загружается с сервера. Экспорт JSON позволяет перенести списки на другой браузер.</p>
+ <p class="muted small">Сохранённые списки и фразы хранятся на сервере в SQLite и доступны после входа с других устройств. Экспорт JSON позволяет создать резервную копию.</p>
 </main>
 <script>
 const $=id=>document.getElementById(id);
-const STORAGE_KEY='english_favorite_named_lists_v1';
+
 let currentFavorites=[], namedLists=[], selectedId=null, examItems=[], examIndex=0, examMistakes=[], examCorrect=0, examDirection='ru-en', answered=false;
 
 async function api(url,options={}){
  const r=await fetch(url,{credentials:'same-origin',cache:'no-store',...options});
- if(r.status===401){location.href='/login.html';throw new Error('Требуется авторизация')}
+ if(r.status===401){location.href='https://english.prm-ur.ru/login.html';throw new Error('Требуется авторизация')}
  if(!r.ok)throw new Error('Ошибка сервера: '+r.status);
  return r.status===204?{}:r.json();
 }
 async function getCsrf(){
  const r=await fetch('/api/auth/csrf',{credentials:'same-origin',cache:'no-store'});
- if(r.status===401){location.href='/login.html';throw new Error('Требуется авторизация')}
+ if(r.status===401){location.href='https://english.prm-ur.ru/login.html';throw new Error('Требуется авторизация')}
  if(!r.ok)throw new Error('Не удалось получить CSRF-токен');
  const d=await r.json(); if(!d.csrf_token)throw new Error('Нет CSRF-токена'); return d.csrf_token;
 }
-function loadNamed(){try{const d=JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');namedLists=Array.isArray(d)?d:[]}catch{namedLists=[]}}
-function persist(){localStorage.setItem(STORAGE_KEY,JSON.stringify(namedLists));renderLists()}
+async function loadNamed(){
+ const data=await api('/api/favorite-lists');
+ namedLists=Array.isArray(data.lists)?data.lists:[];
+ renderLists();
+}
+async function persist(){ await loadNamed(); }
 function normalizeItems(items){return (items||[]).map(x=>({phrase:String(x.phrase||x.english||''),translation:String(x.translation||x.russian||''),lesson_title:String(x.lesson_title||'Импортированный список'),lesson_url:String(x.lesson_url||'/'),id:x.id??null})).filter(x=>x.phrase&&x.translation)}
 async function loadCurrent(){
  const data=await api('/api/favorites');currentFavorites=normalizeItems(data.favorites||[]);
@@ -108,8 +112,8 @@ function renderLists(){
   const addToCurrent=document.createElement('button');addToCurrent.className='secondary';addToCurrent.textContent='Добавить в избранное';addToCurrent.addEventListener('click',()=>restoreListToCurrent(list.id,false));
   const replaceCurrent=document.createElement('button');replaceCurrent.className='secondary';replaceCurrent.textContent='Заменить избранное';replaceCurrent.addEventListener('click',()=>restoreListToCurrent(list.id,true));
   const exportBtn=document.createElement('button');exportBtn.className='secondary';exportBtn.textContent='Экспорт';exportBtn.addEventListener('click',()=>download(safeName(list.name)+'.json',{format:'english-favorites-list-v1',name:list.name,items:list.items||[]}));
-  const rename=document.createElement('button');rename.className='secondary';rename.textContent='Переименовать';rename.addEventListener('click',()=>{const n=prompt('Новое название списка:',list.name);if(n&&n.trim()){list.name=n.trim().slice(0,80);persist();if(selectedId===list.id)selectList(list.id)}});
-  const del=document.createElement('button');del.className='danger';del.textContent='Удалить';del.addEventListener('click',()=>{if(!confirm('Удалить сохранённый список «'+list.name+'»?'))return;namedLists=namedLists.filter(x=>x.id!==list.id);if(selectedId===list.id){selectedId=null;$('selectedTitle').textContent='Выбранный список';$('selectedMeta').textContent='Выбери список выше.';$('selectedPhrases').replaceChildren();$('startExam').disabled=true}$('examArea').replaceChildren();persist()});
+  const rename=document.createElement('button');rename.className='secondary';rename.textContent='Переименовать';rename.addEventListener('click',async()=>{const n=prompt('Новое название списка:',list.name);if(n&&n.trim()){try{const token=await getCsrf();await api('/api/favorite-lists/'+list.id,{method:'PUT',headers:{'Content-Type':'application/json','X-CSRF-Token':token},body:JSON.stringify({name:n.trim().slice(0,80)})});await loadNamed();if(selectedId===list.id)selectList(list.id)}catch(e){alert(e.message)}}});
+  const del=document.createElement('button');del.className='danger';del.textContent='Удалить';del.addEventListener('click',async()=>{if(!confirm('Удалить сохранённый список «'+list.name+'»?'))return;try{const token=await getCsrf();await api('/api/favorite-lists/'+list.id,{method:'DELETE',headers:{'X-CSRF-Token':token}});if(selectedId===list.id){selectedId=null;$('selectedTitle').textContent='Выбранный список';$('selectedMeta').textContent='Выбери список выше.';$('selectedPhrases').replaceChildren();$('startExam').disabled=true}$('examArea').replaceChildren();await loadNamed()}catch(e){alert(e.message)}});
   actions.append(choose,addToCurrent,replaceCurrent,exportBtn,rename,del);card.append(info,actions);host.append(card);
  });
 }
@@ -156,11 +160,10 @@ async function restoreListToCurrent(id,replace){
   alert('Не удалось полностью загрузить список в избранное: '+e.message);
  }
 }
-$('saveCurrent').addEventListener('click',()=>{
+$('saveCurrent').addEventListener('click',async()=>{
  const name=$('newListName').value.trim();if(!name){alert('Введи название списка.');$('newListName').focus();return}
  if(!currentFavorites.length){alert('Текущее избранное пустое.');return}
- namedLists.push({id:crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random(),name,createdAt:new Date().toISOString(),items:currentFavorites.map(x=>({...x}))});
- persist();$('newListName').value='';alert('Список «'+name+'» сохранён.');selectList(namedLists[namedLists.length-1].id);
+ try{const token=await getCsrf();const result=await api('/api/favorite-lists',{method:'POST',headers:{'Content-Type':'application/json','X-CSRF-Token':token},body:JSON.stringify({name,items:currentFavorites.map(x=>({phrase:x.phrase,translation:x.translation,lesson_title:x.lesson_title||'Импортированный список',lesson_url:x.lesson_url||'/'}))})});$('newListName').value='';await loadNamed();alert('Список «'+name+'» сохранён на сервере.');selectList(result.id)}catch(e){alert('Не удалось сохранить список: '+e.message)}
 });
 $('clearCurrent').addEventListener('click',async()=>{
  if(!currentFavorites.length){alert('Текущее избранное уже пустое.');return}
@@ -172,12 +175,16 @@ $('exportAll').addEventListener('click',()=>{if(!namedLists.length){alert('Не�
 $('importButton').addEventListener('click',()=>$('importFile').click());
 $('importFile').addEventListener('change',async e=>{
  const file=e.target.files[0];if(!file)return;
- try{const data=JSON.parse(await file.text());let incoming=[];
+ try{
+  const data=JSON.parse(await file.text());let incoming=[];
   if(Array.isArray(data.lists))incoming=data.lists;
-  else if(Array.isArray(data.items))incoming=[{name:data.name||file.name.replace(/\.json$/i,''),items:data.items}];
+  else if(Array.isArray(data.items))incoming=[{name:data.name||file.name.replace(/\\.json$/i,''),items:data.items}];
   else throw new Error('Файл не содержит списков или фраз.');
-  let added=0;incoming.forEach((l,i)=>{const items=normalizeItems(l.items);if(!items.length)return;let name=String(l.name||('Импортированный список '+(i+1))).slice(0,80);if(namedLists.some(x=>x.name===name))name+=' (импорт '+(i+1)+')';namedLists.push({id:crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random(),name,createdAt:new Date().toISOString(),items});added++});
-  persist();alert('Импортировано списков: '+added);
+  const lists=incoming.map((l,i)=>({name:String(l.name||('Импортированный список '+(i+1))).slice(0,80),items:normalizeItems(l.items).map(x=>({phrase:x.phrase,translation:x.translation,lesson_title:x.lesson_title||'Импортированный список',lesson_url:x.lesson_url||'/'}))})).filter(x=>x.items.length);
+  if(!lists.length)throw new Error('В файле нет списков с фразами.');
+  const token=await getCsrf();
+  const result=await api('/api/favorite-lists/import',{method:'POST',headers:{'Content-Type':'application/json','X-CSRF-Token':token},body:JSON.stringify({lists})});
+  await loadNamed();alert('Импортировано списков на сервер: '+result.imported);
  }catch(err){alert('Не удалось импортировать: '+err.message)}finally{e.target.value=''}
 });
 function norm(s){return String(s||'').toLowerCase().trim().replace(/[’‘]/g,"'").replace(/[.,!?;:]+$/g,'').replace(/\s+/g,' ')}
@@ -204,18 +211,18 @@ function renderQuestion(){
 function renderResult(){
  const area=$('examArea');area.replaceChildren();const box=document.createElement('div');const h=document.createElement('h3');h.textContent='Экзамен завершён';const p=document.createElement('p');p.textContent=`Результат: ${examCorrect} из ${examItems.length} · ${Math.round(examCorrect/examItems.length*100)}%`;box.append(h,p);
  if(examMistakes.length){const t=document.createElement('p');t.textContent='Ошибок: '+examMistakes.length;box.append(t);examMistakes.forEach(x=>{const d=document.createElement('div');d.className='item';d.textContent=x.translation+' — '+x.phrase;box.append(d)});
- const saveErr=document.createElement('button');saveErr.textContent='Сохранить ошибки отдельным списком';saveErr.onclick=()=>{const name=prompt('Как назвать список ошибок?',(namedLists.find(x=>x.id===selectedId)?.name||'Ошибки')+' — ошибки');if(!name||!name.trim())return;namedLists.push({id:crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random(),name:name.trim().slice(0,80),createdAt:new Date().toISOString(),items:examMistakes.map(x=>({...x}))});persist();alert('Список ошибок сохранён.');};box.append(saveErr);
+ const saveErr=document.createElement('button');saveErr.textContent='Сохранить ошибки отдельным списком';saveErr.onclick=async()=>{const name=prompt('Как назвать список ошибок?',(namedLists.find(x=>x.id===selectedId)?.name||'Ошибки')+' — ошибки');if(!name||!name.trim())return;try{const token=await getCsrf();const result=await api('/api/favorite-lists',{method:'POST',headers:{'Content-Type':'application/json','X-CSRF-Token':token},body:JSON.stringify({name:name.trim().slice(0,80),items:examMistakes.map(x=>({phrase:x.phrase,translation:x.translation,lesson_title:x.lesson_title||'Ошибки',lesson_url:x.lesson_url||'/'}))})});await loadNamed();alert('Список ошибок сохранён на сервере.');}catch(e){alert(e.message)}};box.append(saveErr);
  const retry=document.createElement('button');retry.className='secondary';retry.textContent='Повторить ошибки';retry.style.marginLeft='8px';retry.onclick=()=>{examItems=[...examMistakes];examIndex=0;examCorrect=0;examMistakes=[];renderQuestion()};box.append(retry);
  }else{const s=document.createElement('p');s.textContent='Ошибок нет. Отличная работа!';box.append(s)}area.append(box);
 }
 (async()=>{
  try{
   const me=await fetch('/api/auth/me',{credentials:'same-origin',cache:'no-store'});
-  if(!me.ok){location.replace('/login.html');return}
-  loadNamed();await loadCurrent();renderLists();
+  if(!me.ok){location.replace('https://english.prm-ur.ru/login.html');return}
+  await loadNamed();await loadCurrent();
   document.documentElement.style.visibility='visible';
  }catch(e){
-  if(String(e.message).includes('Требуется авторизация')){location.replace('/login.html');return}
+  if(String(e.message).includes('Требуется авторизация')){location.replace('https://english.prm-ur.ru/login.html');return}
   $('currentCount').textContent=e.message;
   $('savedLists').innerHTML='<div class="empty">Не удалось загрузить страницу: '+e.message+'</div>';
   document.documentElement.style.visibility='visible';
