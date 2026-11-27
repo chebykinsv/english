@@ -134,16 +134,22 @@ async function restoreListToCurrent(id,replace){
     await api('/api/favorites/'+encodeURIComponent(current.id),{method:'DELETE',headers:{'X-CSRF-Token':token}});
    }
   }
-  const existing=new Set((replace?[]:currentFavorites).map(x=>String(x.id)));
+  const key=x=>[norm(x.phrase),norm(x.translation),String(x.lesson_url||'')].join('|');
+  const existing=new Set((replace?[]:currentFavorites).map(key));
   let added=0,skipped=0;
   for(const item of items){
-   if(item.id==null){skipped++;continue}
-   if(existing.has(String(item.id))){skipped++;continue}
-   await api('/api/favorites',{method:'POST',headers:{'Content-Type':'application/json','X-CSRF-Token':token},body:JSON.stringify({phrase_id:item.id})});
-   existing.add(String(item.id));added++;
+   const itemKey=key(item);
+   if(existing.has(itemKey)){skipped++;continue}
+   await api('/api/favorites',{method:'POST',headers:{'Content-Type':'application/json','X-CSRF-Token':token},body:JSON.stringify({
+    phrase:item.phrase,
+    translation:item.translation,
+    lesson_title:item.lesson_title||'Импортированный список',
+    lesson_url:item.lesson_url||'/'
+   })});
+   existing.add(itemKey);added++;
   }
   await loadCurrent();
-  alert(`Готово. Добавлено фраз: ${added}.${skipped?` Пропущено (уже есть или нет ID): ${skipped}.`:''}`);
+  alert(`Готово. Добавлено фраз: ${added}.${skipped?` Пропущено как уже имеющиеся: ${skipped}.`:''}`);
  }catch(e){
   await loadCurrent().catch(()=>{});
   alert('Не удалось полностью загрузить список в избранное: '+e.message);
