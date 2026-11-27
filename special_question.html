@@ -36,12 +36,25 @@ select,input[type=text]{padding:10px;border:1px solid #cbd5e1;border-radius:8px;
 .exam-question{font-size:1.2em;font-weight:700;margin:18px 0}
 .feedback{padding:10px;border-radius:8px;margin-top:10px}
 .good{background:#dcfce7;color:#166534}.bad{background:#fee2e2;color:#991b1b}
+
+.top-nav{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:0 0 14px}
+.top-nav a{display:inline-flex;align-items:center;justify-content:center;background:#e2e8f0;color:#244766;text-decoration:none;padding:9px 14px;border-radius:8px;font-weight:600}
+.top-nav a:hover{background:#cbd5e1}
+#trainerList .phrase-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+#trainerList .phrase-head .en{flex:1;min-width:0}
+#trainerList .favorite-star{flex:0 0 40px;width:40px;height:40px;min-height:40px;margin:-5px -4px 0 0;padding:0;border:1px solid #d7e2ef;border-radius:10px;background:#fff;color:#64748b;font-size:26px;line-height:1;cursor:pointer}
+#trainerList .favorite-star.active{color:#e5a000;background:#fff9e6;border-color:#f4d58a}
+#trainerList .favorite-star:disabled{opacity:.55;cursor:wait}
 .back{text-align:center;margin:28px auto 12px}
 .back a{display:inline-block;background:#3182ce;color:#fff;text-decoration:none;padding:11px 25px;border-radius:8px;font-weight:600}
 @media(max-width:480px){body{padding:10px}.tab{flex:1;padding:9px 7px}.card{padding:12px}select{flex:1}}
 </style>
 </head>
 <body><div class="container">
+<div class="top-nav">
+<a href="favorites.html">⭐ Избранное</a>
+<a href="index.html">← На главную</a>
+</div>
 <h1>Special Questions — To Be</h1>
 <div class="nav">
 <button class="tab active" data-tab="theory">Теория</button>
@@ -204,16 +217,88 @@ document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{
  document.querySelectorAll("[data-tab]").forEach(x=>x.classList.toggle("active",x===b));
  document.querySelectorAll(".panel").forEach(x=>x.classList.toggle("active",x.id===b.dataset.tab));
 });
+const lessonUrl=location.pathname;
+let savedFavorites=[];
+let favoritesAuthenticated=false;
+let csrfToken=sessionStorage.getItem("english_csrf")||"";
+
+function getSavedFavorite(p){
+ return savedFavorites.find(f=>f.phrase===p.en && f.translation===p.ru && f.lesson_url===lessonUrl);
+}
+async function getCsrfToken(){
+ if(csrfToken)return csrfToken;
+ const response=await fetch("/api/auth/csrf",{credentials:"same-origin"});
+ if(!response.ok)throw new Error("Не удалось получить токен безопасности. Войдите в личный кабинет.");
+ const data=await response.json();
+ if(!data.csrf_token)throw new Error("Сервер не вернул токен безопасности.");
+ csrfToken=data.csrf_token;
+ sessionStorage.setItem("english_csrf",csrfToken);
+ return csrfToken;
+}
+async function loadFavorites(){
+ try{
+  const response=await fetch("/api/favorites",{credentials:"same-origin"});
+  if(response.status===401){favoritesAuthenticated=false;savedFavorites=[];render();return;}
+  if(!response.ok)throw new Error("HTTP "+response.status);
+  const data=await response.json();
+  savedFavorites=Array.isArray(data.favorites)?data.favorites:[];
+  favoritesAuthenticated=true;
+  render();
+ }catch(error){console.error("Ошибка загрузки избранного:",error);}
+}
+async function toggleFavorite(p,button){
+ if(button.disabled)return;
+ if(!favoritesAuthenticated){
+  const next=location.pathname+location.search+location.hash;
+  location.href="/login.html?next="+encodeURIComponent(next);
+  return;
+ }
+ button.disabled=true;
+ try{
+  const csrf=await getCsrfToken();
+  const existing=getSavedFavorite(p);
+  const response=existing
+   ?await fetch("/api/favorites/"+encodeURIComponent(existing.id),{
+      method:"DELETE",credentials:"same-origin",headers:{"X-CSRF-Token":csrf}
+    })
+   :await fetch("/api/favorites",{
+      method:"POST",credentials:"same-origin",
+      headers:{"Content-Type":"application/json","X-CSRF-Token":csrf},
+      body:JSON.stringify({phrase:p.en,translation:p.ru,lesson_title:document.title,lesson_url:lessonUrl})
+    });
+  if(response.status===401){
+   favoritesAuthenticated=false;sessionStorage.removeItem("english_csrf");csrfToken="";
+   const next=location.pathname+location.search+location.hash;
+   location.href="/login.html?next="+encodeURIComponent(next);
+   return;
+  }
+  if(!response.ok){
+   const data=await response.json().catch(()=>({}));
+   throw new Error(data.detail||"Не удалось изменить избранное (HTTP "+response.status+").");
+  }
+  await loadFavorites();
+ }catch(error){alert(error.message||"Ошибка при работе с избранным.");}
+ finally{button.disabled=false;}
+}
 function render(){
  let q=norm($("search").value);
  let found=phrases.map((p,i)=>({...p,_i:i})).filter(p=>!q||norm(p.en).includes(q)||norm(p.ru).includes(q));
  $("count").textContent="Найдено: "+found.length+" из "+phrases.length;
- $("trainerList").innerHTML=found.map(p=>`<div class="card trainer-card"><div class="en">${esc(trainerMode==="en"?p.en:p.ru)}</div><button class="secondary reveal">Показать перевод</button><div class="ru hidden">${esc(trainerMode==="en"?p.ru:p.en)}</div></div>`).join("");
- $("trainerList").querySelectorAll(".reveal").forEach(b=>b.onclick=()=>{let r=b.nextElementSibling;r.classList.toggle("hidden");b.textContent=r.classList.contains("hidden")?"Показать перевод":"Скрыть перевод";});
+ $("trainerList").innerHTML=found.map(p=>`<div class="card trainer-card"><div class="phrase-head"><div class="en">${esc(trainerMode==="en"?p.en:p.ru)}</div><button type="button" class="favorite-star" data-fav-index="${p._i}" aria-label="Добавить в избранное" title="Добавить в избранное">☆</button></div><button class="secondary reveal">Показать ${trainerMode==="en"?"перевод":"ответ"}</button><div class="ru hidden">${esc(trainerMode==="en"?p.ru:p.en)}</div></div>`).join("");
+ $("trainerList").querySelectorAll(".reveal").forEach(b=>{b.onclick=()=>{let r=b.nextElementSibling;r.classList.toggle("hidden");b.textContent=r.classList.contains("hidden")?`Показать ${trainerMode==="en"?"перевод":"ответ"}`:"Скрыть";};});
+ $("trainerList").querySelectorAll(".favorite-star").forEach(b=>{
+  const p=phrases[Number(b.dataset.favIndex)];
+  const saved=getSavedFavorite(p);
+  b.textContent=saved?"★":"☆";
+  b.classList.toggle("active",!!saved);
+  b.title=saved?"Удалить из избранного":"Добавить в избранное";
+  b.setAttribute("aria-label",b.title);
+  b.onclick=()=>toggleFavorite(p,b);
+ });
 }
 $("tEn").onclick=()=>{trainerMode="en";$("tEn").classList.add("active");$("tRu").classList.remove("active");render()};
 $("tRu").onclick=()=>{trainerMode="ru";$("tRu").classList.add("active");$("tEn").classList.remove("active");render()};
-$("search").oninput=render;render();
+$("search").oninput=render;render();loadFavorites();
 function start(list){queue=[...list].sort(()=>Math.random()-.5);index=0;correct=0;errors=[];$("setup").classList.add("hidden");$("done").classList.add("hidden");$("run").classList.remove("hidden");show()}
 $("start").onclick=()=>{let list=[...phrases],n=$("amount").value;if(n!=="all")list=list.slice(0,Number(n));start(list)};
 function show(){
