@@ -6,6 +6,7 @@
 <title>Списки избранного — English</title>
 <link rel="icon" href="/favicon-english.ico">
 <style>
+html{visibility:hidden}
 *{box-sizing:border-box}body{margin:0;background:#f3f6fb;color:#243247;font-family:Arial,sans-serif}
 header{background:#fff;box-shadow:0 2px 8px #24324710;padding:15px max(16px,calc((100% - 1000px)/2));display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 a{color:#2563eb;text-decoration:none}main{max-width:1000px;margin:26px auto;padding:0 16px}
@@ -210,9 +211,15 @@ function renderResult(){
 (async()=>{
  try{
   const me=await fetch('/api/auth/me',{credentials:'same-origin',cache:'no-store'});
-  if(!me.ok){location.href='/login.html';return}
+  if(!me.ok){location.replace('/login.html');return}
   loadNamed();await loadCurrent();renderLists();
- }catch(e){$('currentCount').textContent=e.message;$('savedLists').innerHTML='<div class="empty">Не удалось загрузить страницу: '+e.message+'</div>'}
+  document.documentElement.style.visibility='visible';
+ }catch(e){
+  if(String(e.message).includes('Требуется авторизация')){location.replace('/login.html');return}
+  $('currentCount').textContent=e.message;
+  $('savedLists').innerHTML='<div class="empty">Не удалось загрузить страницу: '+e.message+'</div>';
+  document.documentElement.style.visibility='visible';
+ }
 })();
 </script>
 </body>
