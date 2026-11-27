@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>To Be — 800 фраз</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;line-height:1.55;margin:0;padding:16px;background:#f0f4f8;color:#2d3748}
+.container{max-width:760px;margin:0 auto}
+h1{text-align:center;font-size:1.45em;margin:8px 0 6px;color:#2c3e50}
+.subtitle{text-align:center;color:#718096;margin:0 0 20px;font-size:.94em}
+.card{background:#fff;border-radius:10px;padding:18px;margin:14px 0;box-shadow:0 2px 7px rgba(0,0,0,.06)}
+h2{font-size:1.08em;margin:0 0 12px;color:#2b6cb0}
+.note{background:#ebf8ff;border-left:5px solid #3182ce;padding:12px 14px;border-radius:7px;font-size:.93em;margin-bottom:16px}
+.groups{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.group{display:flex;align-items:center;gap:10px;padding:11px;background:#f7fafc;border:1px solid #e2e8f0;border-radius:7px}
+.group input{width:18px;height:18px;accent-color:#3182ce}
+.group small{display:block;color:#718096}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+button,.btn{border:0;border-radius:7px;padding:11px 17px;font-size:.96em;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block}
+.primary{background:#3182ce;color:#fff}
+.secondary{background:#e2e8f0;color:#4a5568}
+.success{background:#38a169;color:#fff}
+.danger{background:#e53e3e;color:#fff}
+.muted{color:#718096;font-size:.9em}
+.hidden{display:none!important}
+.progress-line{height:9px;background:#e2e8f0;border-radius:99px;overflow:hidden;margin:10px 0 14px}
+.progress-fill{height:100%;width:0;background:#3182ce;transition:width .2s}
+.counter{display:flex;justify-content:space-between;gap:10px;color:#718096;font-size:.9em}
+.prompt{font-size:1.3em;font-weight:700;margin:18px 0;color:#2d3748}
+.answer-input{width:100%;padding:13px 14px;border:2px solid #cbd5e0;border-radius:8px;font-size:1.05em;outline:none}
+.answer-input:focus{border-color:#3182ce}
+.feedback{margin-top:14px;padding:13px;border-radius:8px;background:#f7fafc}
+.correct-text{color:#276749;font-weight:700}
+.wrong-text{color:#c53030;font-weight:700}
+.expected{font-size:1.1em;font-weight:700;color:#2b6cb0;margin-top:7px}
+.small-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}
+.score{font-size:1.25em;font-weight:700;margin:6px 0}
+.result-item{padding:11px 0;border-bottom:1px solid #e2e8f0}
+.result-item:last-child{border-bottom:0}
+.result-en{font-weight:700;color:#2b6cb0}
+.back{display:inline-block;color:#fff;background:#4a5568;padding:9px 15px;border-radius:7px;text-decoration:none;margin-bottom:10px}
+@media(max-width:480px){body{padding:10px}.card{padding:14px}.groups{grid-template-columns:1fr}.prompt{font-size:1.17em}button,.btn{padding:11px 13px}}
+
+.prep-toolbar{display:flex;gap:9px;flex-wrap:wrap;margin:12px 0}
+.prep-search{width:100%;padding:12px 14px;border:2px solid #cbd5e0;border-radius:8px;font-size:1em;outline:none;margin:4px 0 10px}
+.prep-search:focus{border-color:#3182ce}
+.prep-empty{color:#718096;text-align:center;padding:18px;display:none}
+.prep-group{border:1px solid #dbeafe;border-radius:9px;margin:10px 0;background:#f8fbff;overflow:hidden}
+.prep-group summary{cursor:pointer;list-style:none;padding:13px 15px;font-weight:700;color:#1e5a96;background:#ebf5ff;display:flex;justify-content:space-between;gap:10px}
+.prep-group summary::-webkit-details-marker{display:none}
+.prep-group summary:after{content:'＋';color:#3182ce}
+.prep-group[open] summary:after{content:'−'}
+.prep-list{padding:8px 12px}
+.prep-item{background:#fff;border:1px solid #e2e8f0;border-radius:7px;padding:10px 12px;margin:8px 0}
+.prep-ru{font-weight:600;margin-bottom:7px}
+.prep-en{display:none;color:#2b6cb0;font-weight:700;margin-top:8px;padding-top:8px;border-top:1px dashed #bfdbfe}
+.prep-en.show{display:block}
+.prep-toggle{background:#e2e8f0;color:#334155;padding:7px 11px;font-size:.88em}
+.prep-mode.active{background:#2b6cb0;color:#fff}
+.prep-question{font-weight:600;margin-bottom:7px}
+.prep-answer{display:none;color:#2b6cb0;font-weight:700;margin-top:8px;padding-top:8px;border-top:1px dashed #bfdbfe}
+.prep-answer.show{display:block}
+
+
+.fav-top{display:flex;justify-content:flex-end;margin:0 0 12px}
+.fav-link{display:inline-block;background:#fff;color:#2b6cb0;border:1px solid #bfdbfe;border-radius:7px;padding:9px 13px;text-decoration:none;font-weight:650}
+.fav-star{background:#fff7d6;color:#9a6700;border:1px solid #f4d06f;border-radius:7px;padding:6px 10px;font-size:1.05em;line-height:1;min-width:38px}
+.fav-star.saved{background:#fff0b3;color:#8a5700;border-color:#eab308}
+.prep-fav-row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.exam-fav-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:12px 0}
+.exam-fav-row .muted{margin:0}
+
+</style>
+</head>
+<body>
+<div class="container">
+<div class="fav-top"><a class="fav-link" href="/favorites.html">⭐ Избранное</a></div>
+<a class="back" href="../index.html">← Назад</a>
+<h1>To Be — 800 фраз</h1>
+<p class="subtitle">Практика перевода фраз с русского на английский (глагол To Be)</p>
+
+<section id="setup" class="card">
+  <div class="actions" style="margin-top:0;margin-bottom:14px"><button class="primary" type="button" onclick="openPreparation()">Подготовка к экзамену</button></div>
+  <div class="note">
+    Выбери один или несколько блоков. В экзамене будет по одной русской фразе за раз — введи перевод на английском и нажми «Проверить». Всего 800 фраз, исходный порядок и повторы сохранены.
+    Регистр букв и знаки препинания при проверке не учитываются.
+  </div>
+  <h2>Выбери блоки фраз</h2>
+  <div id="groups" class="groups"></div>
+  <div class="actions">
+    <button class="secondary" type="button" onclick="selectAll(true)">Выбрать все</button>
+    <button class="secondary" type="button" onclick="selectAll(false)">Снять выбор</button>
+  </div>
+  <p id="selectedCount" class="muted"></p>
+  <div class="actions">
+    <button class="primary" type="button" onclick="startExam()">Начать экзамен</button>
+  </div>
+</section>
+
+<section id="preparation" class="card hidden">
+  <h2>Подготовка к экзамену — To Be</h2>
+  <div class="note">Открой нужный блок, прочитай русскую фразу и попробуй перевести её самостоятельно. Нажми «Показать ответ», чтобы проверить себя. Блоки можно разворачивать и сворачивать.</div>
+  <div class="prep-toolbar">
+    <button id="prepRuEn" class="secondary prep-mode active" type="button" onclick="setPrepDirection('ru-en')">RU → ENG</button>
+    <button id="prepEnRu" class="secondary prep-mode" type="button" onclick="setPrepDirection('en-ru')">ENG → RU</button>
+  </div>
+  <input id="prepSearch" class="prep-search" type="search" placeholder="Поиск по русским и английским фразам..." oninput="filterPreparation()" autocomplete="off">
+  <div class="prep-empty" id="prepNoResults">Ничего не найдено. Попробуй изменить запрос.</div>
+  <div class="prep-toolbar">
+    <button class="secondary" type="button" onclick="togglePrepGroups(true)">Развернуть все блоки</button>
+    <button class="secondary" type="button" onclick="togglePrepGroups(false)">Свернуть все блоки</button>
+  </div>
+  <div id="preparationGroups"></div>
+  <div class="actions">
+    <button class="primary" type="button" onclick="backToSetupFromPrep()">Перейти к экзамену</button>
+    <button class="secondary" type="button" onclick="backToSetupFromPrep()">Назад</button>
+  </div>
+</section>
+
+<section id="exam" class="card hidden">
+  <div class="counter"><span id="progressText">Фраза 1 из 100</span><span id="scoreText">Верно: 0 · Ошибки: 0</span></div>
+  <div class="progress-line"><div id="progressFill" class="progress-fill"></div></div>
+  <div class="muted" id="blockLabel"></div>
+  <div class="exam-fav-row"><div class="prompt" id="prompt" style="margin:0"></div><button id="examFavoriteBtn" class="fav-star" type="button" title="Добавить в избранное" aria-label="Добавить в избранное">☆</button></div>
+  <input id="answerInput" class="answer-input" type="text" lang="en" spellcheck="true" autocomplete="off" autocapitalize="off" placeholder="Напиши перевод на английском">
+  <div class="actions">
+    <button id="checkBtn" class="primary" type="button" onclick="checkAnswer()">Проверить</button>
+    <button class="secondary" type="button" onclick="quitExam()">Завершить досрочно</button>
+  </div>
+  <div id="feedback" class="feedback hidden"></div>
+  <div id="decisionActions" class="small-actions hidden"></div>
+</section>
+
+<section id="results" class="card hidden">
+  <h2>Результат экзамена</h2>
+  <div id="resultSummary"></div>
+  <div id="mistakes"></div>
+  <div class="actions">
+    <button id="mistakeReviewBtn" class="primary" type="button" onclick="repeatMistakes()">Провести работу над ошибками</button>
+    <button class="secondary" type="button" onclick="backToSetup()">К выбору блоков</button>
+  </div>
+</section>
+</div>
+
+<script>
+
+const phraseGroups = [{"label":"1–100","phrases":[{"en":"How much is this book?","ru":"Сколько стоит этот книга?"},{"en":"What's there?","ru":"Что там?"},{"en":"How is he?","ru":"Как он?"},{"en":"He's so clever","ru":"Он такой умный."},{"en":"She's a beautiful girl","ru":"Она a красивый девушка."},{"en":"Are the women at home?","ru":"Это женщины в дома?"},{"en":"When are you busy?","ru":"Когда ты занятой?"},{"en":"Is this method really ineffective?","ru":"Это этот метод действительно неэффективный?"},{"en":"It isn't a difficult rule","ru":"Это не a трудный правило."},{"en":"It isn't boring","ru":"Это не скучное."},{"en":"Is it a good result?","ru":"Это это a хороший результат?"},{"en":"He isn't a professional teacher","ru":"Он не a профессиональный учитель."},{"en":"Is it a brilliant result?","ru":"Это это a блестящий результат?"},{"en":"I have a car. The car is very good","ru":"I have a машина. машина есть очень хороший."},{"en":"How is this exercise?","ru":"Как этот упражнение?"},{"en":"Where is the girl?","ru":"Где девочка?"},{"en":"It's easy","ru":"Это легко."},{"en":"What's her name?","ru":"Как её зовут?"},{"en":"It's so boring","ru":"Это такой скучный."},{"en":"It isn't a very bad situation","ru":"Это не a очень плохой ситуация."},{"en":"It's so cheap","ru":"Это такой дешёвый."},{"en":"Is this story so funny?","ru":"Это этот история такой смешной?"},{"en":"It's the best course","ru":"Это the лучший курс."},{"en":"He's such a clever person","ru":"Он такой a умный человек."},{"en":"How useful is the lesson?","ru":"Насколько урок полезный?"},{"en":"How much is the computer?","ru":"Сколько стоит компьютер?"},{"en":"It isn't his profession","ru":"Это не его профессия."},{"en":"How effective are the lessons?","ru":"Как эффективный есть уроки?"},{"en":"It's very easy","ru":"Это очень лёгкий."},{"en":"It's sunny","ru":"Солнечно."},{"en":"Are they from Spain?","ru":"Это они из Испания?"},{"en":"It's so difficult","ru":"Это такой трудный."},{"en":"Is it expensive?","ru":"Это это дорогой?"},{"en":"How is she?","ru":"Как она?"},{"en":"You're so clever","ru":"Ты такой умный."},{"en":"How much is the house?","ru":"Сколько стоит дом?"},{"en":"All these videos are very useful","ru":"Все эти видео есть очень полезный."},{"en":"I'm not satisfied with this result","ru":"Я не довольный с этот результат."},{"en":"It's an easy exercise","ru":"Это an лёгкий упражнение."},{"en":"Are you satisfied with their answer?","ru":"Это ты довольный с их ответ?"},{"en":"It's a useless lesson","ru":"Это a бесполезный урок."},{"en":"It isn't for this level","ru":"Это не для этот уровень."},{"en":"Is it a very simple exercise?","ru":"Это это a очень простой упражнение?"},{"en":"Are you sure?","ru":"Это ты уверенный?"},{"en":"It's difficult","ru":"Это сложно."},{"en":"My memory is bad","ru":"Мой memory есть плохой."},{"en":"It's a very ineffective method","ru":"Это a очень неэффективный метод."},{"en":"She isn't free. She's very busy","ru":"Она не свободный. она's очень занятой."},{"en":"It's cheap","ru":"Это дешёвое."},{"en":"Why are these exercises so difficult?","ru":"Почему эти упражнения такой трудный?"},{"en":"How expensive is it?","ru":"Насколько это дорогой?"},{"en":"She's very beautiful","ru":"Она очень красивая."},{"en":"Is your mother at school?","ru":"Это твоя мать в школе?"},{"en":"It isn't an easy lesson","ru":"Это не an лёгкий урок."},{"en":"Is he tired?","ru":"Это он уставший?"},{"en":"It's simple","ru":"Это простое."},{"en":"Are the videos funny?","ru":"Это видео смешной?"},{"en":"When is he at work?","ru":"Когда он в работе?"},{"en":"Is the game interesting?","ru":"Это игра интересный?"},{"en":"How old are you?","ru":"Как лет есть ты?"},{"en":"Are you really sure?","ru":"Это ты действительно уверенный?"},{"en":"Is it a very important detail?","ru":"Это это a очень важный деталь?"},{"en":"It's easy","ru":"Это легко."},{"en":"It's a very low level","ru":"Это a очень низкий уровень."},{"en":"Where are the children?","ru":"Где дети?"},{"en":"Why is your boss right?","ru":"Почему твой начальник справа?"},{"en":"He's such a poor boy","ru":"Он такой a бедный мальчик."},{"en":"They're rich","ru":"Они богатые."},{"en":"Is he her boss?","ru":"Это он её начальник?"},{"en":"What's important?","ru":"Что важно?"},{"en":"Who is she?","ru":"Кто она?"},{"en":"It's the best playlist","ru":"Это the лучший плейлист."},{"en":"It's the best answer","ru":"Это the лучший ответ."},{"en":"Who's in the park?","ru":"Кто's в the парке?"},{"en":"Our manager is very professional","ru":"Наш менеджер есть очень профессиональный."},{"en":"Is it cheap?","ru":"Это это дешёвый?"},{"en":"These lessons are really good","ru":"Эти уроки есть действительно хороший."},{"en":"Are you tired?","ru":"Это ты уставший?"},{"en":"Is the article in English?","ru":"Это статья в английский?"},{"en":"It's too expensive","ru":"Это слишком дорогой."},{"en":"I'm so happy","ru":"Я так счастлив."},{"en":"How is the channel?","ru":"Как канал?"},{"en":"Is the computer new?","ru":"Это компьютер новый?"},{"en":"It's better","ru":"Это лучше."},{"en":"Is it impossible?","ru":"Это это невозможный?"},{"en":"Is it an excellent result?","ru":"Это это an отличный результат?"},{"en":"What's her job?","ru":"Кем она работает?"},{"en":"Your help is very important","ru":"Твой help есть очень важный."},{"en":"It's so simple","ru":"Это такой простой."},{"en":"Is the airport near?","ru":"Это аэропорт близко?"},{"en":"Is this level enough?","ru":"Это этот уровень достаточно?"},{"en":"Is he their client?","ru":"Это он их клиент?"},{"en":"They aren't pessimistic","ru":"Они не пессимистичные."},{"en":"Is this language difficult?","ru":"Это этот язык трудный?"},{"en":"What's the time? What time is it?","ru":"Что's the время? что время есть это?"},{"en":"Am I right?","ru":"Я прав?"},{"en":"You're right","ru":"Ты прав."},{"en":"He isn't busy. He's free","ru":"Он не занятой. он's свободный."},{"en":"Is it so effective?","ru":"Это это такой эффективный?"},{"en":"All his lessons are free","ru":"Все его уроки есть свободный."}]},{"label":"101–200","phrases":[{"en":"Is his video so funny?","ru":"Это его видео такой смешной?"},{"en":"Why is this problem so big?","ru":"Почему этот проблема такой большой?"},{"en":"Why are those lessons ineffective?","ru":"Почему те уроки неэффективный?"},{"en":"It's a very interesting detail","ru":"Это a очень интересный деталь."},{"en":"Why is that method ineffective?","ru":"Почему тот метод неэффективный?"},{"en":"Are these things so important?","ru":"Это эти вещи такой важный?"},{"en":"It's so easy","ru":"Это такой лёгкий."},{"en":"How old is your sister?","ru":"Сколько лет твоя сестра?"},{"en":"Is it only for children?","ru":"Это это только для дети?"},{"en":"It's so cheap","ru":"Это такой дешёвый."},{"en":"Is he a director?","ru":"Это он a директор?"},{"en":"It isn't far. It's near","ru":"Это не далеко. это's близко."},{"en":"It's such a useful video","ru":"Это такой a полезный видео."},{"en":"It isn't the best decision for us","ru":"Это не the лучший решение для us."},{"en":"Is this computer powerful?","ru":"Это этот компьютер мощный?"},{"en":"Are they lazy?","ru":"Они ленивые?"},{"en":"This video is very informative","ru":"Этот видео есть очень informative."},{"en":"It's such an expensive car","ru":"Это такой an дорогой машина."},{"en":"It's there","ru":"Это там."},{"en":"Is the project so interesting?","ru":"Это проект такой интересный?"},{"en":"He's the best teacher in the world","ru":"Он лучший учитель в мире."},{"en":"It's interesting","ru":"Это интересно."},{"en":"Is it a good idea?","ru":"Это это a хороший идея?"},{"en":"What's your best friend's name?","ru":"Как зовут твой лучший друг?"},{"en":"Is this word new for you?","ru":"Это этот слово новый для ты?"},{"en":"It's too cold","ru":"Это слишком холодный."},{"en":"Is it dangerous?","ru":"Это это dangerous?"},{"en":"Are these exercises so useful?","ru":"Это эти упражнения такой полезный?"},{"en":"It's such a cheap thing","ru":"Это такой a дешёвый вещь."},{"en":"Is it sunny?","ru":"Это это солнечный?"},{"en":"What's your boyfriend's name?","ru":"Как зовут твой парень?"},{"en":"Is it his own flat?","ru":"Это это его собственный flat?"},{"en":"Is your father at work?","ru":"Это твой отец в работе?"},{"en":"It's such a simple answer","ru":"Это такой a простой ответ."},{"en":"English is easy","ru":"Английский — лёгкий."},{"en":"It's such a boring story","ru":"Это такой a скучный история."},{"en":"Who's that person?","ru":"Кто's тот человек?"},{"en":"How interesting is it?","ru":"Насколько это интересный?"},{"en":"It's a good idea","ru":"Это a хороший идея."},{"en":"He's a manager","ru":"Он менеджер."},{"en":"What's her father's job?","ru":"Кем работает её отец?"},{"en":"Is this information enough?","ru":"Это этот информация достаточно?"},{"en":"Is it a big success?","ru":"Это это a большой успех?"},{"en":"How much is this pair of trousers?","ru":"Сколько стоит эта пара брюк?"},{"en":"Is it on the left?","ru":"Это это на the слева?"},{"en":"All your videos are so interesting","ru":"Все твой видео есть такой интересный."},{"en":"Her boyfriend is 22 (twenty-two)","ru":"Её парень есть 22 (twenty-two)."},{"en":"Is it a big problem?","ru":"Это это a большой проблема?"},{"en":"How easy is it?","ru":"Насколько это лёгкий?"},{"en":"It's such an expensive car","ru":"Это такой an дорогой машина."},{"en":"It's a very good result","ru":"Это a очень хороший результат."},{"en":"Is he single?","ru":"Это он неженатый?"},{"en":"Is it the same?","ru":"Это это the одинаковый?"},{"en":"I'm full of ideas","ru":"Я полный of ideas."},{"en":"Is he talented?","ru":"Это он талантливый?"},{"en":"Is this test too difficult?","ru":"Это этот тест слишком трудный?"},{"en":"Where are our teachers?","ru":"Где наш учителя?"},{"en":"It isn't so easy","ru":"Это не такой лёгкий."},{"en":"It's a very simple method","ru":"Это a очень простой метод."},{"en":"It's very interesting","ru":"Это очень интересный."},{"en":"It's an interesting idea","ru":"Это an интересный идея."},{"en":"The day is hot","ru":"День есть жаркий."},{"en":"It's simple","ru":"Это простое."},{"en":"I'm not at home. I'm at work","ru":"Я не дома. Я на работе."},{"en":"Who's here?","ru":"Кто здесь?"},{"en":"Is this test too easy?","ru":"Это этот тест слишком лёгкий?"},{"en":"Is he a rich man?","ru":"Это он a богатый мужчина?"},{"en":"He's a good manager","ru":"Он a хороший менеджер."},{"en":"Is this song very popular?","ru":"Это этот песня очень популярный?"},{"en":"This woman isn't so wise","ru":"Этот женщина isn't такой мудрый."},{"en":"Is the game boring?","ru":"Это игра скучный?"},{"en":"Am I talented?","ru":"Я талантливый?"},{"en":"What's your boyfriend's name?","ru":"Как зовут твой парень?"},{"en":"How is it?","ru":"Как это?"},{"en":"How is her dress?","ru":"Как её платье?"},{"en":"It's such an effective method","ru":"Это такой an эффективный метод."},{"en":"My friend is sure","ru":"Мой друг есть уверенный."},{"en":"It isn't such a bad situation","ru":"Это не такой a плохой ситуация."},{"en":"It isn't so bad","ru":"Это не такой плохой."},{"en":"Is he her boyfriend?","ru":"Это он её парень?"},{"en":"Where is she?","ru":"Где она?"},{"en":"Why are the students there?","ru":"Почему студенты там?"},{"en":"I'm not satisfied with these results at all","ru":"Я не довольный с эти результаты в все."},{"en":"He's a very professional teacher","ru":"Он a очень профессиональный учитель."},{"en":"The students are ready","ru":"Студенты есть готовый."},{"en":"He's a very poor person","ru":"Он a очень бедный человек."},{"en":"He isn't in America","ru":"Он не в Америка."},{"en":"Is it an important detail?","ru":"Это это an важный деталь?"},{"en":"It's a very small mistake","ru":"Это a очень маленький ошибка."},{"en":"Who are these people?","ru":"Кто есть эти люди?"},{"en":"It's so interesting","ru":"Это такой интересный."},{"en":"Is the problem big?","ru":"Это the проблема большой?"},{"en":"It's such an effective lesson","ru":"Это такой an эффективный урок."},{"en":"Are the boys at school?","ru":"Это мальчики в школе?"},{"en":"It's on the left","ru":"Это слева."},{"en":"She's such a kind woman","ru":"Она такой a добрый женщина."},{"en":"It isn't late now","ru":"Это не late сейчас."},{"en":"It's so difficult","ru":"Это такой трудный."},{"en":"It's a small mistake","ru":"Это a маленький ошибка."},{"en":"They aren't successful (They're unsuccessful)","ru":"Они не успешный (они're неуспешный)."}]},{"label":"201–300","phrases":[{"en":"Is it her own house?","ru":"Это это её собственный дом?"},{"en":"How are these exercises?","ru":"Как дела у эти упражнения?"},{"en":"His father is very rich","ru":"Его отец есть очень богатый."},{"en":"I'm not a manager. I'm a teacher","ru":"Я не менеджер. Я учитель."},{"en":"His girlfriend is nineteen","ru":"Его девушка есть nineteen."},{"en":"Is the idea interesting?","ru":"Это идея интересный?"},{"en":"The men are here","ru":"Мужчины есть здесь."},{"en":"Are we hard-working?","ru":"Это мы трудолюбивый?"},{"en":"Her boyfriend is twenty-four","ru":"Её парень есть twenty-four."},{"en":"Is the teacher right?","ru":"Это the учитель справа?"},{"en":"These men are managers","ru":"Эти мужчины есть менеджеры."},{"en":"How much is it?","ru":"Сколько стоит это?"},{"en":"How useful is it?","ru":"Насколько это полезный?"},{"en":"Are your friends online?","ru":"Это твой друзья online?"},{"en":"It's a very important thing","ru":"Это a очень важный вещь."},{"en":"Is she his girlfriend?","ru":"Это она его девушка?"},{"en":"How much is this computer?","ru":"Сколько стоит этот компьютер?"},{"en":"How difficult is it?","ru":"Насколько это сложный?"},{"en":"The girl is very hard-working","ru":"Девочка есть очень трудолюбивый."},{"en":"Why is that method so ineffective?","ru":"Почему тот метод такой неэффективный?"},{"en":"He isn't my colleague","ru":"Он не мой коллега."},{"en":"Who is at home?","ru":"Кто в дома?"},{"en":"She's so kind","ru":"Она такой добрый."},{"en":"He's very rich","ru":"Он очень богатый."},{"en":"Is the idea brilliant?","ru":"Это идея блестящий?"},{"en":"It's a very bad method","ru":"Это a очень плохой метод."},{"en":"How is this playlist?","ru":"Как этот плейлист?"},{"en":"Her level is very low","ru":"Её уровень есть очень низкий."},{"en":"How is this result?","ru":"Как этот результат?"},{"en":"It's so difficult","ru":"Это такой трудный."},{"en":"You're a good teacher","ru":"Ты a хороший учитель."},{"en":"He's a very strange person","ru":"Он a очень странный человек."},{"en":"What's in your pocket?","ru":"Что в твой карман?"},{"en":"Is his decision right?","ru":"Это его решение справа?"},{"en":"How old is your mother?","ru":"Сколько лет твоя мать?"},{"en":"How interesting is the magazine?","ru":"Насколько the журнал интересный?"},{"en":"His wife is thirty-seven","ru":"Его жена есть thirty-seven."},{"en":"That woman is a designer","ru":"Тот женщина есть a дизайнер."},{"en":"How much is the dress?","ru":"Сколько стоит the платье?"},{"en":"It's rainy","ru":"Дождливо."},{"en":"His son is in the zoo","ru":"Его сын есть в the zoo."},{"en":"It's a very important detail","ru":"Это a очень важный деталь."},{"en":"Are you together?","ru":"Вы вместе?"},{"en":"It's very boring","ru":"Это очень скучный."},{"en":"This thing is very important","ru":"Этот вещь есть очень важный."},{"en":"What's really useful?","ru":"Что действительно полезно?"},{"en":"Why is it useless?","ru":"Почему это бесполезный?"},{"en":"It's so easy","ru":"Это такой лёгкий."},{"en":"It isn't the best course. I like this course more","ru":"Это не the лучший курс. I like этот курс more."},{"en":"It's an expensive car","ru":"Это an дорогой машина."},{"en":"We aren't colleagues","ru":"Мы не коллеги."},{"en":"We aren't tired at all","ru":"Мы не уставший в все."},{"en":"My brother is sixteen","ru":"Мой брат есть sixteen."},{"en":"Are the computers new?","ru":"Это компьютеры новый?"},{"en":"It's a very bad decision","ru":"Это a очень плохой решение."},{"en":"How are you?","ru":"Как дела?"},{"en":"It isn't on the left","ru":"Это не на the слева."},{"en":"What's here?","ru":"Что здесь?"},{"en":"The company is very rich","ru":"Компания есть очень богатый."},{"en":"Are we in the first place?","ru":"Это мы в первое место?"},{"en":"Why are her lessons so ineffective?","ru":"Почему её уроки такой неэффективный?"},{"en":"It's obvious","ru":"Это очевидно."},{"en":"They aren't my colleagues","ru":"Они не мой коллеги."},{"en":"Is he the best student?","ru":"Это он the лучший студент?"},{"en":"Why is he angry?","ru":"Почему он злой?"},{"en":"Is it a boring magazine?","ru":"Это это a скучный журнал?"},{"en":"Are we in the wrong place?","ru":"Это мы в the неправильный месте?"},{"en":"My boss is very busy now","ru":"Мой начальник есть очень занятой сейчас."},{"en":"It isn't warm. It's cold","ru":"Это не тёплый. это's холодный."},{"en":"My mother is at work","ru":"Моя мать есть в работе."},{"en":"She's on holiday","ru":"Она на holiday."},{"en":"Who is wrong?","ru":"Кто неправ?"},{"en":"It's worse","ru":"Это хуже."},{"en":"It's an informative lesson","ru":"Это an informative урок."},{"en":"Is it cold here?","ru":"Это это холодный здесь?"},{"en":"He's a professional teacher","ru":"Он a профессиональный учитель."},{"en":"It isn't rainy. It's sunny","ru":"Это не дождливый. это's солнечный."},{"en":"Their idea is very interesting","ru":"Их идея есть очень интересный."},{"en":"It's such a difficult exam","ru":"Это такой a трудный экзамен."},{"en":"Is that thing really important?","ru":"Это тот вещь действительно важный?"},{"en":"It's a cold day","ru":"Это a холодный день."},{"en":"Is this thing really so important?","ru":"Это этот вещь действительно такой важный?"},{"en":"The day is rainy","ru":"День есть дождливый."},{"en":"It isn't on the right","ru":"Это не на the справа."},{"en":"It isn't a very big mistake","ru":"Это не a очень большой ошибка."},{"en":"He isn't poor. He's very rich","ru":"Он не бедный. он's очень богатый."},{"en":"He's on a business trip","ru":"Он на a бизнес trip."},{"en":"Are you satisfied with your result?","ru":"Это ты довольный с твой результат?"},{"en":"It's so important","ru":"Это такой важный."},{"en":"She's with us now","ru":"Она с us сейчас."},{"en":"Is your mother a designer?","ru":"Это твоя мать a дизайнер?"},{"en":"Is the book so interesting?","ru":"Это книга такой интересный?"},{"en":"Is it his point of view?","ru":"Это это его точка of зрение?"},{"en":"He's so smart","ru":"Он такой умный."},{"en":"She's sure","ru":"Она уверена."},{"en":"It's very important","ru":"Это очень важный."},{"en":"She's very poor","ru":"Она очень бедный."},{"en":"It's a very boring book","ru":"Это a очень скучный книга."},{"en":"It's so bad","ru":"Это такой плохой."},{"en":"He's a young man","ru":"Он a молодой мужчина."}]},{"label":"301–400","phrases":[{"en":"It's an important detail","ru":"Это an важный деталь."},{"en":"He's such a talented boy","ru":"Он такой a талантливый мальчик."},{"en":"I'm not a student. I work","ru":"Я не студент. Я работаю."},{"en":"She's such a beautiful girl","ru":"Она такой a красивый девушка."},{"en":"It's so ineffective","ru":"Это такой неэффективный."},{"en":"It's interesting","ru":"Это интересно."},{"en":"How is the party?","ru":"Как the вечеринка?"},{"en":"It's a very important thing","ru":"Это a очень важный вещь."},{"en":"Are they far?","ru":"Это они далеко?"},{"en":"His parents are near","ru":"Его родители есть близко."},{"en":"It's bad","ru":"Это плохо."},{"en":"It's an important thing","ru":"Это an важный вещь."},{"en":"It isn't so","ru":"Это не так."},{"en":"What's your girlfriend's name?","ru":"Как зовут твоя девушка?"},{"en":"Are the lessons really useful?","ru":"Это уроки действительно полезный?"},{"en":"Is the food good?","ru":"Это еда хороший?"},{"en":"Is the university famous?","ru":"Это университет известный?"},{"en":"Is the article about politics?","ru":"Это статья о politics?"},{"en":"It isn't a very low level","ru":"Это не a очень низкий уровень."},{"en":"It's so far","ru":"Это такой далеко."},{"en":"What's your brother's name?","ru":"Как зовут твой брат?"},{"en":"Is his father a businessman?","ru":"Это его отец a бизнесмен?"},{"en":"Are these words new for you?","ru":"Это эти слова новый для ты?"},{"en":"They're my friends","ru":"Они мои друзья."},{"en":"Is it in your own flat?","ru":"Это это в твой собственный flat?"},{"en":"It's the best channel","ru":"Это the лучший канал."},{"en":"How effective is the lesson?","ru":"Насколько урок эффективный?"},{"en":"It's an easy lesson","ru":"Это an лёгкий урок."},{"en":"It's a warm day","ru":"Это a тёплый день."},{"en":"Is he a successful businessman?","ru":"Это он a успешный бизнесмен?"},{"en":"Where is it?","ru":"Где это?"},{"en":"How good is the lesson?","ru":"Насколько урок хороший?"},{"en":"How is the movie?","ru":"Как the фильм?"},{"en":"Is it for children? (kids)","ru":"Это это для дети? (kids)?"},{"en":"Are the problems so big?","ru":"Это проблемы такой большой?"},{"en":"It's a simple test","ru":"Это a простой тест."},{"en":"It's too hot","ru":"Это слишком жаркий."},{"en":"She's a teacher","ru":"Она учительница."},{"en":"They're lazy","ru":"Они ленивые."},{"en":"The rule is very important","ru":"The правило есть очень важный."},{"en":"She isn't with him. She's with her [обрыв кадра]","ru":"Она не с him. она's с её [обрыв кадра]."},{"en":"Those lessons aren't effective. Those lessons are ineffective","ru":"Те уроки aren't эффективный. те уроки есть неэффективный."},{"en":"How difficult is the test?","ru":"Насколько тест сложный?"},{"en":"He's at school","ru":"Он в школе."},{"en":"Is it an effective method?","ru":"Это это an эффективный метод?"},{"en":"How much is this book?","ru":"Сколько стоит этот книга?"},{"en":"She's a very beautiful girl","ru":"Она a очень красивый девушка."},{"en":"They aren't businessmen. They're managers","ru":"Они не бизнесмены. они're менеджеры."},{"en":"I'm so happy","ru":"Я так счастлив."},{"en":"How old is he?","ru":"Сколько лет он?"},{"en":"The day is windy","ru":"День есть ветреный."},{"en":"I'm happy","ru":"Я счастлив."},{"en":"Where is the boy?","ru":"Где мальчик?"},{"en":"She's so beautiful","ru":"Она такая красивая."},{"en":"Money is important","ru":"Деньги важны."},{"en":"Are those exercises useless?","ru":"Это те упражнения бесполезный?"},{"en":"How much is this pair of jeans?","ru":"Сколько стоит эта пара джинсов?"},{"en":"I'm not tired","ru":"Я не устал."},{"en":"It's so cold","ru":"Это такой холодный."},{"en":"Is she a poor woman?","ru":"Это она a бедный женщина?"},{"en":"This method is very simple","ru":"Этот метод есть очень простой."},{"en":"Where is our teacher?","ru":"Где наш учитель?"},{"en":"It's too easy","ru":"Это слишком лёгкий."},{"en":"When is she at home?","ru":"Когда она в дома?"},{"en":"Is the boy at home?","ru":"Это мальчик в дома?"},{"en":"Are you there?","ru":"Ты там?"},{"en":"What is it?","ru":"Что это?"},{"en":"Is this text simple?","ru":"Это этот text простой?"},{"en":"Is the hotel expensive?","ru":"Это отель дорогой?"},{"en":"Is it worse?","ru":"Это это хуже?"},{"en":"It's such an important meeting","ru":"Это такой an важный встреча."},{"en":"I'm sure you're the best teacher in the world","ru":"Я уверенный ты're лучший учитель в мире."},{"en":"Why are you so happy?","ru":"Почему ты такой счастливый?"},{"en":"Is the book boring?","ru":"Это книга скучный?"},{"en":"Is it the best channel?","ru":"Это это the лучший канал?"},{"en":"It's such an interesting question","ru":"Это такой an интересный вопрос."},{"en":"Is the lesson useful?","ru":"Это урок полезный?"},{"en":"What's your wife's job?","ru":"Кем работает твоя жена?"},{"en":"We're in the park","ru":"Мы в парке."},{"en":"Who's there?","ru":"Кто там?"},{"en":"He isn't with them","ru":"Он не с them."},{"en":"It's so easy","ru":"Это такой лёгкий."},{"en":"It isn't a high level","ru":"Это не a высокий уровень."},{"en":"Is his mother a doctor?","ru":"Это его мать a врач?"},{"en":"Is he a lazy boy?","ru":"Это он a ленивый мальчик?"},{"en":"Who's that man?","ru":"Кто's тот мужчина?"},{"en":"It isn't in the first place for me","ru":"Это не в первое место для me."},{"en":"I'm free","ru":"Я свободен."},{"en":"Who is in the room?","ru":"Кто в комната?"},{"en":"You're a happy person","ru":"Ты a счастливый человек."},{"en":"Is this university famous?","ru":"Это этот университет известный?"},{"en":"Is it a powerful computer?","ru":"Это это a мощный компьютер?"},{"en":"We aren't sad. We're happy","ru":"Мы не грустный. мы're счастливый."},{"en":"Where is your husband?","ru":"Где твой муж?"},{"en":"Who's next?","ru":"Кто следующий?"},{"en":"How difficult are these exercises?","ru":"Как трудный есть эти упражнения?"},{"en":"It's a very expensive thing","ru":"Это a очень дорогой вещь."},{"en":"Is he right?","ru":"Это он справа?"},{"en":"I'm thirty-one. And you?","ru":"Мне тридцать один. А тебе?"},{"en":"It's a very useful thing","ru":"Это a очень полезный вещь."}]},{"label":"401–500","phrases":[{"en":"Is he really hard-working?","ru":"Это он действительно трудолюбивый?"},{"en":"It isn't a very good decision","ru":"Это не a очень хороший решение."},{"en":"Is knowledge power?","ru":"Знание — сила?"},{"en":"Where are you?","ru":"Где ты?"},{"en":"Are his parents abroad?","ru":"Это его родители за границей?"},{"en":"What's your name?","ru":"Как тебя зовут?"},{"en":"What's in your bag?","ru":"Что в твой bag?"},{"en":"It's a very interesting offer","ru":"Это a очень интересный предложение."},{"en":"We aren't stupid. We're clever","ru":"Мы не stupid. мы're умный."},{"en":"What's your sister's name?","ru":"Как зовут твоя сестра?"},{"en":"This student is so hard-working","ru":"Этот студент есть такой трудолюбивый."},{"en":"It's an expensive thing","ru":"Это an дорогой вещь."},{"en":"It's good","ru":"Это хорошо."},{"en":"I'm so tired","ru":"Я такой уставший."},{"en":"Are the computers old?","ru":"Это компьютеры лет?"},{"en":"You're right","ru":"Ты прав."},{"en":"The test is easy","ru":"Тест есть лёгкий."},{"en":"All these exercises are so easy","ru":"Все эти упражнения есть такой лёгкий."},{"en":"Is it a funny video?","ru":"Это это a смешной видео?"},{"en":"How expensive is this house?","ru":"Насколько этот дом дорогой?"},{"en":"Is it such a big problem?","ru":"Это это такой a большой проблема?"},{"en":"Why are you against it?","ru":"Почему ты against это?"},{"en":"Is the information useful?","ru":"Это информация полезный?"},{"en":"He's her husband","ru":"Он её муж."},{"en":"Where is your wife?","ru":"Где твоя жена?"},{"en":"It's a hot day","ru":"Это a жаркий день."},{"en":"He's a student","ru":"Он студент."},{"en":"It isn't better","ru":"Это не лучше."},{"en":"It's so popular","ru":"Это такой популярный."},{"en":"It isn't so obvious","ru":"Это не такой очевидный."},{"en":"Is the channel really good?","ru":"Это канал действительно хороший?"},{"en":"Is the cat in that room?","ru":"Это кот в тот комнате?"},{"en":"She's here","ru":"Она здесь."},{"en":"She's a very beautiful girl","ru":"Она a очень красивый девушка."},{"en":"His result isn't so bad","ru":"Его результат isn't такой плохой."},{"en":"What's your husband's job?","ru":"Кем работает твой муж?"},{"en":"It's bad","ru":"Это плохо."},{"en":"It's a very useful lesson","ru":"Это a очень полезный урок."},{"en":"He's a very poor person","ru":"Он a очень бедный человек."},{"en":"You aren't in this place","ru":"Ты не в этот месте."},{"en":"The question is simple","ru":"Вопрос есть простой."},{"en":"I'm not tired at all","ru":"Я не уставший в все."},{"en":"He isn't a director. He's a manager","ru":"Он не a директор. он's a менеджер."},{"en":"It's dark","ru":"Темно."},{"en":"He's my friend","ru":"Он мой друг."},{"en":"How old is your brother?","ru":"Сколько лет твой брат?"},{"en":"The woman is very poor","ru":"Женщина есть очень бедный."},{"en":"Is our teacher right?","ru":"Это наш учитель справа?"},{"en":"Is it on the right?","ru":"Это это на the справа?"},{"en":"She isn't in the kitchen","ru":"Она не в the кухне."},{"en":"Is this business profitable?","ru":"Это этот бизнес profitable?"},{"en":"How effective are the lessons?","ru":"Как эффективный есть уроки?"},{"en":"What's wrong?","ru":"Что не так?"},{"en":"Where is your car?","ru":"Где твой машина?"},{"en":"His level is very high","ru":"Его уровень есть очень высокий."},{"en":"Is she beautiful?","ru":"Это она красивый?"},{"en":"My friend is at home","ru":"Мой друг есть в дома."},{"en":"The song is very popular","ru":"The песня есть очень популярный."},{"en":"Where is this place?","ru":"Где этот месте?"},{"en":"Why are you here?","ru":"Почему ты здесь?"},{"en":"What's your best friend's name?","ru":"Как зовут твой лучший друг?"},{"en":"You aren't in the first place. You're in the second place","ru":"Ты не в первое место. ты're в второе место."},{"en":"Are you ready?","ru":"Ты готов?"},{"en":"You're a very happy person","ru":"Ты a очень счастливый человек."},{"en":"My brother is in the bathroom","ru":"Мой брат есть в the ванная."},{"en":"It's an interesting idea","ru":"Это an интересный идея."},{"en":"This lesson is very useful","ru":"Этот урок есть очень полезный."},{"en":"I'm thirty-two","ru":"Мне тридцать два."},{"en":"It's such a big problem","ru":"Это такой a большой проблема."},{"en":"Those women are teachers","ru":"Те женщины есть учителя."},{"en":"Is this knowledge enough?","ru":"Это этот знание достаточно?"},{"en":"Are the problems big?","ru":"Это проблемы большой?"},{"en":"What time is it? What's the time?","ru":"Что время есть это? что's the время?"},{"en":"How effective is the lesson?","ru":"Насколько урок эффективный?"},{"en":"He's such a clever boy","ru":"Он такой a умный мальчик."},{"en":"Your videos are very informative","ru":"Твой видео есть очень informative."},{"en":"The boy is at school","ru":"Мальчик есть в школе."},{"en":"What's your brother's name?","ru":"Как зовут твой брат?"},{"en":"They're our friends","ru":"Они наш друзья."},{"en":"They aren't in Russia now","ru":"Они не в Россия сейчас."},{"en":"Is she married?","ru":"Это она женатый?"},{"en":"Is it a very useful video?","ru":"Это это a очень полезный видео?"},{"en":"How interesting is this magazine?","ru":"Насколько этот журнал интересный?"},{"en":"It's hot","ru":"Жарко."},{"en":"Is it effective?","ru":"Это это эффективный?"},{"en":"Is the news important?","ru":"Это новости важный?"},{"en":"The channel is really good","ru":"Канал есть действительно хороший."},{"en":"Why are these exercises so difficult?","ru":"Почему эти упражнения такой трудный?"},{"en":"It's such a difficult situation","ru":"Это такой a трудный ситуация."},{"en":"We aren't tired but I think you're tired","ru":"Мы не уставший but I think ты're уставший."},{"en":"The lesson is interesting","ru":"Урок есть интересный."},{"en":"These things are very important","ru":"Эти вещи есть очень важный."},{"en":"Is his computer new?","ru":"Это его компьютер новый?"},{"en":"Is it a very big problem?","ru":"Это это a очень большой проблема?"},{"en":"It isn't a big mistake","ru":"Это не a большой ошибка."},{"en":"When are you free?","ru":"Когда ты свободный?"},{"en":"Is he married?","ru":"Это он женатый?"},{"en":"It's a brilliant result","ru":"Это a блестящий результат."},{"en":"It's such an interesting place","ru":"Это такой an интересный месте."},{"en":"It's a big mistake","ru":"Это a большой ошибка."}]},{"label":"501–600","phrases":[{"en":"What's your friend's name?","ru":"Как зовут твой друг?"},{"en":"How difficult is this exercise?","ru":"Насколько этот упражнение сложный?"},{"en":"She's very optimistic","ru":"Она очень оптимистичный."},{"en":"I'm at school","ru":"Я в школе."},{"en":"You aren't right (You're wrong)","ru":"Ты не прав (Ты ошибаешься)."},{"en":"He's sure","ru":"Он уверен."},{"en":"She's my girlfriend","ru":"Она моя девушка."},{"en":"My girlfriend is twenty-one","ru":"Моя девушка есть twenty-one."},{"en":"Is the channel very popular?","ru":"Это канал очень популярный?"},{"en":"It's a simple method","ru":"Это a простой метод."},{"en":"Your results are excellent","ru":"Твой результаты есть отличный."},{"en":"These problems are small","ru":"Эти проблемы есть маленький."},{"en":"Is it a special offer?","ru":"Это это a особый предложение?"},{"en":"The article isn't about politics","ru":"Статья isn't о politics."},{"en":"It's so easy","ru":"Это такой лёгкий."},{"en":"Am I lucky?","ru":"Я удачливый?"},{"en":"She isn't with us","ru":"Она не с us."},{"en":"They're at work","ru":"Они в работе."},{"en":"It's such a bad situation","ru":"Это такой a плохой ситуация."},{"en":"Are you in the United States?","ru":"Это ты в Соединённые Штаты?"},{"en":"She isn't here. She's there","ru":"Она не здесь. она's там."},{"en":"It's a good manner","ru":"Это a хороший манера."},{"en":"Are we right?","ru":"Это мы справа?"},{"en":"What's his job?","ru":"Кем он работает?"},{"en":"My parents are so happy","ru":"Мой родители есть такой счастливый."},{"en":"Who is in the first place?","ru":"Кто в первое место?"},{"en":"It isn't such an important meeting","ru":"Это не такой an важный встреча."},{"en":"Is their father a businessman?","ru":"Это их отец a бизнесмен?"},{"en":"Is he abroad?","ru":"Это он за границей?"},{"en":"Is this test so simple?","ru":"Это этот тест такой простой?"},{"en":"My brother is ready","ru":"Мой брат есть готовый."},{"en":"Is it his point of view?","ru":"Это это его точка of зрение?"},{"en":"Is this information really useful?","ru":"Это этот информация действительно полезный?"},{"en":"Is this rule important?","ru":"Это этот правило важный?"},{"en":"She's too pessimistic","ru":"Она слишком пессимистичный."},{"en":"Is that decision worse?","ru":"Это тот решение хуже?"},{"en":"He's so talented","ru":"Он такой талантливый."},{"en":"It's such an easy exercise","ru":"Это такой an лёгкий упражнение."},{"en":"All these details are very important","ru":"Все эти детали есть очень важный."},{"en":"What's next?","ru":"Что дальше?"},{"en":"It's so effective","ru":"Это такой эффективный."},{"en":"He isn't so hard-working","ru":"Он не такой трудолюбивый."},{"en":"The women are there","ru":"Женщины есть там."},{"en":"Is she tired?","ru":"Это она уставший?"},{"en":"Time is money","ru":"Время — деньги."},{"en":"It's very easy","ru":"Это очень лёгкий."},{"en":"We aren't angry. We're very kind","ru":"Мы не злой. мы're очень добрый."},{"en":"Is time money?","ru":"Это время деньги?"},{"en":"I'm at work","ru":"Я на работе."},{"en":"You're very kind","ru":"Ты очень добрый."},{"en":"I'm not married. I'm single","ru":"Я не женат. Я холост."},{"en":"It's a very good decision","ru":"Это a очень хороший решение."},{"en":"Is it obvious?","ru":"Это это очевидный?"},{"en":"Is it a famous university?","ru":"Это это a известный университет?"},{"en":"They're poor","ru":"Они бедные."},{"en":"The day is sunny","ru":"День есть солнечный."},{"en":"Her daughter is in the park","ru":"Её дочь есть в the парке."},{"en":"It's the best example","ru":"Это the лучший пример."},{"en":"This problem is very big","ru":"Этот проблема есть очень большой."},{"en":"The boys are at home","ru":"Мальчики есть в дома."},{"en":"Who is he?","ru":"Кто он?"},{"en":"Where is your room?","ru":"Где твой комнате?"},{"en":"The boy is very clever","ru":"Мальчик есть очень умный."},{"en":"His parents are abroad now","ru":"Его родители есть за границей сейчас."},{"en":"Is it such an ineffective method?","ru":"Это это такой an неэффективный метод?"},{"en":"Who is that woman?","ru":"Кто тот женщина?"},{"en":"She isn't a singer. She's an actress","ru":"Она не a певец. она's an актриса."},{"en":"What's your mother's job?","ru":"Кем работает твоя мать?"},{"en":"It's the best book","ru":"Это the лучший книга."},{"en":"You aren't optimistic","ru":"Ты не оптимистичный."},{"en":"These words are new for me","ru":"Эти слова есть новый для me."},{"en":"Where is this place?","ru":"Где этот месте?"},{"en":"Am I in the right place?","ru":"Я в the справа месте?"},{"en":"Chinese is very difficult","ru":"Китайский очень сложный."},{"en":"Is your brother at home?","ru":"Это твой брат в дома?"},{"en":"Are you really tired?","ru":"Это ты действительно уставший?"},{"en":"Is this news important?","ru":"Это этот новости важный?"},{"en":"How much is this car?","ru":"Сколько стоит этот машина?"},{"en":"It isn't a high level. This level is low","ru":"Это не a высокий уровень. этот уровень есть низкий."},{"en":"How much is one English lesson?","ru":"Сколько стоит один урок английского?"},{"en":"It's a very easy lesson","ru":"Это a очень лёгкий урок."},{"en":"The exam is difficult","ru":"Экзамен есть трудный."},{"en":"He's my boyfriend / She's my girlfriend","ru":"Он мой парень / она's моя девушка."},{"en":"All these lessons are free","ru":"Все эти уроки есть свободный."},{"en":"She's beautiful","ru":"Она красивая."},{"en":"He isn't sure","ru":"Он не уверенный."},{"en":"Her mother is in the kitchen","ru":"Её мать есть в the кухне."},{"en":"What's your sister's name?","ru":"Как зовут твоя сестра?"},{"en":"What's her name?","ru":"Как её зовут?"},{"en":"Is this lesson useful for you? It's very useful","ru":"Это этот урок полезный для ты? это's очень полезный?"},{"en":"How is this test?","ru":"Как этот тест?"},{"en":"We're full of optimism","ru":"Мы полный of optimism."},{"en":"I'm not satisfied with this decision","ru":"Я не довольный с этот решение."},{"en":"Is he young?","ru":"Это он молодой?"},{"en":"He's a businessman","ru":"Он бизнесмен."},{"en":"Is your girlfriend nineteen?","ru":"Это твоя девушка nineteen?"},{"en":"It's a very interesting idea","ru":"Это a очень интересный идея."},{"en":"How old is his son?","ru":"Сколько лет его сын?"},{"en":"You're the best teacher in the world","ru":"Ты лучший учитель в мире."},{"en":"She's such a wise woman","ru":"Она такой a мудрый женщина."}]},{"label":"601–700","phrases":[{"en":"It isn't such a difficult exercise","ru":"Это не такой a трудный упражнение."},{"en":"Is this money enough?","ru":"Это этот деньги достаточно?"},{"en":"It isn't interesting","ru":"Это не интересное."},{"en":"Is it such an effective method?","ru":"Это это такой an эффективный метод?"},{"en":"It's a very high level","ru":"Это a очень высокий уровень."},{"en":"What's in the box?","ru":"Что в the коробка?"},{"en":"He's such a professional teacher","ru":"Он такой a профессиональный учитель."},{"en":"It's a low level","ru":"Это a низкий уровень."},{"en":"It's a very easy exercise","ru":"Это a очень лёгкий упражнение."},{"en":"What's his name?","ru":"Как его зовут?"},{"en":"How much is the book?","ru":"Сколько стоит книга?"},{"en":"How is this test?","ru":"Как этот тест?"},{"en":"It's such an easy test","ru":"Это такой an лёгкий тест."},{"en":"We're so happy","ru":"Мы так счастливы."},{"en":"Is the meeting important?","ru":"Это встреча важный?"},{"en":"This word is new for me","ru":"Этот слово есть новый для me."},{"en":"Are the articles in Russian?","ru":"Это статьи в русский?"},{"en":"She's my teacher","ru":"Она моя учительница."},{"en":"Is the article about politics?","ru":"Это статья о politics?"},{"en":"I'm sure you're the best teacher in the world","ru":"Я уверенный ты're лучший учитель в мире."},{"en":"What's strange?","ru":"Что странного?"},{"en":"Their managers are very professional","ru":"Их менеджеры есть очень профессиональный."},{"en":"The day is cold","ru":"День есть холодный."},{"en":"This year is very difficult","ru":"Этот год есть очень трудный."},{"en":"How far is it?","ru":"Насколько это далеко?"},{"en":"It's too difficult","ru":"Это слишком трудный."},{"en":"You're a very good teacher","ru":"Ты a очень хороший учитель."},{"en":"He's a very good doctor","ru":"Он a очень хороший врач."},{"en":"They aren't together","ru":"Они не вместе."},{"en":"It isn't possible (It's impossible)","ru":"Это не возможный (это's невозможный)."},{"en":"He's a very rich person","ru":"Он a очень богатый человек."},{"en":"It's so useful","ru":"Это такой полезный."},{"en":"The playlist is so informative","ru":"Плейлист есть такой informative."},{"en":"Her boss is very busy at the moment","ru":"Её начальник есть очень занятой в the moment."},{"en":"It's easy","ru":"Это легко."},{"en":"How much is this dress?","ru":"Сколько стоит этот платье?"},{"en":"It isn't a bad situation","ru":"Это не a плохой ситуация."},{"en":"Is it a successful project?","ru":"Это это a успешный project?"},{"en":"He isn't ready","ru":"Он не готовый."},{"en":"Is this woman very wise?","ru":"Это этот женщина очень мудрый?"},{"en":"Is this song popular?","ru":"Это этот песня популярный?"},{"en":"It's an interesting offer","ru":"Это an интересный предложение."},{"en":"I'm fine","ru":"У меня всё хорошо."},{"en":"Is it better?","ru":"Это это лучше?"},{"en":"It's a boring book","ru":"Это a скучный книга."},{"en":"He isn't old. He's very young","ru":"Он не лет. он's очень молодой."},{"en":"His mother is thirty-five","ru":"Его мать есть thirty-five."},{"en":"Is this practice really useful?","ru":"Это этот практика действительно полезный?"},{"en":"Is your boyfriend twenty-two?","ru":"Это твой парень twenty-two?"},{"en":"Is the computer old?","ru":"Это компьютер лет?"},{"en":"It's so bad","ru":"Это такой плохой."},{"en":"It's a very bad result","ru":"Это a очень плохой результат."},{"en":"It isn't near. It's very far","ru":"Это не близко. это's очень далеко."},{"en":"Is it such an important detail?","ru":"Это это такой an важный деталь?"},{"en":"Is it her opinion?","ru":"Это это её мнение?"},{"en":"She's so clever","ru":"Она такой умный."},{"en":"He isn't in the city. He's in another place","ru":"Он не в the городе. он's в другом месте."},{"en":"This businessman is very rich","ru":"Этот бизнесмен есть очень богатый."},{"en":"It's such an easy lesson","ru":"Это такой an лёгкий урок."},{"en":"What's your job?","ru":"Кем ты работаешь?"},{"en":"How interesting is the offer?","ru":"Насколько the предложение интересный?"},{"en":"Is the result excellent?","ru":"Это результат отличный?"},{"en":"He isn't Russian","ru":"Он не русский."},{"en":"Is it hot here?","ru":"Это это жаркий здесь?"},{"en":"Is it your decision?","ru":"Это это твой решение?"},{"en":"It's a bad result","ru":"Это a плохой результат."},{"en":"Who is right?","ru":"Кто прав?"},{"en":"Our teacher is very hard-working","ru":"Наш учитель есть очень трудолюбивый."},{"en":"I'm not married","ru":"Я не женат."},{"en":"You're a very good person","ru":"Ты a очень хороший человек."},{"en":"Are they tired?","ru":"Они устали?"},{"en":"I'm not satisfied with this decision","ru":"Я не довольный с этот решение."},{"en":"Is this news interesting?","ru":"Это этот новости интересный?"},{"en":"This boy is very lazy","ru":"Этот мальчик есть очень ленивый."},{"en":"Why are you here?","ru":"Почему ты здесь?"},{"en":"Is the meeting so important?","ru":"Это встреча такой важный?"},{"en":"How much are these trousers?","ru":"Сколько стоят эти брюки?"},{"en":"How good is his offer?","ru":"Насколько его предложение хороший?"},{"en":"Why is this channel so popular?","ru":"Почему этот канал такой популярный?"},{"en":"Her husband is at home","ru":"Её муж есть в дома."},{"en":"I'm at home","ru":"Я дома."},{"en":"Is she in her room?","ru":"Это она в её комнате?"},{"en":"It isn't obvious","ru":"Это не очевидное."},{"en":"It's such a beautiful place","ru":"Это такой a красивый месте."},{"en":"Who are those people?","ru":"Кто есть те люди?"},{"en":"It's warm","ru":"Тепло."},{"en":"Why is the student there?","ru":"Почему the студент там?"},{"en":"It isn't the same","ru":"Это не the одинаковый."},{"en":"Is it a very easy lesson?","ru":"Это это a очень лёгкий урок?"},{"en":"She's a doctor","ru":"Она врач."},{"en":"That boy is very clever","ru":"Тот мальчик есть очень умный."},{"en":"He's a rich person","ru":"Он a богатый человек."},{"en":"This mistake is very big","ru":"Этот ошибка есть очень большой."},{"en":"It's important","ru":"Это важно."},{"en":"I'm lazy","ru":"Я ленивый."},{"en":"His result is brilliant","ru":"Его результат есть блестящий."},{"en":"It's a useful lesson","ru":"Это a полезный урок."},{"en":"It's a very big success","ru":"Это a очень большой успех."},{"en":"I'm free","ru":"Я свободен."},{"en":"Is the hotel so expensive?","ru":"Это отель такой дорогой?"}]},{"label":"701–800","phrases":[{"en":"Are we the best students?","ru":"Это мы the лучший студенты?"},{"en":"How much is that pair of trousers?","ru":"Сколько стоит та пара брюк?"},{"en":"I have a computer. The computer is new","ru":"I have a компьютер. компьютер есть новый."},{"en":"Are you from the United States?","ru":"Это ты из Соединённые Штаты?"},{"en":"Are you friends?","ru":"Вы друзья?"},{"en":"How good is it?","ru":"Насколько это хороший?"},{"en":"It's a very informative lesson","ru":"Это a очень informative урок."},{"en":"This man is very rich","ru":"Этот мужчина есть очень богатый."},{"en":"Is she poor?","ru":"Это она бедный?"},{"en":"How old is your father?","ru":"Сколько лет твой отец?"},{"en":"Where is he?","ru":"Где он?"},{"en":"These lessons are so effective","ru":"Эти уроки есть такой эффективный."},{"en":"He isn't in the bathroom","ru":"Он не в the ванная."},{"en":"I'm ready","ru":"Я готов."},{"en":"It's in my pocket","ru":"Это в мой карман."},{"en":"Are you here?","ru":"Ты здесь?"},{"en":"What's your friend's name?","ru":"Как зовут твой друг?"},{"en":"The questions are so easy","ru":"Вопросы есть такой лёгкий."},{"en":"Is it the best decision?","ru":"Это это the лучший решение?"},{"en":"What's really important?","ru":"Что действительно важно?"},{"en":"Is this man an engineer?","ru":"Это этот мужчина an инженер?"},{"en":"This lesson is very useful","ru":"Этот урок есть очень полезный."},{"en":"We are very happy","ru":"Мы есть очень счастливый."},{"en":"Is this book interesting?","ru":"Это этот книга интересный?"},{"en":"It's so easy","ru":"Это такой лёгкий."},{"en":"My mother is a doctor","ru":"Моя мать есть a врач."},{"en":"Are they professional?","ru":"Это они профессиональный?"},{"en":"Is this detail important?","ru":"Это этот деталь важный?"},{"en":"It's a very difficult question","ru":"Это a очень трудный вопрос."},{"en":"He is at work","ru":"Он есть в работе."},{"en":"Are these methods effective?","ru":"Это эти методы эффективный?"},{"en":"It's a very rich country","ru":"Это a очень богатый страна."},{"en":"Is your sister a student?","ru":"Это твоя сестра a студент?"},{"en":"The answer is correct","ru":"Ответ есть правильный."},{"en":"I'm not sure","ru":"Я не уверен."},{"en":"Is it far from here?","ru":"Это это далеко из здесь?"},{"en":"It's a very warm day","ru":"Это a очень тёплый день."},{"en":"Are you a teacher?","ru":"Это ты a учитель?"},{"en":"His name is John","ru":"Его имя есть Джон."},{"en":"Is this fact really strange?","ru":"Это этот факт действительно странный?"},{"en":"It isn't a secret","ru":"Это не a секрет."},{"en":"How old is this building?","ru":"Сколько лет этот здание?"},{"en":"Is the situation really bad?","ru":"Это ситуация действительно плохой?"},{"en":"These trousers are very expensive","ru":"Эти брюки есть очень дорогой."},{"en":"She is very clever","ru":"Она есть очень умный."},{"en":"It's an excellent result","ru":"Это an отличный результат."},{"en":"Are you ready for the lesson?","ru":"Это ты готовый для урок?"},{"en":"This word is very popular","ru":"Этот слово есть очень популярный."},{"en":"Is he from Russia?","ru":"Это он из Россия?"},{"en":"My husband is very busy","ru":"Мой муж есть очень занятой."},{"en":"It's a very big mistake","ru":"Это a очень большой ошибка."},{"en":"Are they from the United States?","ru":"Это они из Соединённые Штаты?"},{"en":"Is this news so important?","ru":"Это этот новости такой важный?"},{"en":"I'm very tired","ru":"Я очень уставший."},{"en":"The playlist is so long","ru":"Плейлист есть такой long."},{"en":"It's a brilliant idea","ru":"Это a блестящий идея."},{"en":"Is his offer really good?","ru":"Это его предложение действительно хороший?"},{"en":"This student is very lazy","ru":"Этот студент есть очень ленивый."},{"en":"Are you at home?","ru":"Это ты в дома?"},{"en":"It's a very interesting article","ru":"Это a очень интересный статья."},{"en":"Is this channel popular in Russia?","ru":"Это этот канал популярный в Россия?"},{"en":"He's not a businessman","ru":"Он не бизнесмен."},{"en":"It's so cold today","ru":"Это такой холодный сегодня."},{"en":"Are these details obvious?","ru":"Это эти детали очевидный?"},{"en":"Is the hotel near?","ru":"Это отель близко?"},{"en":"The day is very good","ru":"День есть очень хороший."},{"en":"It's a useful practice","ru":"Это a полезный практика."},{"en":"Are you sure about this decision?","ru":"Это ты уверенный о этот решение?"},{"en":"She's a very good student","ru":"Она a очень хороший студент."},{"en":"Is this exercise difficult?","ru":"Это этот упражнение трудный?"},{"en":"It's not a bad book","ru":"Это не a плохой книга."},{"en":"Why is it so expensive?","ru":"Почему это такой дорогой?"},{"en":"His results are brilliant","ru":"Его результаты есть блестящий."},{"en":"Is your father at home?","ru":"Это твой отец в дома?"},{"en":"The article is about politics","ru":"Статья есть о politics."},{"en":"Are these managers professional?","ru":"Это эти менеджеры профессиональный?"},{"en":"It's a very beautiful room","ru":"Это a очень красивый комнате."},{"en":"Is the computer new?","ru":"Это компьютер новый?"},{"en":"He's not an old man","ru":"Он не старик."},{"en":"Is she a very good doctor?","ru":"Это она a очень хороший врач?"},{"en":"It's such a good idea","ru":"Это такой a хороший идея."},{"en":"Are you a very busy person?","ru":"Это ты a очень занятой человек?"},{"en":"This exercise is so easy","ru":"Этот упражнение есть такой лёгкий."},{"en":"Is it in your pocket?","ru":"Это это в твой карман?"},{"en":"We're not ready","ru":"Мы не готовы."},{"en":"Why is she so clever?","ru":"Почему она такой умный?"},{"en":"His practice is very useful","ru":"Его практика есть очень полезный."},{"en":"Is this song really boring?","ru":"Это этот песня действительно скучный?"},{"en":"It's a very low level","ru":"Это a очень низкий уровень."},{"en":"Are they very happy together?","ru":"Это они очень счастливый вместе?"},{"en":"This method is so effective","ru":"Этот метод есть такой эффективный."},{"en":"Is the test interesting?","ru":"Это тест интересный?"},{"en":"He's not very old","ru":"Он не очень лет."},{"en":"Why is this mistake so big?","ru":"Почему этот ошибка такой большой?"},{"en":"The dress is very expensive","ru":"The платье есть очень дорогой."},{"en":"Are you from the United States?","ru":"Это ты из Соединённые Штаты?"},{"en":"It's a very bad situation","ru":"Это a очень плохой ситуация."},{"en":"Is this woman very rich?","ru":"Это этот женщина очень богатый?"},{"en":"I'm at work now","ru":"Я в работе сейчас."},{"en":"What's his name?","ru":"Как его зовут?"}]}];
+let questions = [];
+let current = 0;
+let correct = 0;
+let mistakes = [];
+let mistakeRecorded = false;
+let checked = false;
+let currentWasExact = false;
+
+function normalize(value) {
+  return value.toLowerCase()
+    .normalize("NFC")
+    .replace(/[’‘`]/g, "'")
+    .replace(/[\p{P}\p{S}]/gu, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function renderGroups() {
+  const root = document.getElementById("groups");
+  root.innerHTML = "";
+  phraseGroups.forEach((group, index) => {
+    const id = "group-" + index;
+    const label = document.createElement("label");
+    label.className = "group";
+    label.innerHTML = `<input type="checkbox" id="${id}" value="${index}" onchange="updateSelectedCount()">
+      <span><strong>Фразы ${group.label}</strong><small>${group.phrases.length} доступных уникальных фраз</small></span>`;
+    root.appendChild(label);
+  });
+  updateSelectedCount();
+}
+
+function selectedGroups() {
+  return [...document.querySelectorAll("#groups input:checked")].map(x => Number(x.value));
+}
+function updateSelectedCount() {
+  const count = selectedGroups().reduce((sum, i) => sum + phraseGroups[i].phrases.length, 0);
+  document.getElementById("selectedCount").textContent = `Выбрано фраз: ${count}`;
+}
+function selectAll(value) {
+  document.querySelectorAll("#groups input").forEach(x => x.checked = value);
+  updateSelectedCount();
+}
+function startExam() {
+  const selected = selectedGroups();
+  if (!selected.length) { alert("Выбери хотя бы один блок фраз."); return; }
+  // Перемешиваем фразы отдельно внутри каждого выбранного блока.
+  questions = selected.flatMap(i => {
+    const shuffled = phraseGroups[i].phrases.map(p => ({...p, group: phraseGroups[i].label}));
+    for (let n = shuffled.length - 1; n > 0; n--) {
+      const j = Math.floor(Math.random() * (n + 1));
+      [shuffled[n], shuffled[j]] = [shuffled[j], shuffled[n]];
+    }
+    return shuffled;
+  });
+  current = 0; correct = 0; mistakes = []; checked = false;
+  document.getElementById("setup").classList.add("hidden");
+  document.getElementById("results").classList.add("hidden");
+  document.getElementById("exam").classList.remove("hidden");
+  showQuestion();
+}
+function showQuestion() {
+  if (current >= questions.length) { finishExam(); return; }
+  const q = questions[current];
+  checked = false;
+  currentWasExact = false;
+  mistakeRecorded = false;
+  document.getElementById("progressText").textContent = `Фраза ${current + 1} из ${questions.length}`;
+  document.getElementById("scoreText").textContent = `Верно: ${correct} · Ошибки: ${mistakes.length}`;
+  document.getElementById("progressFill").style.width = `${current / questions.length * 100}%`;
+  document.getElementById("blockLabel").textContent = `Блок ${q.group}`;
+  document.getElementById("prompt").textContent = q.ru;
+  const input = document.getElementById("answerInput");
+  input.value = "";
+  input.disabled = false;
+  document.getElementById("feedback").classList.add("hidden");
+  document.getElementById("decisionActions").classList.add("hidden");
+  document.getElementById("checkBtn").classList.remove("hidden");
+  document.getElementById("checkBtn").textContent = "Проверить";
+  input.focus();
+}
+function checkAnswer() {
+  const input = document.getElementById("answerInput");
+  const feedback = document.getElementById("feedback");
+  const actions = document.getElementById("decisionActions");
+
+  // Повторное нажатие: фиксируем ошибку (если она была) и переходим дальше.
+  if (checked) {
+    if (!currentWasExact && !mistakeRecorded) recordMistake();
+    nextQuestion();
+    return;
+  }
+
+  const typed = input.value.trim();
+  if (!typed) { input.focus(); return; }
+
+  checked = true;
+  input.disabled = true;
+  const q = questions[current];
+  currentWasExact = normalize(typed) === normalize(q.en);
+  feedback.classList.remove("hidden");
+  actions.classList.add("hidden");
+
+  if (currentWasExact) {
+    correct++;
+    feedback.innerHTML = `<div class="correct-text">✓ Верно!</div>`;
+  } else {
+    feedback.innerHTML = `<div class="wrong-text">✗ Ошибка.</div>
+      <div class="muted">Правильный ответ:</div>
+      <div class="expected">${escapeHtml(q.en)}</div>`;
+    recordMistake();
+    actions.innerHTML = `<button class="success" type="button" onclick="acceptCurrentAnswer()">Не считать ошибкой</button>`;
+    actions.classList.remove("hidden");
+  }
+
+  document.getElementById("checkBtn").textContent = "Следующая фраза →";
+  document.getElementById("scoreText").textContent = `Верно: ${correct} · Ошибки: ${mistakes.length}`;
+}
+function recordMistake() {
+  const q = questions[current];
+  mistakes.push({...q, user: document.getElementById("answerInput").value.trim()});
+  mistakeRecorded = true;
+  document.getElementById("scoreText").textContent = `Верно: ${correct} · Ошибки: ${mistakes.length}`;
+}
+function acceptCurrentAnswer() {
+  if (!checked || currentWasExact || !mistakeRecorded) return;
+  mistakes.pop();
+  mistakeRecorded = false;
+  currentWasExact = true;
+  correct++;
+  document.getElementById("feedback").innerHTML = `<div class="correct-text">✓ Ответ засчитан. Опечатка или допустимый вариант.</div>`;
+  document.getElementById("decisionActions").classList.add("hidden");
+  document.getElementById("scoreText").textContent = `Верно: ${correct} · Ошибки: ${mistakes.length}`;
+}
+function nextQuestion() { current++; showQuestion(); }
+function finishExam() {
+  document.getElementById("exam").classList.add("hidden");
+  document.getElementById("results").classList.remove("hidden");
+  const total = correct + mistakes.length;
+  const percent = total ? Math.round(correct / total * 100) : 0;
+  document.getElementById("resultSummary").innerHTML = `<div class="score">${correct} из ${total} — ${percent}%</div><div class="muted">Ошибок для повторения: ${mistakes.length}</div>`;
+  renderMistakes();
+}
+function renderMistakes() {
+  const root = document.getElementById("mistakes");
+  const reviewButton = document.getElementById("mistakeReviewBtn");
+  reviewButton.classList.toggle("hidden", mistakes.length === 0);
+  if (!mistakes.length) { root.innerHTML = `<p class="correct-text">Отлично! Ошибок нет.</p>`; return; }
+  root.innerHTML = `<h2 style="margin-top:18px">Фразы для повторения</h2>` + mistakes.map((m,i) =>
+    `<div class="result-item"><div><strong>${i+1}. ${escapeHtml(m.ru)}</strong></div>
+     <div class="result-en">${escapeHtml(m.en)}</div>
+     <div class="muted">Твой ответ: ${escapeHtml(m.user || "—")}</div></div>`).join("");
+}
+function repeatMistakes() {
+  if (!mistakes.length) return;
+  // Создаём отдельный короткий экзамен только из фраз, допущенных с ошибками.
+  // Исходные ошибки очищаются: после повторения в результатах останутся
+  // только те фразы, в которых ошибка повторилась снова.
+  questions = mistakes.map(({en,ru,group}) => ({en,ru,group}));
+  for (let n = questions.length - 1; n > 0; n--) {
+    const j = Math.floor(Math.random() * (n + 1));
+    [questions[n], questions[j]] = [questions[j], questions[n]];
+  }
+  current = 0; correct = 0; mistakes = [];
+  document.getElementById("results").classList.add("hidden");
+  document.getElementById("exam").classList.remove("hidden");
+  showQuestion();
+}
+function backToSetup() {
+  document.getElementById("results").classList.add("hidden");
+  document.getElementById("exam").classList.add("hidden");
+  document.getElementById("setup").classList.remove("hidden");
+  updateSelectedCount();
+}
+function quitExam() {
+  if (confirm("Завершить экзамен и показать текущий результат?")) finishExam();
+}
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+}
+document.getElementById("answerInput").addEventListener("keydown", e => {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    checkAnswer();
+  }
+});
+
+function openPreparation() {
+  document.getElementById("setup").classList.add("hidden");
+  document.getElementById("preparation").classList.remove("hidden");
+  renderPreparationGroups();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function backToSetupFromPrep() {
+  document.getElementById("preparation").classList.add("hidden");
+  document.getElementById("setup").classList.remove("hidden");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function togglePrepGroups(open) {
+  document.querySelectorAll("#preparationGroups details").forEach(d => { if (d.style.display !== 'none') d.open = open; });
+}
+function filterPreparation() {
+  const query = document.getElementById('prepSearch').value.trim().toLocaleLowerCase();
+  let total = 0;
+  document.querySelectorAll('#preparationGroups details').forEach(group => {
+    let visible = 0;
+    group.querySelectorAll('.prep-item').forEach(item => {
+      const match = !query || item.dataset.ru.toLocaleLowerCase().includes(query) || item.dataset.en.toLocaleLowerCase().includes(query);
+      item.style.display = match ? '' : 'none';
+      if (match) visible++;
+    });
+    group.style.display = visible ? '' : 'none';
+    if (query && visible) group.open = true;
+    total += visible;
+  });
+  document.getElementById('prepNoResults').style.display = total ? 'none' : 'block';
+}
+let prepDirection = 'ru-en';
+function setPrepDirection(direction) {
+  prepDirection = direction;
+  document.getElementById('prepRuEn').classList.toggle('active', direction === 'ru-en');
+  document.getElementById('prepEnRu').classList.toggle('active', direction === 'en-ru');
+  document.querySelectorAll('#preparationGroups .prep-item').forEach(item => {
+    item.querySelector('.prep-question').textContent = direction === 'ru-en' ? item.dataset.ru : item.dataset.en;
+    item.querySelector('.prep-answer').textContent = direction === 'ru-en' ? item.dataset.en : item.dataset.ru;
+    item.querySelector('.prep-answer').classList.remove('show');
+    item.querySelector('.prep-toggle').textContent = 'Показать ответ';
+  });
+}
+function renderPreparationGroups() {
+  const root = document.getElementById("preparationGroups");
+  if (root.dataset.rendered === "1") return;
+  root.innerHTML = phraseGroups.map((group, gi) => `
+    <details class="prep-group">
+      <summary><span>Блок ${escapeHtml(group.label)}</span><span class="muted">${group.phrases.length} фраз</span></summary>
+      <div class="prep-list">
+        ${group.phrases.map((p, pi) => `
+          <div class="prep-item" data-ru="${escapeHtml(p.ru)}" data-en="${escapeHtml(p.en)}">
+            <div class="prep-fav-row">
+              <div class="prep-question">${pi+1}. ${escapeHtml(p.ru)}</div>
+              <button class="fav-star" type="button" data-fav-en="${escapeHtml(p.en)}" data-fav-ru="${escapeHtml(p.ru)}" title="Добавить в избранное" aria-label="Добавить в избранное">☆</button>
+            </div>
+            <button class="prep-toggle" type="button" onclick="togglePrepAnswer(this)">Показать ответ</button>
+            <div class="prep-answer">${escapeHtml(p.en)}</div>
+          </div>`).join("")}
+      </div>
+    </details>`).join("");
+  root.dataset.rendered = "1";
+  setPrepDirection(prepDirection);
+  filterPreparation();
+}
+function togglePrepAnswer(button) {
+  const answer = button.nextElementSibling;
+  const shown = answer.classList.toggle("show");
+  button.textContent = shown ? "Скрыть ответ" : "Показать ответ";
+}
+
+
+// Серверное избранное: единая база для всех уроков.
+let serverFavorites = [];
+
+function favoriteKey(phrase, translation) {
+  return String(phrase) + "\u0000" + String(translation) + "\u0000" + location.pathname;
+}
+function isFavorite(phrase, translation) {
+  return serverFavorites.some(item =>
+    item.phrase === phrase &&
+    item.translation === translation &&
+    item.lesson_url === location.pathname
+  );
+}
+function updateFavoriteButtons() {
+  document.querySelectorAll(".prep-item .fav-star").forEach(button => {
+    const saved = isFavorite(button.dataset.favEn, button.dataset.favRu);
+    button.textContent = saved ? "★" : "☆";
+    button.classList.toggle("saved", saved);
+    button.title = saved ? "Удалить из избранного" : "Добавить в избранное";
+    button.setAttribute("aria-label", button.title);
+  });
+  const q = questions[current];
+  const button = document.getElementById("examFavoriteBtn");
+  if (button && q) {
+    const saved = isFavorite(q.en, q.ru);
+    button.textContent = saved ? "★" : "☆";
+    button.classList.toggle("saved", saved);
+    button.title = saved ? "Удалить из избранного" : "Добавить в избранное";
+    button.setAttribute("aria-label", button.title);
+  }
+}
+async function loadServerFavorites() {
+  try {
+    const response = await fetch("/api/favorites", {credentials:"same-origin"});
+    if (response.status === 401) { serverFavorites = []; updateFavoriteButtons(); return; }
+    if (!response.ok) throw new Error("Не удалось загрузить избранное");
+    const data = await response.json();
+    serverFavorites = Array.isArray(data) ? data : (data.favorites || []);
+    updateFavoriteButtons();
+  } catch (error) {
+    console.error("Favorites load:", error);
+  }
+}
+function redirectToLogin() {
+  const next = location.pathname + location.search + location.hash;
+  location.href = "/login.html?next=" + encodeURIComponent(next);
+}
+async function getFreshCsrfToken() {
+  const response = await fetch("/api/auth/csrf", {credentials:"same-origin"});
+  if (response.status === 401) { redirectToLogin(); throw new Error("Требуется вход"); }
+  if (!response.ok) throw new Error("Не удалось получить CSRF-токен");
+  const data = await response.json();
+  return data.csrf_token || data.token || data.csrf;
+}
+async function toggleServerFavorite(phrase, translation, button) {
+  if (button) button.disabled = true;
+  try {
+    // Проверяем сессию заново: вкладка могла остаться открытой после выхода.
+    const me = await fetch("/api/auth/me", {credentials:"same-origin"});
+    if (me.status === 401) { redirectToLogin(); return; }
+    if (!me.ok) throw new Error("Не удалось проверить авторизацию");
+
+    const existing = serverFavorites.find(item =>
+      item.phrase === phrase &&
+      item.translation === translation &&
+      item.lesson_url === location.pathname
+    );
+    const csrf = await getFreshCsrfToken();
+    let response;
+    if (existing) {
+      response = await fetch("/api/favorites/" + encodeURIComponent(existing.id), {
+        method:"DELETE",
+        credentials:"same-origin",
+        headers:{"X-CSRF-Token":csrf}
+      });
+    } else {
+      response = await fetch("/api/favorites", {
+        method:"POST",
+        credentials:"same-origin",
+        headers:{"Content-Type":"application/json","X-CSRF-Token":csrf},
+        body:JSON.stringify({
+          phrase,
+          translation,
+          lesson_title:document.title,
+          lesson_url:location.pathname
+        })
+      });
+    }
+    if (response.status === 401) { redirectToLogin(); return; }
+    if (!response.ok) {
+      const message = await response.text();
+      throw new Error(message || "Ошибка сохранения избранного");
+    }
+    await loadServerFavorites();
+  } catch (error) {
+    console.error("Favorites update:", error);
+    alert("Не удалось обновить избранное. " + (error.message || ""));
+  } finally {
+    if (button) button.disabled = false;
+  }
+}
+document.addEventListener("click", event => {
+  const button = event.target.closest(".prep-item .fav-star");
+  if (!button) return;
+  toggleServerFavorite(button.dataset.favEn, button.dataset.favRu, button);
+});
+document.getElementById("examFavoriteBtn").addEventListener("click", event => {
+  const q = questions[current];
+  if (q) toggleServerFavorite(q.en, q.ru, event.currentTarget);
+});
+
+renderGroups();
+loadServerFavorites();
+
+</script>
+</body>
+</html>
