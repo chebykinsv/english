@@ -222,9 +222,14 @@ function getSavedFavorite(p){
  return savedFavorites.find(f=>f.phrase===p.en && f.translation===p.ru && f.lesson_url===lessonUrl);
 }
 async function getCsrfToken(){
- if(csrfToken)return csrfToken;
- const response=await fetch("/api/auth/csrf",{credentials:"same-origin"});
- if(!response.ok)throw new Error("Не удалось получить токен безопасности. Войдите в личный кабинет.");
+ // Всегда получаем актуальный токен с сервера: сохранённый в sessionStorage
+ // токен может устареть после обновления сессии или входа в другом окне.
+ const response=await fetch("/api/auth/csrf",{
+  credentials:"same-origin",
+  cache:"no-store",
+  headers:{"Accept":"application/json"}
+ });
+ if(!response.ok)throw new Error("Не удалось получить актуальный токен безопасности. Обновите страницу и войдите в личный кабинет.");
  const data=await response.json();
  if(!data.csrf_token)throw new Error("Сервер не вернул токен безопасности.");
  csrfToken=data.csrf_token;
@@ -352,11 +357,24 @@ async function addExamPhrasesToFavorites(){
   const unique=[...new Map(queue.map(p=>[p.en+"\n"+p.ru,p])).values()];
   for(const p of unique){
    if(getSavedFavorite(p)){skipped++;continue}
-   const response=await fetch("/api/favorites",{
+   let response=await fetch("/api/favorites",{
     method:"POST",credentials:"same-origin",
     headers:{"Content-Type":"application/json","X-CSRF-Token":csrf},
     body:JSON.stringify({phrase:p.en,translation:p.ru,lesson_title:document.title,lesson_url:lessonUrl})
    });
+   // Если токен успел устареть, запрашиваем новый и повторяем запрос один раз.
+   if(response.status===403){
+    const errorData=await response.clone().json().catch(()=>({}));
+    if(String(errorData.detail||"").toLowerCase().includes("csrf")){
+     sessionStorage.removeItem("english_csrf");csrfToken="";
+     const freshCsrf=await getCsrfToken();
+     response=await fetch("/api/favorites",{
+      method:"POST",credentials:"same-origin",
+      headers:{"Content-Type":"application/json","X-CSRF-Token":freshCsrf},
+      body:JSON.stringify({phrase:p.en,translation:p.ru,lesson_title:document.title,lesson_url:lessonUrl})
+     });
+    }
+   }
    if(response.status===401){
     favoritesAuthenticated=false;sessionStorage.removeItem("english_csrf");csrfToken="";
     const next=location.pathname+location.search+location.hash;
