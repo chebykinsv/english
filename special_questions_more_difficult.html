@@ -370,7 +370,7 @@ async function saveExamFavorites(){
  try{
   let added=0,skipped=0;
   // Сохраняем фразы, которые входили именно в этот экзамен, без повторов внутри очереди.
-  const unique=[...new Map(queue.map(p=>[p.en+"\\n"+p.ru,p])).values()];
+  const unique=[...new Map(errors.map(p=>[p.en+"\\n"+p.ru,p])).values()];
   for(const p of unique){
    if(getSavedFavorite(p)){skipped++;continue;}
    let csrf=await getCsrfToken();
