@@ -20,7 +20,7 @@ h1{text-align:center;color:#2c3e50;font-size:1.35em;margin:4px 0 18px}h2{color:#
 .fav-star:disabled{opacity:.5;cursor:wait}
 
 </style></head><body><div class="container">
-<div class="fav-top"><a class="fav-link" href="/favorites.html">★ Избранное</a></div>
+<div class="fav-top"><a class="fav-link" href="/favorites.html">★ Избранное</a><a class="fav-link" href="/index.html">← На главную</a></div>
 <h1>Урок 20: Вопросы в Present Simple</h1>
 <div class="nav"><button class="tab active" data-tab="theory">Теория</button><button class="tab" data-tab="trainer">Тренажёр</button><button class="tab" data-tab="exam">Экзамен</button></div>
 
@@ -52,7 +52,7 @@ h1{text-align:center;color:#2c3e50;font-size:1.35em;margin:4px 0 18px}h2{color:#
 <div id="run" class="card hidden"><div class="stat"><span id="progressText"></span><span id="score"></span></div><div class="progress"><div id="bar"></div></div>
 <div class="row" style="justify-content:space-between"><div id="question" class="exam-question"></div><span id="examFavoriteSlot"></span></div><input type="text" id="answer" lang="en" spellcheck="true" autocomplete="off" placeholder="Введите перевод...">
 <div class="actions"><button class="primary" id="check">Проверить</button><button class="secondary hidden" id="next">Следующий вопрос</button></div><div id="feedback"></div></div>
-<div id="done" class="card hidden"><h3>Экзамен завершён</h3><p id="result"></p><div class="actions"><button class="primary" id="retry">Повторить ошибки</button><button class="secondary" id="again">Новый экзамен</button></div></div>
+<div id="done" class="card hidden"><h3>Экзамен завершён</h3><p id="result"></p><div class="actions"><button class="primary" id="retry">Повторить ошибки</button><button class="secondary" id="again">Новый экзамен</button></div><div class="actions"><button class="primary" id="saveExamErrors">Добавить ошибки в избранное</button></div><div class="muted" id="saveExamErrorsStatus" role="status" aria-live="polite"></div></div>
 </section>
 <div class="back"><a href="index.html">← На главную</a></div></div>
 
@@ -147,13 +147,70 @@ $("trainerList").innerHTML=found.map(p=>`<div class="card"><div class="row" styl
 $("trainerList").querySelectorAll(".reveal").forEach(b=>b.onclick=()=>{let r=b.nextElementSibling;r.classList.toggle("hidden");b.textContent=r.classList.contains("hidden")?"Показать перевод":"Скрыть перевод"})}
 $("tEn").onclick=()=>{trainerMode="en";$("tEn").classList.add("active");$("tRu").classList.remove("active");render()};
 $("tRu").onclick=()=>{trainerMode="ru";$("tRu").classList.add("active");$("tEn").classList.remove("active");render()};
-$("search").oninput=render;render();loadServerFavorites();
+$("search").oninput=render;render();loadServerFavorites().then(()=>restorePendingErrors()).catch(e=>console.error("Восстановление ошибок:",e));
 function start(list){queue=[...list].sort(()=>Math.random()-.5);index=0;correct=0;errors=[];$("setup").classList.add("hidden");$("done").classList.add("hidden");$("run").classList.remove("hidden");show()}
 $("start").onclick=()=>{let list=[...phrases];let n=$("amount").value;if(n!=="all")list=list.slice(0,Number(n));start(list)};
 function show(){if(index>=queue.length){finish();return}current=queue[index];checked=false;let mode=$("examMode").value;$("question").textContent=mode==="ru"?current.ru:current.en;$("examFavoriteSlot").innerHTML=favoriteButton(current.en,current.ru);updateFavoriteButtons();$("answer").value="";$("answer").disabled=false;$("feedback").innerHTML="";$("check").classList.remove("hidden");$("next").classList.add("hidden");$("progressText").textContent=`Вопрос ${index+1} из ${queue.length}`;$("score").textContent=`Верно: ${correct} · Ошибки: ${errors.length}`;$("bar").style.width=`${index/queue.length*100}%`;$("answer").focus()}
 function check(){if(checked)return;let mode=$("examMode").value,given=norm($("answer").value),expected=norm(mode==="ru"?current.en:current.ru);if(!given){$("feedback").innerHTML='<div class="feedback bad">Введите ответ.</div>';return}checked=true;$("answer").disabled=true;if(given===expected){correct++;$("feedback").innerHTML='<div class="feedback good">Верно!</div>'}else{errors.push(current);$("feedback").innerHTML=`<div class="feedback bad">Ошибка. Правильный ответ: <b>${esc(mode==="ru"?current.en:current.ru)}</b><br><button class="secondary" id="accept">Не считать ошибкой</button></div>`;$("accept").onclick=()=>{errors=errors.filter(x=>x!==current);correct++;$("feedback").innerHTML='<div class="feedback good">Ответ засчитан.</div>';updateScore()}}updateScore();$("check").classList.add("hidden");$("next").classList.remove("hidden")}
 function updateScore(){$("score").textContent=`Верно: ${correct} · Ошибки: ${errors.length}`}
 $("check").onclick=check;function next(){index++;show()}$("next").onclick=next;$("answer").onkeydown=e=>{if(e.key==="Enter"){if(!checked)check();else next()}};
+
+const pendingErrorsKey="pendingExamErrors:"+location.pathname;
+async function postFavoriteError(p){
+ let token=await favoriteFreshCsrf();
+ if(!token)throw new Error("Не удалось получить CSRF-токен.");
+ let payload={phrase:p.en,translation:p.ru,lesson_title:document.title,lesson_url:location.pathname};
+ let response=await fetch(FAVORITES_API+"/favorites",{method:"POST",credentials:"same-origin",headers:{"Content-Type":"application/json","X-CSRF-Token":token},body:JSON.stringify(payload)});
+ if(response.status===403){
+  const body=await response.clone().json().catch(()=>({}));
+  if(String(body.detail||"").toLowerCase().includes("csrf")){
+   token=await favoriteFreshCsrf();
+   if(!token)throw new Error("Не удалось обновить CSRF-токен.");
+   response=await fetch(FAVORITES_API+"/favorites",{method:"POST",credentials:"same-origin",headers:{"Content-Type":"application/json","X-CSRF-Token":token},body:JSON.stringify(payload)});
+  }
+ }
+ if(response.status===401)throw new Error("Требуется авторизация.");
+ if(!response.ok)throw new Error(await response.text()||"Ошибка сохранения.");
+}
+async function saveExamErrors(){
+ const button=$("saveExamErrors"),status=$("saveExamErrorsStatus");
+ if(button.disabled||!errors.length)return;
+ try{
+  const auth=await fetch(FAVORITES_API+"/auth/me",{credentials:"same-origin",cache:"no-store"});
+  if(auth.status===401){
+   sessionStorage.setItem(pendingErrorsKey,JSON.stringify(errors));
+   favoriteRedirect();return;
+  }
+  if(!auth.ok)throw new Error("Не удалось проверить авторизацию.");
+  button.disabled=true;status.textContent="Сохранение ошибок...";
+  let added=0,skipped=0;
+  const unique=[...new Map(errors.map(p=>[p.en+"\\n"+p.ru,p])).values()];
+  for(const p of unique){
+   if(isServerFavorite(p.en,p.ru)){skipped++;continue;}
+   await postFavoriteError(p);added++;
+  }
+  await loadServerFavorites();
+  status.textContent=`Готово. Добавлено: ${added}. Уже было в избранном: ${skipped}.`;
+ }catch(e){status.textContent="Не удалось сохранить ошибки: "+(e.message||"ошибка");}
+ finally{button.disabled=false;}
+}
+async function restorePendingErrors(){
+ const raw=sessionStorage.getItem(pendingErrorsKey);
+ if(!raw)return;
+ const pending=JSON.parse(raw);
+ if(!Array.isArray(pending)||!pending.length){sessionStorage.removeItem(pendingErrorsKey);return;}
+ const auth=await fetch(FAVORITES_API+"/auth/me",{credentials:"same-origin",cache:"no-store"});
+ if(!auth.ok)return;
+ sessionStorage.removeItem(pendingErrorsKey);
+ let added=0,skipped=0;
+ for(const p of pending){
+  if(isServerFavorite(p.en,p.ru)){skipped++;continue;}
+  await postFavoriteError(p);added++;
+ }
+ await loadServerFavorites();
+ alert(`Ошибки экзамена сохранены в избранное. Добавлено: ${added}. Уже было: ${skipped}.`);
+}
 function finish(){$("run").classList.add("hidden");$("done").classList.remove("hidden");$("result").textContent=`Результат: ${correct} из ${queue.length}. Ошибок: ${errors.length}.`;$("retry").disabled=!errors.length;$("bar").style.width="100%"}
 $("retry").onclick=()=>{let retry=[...errors];start(retry)};$("again").onclick=()=>{$("done").classList.add("hidden");$("setup").classList.remove("hidden")};
+$("saveExamErrors").onclick=saveExamErrors;
 </script></body></html>

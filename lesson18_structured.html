@@ -54,7 +54,7 @@ summary{font-weight:700;color:#2b6cb0;cursor:pointer}
 </head>
 <body>
 <div class="container">
-<div class="fav-top"><a class="fav-link" href="/favorites.html">★ Избранное</a></div>
+<div class="fav-top"><a class="fav-link" href="/favorites.html">★ Избранное</a><a class="fav-link" href="/index.html">← На главную</a></div>
 <h1>Урок 18: Вопросы в Present Simple</h1>
 <div class="nav">
 <button class="tab active" data-tab="theory">Теория</button>
@@ -136,7 +136,7 @@ summary{font-weight:700;color:#2b6cb0;cursor:pointer}
 <div id="examDone" class="card hidden">
 <h3>Экзамен завершён</h3>
 <p id="finalStats"></p>
-<div class="actions"><button class="primary" id="retryErrors">Повторить ошибки</button><button class="secondary" id="newExam">Новый экзамен</button></div>
+<div class="actions"><button class="primary" id="retryErrors">Повторить ошибки</button><button class="secondary" id="newExam">Новый экзамен</button></div><div class="actions"><button class="primary" id="saveExamErrors">Добавить ошибки в избранное</button></div><div class="muted" id="saveExamErrorsStatus" role="status" aria-live="polite"></div>
 </div>
 </section>
 <div class="back"><a href="index.html">← На главную</a></div>
@@ -242,7 +242,7 @@ function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",
 $("trEnRu").onclick=()=>{trainerMode="en";$("trEnRu").classList.add("active");$("trRuEn").classList.remove("active");renderTrainer()};
 $("trRuEn").onclick=()=>{trainerMode="ru";$("trRuEn").classList.add("active");$("trEnRu").classList.remove("active");renderTrainer()};
 $("trainerSearch").addEventListener("input",renderTrainer);$("trainerGroup").addEventListener("change",renderTrainer);
-renderTrainer(); loadServerFavorites();
+renderTrainer(); loadServerFavorites().then(()=>restorePendingErrors()).catch(e=>console.error("Восстановление ошибок:",e));
 
 function start(list){
  examQueue=[...list].sort(()=>Math.random()-.5);examIndex=0;correct=0;errors=[]; $("examSetup").classList.add("hidden");$("examDone").classList.add("hidden");$("examRun").classList.remove("hidden");showQuestion();
@@ -278,13 +278,72 @@ $("checkAnswer").onclick=check;
 $("answerInput").addEventListener("keydown",e=>{if(e.key==="Enter"){if(!checked)check();else next()}});
 function next(){examIndex++;showQuestion()}
 $("nextQuestion").onclick=next;
+
+const pendingErrorsKey="pendingExamErrors:"+location.pathname;
+async function postFavoriteError(p){
+ let token=await favoriteFreshCsrf();
+ if(!token)throw new Error("Не удалось получить CSRF-токен.");
+ let payload={phrase:p.en,translation:p.ru,lesson_title:document.title,lesson_url:location.pathname};
+ let response=await fetch(FAVORITES_API+"/favorites",{method:"POST",credentials:"same-origin",headers:{"Content-Type":"application/json","X-CSRF-Token":token},body:JSON.stringify(payload)});
+ if(response.status===403){
+  const body=await response.clone().json().catch(()=>({}));
+  if(String(body.detail||"").toLowerCase().includes("csrf")){
+   token=await favoriteFreshCsrf();
+   if(!token)throw new Error("Не удалось обновить CSRF-токен.");
+   response=await fetch(FAVORITES_API+"/favorites",{method:"POST",credentials:"same-origin",headers:{"Content-Type":"application/json","X-CSRF-Token":token},body:JSON.stringify(payload)});
+  }
+ }
+ if(response.status===401)throw new Error("Требуется авторизация.");
+ if(!response.ok)throw new Error(await response.text()||"Ошибка сохранения.");
+}
+async function saveExamErrors(){
+ const button=$("saveExamErrors"),status=$("saveExamErrorsStatus");
+ if(button.disabled||!errors.length)return;
+ try{
+  const auth=await fetch(FAVORITES_API+"/auth/me",{credentials:"same-origin",cache:"no-store"});
+  if(auth.status===401){
+   sessionStorage.setItem(pendingErrorsKey,JSON.stringify(errors));
+   favoriteRedirect();return;
+  }
+  if(!auth.ok)throw new Error("Не удалось проверить авторизацию.");
+  button.disabled=true;status.textContent="Сохранение ошибок...";
+  let added=0,skipped=0;
+  const unique=[...new Map(errors.map(p=>[p.en+"\\n"+p.ru,p])).values()];
+  for(const p of unique){
+   if(isServerFavorite(p.en,p.ru)){skipped++;continue;}
+   await postFavoriteError(p);added++;
+  }
+  await loadServerFavorites();
+  status.textContent=`Готово. Добавлено: ${added}. Уже было в избранном: ${skipped}.`;
+ }catch(e){status.textContent="Не удалось сохранить ошибки: "+(e.message||"ошибка");}
+ finally{button.disabled=false;}
+}
+async function restorePendingErrors(){
+ const raw=sessionStorage.getItem(pendingErrorsKey);
+ if(!raw)return;
+ const pending=JSON.parse(raw);
+ if(!Array.isArray(pending)||!pending.length){sessionStorage.removeItem(pendingErrorsKey);return;}
+ const auth=await fetch(FAVORITES_API+"/auth/me",{credentials:"same-origin",cache:"no-store"});
+ if(!auth.ok)return;
+ sessionStorage.removeItem(pendingErrorsKey);
+ let added=0,skipped=0;
+ for(const p of pending){
+  if(isServerFavorite(p.en,p.ru)){skipped++;continue;}
+  await postFavoriteError(p);added++;
+ }
+ await loadServerFavorites();
+ alert(`Ошибки экзамена сохранены в избранное. Добавлено: ${added}. Уже было: ${skipped}.`);
+}
 function finish(){
  $("examRun").classList.add("hidden");$("examDone").classList.remove("hidden");
  $("finalStats").textContent=`Результат: ${correct} из ${examQueue.length}. Ошибок: ${errors.length}.`;
  $("retryErrors").disabled=!errors.length;
  $("progressBar").style.width="100%";
+ $("saveExamErrors").disabled=!errors.length;
+ $("saveExamErrorsStatus").textContent=errors.length?"":"Ошибок нет — добавлять нечего."; 
 }
 $("retryErrors").onclick=()=>{const retry=[...errors];$("examMode").value="ru";start(retry)};
 $("newExam").onclick=()=>{$("examDone").classList.add("hidden");$("examSetup").classList.remove("hidden")};
+$("saveExamErrors").onclick=saveExamErrors;
 </script>
 </body></html>
