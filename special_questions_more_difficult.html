@@ -86,15 +86,15 @@ select,input[type=text]{padding:10px;border:1px solid #cbd5e1;border-radius:8px;
 <b>Where is she?</b> — Где она?<br>
 <b>Why are you here?</b> — Почему ты здесь?<br>
 <b>How old is he?</b> — Сколько ему лет?<br>
-<b>What is it?</b> — Что это?</div>
+<b>What's it?</b> — Что это?</div>
 <p>Форму <b>am / is / are</b> выбираем по подлежащему: <b>am</b> — I; <b>is</b> — he / she / it и единственное число; <b>are</b> — you / we / they и множественное число.</p>
 </div>
 <div class="card rule">
 <h3>Вопросы с Who</h3>
 <p>Когда <b>who</b> само является подлежащим (мы спрашиваем, кто выполняет роль или находится где-либо), после него сразу ставим <b>is</b> или <b>are</b>:</p>
-<div class="example"><b>Who is here?</b> — Кто здесь?<br><b>Who is next?</b> — Кто следующий?<br><b>Who is in the park?</b> — Кто в парке?</div>
+<div class="example"><b>Who's here?</b> — Кто здесь?<br><b>Who's next?</b> — Кто следующий?<br><b>Who's in the park?</b> — Кто в парке?</div>
 <p>Если спрашиваем «кто он / она?», используем обычную схему:</p>
-<div class="example"><b>Who is he?</b> — Кто он?<br><b>Who is she?</b> — Кто она?</div>
+<div class="example"><b>Who's he?</b> — Кто он?<br><b>Who's she?</b> — Кто она?</div>
 </div>
 <div class="card rule">
 <h3>Вопросы с How + прилагательное</h3>
@@ -103,7 +103,7 @@ select,input[type=text]{padding:10px;border:1px solid #cbd5e1;border-radius:8px;
 </div>
 <div class="card rule">
 <h3>Сокращения</h3>
-<div class="example"><b>What's</b> = <b>What is</b><br><b>Who's</b> = <b>Who is</b></div>
+<div class="example"><b>What's</b> = <b>What's</b><br><b>Who's</b> = <b>Who's</b></div>
 <p class="muted">В разговорной речи сокращённые формы очень распространены: What's in your bag? / Who's next?</p>
 </div>
 <div class="card">
@@ -143,7 +143,7 @@ select,input[type=text]{padding:10px;border:1px solid #cbd5e1;border-radius:8px;
 </div>
 <div id="done" class="card hidden">
 <h3>Экзамен завершён</h3><p id="result"></p>
-<div class="actions"><button class="primary" id="saveExamFavorites">Добавить фразы экзамена в избранное</button><button class="primary" id="retry">Повторить ошибки</button><button class="secondary" id="again">Новый экзамен</button></div>
+<div class="actions"><button class="primary" id="saveExamFavorites">Добавить ошибки экзамена в избранное</button><button class="primary" id="retry">Повторить ошибки</button><button class="secondary" id="again">Новый экзамен</button></div>
 <div id="saveExamFavoritesStatus" class="muted" role="status" aria-live="polite"></div>
 </div>
 </section>
@@ -199,7 +199,7 @@ const phrases = [
 {en:"Where is your husband?",ru:"Где твой муж?"},
 {en:"What's her job?",ru:"Кем она работает?"},
 {en:"Why is this channel so popular?",ru:"Почему этот канал такой популярный?"},
-{en:"Who is that woman?",ru:"Кто та женщина?"},
+{en:"Who's that woman?",ru:"Кто та женщина?"},
 {en:"Why is this rule so important?",ru:"Почему это правило такое важное?"},
 {en:"How is this exercise?",ru:"Как это упражнение?"},
 {en:"How old is your mother?",ru:"Сколько лет твоей маме?"},
@@ -227,7 +227,7 @@ const phrases = [
 {en:"How useful is the lesson?",ru:"Насколько полезен этот урок?"},
 {en:"How much is the book?",ru:"Сколько стоит книга?"},
 {en:"How much is this computer?",ru:"Сколько стоит этот компьютер?"},
-{en:"Who is that person?",ru:"Кто этот человек?"},
+{en:"Who's that person?",ru:"Кто этот человек?"},
 {en:"How much are these jeans?",ru:"Сколько стоят эти джинсы?"},
 {en:"What's his job?",ru:"Кем он работает?"},
 {en:"How difficult is this exercise?",ru:"Насколько сложно это упражнение?"},
@@ -415,8 +415,8 @@ function finish(){
  $("run").classList.add("hidden");$("done").classList.remove("hidden");
  $("result").textContent=`Результат: ${correct} из ${queue.length}. Ошибок: ${errors.length}.`;
  $("retry").disabled=!errors.length;$("bar").style.width="100%";
- $("saveExamFavoritesStatus").textContent="";
- $("saveExamFavorites").disabled=false;
+ $("saveExamFavoritesStatus").textContent=errors.length ? "" : "Ошибок нет — добавлять в избранное нечего.";
+ $("saveExamFavorites").disabled=!errors.length;
 }
 $("saveExamFavorites").onclick=saveExamFavorites;
 $("retry").onclick=()=>start([...errors]);$("again").onclick=()=>{$("done").classList.add("hidden");$("setup").classList.remove("hidden")};

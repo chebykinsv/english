@@ -86,15 +86,15 @@ select,input[type=text]{padding:10px;border:1px solid #cbd5e1;border-radius:8px;
 <b>Where is she?</b> — Где она?<br>
 <b>Why are you here?</b> — Почему ты здесь?<br>
 <b>How old is he?</b> — Сколько ему лет?<br>
-<b>What is it?</b> — Что это?</div>
+<b>What's it?</b> — Что это?</div>
 <p>Форму <b>am / is / are</b> выбираем по подлежащему: <b>am</b> — I; <b>is</b> — he / she / it и единственное число; <b>are</b> — you / we / they и множественное число.</p>
 </div>
 <div class="card rule">
 <h3>Вопросы с Who</h3>
 <p>Когда <b>who</b> само является подлежащим (мы спрашиваем, кто выполняет роль или находится где-либо), после него сразу ставим <b>is</b> или <b>are</b>:</p>
-<div class="example"><b>Who is here?</b> — Кто здесь?<br><b>Who is next?</b> — Кто следующий?<br><b>Who is in the park?</b> — Кто в парке?</div>
+<div class="example"><b>Who's here?</b> — Кто здесь?<br><b>Who's next?</b> — Кто следующий?<br><b>Who's in the park?</b> — Кто в парке?</div>
 <p>Если спрашиваем «кто он / она?», используем обычную схему:</p>
-<div class="example"><b>Who is he?</b> — Кто он?<br><b>Who is she?</b> — Кто она?</div>
+<div class="example"><b>Who's he?</b> — Кто он?<br><b>Who's she?</b> — Кто она?</div>
 </div>
 <div class="card rule">
 <h3>Вопросы с How + прилагательное</h3>
@@ -103,7 +103,7 @@ select,input[type=text]{padding:10px;border:1px solid #cbd5e1;border-radius:8px;
 </div>
 <div class="card rule">
 <h3>Сокращения</h3>
-<div class="example"><b>What's</b> = <b>What is</b><br><b>Who's</b> = <b>Who is</b></div>
+<div class="example"><b>What's</b> = <b>What's</b><br><b>Who's</b> = <b>Who's</b></div>
 <p class="muted">В разговорной речи сокращённые формы очень распространены: What's in your bag? / Who's next?</p>
 </div>
 <div class="card">
@@ -143,7 +143,7 @@ select,input[type=text]{padding:10px;border:1px solid #cbd5e1;border-radius:8px;
 </div>
 <div id="done" class="card hidden">
 <h3>Экзамен завершён</h3><p id="result"></p>
-<div class="actions"><button class="primary" id="addExamFavorites">Добавить фразы экзамена в избранное</button><button class="primary" id="retry">Повторить ошибки</button><button class="secondary" id="again">Новый экзамен</button></div><p class="muted" id="favoritesMessage" aria-live="polite"></p>
+<div class="actions"><button class="primary" id="addExamFavorites">Добавить ошибки экзамена в избранное</button><button class="primary" id="retry">Повторить ошибки</button><button class="secondary" id="again">Новый экзамен</button></div><p class="muted" id="favoritesMessage" aria-live="polite"></p>
 </div>
 </section>
 
@@ -177,35 +177,35 @@ const phrases = [
 {en:"When are you free?",ru:"Когда ты свободен? / Когда вы свободны?"},
 {en:"How much is it?",ru:"Сколько это стоит?"},
 {en:"When are you busy?",ru:"Когда ты занят? / Когда вы заняты?"},
-{en:"What is it?",ru:"Что это?"},
+{en:"What's it?",ru:"Что это?"},
 {en:"When is he at work?",ru:"Когда он на работе?"},
 {en:"Who's at work?",ru:"Кто на работе?"},
 {en:"When is she at home?",ru:"Когда она дома?"},
-{en:"Who is she?",ru:"Кто она?"},
-{en:"Who is at home?",ru:"Кто дома?"},
+{en:"Who's she?",ru:"Кто она?"},
+{en:"Who's at home?",ru:"Кто дома?"},
 {en:"What's there?",ru:"Что там?"},
 {en:"What's in your bag?",ru:"Что у тебя в сумке?"},
 {en:"How far is it?",ru:"Как далеко это находится?"},
 {en:"Why are you here?",ru:"Почему ты здесь?"},
 {en:"Who's there?",ru:"Кто там?"},
-{en:"Who is in the first place?",ru:"Кто на первом месте?"},
-{en:"Who is in the room?",ru:"Кто в комнате?"},
+{en:"Who's in the first place?",ru:"Кто на первом месте?"},
+{en:"Who's in the room?",ru:"Кто в комнате?"},
 {en:"How difficult is it?",ru:"Насколько это сложно?"},
 {en:"Why are you against it?",ru:"Почему ты против этого?"},
 {en:"Where is it?",ru:"Где это?"},
-{en:"Who is wrong?",ru:"Кто неправ?"},
-{en:"Who is right?",ru:"Кто прав?"},
+{en:"Who's wrong?",ru:"Кто неправ?"},
+{en:"Who's right?",ru:"Кто прав?"},
 {en:"Where is he?",ru:"Где он?"},
 {en:"How is he?",ru:"Как он? / Как у него дела?"},
 {en:"What's next?",ru:"Что дальше?"},
 {en:"What's in the box?",ru:"Что в коробке?"},
 {en:"Why are you so happy?",ru:"Почему ты такой счастливый?"},
 {en:"How is she?",ru:"Как она? / Как у неё дела?"},
-{en:"Who is he?",ru:"Кто он?"},
+{en:"Who's he?",ru:"Кто он?"},
 {en:"What's important?",ru:"Что важно?"},
 {en:"How important is it for you?",ru:"Насколько это важно для тебя?"},
 {en:"What's in the box?",ru:"Что в коробке?"},
-{en:"Who is in the second place?",ru:"Кто на втором месте?"},
+{en:"Who's in the second place?",ru:"Кто на втором месте?"},
 {en:"What time is it?",ru:"Который час?"},
 {en:"What's the time?",ru:"Который час?"}
 ];
@@ -339,7 +339,7 @@ function finish(){
  $("result").textContent=`Результат: ${correct} из ${queue.length}. Ошибок: ${errors.length}.`;
  $("retry").disabled=!errors.length;$("bar").style.width="100%";
  $("addExamFavorites").disabled=false;
- $("addExamFavorites").textContent="Добавить фразы экзамена в избранное";
+ $("addExamFavorites").textContent="Добавить ошибки экзамена в избранное";
  $("favoritesMessage").textContent="";
 }
 async function addExamPhrasesToFavorites(){
@@ -354,7 +354,7 @@ async function addExamPhrasesToFavorites(){
  try{
   const csrf=await getCsrfToken();
   let added=0,skipped=0;
-  const unique=[...new Map(queue.map(p=>[p.en+"\n"+p.ru,p])).values()];
+  const unique=[...new Map(errors.map(p=>[p.en+"\n"+p.ru,p])).values()];
   for(const p of unique){
    if(getSavedFavorite(p)){skipped++;continue}
    let response=await fetch("/api/favorites",{
