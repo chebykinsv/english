@@ -143,7 +143,7 @@ select,input[type=text]{padding:10px;border:1px solid #cbd5e1;border-radius:8px;
 </div>
 <div id="done" class="card hidden">
 <h3>Экзамен завершён</h3><p id="result"></p>
-<div class="actions"><button class="primary" id="retry">Повторить ошибки</button><button class="secondary" id="again">Новый экзамен</button></div>
+<div class="actions"><button class="primary" id="addExamFavorites">Добавить фразы экзамена в избранное</button><button class="primary" id="retry">Повторить ошибки</button><button class="secondary" id="again">Новый экзамен</button></div><p class="muted" id="favoritesMessage" aria-live="polite"></p>
 </div>
 </section>
 
@@ -329,7 +329,55 @@ function check(){
 }
 $("check").onclick=check;function next(){index++;show()}$("next").onclick=next;
 $("answer").onkeydown=e=>{if(e.key==="Enter"){if(!checked)check();else next()}};
-function finish(){$("run").classList.add("hidden");$("done").classList.remove("hidden");$("result").textContent=`Результат: ${correct} из ${queue.length}. Ошибок: ${errors.length}.`;$("retry").disabled=!errors.length;$("bar").style.width="100%"}
+function finish(){
+ $("run").classList.add("hidden");$("done").classList.remove("hidden");
+ $("result").textContent=`Результат: ${correct} из ${queue.length}. Ошибок: ${errors.length}.`;
+ $("retry").disabled=!errors.length;$("bar").style.width="100%";
+ $("addExamFavorites").disabled=false;
+ $("addExamFavorites").textContent="Добавить фразы экзамена в избранное";
+ $("favoritesMessage").textContent="";
+}
+async function addExamPhrasesToFavorites(){
+ const button=$("addExamFavorites"),message=$("favoritesMessage");
+ if(button.disabled)return;
+ if(!favoritesAuthenticated){
+  const next=location.pathname+location.search+location.hash;
+  location.href="/login.html?next="+encodeURIComponent(next);
+  return;
+ }
+ button.disabled=true;message.textContent="Добавление фраз...";
+ try{
+  const csrf=await getCsrfToken();
+  let added=0,skipped=0;
+  const unique=[...new Map(queue.map(p=>[p.en+"\n"+p.ru,p])).values()];
+  for(const p of unique){
+   if(getSavedFavorite(p)){skipped++;continue}
+   const response=await fetch("/api/favorites",{
+    method:"POST",credentials:"same-origin",
+    headers:{"Content-Type":"application/json","X-CSRF-Token":csrf},
+    body:JSON.stringify({phrase:p.en,translation:p.ru,lesson_title:document.title,lesson_url:lessonUrl})
+   });
+   if(response.status===401){
+    favoritesAuthenticated=false;sessionStorage.removeItem("english_csrf");csrfToken="";
+    const next=location.pathname+location.search+location.hash;
+    location.href="/login.html?next="+encodeURIComponent(next);
+    return;
+   }
+   if(!response.ok){
+    const data=await response.json().catch(()=>({}));
+    throw new Error(data.detail||"Не удалось добавить фразу (HTTP "+response.status+").");
+   }
+   added++;
+  }
+  await loadFavorites();
+  button.textContent="Фразы добавлены";
+  message.textContent=`Добавлено: ${added}. Уже было в избранном: ${skipped}.`;
+ }catch(error){
+  button.disabled=false;
+  message.textContent=error.message||"Не удалось добавить фразы.";
+ }
+}
+$("addExamFavorites").onclick=addExamPhrasesToFavorites;
 $("retry").onclick=()=>start([...errors]);$("again").onclick=()=>{$("done").classList.add("hidden");$("setup").classList.remove("hidden")};
 </script>
 </body></html>
